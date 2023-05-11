@@ -113,6 +113,7 @@ class Scroller extends Component {
           }
         }}
         onScrollStop={async () => {
+          // eslint-disable-next-line no-promise-executor-return
           await new Promise((r) => setTimeout(r, 400));
           this.setState({ isScrolling: false });
         }}

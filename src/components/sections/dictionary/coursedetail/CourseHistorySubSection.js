@@ -95,6 +95,7 @@ class CourseHistorySubSection extends Component {
                   {targetYears.map((y) => getBlockOrPlaceholder(y, 1))}
                 </tr>
                 <tr>
+                  {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th />
                   {targetYears.map((y) => (
                     <td className={classNames('history__cell--year-label')} key={`${y}-l`}>

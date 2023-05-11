@@ -15,6 +15,7 @@ import { API_URL } from '../../../const';
 export const getFullName = (user) => {
   // eslint-disable-next-line no-underscore-dangle
   const _isKorean = (string) => {
+    // eslint-disable-next-line prefer-regex-literals
     const reg = new RegExp('[가-힣]+');
     return reg.test(string);
   };

@@ -32,6 +32,8 @@
     "no-unused-vars": ["error", { "args": "none" }],
     "object-shorthand": [1, "never"],
     "prefer-destructuring": "off",
+    "prefer-object-spread": "off",
+    "default-param-last": "off",
 
     "import/prefer-default-export": "off",
 
@@ -42,6 +44,10 @@
     "react/require-default-props": "off",
     "react/prefer-stateless-function": 0,
     "react/prop-types": [2, { "ignore": ["children", "match", "t", "i18n"] }],
-    "react/no-unknown-property": 0
+    "react/no-unknown-property": 0,
+    "react/function-component-definition": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "react/no-unused-class-component-methods": "off"
   }
 }
