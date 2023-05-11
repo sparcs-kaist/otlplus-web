@@ -59,7 +59,6 @@ import { TIMETABLE_START_HOUR } from '../../../../common/constants';
 class LectureListSection extends Component {
   constructor(props) {
     super(props);
-    // eslint-disable-next-line fp/no-mutation
     this.arrowRef = React.createRef();
   }
 

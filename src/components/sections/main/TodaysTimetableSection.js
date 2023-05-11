@@ -26,8 +26,6 @@ class TodaysTimetableSection extends Component {
       cellHeight: 0,
       now: new Date(),
     };
-
-    // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
   }
 

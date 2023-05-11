@@ -63,7 +63,6 @@ export const getOverallLectures = (selectedTimetable, lectureFocus) => {
 
 // SYNC: Keep synchronized with Django apps/subject/models.py Lecture.get_professors_short_str()
 export const getProfessorsShortStr = (lecture) => {
-  // eslint-disable-next-line fp/no-mutating-methods
   const professors = lecture.professors.slice().sort((a, b) => (a.name < b.name ? -1 : 1));
   const professorNames = professors.map((p) => p[i18n.t('js.property.name')]);
   if (professorNames.length <= 2) {
@@ -76,7 +75,6 @@ export const getProfessorsShortStr = (lecture) => {
 };
 
 export const getProfessorsFullStr = (lecture) => {
-  // eslint-disable-next-line fp/no-mutating-methods
   const professors = lecture.professors.slice().sort((a, b) => (a.name < b.name ? -1 : 1));
   const professorNames = professors.map((p) => p[i18n.t('js.property.name')]);
   return professorNames.join(', ');

@@ -36,7 +36,6 @@ class RankedReviewsSubSection extends Component {
       loadingSemesters: [],
     };
 
-    // eslint-disable-next-line fp/no-mutation
     this.blockListRef = React.createRef();
   }
 

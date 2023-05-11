@@ -57,9 +57,7 @@ class LectureDetailSection extends Component {
       isReviewLoading: false,
     };
 
-    // eslint-disable-next-line fp/no-mutation
     this.openDictRef = React.createRef();
-    // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
   }
 

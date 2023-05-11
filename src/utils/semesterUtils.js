@@ -11,7 +11,6 @@ export const getSemesterName = (semesterIndex) => {
 };
 
 export const getTimetableSemester = (semesters) => {
-  // eslint-disable-next-line fp/no-mutating-methods
   const semestersDescending = semesters
     .filter((s) => s.courseDesciptionSubmission !== null)
     .map((s) => ({
@@ -48,7 +47,6 @@ export const getCurrentSchedule = (semesters) => {
     'gradePosting',
   ];
 
-  // eslint-disable-next-line fp/no-mutating-methods
   const allSchedules = semesters
     .map((s) =>
       USED_SCHEDULE_FIELDS.map((f) => {

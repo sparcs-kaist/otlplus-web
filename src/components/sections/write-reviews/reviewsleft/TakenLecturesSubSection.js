@@ -47,7 +47,7 @@ class TakenLecturesSubSection extends Component {
     const { user, selectedLecture } = this.props;
 
     const writableTakenLectures = user ? user.review_writable_lectures : [];
-    // eslint-disable-next-line fp/no-mutating-methods
+
     const targetSemesters = unique(
       writableTakenLectures.map((l) => ({ year: l.year, semester: l.semester })),
       (a, b) => a.year === b.year && a.semester === b.semester,

@@ -31,7 +31,6 @@ class MainPage extends Component {
       isLoading: false,
     };
 
-    // eslint-disable-next-line fp/no-mutation
     this.contentRef = React.createRef();
   }
 

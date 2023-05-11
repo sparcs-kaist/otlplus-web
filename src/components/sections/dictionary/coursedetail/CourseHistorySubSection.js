@@ -15,8 +15,6 @@ import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusSha
 class CourseHistorySubSection extends Component {
   constructor(props) {
     super(props);
-
-    // eslint-disable-next-line fp/no-mutation
     this.scrollRef = React.createRef();
   }
 

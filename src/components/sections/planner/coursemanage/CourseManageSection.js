@@ -26,8 +26,6 @@ import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 class CourseManageSection extends Component {
   constructor(props) {
     super(props);
-
-    // eslint-disable-next-line fp/no-mutation
     this.scoresRef = React.createRef();
   }
 

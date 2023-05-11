@@ -165,7 +165,6 @@ const timetable = (state = initialState, action) => {
         }
         return t;
       });
-      // eslint-disable-next-line fp/no-mutating-methods
       newTables.sort((t1, t2) => t1.arrange_order - t2.arrange_order);
       const updatedTable =
         state.selectedTimetable.id === MY

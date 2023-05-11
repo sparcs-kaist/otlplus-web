@@ -238,8 +238,7 @@ class PlannerSubSection extends Component {
           key={`line:${tableSize}`}>
           <strong>{tableSize}</strong>
         </div>,
-        ...// eslint-disable-next-line fp/no-mutating-methods
-        plannerCreditunits
+        ...plannerCreditunits
           .slice()
           .reverse()
           .map((c) => {
@@ -354,8 +353,7 @@ class PlannerSubSection extends Component {
           )}
           key={`line:${tableSize}`}
         />,
-        ...// eslint-disable-next-line fp/no-mutating-methods
-        plannerCreditunits
+        ...plannerCreditunits
           .slice()
           .reverse()
           .map((c) => {

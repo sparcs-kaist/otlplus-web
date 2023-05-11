@@ -154,7 +154,7 @@ const planner = (state = initialState, action) => {
         }
         return t;
       });
-      // eslint-disable-next-line fp/no-mutating-methods
+
       newPlanners.sort((t1, t2) => t1.arrange_order - t2.arrange_order);
       const updatedPlanner = newPlanners.find((t) => t.id === state.selectedPlanner.id);
       return Object.assign({}, state, {

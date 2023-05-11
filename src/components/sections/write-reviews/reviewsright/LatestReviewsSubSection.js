@@ -26,7 +26,6 @@ class LatestReviewsSubSection extends Component {
       isLoading: false,
     };
 
-    // eslint-disable-next-line fp/no-mutation
     this.blockListRef = React.createRef();
   }
 

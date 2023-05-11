@@ -14,7 +14,6 @@ export const getTypeOptions = () => [
   ['ETC', i18n.t('ui.type.etcShort')],
 ];
 
-// eslint-disable-next-line fp/no-mutating-methods
 export const getDepartmentOptions = () =>
   [
     ['ALL', i18n.t('ui.department.allShort'), 100],

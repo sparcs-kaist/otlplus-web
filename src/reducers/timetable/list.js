@@ -43,7 +43,6 @@ const list = (state = initialState, action) => {
       return [];
     }
 
-    // eslint-disable-next-line fp/no-mutating-methods
     const sortedLectures = lectures.sort((a, b) => {
       if (a.old_code !== b.old_code) {
         return a.old_code > b.old_code ? 10 : -10;
