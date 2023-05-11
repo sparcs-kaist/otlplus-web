@@ -21,6 +21,7 @@ import TrackSubSection from '../components/sections/planner/plannerandinfos/Trac
 import SummarySubSection from '../components/sections/planner/plannerandinfos/SummarySubSection';
 // import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
 import TrackSettingsSection from '../components/sections/planner/TrackSettingsSection';
+import BetaPopup from '../components/BetaPopup';
 
 class PlannerPage extends Component {
   componentWillUnmount() {
@@ -84,6 +85,14 @@ class PlannerPage extends Component {
             <CourseManageSection />
             {isTrackSettingsSectionOpen && selectedPlanner && <TrackSettingsSection />}
           </div>
+          <BetaPopup
+            title="졸업플래너 베타 서비스 안내"
+            content={[
+              '졸업플레너 서비스는 현재 베타 상태입니다.',
+              '일부 학점 계산이 정확하지 않거나 기능 사용이 불편할 수 있으며, 이는 정식 출시 때 개선될 예정입니다.',
+            ]}
+            link="https://google.com"
+          />
         </section>
       </>
     );
