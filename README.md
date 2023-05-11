@@ -3,7 +3,7 @@
 ## How to run
 
 ```sh
-npm install
+npm install --regacy-peer-deps
 ```
 
 ```sh
