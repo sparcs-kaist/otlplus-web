@@ -114,7 +114,6 @@ class SummarySubSection extends Component {
       // TODO: support unsigned user
       const hasDoublemajor =
         selectedPlanner.additional_tracks.filter((at) => at.type === 'DOUBLE').length !== 0;
-      /* eslint-disable fp/no-mutation */
       totalCredit.requirement = selectedPlanner.general_track.total_credit;
       totalAu.requirement = selectedPlanner.general_track.total_au;
       categoryCreditAndAus[CategoryFirstIndex.BASIC][0][0].requirement =
@@ -132,26 +131,20 @@ class SummarySubSection extends Component {
         hasDoublemajor
           ? selectedPlanner.general_track.humanities_doublemajor
           : selectedPlanner.general_track.humanities;
-      /* eslint-enable fp/no-mutation */
     }
 
     separateMajorTracks.forEach((smt, index) => {
-      /* eslint-disable fp/no-mutation */
       categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][0].requirement = smt.major_required;
       categoryCreditAndAus[CategoryFirstIndex.MAJOR][index][1].requirement = smt.major_elective;
-      /* eslint-enable fp/no-mutation */
     });
     if (advancedMajorTrack) {
-      /* eslint-disable fp/no-mutation */
       categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][0].requirement +=
         advancedMajorTrack.major_required;
       categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][1].requirement +=
         advancedMajorTrack.major_elective;
-      /* eslint-enable fp/no-mutation */
     }
 
     if (selectedPlanner) {
-      /* eslint-disable fp/no-mutation */
       selectedPlanner.taken_items
         .filter((i) => !i.is_excluded)
         .forEach((i) => {
@@ -179,11 +172,9 @@ class SummarySubSection extends Component {
           categoryCreditAndAus[category[0]][category[1]][category[2]].planned +=
             getCreditAndAuOfItem(i);
         });
-      /* eslint-enable fp/no-mutation */
     }
 
     if (itemFocus.from === ItemFocusFrom.LIST) {
-      /* eslint-disable fp/no-mutation */
       const focusedCourse = itemFocus.course;
       const category = getCategoryOfType(
         selectedPlanner,
@@ -194,21 +185,18 @@ class SummarySubSection extends Component {
       totalAu.focused += focusedCourse.credit_au;
       categoryCreditAndAus[category[0]][category[1]][category[2]].focused +=
         focusedCourse.credit + focusedCourse.credit_au;
-      /* eslint-enable fp/no-mutation */
     } else if (
       (itemFocus.from === ItemFocusFrom.TABLE_TAKEN ||
         itemFocus.from === ItemFocusFrom.TABLE_FUTURE ||
         itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY) &&
       !itemFocus.item.is_excluded
     ) {
-      /* eslint-disable fp/no-mutation */
       const focusedItem = itemFocus.item;
       const category = getCategoryOfItem(selectedPlanner, focusedItem);
       totalCredit.focused += getCreditOfItem(focusedItem);
       totalAu.focused += getAuOfItem(focusedItem);
       categoryCreditAndAus[category[0]][category[1]][category[2]].focused +=
         getCreditAndAuOfItem(focusedItem);
-      /* eslint-enable fp/no-mutation */
     }
 
     return (

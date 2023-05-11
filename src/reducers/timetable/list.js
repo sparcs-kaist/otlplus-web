@@ -68,16 +68,13 @@ const list = (state = initialState, action) => {
       });
     }
     case SET_LIST_LECTURES: {
-      /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       newState.lists[action.code] = { ...newState.lists[action.code] };
       newState.lists[action.code].lectureGroups = groupLectures(action.lectures);
-      /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case CLEAR_ALL_LISTS_LECTURES: {
-      /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       Object.keys(newState.lists).forEach((k) => {
@@ -88,16 +85,13 @@ const list = (state = initialState, action) => {
           newState.lists[k].lectureGroups = null;
         }
       });
-      /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case CLEAR_SEARCH_LIST_LECTURES: {
-      /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       newState.lists[LectureListCode.SEARCH] = { ...newState.lists[LectureListCode.SEARCH] };
       newState.lists[LectureListCode.SEARCH].lectureGroups = null;
-      /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case ADD_LECTURE_TO_CART: {
@@ -105,12 +99,10 @@ const list = (state = initialState, action) => {
       const lectures = ungroupLectureGroups(lectureGroups);
       const newLectures = [...lectures, action.lecture];
       const newLectureGroups = groupLectures(newLectures);
-      /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       newState.lists[LectureListCode.CART] = { ...newState.lists[LectureListCode.CART] };
       newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
-      /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case DELETE_LECTURE_FROM_CART: {
@@ -118,12 +110,10 @@ const list = (state = initialState, action) => {
       const lectures = ungroupLectureGroups(lectureGroups);
       const newLectures = lectures.filter((l) => l.id !== action.lecture.id);
       const newLectureGroups = groupLectures(newLectures);
-      /* eslint-disable fp/no-mutation */
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       newState.lists[LectureListCode.CART] = { ...newState.lists[LectureListCode.CART] };
       newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
-      /* eslint-enable fp/no-mutation */
       return Object.assign({}, state, newState);
     }
     case SET_MOBILE_IS_LECTURE_LIST_OPEN: {

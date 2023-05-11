@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, fp/no-mutation, import/first, import/order */
+/* eslint-disable no-param-reassign, import/first, import/order */
 
 import { createBrowserHistory } from 'history';
 
