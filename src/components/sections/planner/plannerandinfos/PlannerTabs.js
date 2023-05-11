@@ -9,9 +9,12 @@ import { min } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
 import {
-  setPlanners, clearPlanners,
+  setPlanners,
+  clearPlanners,
   setSelectedPlanner,
-  createPlanner, deletePlanner, reorderPlanner,
+  createPlanner,
+  deletePlanner,
+  reorderPlanner,
 } from '../../../../actions/planner/planner';
 
 import userShape from '../../../../shapes/model/session/UserShape';
@@ -19,7 +22,6 @@ import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import generalTrackShape from '../../../../shapes/model/graduation/GeneralTrackShape';
 import majorTrackShape from '../../../../shapes/model/graduation/MajorTrackShape';
 import additionalTrackShape from '../../../../shapes/model/graduation/AdditionalTrackShape';
-
 
 class PlannerTabs extends Component {
   constructor(props) {
@@ -42,10 +44,7 @@ class PlannerTabs extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const {
-      user, tracks,
-      clearPlannersDispatch,
-    } = this.props;
+    const { user, tracks, clearPlannersDispatch } = this.props;
 
     if (!prevProps.tracks && tracks) {
       this._fetchPlanners();
@@ -57,10 +56,7 @@ class PlannerTabs extends Component {
   }
 
   _fetchPlanners = () => {
-    const {
-      user,
-      setPlannersDispatch,
-    } = this.props;
+    const { user, setPlannersDispatch } = this.props;
 
     if (!user) {
       setPlannersDispatch([]);
@@ -68,9 +64,8 @@ class PlannerTabs extends Component {
       return;
     }
 
-    axios.get(
-      `/api/users/${user.id}/planners`,
-      {
+    axios
+      .get(`/api/users/${user.id}/planners`, {
         params: {
           order: ['arrange_order', 'id'],
         },
@@ -78,32 +73,28 @@ class PlannerTabs extends Component {
           gaCategory: 'Planner',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         setPlannersDispatch(response.data);
         if (response.data.length === 0) {
           this._performCreatePlanner();
         }
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   _createRandomPlannerId = () => {
     return Math.floor(Math.random() * 100000000);
-  }
+  };
 
   _getPlannerStartYear = (user) => {
-    const currentYear = (new Date()).getFullYear();
+    const currentYear = new Date().getFullYear();
 
     if (!user) {
       return currentYear;
     }
 
-    if (user.student_id
-      && user.student_id.length !== 8
-      && user.student_id[4] === '0') {
+    if (user.student_id && user.student_id.length !== 8 && user.student_id[4] === '0') {
       const userEntranceYear = parseInt(user.student_id.substring(0, 4), 10);
       if (userEntranceYear >= 2000 && userEntranceYear <= currentYear) {
         return userEntranceYear;
@@ -118,41 +109,35 @@ class PlannerTabs extends Component {
     }
 
     return currentYear;
-  }
+  };
 
   _getPlannerGeneralTrack = (user, startYear) => {
     const { tracks } = this.props;
 
-    const yearedTracks = tracks.general.filter((gt) => (
-      startYear >= gt.start_year
-        && startYear <= gt.end_year
-    ));
-    const targetTracks = yearedTracks.filter((gt) => (
-      !gt.is_foreign
-    ));
+    const yearedTracks = tracks.general.filter(
+      (gt) => startYear >= gt.start_year && startYear <= gt.end_year,
+    );
+    const targetTracks = yearedTracks.filter((gt) => !gt.is_foreign);
 
     if (targetTracks.length > 0) {
       return targetTracks[0];
     }
     return yearedTracks[0];
-  }
+  };
 
   _getPlannerMajorTrack = (user, startYear) => {
     const { tracks } = this.props;
 
-    const yearedTracks = tracks.major.filter((mt) => (
-      startYear >= mt.start_year
-        && startYear <= mt.end_year
-    ));
-    const targetTracks = yearedTracks.filter((mt) => (
-      mt.department.code === user?.department?.code
-    ));
+    const yearedTracks = tracks.major.filter(
+      (mt) => startYear >= mt.start_year && startYear <= mt.end_year,
+    );
+    const targetTracks = yearedTracks.filter((mt) => mt.department.code === user?.department?.code);
 
     if (targetTracks.length > 0) {
       return targetTracks[0];
     }
     return yearedTracks[0];
-  }
+  };
 
   changeTab = (planner) => {
     const { setSelectedPlannerDispatch } = this.props;
@@ -163,23 +148,18 @@ class PlannerTabs extends Component {
       category: 'Planner - Planner',
       action: 'Switched Planner',
     });
-  }
+  };
 
   _performCreatePlanner = () => {
-    const {
-      user,
-      createPlannerDispatch,
-      planners,
-    } = this.props;
+    const { user, createPlannerDispatch, planners } = this.props;
 
     const startYear = this._getPlannerStartYear(user);
-    const endYear = Math.max(startYear + 3, (new Date()).getFullYear());
+    const endYear = Math.max(startYear + 3, new Date().getFullYear());
     const generalTrack = this._getPlannerGeneralTrack(user, startYear);
     const majorTrack = this._getPlannerMajorTrack(user, startYear);
 
-    const arrangeOrder = (planners && planners.length > 0)
-      ? Math.max(...planners.map((t) => t.arrange_order)) + 1
-      : 0;
+    const arrangeOrder =
+      planners && planners.length > 0 ? Math.max(...planners.map((t) => t.arrange_order)) + 1 : 0;
 
     if (!user) {
       createPlannerDispatch({
@@ -194,35 +174,34 @@ class PlannerTabs extends Component {
         arbitrary_items: [],
         arrange_order: arrangeOrder,
       });
-    }
-    else {
-      axios.post(
-        `/api/users/${user.id}/planners`,
-        {
-          start_year: startYear,
-          end_year: endYear,
-          general_track: generalTrack.id,
-          major_track: majorTrack.id,
-          additional_tracks: [],
-          should_update_taken_semesters: true,
-          taken_items_to_copy: [],
-          future_items_to_copy: [],
-          arbitrary_items_to_copy: [],
-        },
-        {
-          metadata: {
-            gaCategory: 'Planner',
-            gaVariable: 'POST / List',
+    } else {
+      axios
+        .post(
+          `/api/users/${user.id}/planners`,
+          {
+            start_year: startYear,
+            end_year: endYear,
+            general_track: generalTrack.id,
+            major_track: majorTrack.id,
+            additional_tracks: [],
+            should_update_taken_semesters: true,
+            taken_items_to_copy: [],
+            future_items_to_copy: [],
+            arbitrary_items_to_copy: [],
           },
-        },
-      )
+          {
+            metadata: {
+              gaCategory: 'Planner',
+              gaVariable: 'POST / List',
+            },
+          },
+        )
         .then((response) => {
           createPlannerDispatch(response.data);
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
-  }
+  };
 
   createPlanner = () => {
     this._performCreatePlanner();
@@ -231,15 +210,11 @@ class PlannerTabs extends Component {
       category: 'Planner - Planner',
       action: 'Created Planner',
     });
-  }
+  };
 
   deletePlanner = (event, planner) => {
     const { t } = this.props;
-    const {
-      user,
-      planners,
-      deletePlannerDispatch,
-    } = this.props;
+    const { user, planners, deletePlannerDispatch } = this.props;
 
     event.stopPropagation();
 
@@ -255,35 +230,28 @@ class PlannerTabs extends Component {
 
     if (!user) {
       deletePlannerDispatch(planner);
-    }
-    else {
-      axios.delete(
-        `/api/users/${user.id}/planners/${planner.id}`,
-        {
+    } else {
+      axios
+        .delete(`/api/users/${user.id}/planners/${planner.id}`, {
           metadata: {
             gaCategory: 'Planner',
             gaVariable: 'DELETE / Instance',
           },
-        },
-      )
+        })
         .then((response) => {
           deletePlannerDispatch(planner);
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
 
     ReactGA.event({
       category: 'Planner - Planner',
       action: 'Deleted Planner',
     });
-  }
+  };
 
   duplicatePlanner = (event, planner) => {
-    const {
-      user, planners,
-      createPlannerDispatch,
-    } = this.props;
+    const { user, planners, createPlannerDispatch } = this.props;
 
     event.stopPropagation();
 
@@ -308,39 +276,38 @@ class PlannerTabs extends Component {
         arrange_order: arrangeOrder,
       };
       createPlannerDispatch(newPlanner);
-    }
-    else {
-      axios.post(
-        `/api/users/${user.id}/planners`,
-        {
-          start_year: planner.start_year,
-          end_year: planner.end_year,
-          general_track: planner.general_track.id,
-          major_track: planner.major_track.id,
-          additional_tracks: planner.additional_tracks.map((at) => at.id),
-          taken_items_to_copy: planner.taken_items.map((i) => i.id),
-          future_items_to_copy: planner.future_items.map((i) => i.id),
-          arbitrary_items_to_copy: planner.arbitrary_items.map((i) => i.id),
-        },
-        {
-          metadata: {
-            gaCategory: 'Planner',
-            gaVariable: 'POST / List',
+    } else {
+      axios
+        .post(
+          `/api/users/${user.id}/planners`,
+          {
+            start_year: planner.start_year,
+            end_year: planner.end_year,
+            general_track: planner.general_track.id,
+            major_track: planner.major_track.id,
+            additional_tracks: planner.additional_tracks.map((at) => at.id),
+            taken_items_to_copy: planner.taken_items.map((i) => i.id),
+            future_items_to_copy: planner.future_items.map((i) => i.id),
+            arbitrary_items_to_copy: planner.arbitrary_items.map((i) => i.id),
           },
-        },
-      )
+          {
+            metadata: {
+              gaCategory: 'Planner',
+              gaVariable: 'POST / List',
+            },
+          },
+        )
         .then((response) => {
           createPlannerDispatch(response.data);
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
 
     ReactGA.event({
       category: 'Planner - Planner',
       action: 'Duplicated Planner',
     });
-  }
+  };
 
   handlePointerDown = (e) => {
     e.stopPropagation();
@@ -362,7 +329,7 @@ class PlannerTabs extends Component {
       // eslint-disable-next-line fp/no-mutation
       document.body.style.cursor = 'grabbing';
     }
-  }
+  };
 
   _checkAndReorderPlannerPrev = (dragPosition, isX) => {
     const { draggingPlannerId, dragStartPosition } = this.state;
@@ -374,40 +341,39 @@ class PlannerTabs extends Component {
 
     const tabElements = Array.from(
       document.querySelectorAll(
-        `.${classNames('tabs--planner')} .${classNames('tabs__elem--draggable')}`
-      )
+        `.${classNames('tabs--planner')} .${classNames('tabs__elem--draggable')}`,
+      ),
     );
     const draggingTabElement = document.querySelector(
-      `.${classNames('tabs--planner')} .${classNames('tabs__elem--dragging')}`
+      `.${classNames('tabs--planner')} .${classNames('tabs__elem--dragging')}`,
     );
 
-    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    const draggingTabIndex = tabElements.findIndex((te) => te === draggingTabElement);
     if (draggingTabIndex === 0) {
       return;
     }
 
     const prevTabElement = tabElements[draggingTabIndex - 1];
     if (dragPosition < prevTabElement.getBoundingClientRect()[endPositionName]) {
-      const draggingPlannerIndex = planners.findIndex((t) => (t.id === draggingPlannerId));
+      const draggingPlannerIndex = planners.findIndex((t) => t.id === draggingPlannerId);
       const draggingPlanner = planners[draggingPlannerIndex];
       const prevPlanner = planners[draggingPlannerIndex - 1];
       if (user) {
-        axios.post(
-          `/api/users/${user.id}/planners/${draggingPlanner.id}/reorder`,
-          {
-            arrange_order: prevPlanner.arrange_order,
-          },
-          {
-            metadata: {
-              gaCategory: 'Planner',
-              gaVariable: 'POST Reorder / Instance',
+        axios
+          .post(
+            `/api/users/${user.id}/planners/${draggingPlanner.id}/reorder`,
+            {
+              arrange_order: prevPlanner.arrange_order,
             },
-          },
-        )
-          .then((response) => {
-          })
-          .catch((error) => {
-          });
+            {
+              metadata: {
+                gaCategory: 'Planner',
+                gaVariable: 'POST Reorder / Instance',
+              },
+            },
+          )
+          .then((response) => {})
+          .catch((error) => {});
       }
       reorderPlannerDispatch(draggingPlanner, prevPlanner.arrange_order);
       this.setState({
@@ -415,7 +381,7 @@ class PlannerTabs extends Component {
           dragStartPosition - (prevTabElement.getBoundingClientRect()[sizeName] + tabMargin),
       });
     }
-  }
+  };
 
   _checkAndReorderPlannerNext = (dragPosition, isX) => {
     const { draggingPlannerId, dragStartPosition } = this.state;
@@ -427,40 +393,39 @@ class PlannerTabs extends Component {
 
     const tabElements = Array.from(
       document.querySelectorAll(
-        `.${classNames('tabs--planner')} .${classNames('tabs__elem--draggable')}`
-      )
+        `.${classNames('tabs--planner')} .${classNames('tabs__elem--draggable')}`,
+      ),
     );
     const draggingTabElement = document.querySelector(
-      `.${classNames('tabs--planner')} .${classNames('tabs__elem--dragging')}`
+      `.${classNames('tabs--planner')} .${classNames('tabs__elem--dragging')}`,
     );
 
-    const draggingTabIndex = tabElements.findIndex((te) => (te === draggingTabElement));
+    const draggingTabIndex = tabElements.findIndex((te) => te === draggingTabElement);
     if (draggingTabIndex === tabElements.length - 1) {
       return;
     }
 
     const nextTabElement = tabElements[draggingTabIndex + 1];
     if (dragPosition > nextTabElement.getBoundingClientRect()[startPositionName]) {
-      const draggingPlannerIndex = planners.findIndex((t) => (t.id === draggingPlannerId));
+      const draggingPlannerIndex = planners.findIndex((t) => t.id === draggingPlannerId);
       const draggingPlanner = planners[draggingPlannerIndex];
       const nextPlanner = planners[draggingPlannerIndex + 1];
       if (user) {
-        axios.post(
-          `/api/users/${user.id}/planners/${draggingPlanner.id}/reorder`,
-          {
-            arrange_order: nextPlanner.arrange_order,
-          },
-          {
-            metadata: {
-              gaCategory: 'Planner',
-              gaVariable: 'POST Reorder / Instance',
+        axios
+          .post(
+            `/api/users/${user.id}/planners/${draggingPlanner.id}/reorder`,
+            {
+              arrange_order: nextPlanner.arrange_order,
             },
-          },
-        )
-          .then((response) => {
-          })
-          .catch((error) => {
-          });
+            {
+              metadata: {
+                gaCategory: 'Planner',
+                gaVariable: 'POST Reorder / Instance',
+              },
+            },
+          )
+          .then((response) => {})
+          .catch((error) => {});
       }
       reorderPlannerDispatch(draggingPlanner, nextPlanner.arrange_order);
       this.setState({
@@ -468,7 +433,7 @@ class PlannerTabs extends Component {
           dragStartPosition + (nextTabElement.getBoundingClientRect()[sizeName] + tabMargin),
       });
     }
-  }
+  };
 
   handlePointerMove = (e) => {
     const { dragStartPosition, dragCurrentPosition, draggingPlannerId } = this.state;
@@ -490,12 +455,11 @@ class PlannerTabs extends Component {
 
       if (deltaPosition > 0) {
         this._checkAndReorderPlannerNext(newPosition, !isPortrait);
-      }
-      else if (deltaPosition < 0) {
+      } else if (deltaPosition < 0) {
         this._checkAndReorderPlannerPrev(newPosition, !isPortrait);
       }
     }
-  }
+  };
 
   handlePointerUp = (e) => {
     const { draggingPlannerId } = this.state;
@@ -513,19 +477,19 @@ class PlannerTabs extends Component {
       // eslint-disable-next-line fp/no-mutation
       document.body.style.cursor = '';
     }
-  }
+  };
 
   _isSelected = (planner) => {
     const { selectedPlanner } = this.props;
 
-    return selectedPlanner && (planner.id === selectedPlanner.id);
-  }
+    return selectedPlanner && planner.id === selectedPlanner.id;
+  };
 
   _isDragging = (planner) => {
     const { draggingPlannerId } = this.state;
 
-    return (draggingPlannerId !== undefined) && (planner.id === draggingPlannerId);
-  }
+    return draggingPlannerId !== undefined && planner.id === draggingPlannerId;
+  };
 
   _getTabRelativePosition = (planner) => {
     if (!this._isDragging(planner)) {
@@ -536,74 +500,65 @@ class PlannerTabs extends Component {
     const { planners } = this.props;
 
     const relativePosition = dragCurrentPosition - dragStartPosition;
-    if ((planners.findIndex((t) => (t.id === planner.id)) === 0)
-      && relativePosition < 0) {
+    if (planners.findIndex((t) => t.id === planner.id) === 0 && relativePosition < 0) {
       return 0;
     }
-    if ((planners.findIndex((t) => (t.id === planner.id)) === planners.length - 1)
-      && relativePosition > 0) {
+    if (
+      planners.findIndex((t) => t.id === planner.id) === planners.length - 1 &&
+      relativePosition > 0
+    ) {
       return 0;
     }
     return relativePosition;
-  }
+  };
 
   render() {
     const { dragOrderChanged } = this.state;
     const { t } = this.props;
-    const {
-      isPortrait,
-      planners,
-    } = this.props;
+    const { isPortrait, planners } = this.props;
 
-    const normalPlannerTabs = (
-      (planners && planners.length)
-        ? (
-          planners.map((tt, i) => (
-            <div
-              className={classNames(
-                'tabs__elem',
-                'tabs__elem--draggable',
-                (this._isSelected(tt) ? 'tabs__elem--selected' : null),
-                (this._isDragging(tt) ? 'tabs__elem--dragging' : null),
-              )}
-              key={tt.id}
-              onClick={() => this.changeTab(tt)}
-              onPointerDown={this.handlePointerDown}
-              data-id={tt.id}
-              style={{
-                [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
-                pointerEvents: dragOrderChanged ? 'none' : undefined,
-              }}
-            >
-              <span>
-                {`${t('ui.others.planner')} ${i + 1}`}
-              </span>
-              <button onClick={(event) => this.duplicatePlanner(event, tt)}>
-                <i className={classNames('icon', 'icon--duplicate-table')} />
-                <span>{t('ui.button.duplicatePlanner')}</span>
-              </button>
-              <button onClick={(event) => this.deletePlanner(event, tt)}>
-                <i className={classNames('icon', 'icon--delete-table')} />
-                <span>{t('ui.button.deletePlanner')}</span>
-              </button>
-            </div>
-          ))
-        )
-        : (
-          <div className={classNames(('tabs__elem'))} style={{ pointerEvents: 'none' }}>
-            <span>{t('ui.placeholder.loading')}</span>
+    const normalPlannerTabs =
+      planners && planners.length ? (
+        planners.map((tt, i) => (
+          <div
+            className={classNames(
+              'tabs__elem',
+              'tabs__elem--draggable',
+              this._isSelected(tt) ? 'tabs__elem--selected' : null,
+              this._isDragging(tt) ? 'tabs__elem--dragging' : null,
+            )}
+            key={tt.id}
+            onClick={() => this.changeTab(tt)}
+            onPointerDown={this.handlePointerDown}
+            data-id={tt.id}
+            style={{
+              [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+              pointerEvents: dragOrderChanged ? 'none' : undefined,
+            }}>
+            <span>{`${t('ui.others.planner')} ${i + 1}`}</span>
+            <button onClick={(event) => this.duplicatePlanner(event, tt)}>
+              <i className={classNames('icon', 'icon--duplicate-table')} />
+              <span>{t('ui.button.duplicatePlanner')}</span>
+            </button>
+            <button onClick={(event) => this.deletePlanner(event, tt)}>
+              <i className={classNames('icon', 'icon--delete-table')} />
+              <span>{t('ui.button.deletePlanner')}</span>
+            </button>
           </div>
-        )
-    );
-    const addTabButton = (
-      (planners && planners.length)
-        ? (
-          <div className={classNames('tabs__elem', 'tabs__elem--add-button')} onClick={() => this.createPlanner()}>
-            <i className={classNames('icon', 'icon--add-table')} />
-          </div>
-        )
-        : null
-    );
+        ))
+      ) : (
+        <div className={classNames('tabs__elem')} style={{ pointerEvents: 'none' }}>
+          <span>{t('ui.placeholder.loading')}</span>
+        </div>
+      );
+    const addTabButton =
+      planners && planners.length ? (
+        <div
+          className={classNames('tabs__elem', 'tabs__elem--add-button')}
+          onClick={() => this.createPlanner()}>
+          <i className={classNames('icon', 'icon--add-table')} />
+        </div>
+      ) : null;
 
     return (
       <div className={classNames('tabs', 'tabs--planner')}>
@@ -663,9 +618,4 @@ PlannerTabs.propTypes = {
   reorderPlannerDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    PlannerTabs
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(PlannerTabs));

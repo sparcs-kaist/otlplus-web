@@ -20,22 +20,18 @@ export const getMajorTrackName = (track, short = false) => {
 };
 
 export const getAdditionalTrackName = (track, short = false) => {
-  const type = (
+  const type =
     track.type === 'DOUBLE'
       ? i18n.t('ui.track.doubleMajor')
       : track.type === 'MINOR'
-        ? i18n.t('ui.track.minor')
-        : track.type === 'ADVANCED'
-          ? i18n.t('ui.track.advancedMajor')
-          : track.type === 'INTERDISCIPLINARY'
-            ? i18n.t('ui.track.interdisciplinaryMajor')
-            : '기타'
-  );
-  const name = (
-    track.type !== 'INTERDISCIPLINARY'
-      ? track.department[i18n.t('js.property.name')]
-      : ''
-  );
+      ? i18n.t('ui.track.minor')
+      : track.type === 'ADVANCED'
+      ? i18n.t('ui.track.advancedMajor')
+      : track.type === 'INTERDISCIPLINARY'
+      ? i18n.t('ui.track.interdisciplinaryMajor')
+      : '기타';
+  const name =
+    track.type !== 'INTERDISCIPLINARY' ? track.department[i18n.t('js.property.name')] : '';
   const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
   if (track.type === 'INTERDISCIPLINARY') {
     return `${type} (${year})`;

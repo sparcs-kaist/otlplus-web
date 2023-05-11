@@ -8,8 +8,11 @@ import Attributes from '../../../Attributes';
 
 import { setIsTrackSettingsSectionOpen } from '../../../../actions/planner/planner';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
-import { getAdditionalTrackName, getGeneralTrackName, getMajorTrackName } from '../../../../utils/trackUtils';
-
+import {
+  getAdditionalTrackName,
+  getGeneralTrackName,
+  getMajorTrackName,
+} from '../../../../utils/trackUtils';
 
 class TrackSubSection extends Component {
   render() {
@@ -22,41 +25,27 @@ class TrackSubSection extends Component {
             entries={[
               {
                 name: t('ui.attribute.general'),
-                info: (
-                  selectedPlanner
-                    ? getGeneralTrackName(selectedPlanner.general_track)
-                    : '-'
-                ),
+                info: selectedPlanner ? getGeneralTrackName(selectedPlanner.general_track) : '-',
               },
               {
                 name: t('ui.attribute.major'),
-                info: (
-                  selectedPlanner
-                    ? getMajorTrackName(selectedPlanner.major_track)
-                    : '-'
-                ),
+                info: selectedPlanner ? getMajorTrackName(selectedPlanner.major_track) : '-',
               },
               {
                 name: t('ui.attribute.additional'),
-                info: (
-                  selectedPlanner
-                    ? selectedPlanner.additional_tracks
-                      .map((at) => (getAdditionalTrackName(at)))
+                info: selectedPlanner
+                  ? selectedPlanner.additional_tracks
+                      .map((at) => getAdditionalTrackName(at))
                       .join(', ')
-                    : '-'
-                ),
+                  : '-',
               },
             ]}
             longInfo
           />
           <div className={classNames('buttons')}>
             <button
-              className={classNames(
-                'text-button',
-                !selectedPlanner && 'text-button--disabled'
-              )}
-              onClick={() => setIsTrackSettingsSectionOpenDispatch(true)}
-            >
+              className={classNames('text-button', !selectedPlanner && 'text-button--disabled')}
+              onClick={() => setIsTrackSettingsSectionOpenDispatch(true)}>
               {t('ui.button.change')}
             </button>
           </div>
@@ -82,8 +71,4 @@ TrackSubSection.propTypes = {
   setIsTrackSettingsSectionOpenDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    TrackSubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TrackSubSection));

@@ -4,17 +4,11 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-
-const ProjectBlock = ({
-  t,
-  project,
-  isRaised,
-  onClick,
-}) => {
+const ProjectBlock = ({ t, project, isRaised, onClick }) => {
   const handleClick = onClick
     ? (event) => {
-      onClick(project);
-    }
+        onClick(project);
+      }
     : null;
 
   return (
@@ -22,18 +16,16 @@ const ProjectBlock = ({
       className={classNames(
         'block',
         'block--project',
-        (onClick ? 'block--clickable' : null),
-        (isRaised ? 'block--raised' : null),
+        onClick ? 'block--clickable' : null,
+        isRaised ? 'block--raised' : null,
       )}
-      onClick={handleClick}
-    >
+      onClick={handleClick}>
       <div className={classNames('block--project__title')}>{project.mainTitle}</div>
       <div className={classNames('block--project__title')}>{project.subTitle}</div>
       <div className={classNames('block--project__content')}>{project.period}</div>
     </div>
   );
 };
-
 
 ProjectBlock.propTypes = {
   project: PropTypes.shape({
@@ -46,9 +38,4 @@ ProjectBlock.propTypes = {
   isRaised: PropTypes.bool.isRequired,
 };
 
-
-export default withTranslation()(
-  React.memo(
-    ProjectBlock
-  )
-);
+export default withTranslation()(React.memo(ProjectBlock));

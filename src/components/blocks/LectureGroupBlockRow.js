@@ -7,14 +7,20 @@ import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils
 
 import lectureShape from '../../shapes/model/subject/LectureShape';
 
-
 const LectureGroupBlockRow = ({
   t,
   lecture,
   isHighlighted,
-  inTimetable, isTimetableReadonly, inCart, fromCart,
-  addToCart, addToTable, deleteFromCart,
-  onMouseOver, onMouseOut, onClick,
+  inTimetable,
+  isTimetableReadonly,
+  inCart,
+  fromCart,
+  addToCart,
+  addToTable,
+  deleteFromCart,
+  onMouseOver,
+  onMouseOut,
+  onClick,
 }) => {
   const getClass = (lec) => {
     switch (lec.class_title.length) {
@@ -29,18 +35,18 @@ const LectureGroupBlockRow = ({
 
   const handleMouseOver = onMouseOver
     ? (event) => {
-      onMouseOver(lecture);
-    }
+        onMouseOver(lecture);
+      }
     : null;
   const handleMouseOut = onMouseOut
     ? (event) => {
-      onMouseOut(lecture);
-    }
+        onMouseOut(lecture);
+      }
     : null;
   const handleClick = onClick
     ? (event) => {
-      onClick(lecture);
-    }
+        onClick(lecture);
+      }
     : null;
   const handleDeleteFromCartClick = (event) => {
     event.stopPropagation();
@@ -55,52 +61,54 @@ const LectureGroupBlockRow = ({
     addToTable(lecture);
   };
 
-  const cartButton = (
-    fromCart
-      ? (
-        <button className={classNames('block--lecture-group__row-content__button')} onClick={handleDeleteFromCartClick}>
-          <i className={classNames('icon', 'icon--delete-cart')} />
-        </button>
-      )
-      : (
-        !inCart
-          ? (
-            <button className={classNames('block--lecture-group__row-content__button')} onClick={handleAddToCartClick}>
-              <i className={classNames('icon', 'icon--add-cart')} />
-            </button>
-          )
-          : (
-            <button className={classNames('block--lecture-group__row-content__button', 'block--lecture-group__row-content__button--disable')}>
-              <i className={classNames('icon', 'icon--add-cart')} />
-            </button>
-          )
-      )
+  const cartButton = fromCart ? (
+    <button
+      className={classNames('block--lecture-group__row-content__button')}
+      onClick={handleDeleteFromCartClick}>
+      <i className={classNames('icon', 'icon--delete-cart')} />
+    </button>
+  ) : !inCart ? (
+    <button
+      className={classNames('block--lecture-group__row-content__button')}
+      onClick={handleAddToCartClick}>
+      <i className={classNames('icon', 'icon--add-cart')} />
+    </button>
+  ) : (
+    <button
+      className={classNames(
+        'block--lecture-group__row-content__button',
+        'block--lecture-group__row-content__button--disable',
+      )}>
+      <i className={classNames('icon', 'icon--add-cart')} />
+    </button>
   );
-  const timetableButton = (
-    !inTimetable && !isTimetableReadonly
-      ? (
-        <button className={classNames('block--lecture-group__row-content__button')} onClick={handleAddToTableClick}>
-          <i className={classNames('icon', 'icon--add-lecture')} />
-        </button>
-      )
-      : (
-        <button className={classNames('block--lecture-group__row-content__button', 'block--lecture-group__row-content__button--disable')}>
-          <i className={classNames('icon', 'icon--add-lecture')} />
-        </button>
-      )
-  );
+  const timetableButton =
+    !inTimetable && !isTimetableReadonly ? (
+      <button
+        className={classNames('block--lecture-group__row-content__button')}
+        onClick={handleAddToTableClick}>
+        <i className={classNames('icon', 'icon--add-lecture')} />
+      </button>
+    ) : (
+      <button
+        className={classNames(
+          'block--lecture-group__row-content__button',
+          'block--lecture-group__row-content__button--disable',
+        )}>
+        <i className={classNames('icon', 'icon--add-lecture')} />
+      </button>
+    );
 
   return (
     <div
       className={classNames(
         'block--lecture-group__row',
-        (isHighlighted ? 'block--lecture-group__row--highlighted' : null),
+        isHighlighted ? 'block--lecture-group__row--highlighted' : null,
       )}
       data-id={lecture.id}
       onClick={handleClick}
       onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
+      onMouseOut={handleMouseOut}>
       <div className={classNames('block--lecture-group__row-content')}>
         <div className={classNames('block--lecture-group__row-content__texts')}>
           <div className={classNames('block--lecture-group__row-content__texts__sub')}>
@@ -109,11 +117,8 @@ const LectureGroupBlockRow = ({
             {lecture[t('js.property.type')]}
           </div>
           <div className={classNames('block--lecture-group__row-content__texts__main')}>
-            <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>
-            {' '}
-            <span>
-              {getProfessorsShortStr(lecture)}
-            </span>
+            <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>{' '}
+            <span>{getProfessorsShortStr(lecture)}</span>
           </div>
           <div className={classNames('block--lecture-group__row-content__texts__sub')}>
             {getClassroomStr(lecture)}
@@ -121,8 +126,8 @@ const LectureGroupBlockRow = ({
             {lecture.limit}
           </div>
         </div>
-        { cartButton }
-        { timetableButton }
+        {cartButton}
+        {timetableButton}
       </div>
     </div>
   );
@@ -143,8 +148,4 @@ LectureGroupBlockRow.propTypes = {
   onClick: PropTypes.func,
 };
 
-export default withTranslation()(
-  React.memo(
-    LectureGroupBlockRow
-  )
-);
+export default withTranslation()(React.memo(LectureGroupBlockRow));

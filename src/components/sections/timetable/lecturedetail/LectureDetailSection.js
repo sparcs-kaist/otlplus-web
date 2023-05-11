@@ -15,29 +15,39 @@ import ReviewSimpleBlock from '../../../blocks/ReviewSimpleBlock';
 
 import { clearLectureFocus, setReviews } from '../../../../actions/timetable/lectureFocus';
 import { addLectureToCart, deleteLectureFromCart } from '../../../../actions/timetable/list';
-import { addLectureToTimetable, removeLectureFromTimetable } from '../../../../actions/timetable/timetable';
+import {
+  addLectureToTimetable,
+  removeLectureFromTimetable,
+} from '../../../../actions/timetable/timetable';
 
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../../reducers/timetable/list';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
-import timetableShape, { myPseudoTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import timetableShape, {
+  myPseudoTimetableShape,
+} from '../../../../shapes/model/timetable/TimetableShape';
 
 import {
-  inTimetable, inCart,
-  getProfessorsFullStr, getClassroomStr, getExamFullStr,
+  inTimetable,
+  inCart,
+  getProfessorsFullStr,
+  getClassroomStr,
+  getExamFullStr,
   getSyllabusUrl,
 } from '../../../../utils/lectureUtils';
 import {
-  performAddToTable, performDeleteFromTable, performAddToCart, performDeleteFromCart,
+  performAddToTable,
+  performDeleteFromTable,
+  performAddToCart,
+  performDeleteFromCart,
 } from '../../../../common/commonOperations';
 import lectureListsShape from '../../../../shapes/state/timetable/LectureListsShape';
 import Divider from '../../../Divider';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 import Attributes from '../../../Attributes';
 import Scores from '../../../Scores';
-
 
 class LectureDetailSection extends Component {
   constructor(props) {
@@ -56,21 +66,30 @@ class LectureDetailSection extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     const {
       isPortrait,
-      lectureFocus, selectedListCode, selectedTimetable,
-      year, semester,
+      lectureFocus,
+      selectedListCode,
+      selectedTimetable,
+      year,
+      semester,
       clearLectureFocusDispatch,
     } = this.props;
 
     if (!prevProps.lectureFocus.lecture && lectureFocus.lecture) {
       this._checkAndLoadReviews();
     }
-    if ((prevProps.lectureFocus.lecture && lectureFocus.lecture)
-      && (prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id)) {
+    if (
+      prevProps.lectureFocus.lecture &&
+      lectureFocus.lecture &&
+      prevProps.lectureFocus.lecture.id !== lectureFocus.lecture.id
+    ) {
       this._resetIsReviewLoading();
       this._checkAndLoadReviews();
     }
-    if ((prevProps.lectureFocus.lecture && lectureFocus.lecture)
-      && (prevProps.lectureFocus.clicked !== lectureFocus.clicked)) {
+    if (
+      prevProps.lectureFocus.lecture &&
+      lectureFocus.lecture &&
+      prevProps.lectureFocus.clicked !== lectureFocus.clicked
+    ) {
       this._checkAndLoadReviews();
     }
     if (prevProps.lectureFocus.lecture && !lectureFocus.lecture) {
@@ -83,27 +102,27 @@ class LectureDetailSection extends Component {
           this.openDictPreview();
         }
       }
-    }
-    else if (prevProps.lectureFocus.clicked && !lectureFocus.clicked) {
+    } else if (prevProps.lectureFocus.clicked && !lectureFocus.clicked) {
       if (lectureFocus.lecture) {
         this.closeDictPreview();
       }
-    }
-    else if (!prevProps.lectureFocus.clicked && lectureFocus.clicked) {
+    } else if (!prevProps.lectureFocus.clicked && lectureFocus.clicked) {
       if (!isPortrait) {
         this.openDictPreview();
       }
     }
 
-    if ((lectureFocus.from === LectureFocusFrom.LIST)
-      && (prevProps.selectedListCode !== selectedListCode)) {
+    if (
+      lectureFocus.from === LectureFocusFrom.LIST &&
+      prevProps.selectedListCode !== selectedListCode
+    ) {
       clearLectureFocusDispatch();
-    }
-    else if ((lectureFocus.from === LectureFocusFrom.TABLE)
-      && (prevProps.selectedTimetable.id !== selectedTimetable.id)) {
+    } else if (
+      lectureFocus.from === LectureFocusFrom.TABLE &&
+      prevProps.selectedTimetable.id !== selectedTimetable.id
+    ) {
       clearLectureFocusDispatch();
-    }
-    else if ((prevProps.year !== year) || (prevProps.semester !== semester)) {
+    } else if (prevProps.year !== year || prevProps.semester !== semester) {
       clearLectureFocusDispatch();
     }
   }
@@ -112,12 +131,14 @@ class LectureDetailSection extends Component {
     this.setState({
       isReviewLoading: false,
     });
-  }
+  };
 
   openDictPreview = () => {
-    const scrollTop = this.openDictRef.current.getBoundingClientRect().top
-      - this.scrollRef.current.querySelector('.ScrollbarsCustom-Content').getBoundingClientRect().top
-      + 1;
+    const scrollTop =
+      this.openDictRef.current.getBoundingClientRect().top -
+      this.scrollRef.current.querySelector('.ScrollbarsCustom-Content').getBoundingClientRect()
+        .top +
+      1;
     this.scrollRef.current.querySelector('.ScrollbarsCustom-Scroller').scrollTop = scrollTop;
   };
 
@@ -133,7 +154,9 @@ class LectureDetailSection extends Component {
   addToTable = (event) => {
     const {
       user,
-      lectureFocus, selectedListCode, selectedTimetable,
+      lectureFocus,
+      selectedListCode,
+      selectedTimetable,
       addLectureToTimetableDispatch,
     } = this.props;
 
@@ -145,13 +168,13 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
-      ? 'Timetable'
-      : (lectureFocus.from === LectureFocusFrom.LIST)
+    const fromString =
+      lectureFocus.from === LectureFocusFrom.TABLE
+        ? 'Timetable'
+        : lectureFocus.from === LectureFocusFrom.LIST
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    const beforeRequest = () => {
-    };
+    const beforeRequest = () => {};
     const afterResponse = () => {
       const newProps = this.props;
       if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
@@ -161,15 +184,21 @@ class LectureDetailSection extends Component {
       addLectureToTimetableDispatch(lectureFocus.lecture);
     };
     performAddToTable(
-      lectureFocus.lecture, selectedTimetable, user, fromString,
-      beforeRequest, afterResponse,
+      lectureFocus.lecture,
+      selectedTimetable,
+      user,
+      fromString,
+      beforeRequest,
+      afterResponse,
     );
-  }
+  };
 
   deleteFromTable = (event) => {
     const {
       user,
-      lectureFocus, selectedListCode, selectedTimetable,
+      lectureFocus,
+      selectedListCode,
+      selectedTimetable,
       removeLectureFromTimetableDispatch,
     } = this.props;
 
@@ -181,13 +210,13 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
-      ? 'Timetable'
-      : (lectureFocus.from === LectureFocusFrom.LIST)
+    const fromString =
+      lectureFocus.from === LectureFocusFrom.TABLE
+        ? 'Timetable'
+        : lectureFocus.from === LectureFocusFrom.LIST
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    const beforeRequest = () => {
-    };
+    const beforeRequest = () => {};
     const afterResponse = () => {
       const newProps = this.props;
       if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
@@ -197,18 +226,18 @@ class LectureDetailSection extends Component {
       removeLectureFromTimetableDispatch(lectureFocus.lecture);
     };
     performDeleteFromTable(
-      lectureFocus.lecture, selectedTimetable, user, fromString,
-      beforeRequest, afterResponse,
+      lectureFocus.lecture,
+      selectedTimetable,
+      user,
+      fromString,
+      beforeRequest,
+      afterResponse,
     );
-  }
+  };
 
   addToCart = (event) => {
-    const {
-      user,
-      lectureFocus, selectedListCode,
-      year, semester,
-      addLectureToCartDispatch,
-    } = this.props;
+    const { user, lectureFocus, selectedListCode, year, semester, addLectureToCartDispatch } =
+      this.props;
 
     event.stopPropagation();
 
@@ -218,13 +247,13 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
-      ? 'Timetable'
-      : (lectureFocus.from === LectureFocusFrom.LIST)
+    const fromString =
+      lectureFocus.from === LectureFocusFrom.TABLE
+        ? 'Timetable'
+        : lectureFocus.from === LectureFocusFrom.LIST
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    const beforeRequest = () => {
-    };
+    const beforeRequest = () => {};
     const afterResponse = () => {
       const newProps = this.props;
       if (newProps.year !== year || newProps.semester !== semester) {
@@ -232,19 +261,12 @@ class LectureDetailSection extends Component {
       }
       addLectureToCartDispatch(lectureFocus.lecture);
     };
-    performAddToCart(
-      lectureFocus.lecture, user, fromString,
-      beforeRequest, afterResponse,
-    );
-  }
+    performAddToCart(lectureFocus.lecture, user, fromString, beforeRequest, afterResponse);
+  };
 
   deleteFromCart = (event) => {
-    const {
-      user,
-      lectureFocus, selectedListCode,
-      year, semester,
-      deleteLectureFromCartDispatch,
-    } = this.props;
+    const { user, lectureFocus, selectedListCode, year, semester, deleteLectureFromCartDispatch } =
+      this.props;
 
     event.stopPropagation();
 
@@ -254,13 +276,13 @@ class LectureDetailSection extends Component {
       [LectureListCode.HUMANITY, 'Humanity'],
       [LectureListCode.CART, 'Cart'],
     ]);
-    const fromString = (lectureFocus.from === LectureFocusFrom.TABLE)
-      ? 'Timetable'
-      : (lectureFocus.from === LectureFocusFrom.LIST)
+    const fromString =
+      lectureFocus.from === LectureFocusFrom.TABLE
+        ? 'Timetable'
+        : lectureFocus.from === LectureFocusFrom.LIST
         ? `Lecture List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`
         : 'Unknown';
-    const beforeRequest = () => {
-    };
+    const beforeRequest = () => {};
     const afterResponse = () => {
       const newProps = this.props;
       if (newProps.year !== year || newProps.semester !== semester) {
@@ -268,31 +290,27 @@ class LectureDetailSection extends Component {
       }
       deleteLectureFromCartDispatch(lectureFocus.lecture);
     };
-    performDeleteFromCart(
-      lectureFocus.lecture, user, fromString,
-      beforeRequest, afterResponse,
-    );
-  }
+    performDeleteFromCart(lectureFocus.lecture, user, fromString, beforeRequest, afterResponse);
+  };
 
   onScroll = () => {
     this._updateDictButton();
     this._checkAndLoadReviews();
-  }
+  };
 
   _updateDictButton = () => {
     const openDictElement = this.openDictRef.current;
     const scrollElement = openDictElement.closest('.ScrollbarsCustom-Scroller');
 
-    const topOffset = (
-      openDictElement.getBoundingClientRect().top - scrollElement.getBoundingClientRect().top
-    );
-    if (topOffset < 1.0) { // TODO: Change handing method for errors of 0.x differnce
+    const topOffset =
+      openDictElement.getBoundingClientRect().top - scrollElement.getBoundingClientRect().top;
+    if (topOffset < 1.0) {
+      // TODO: Change handing method for errors of 0.x differnce
       this.setState({ shouldShowCloseDict: true });
-    }
-    else {
+    } else {
       this.setState({ shouldShowCloseDict: false });
     }
-  }
+  };
 
   _checkAndLoadReviews = () => {
     const LIMIT = 100;
@@ -300,16 +318,15 @@ class LectureDetailSection extends Component {
     const { isReviewLoading } = this.state;
     const { lectureFocus, setReviewsDispatch } = this.props;
 
-    if (isReviewLoading || (lectureFocus.reviews !== null)) {
+    if (isReviewLoading || lectureFocus.reviews !== null) {
       return;
     }
 
     const openDictElement = this.openDictRef.current;
     const scrollElement = openDictElement.closest('.ScrollbarsCustom-Scroller');
 
-    const bottomSpace = (
-      scrollElement.getBoundingClientRect().bottom - openDictElement.getBoundingClientRect().bottom
-    );
+    const bottomSpace =
+      scrollElement.getBoundingClientRect().bottom - openDictElement.getBoundingClientRect().bottom;
 
     if (bottomSpace < 12 + 1) {
       return;
@@ -318,9 +335,8 @@ class LectureDetailSection extends Component {
     this.setState({
       isReviewLoading: true,
     });
-    axios.get(
-      `/api/lectures/${lectureFocus.lecture.id}/related-reviews`,
-      {
+    axios
+      .get(`/api/lectures/${lectureFocus.lecture.id}/related-reviews`, {
         params: {
           order: ['-written_datetime', '-id'],
           limit: LIMIT,
@@ -329,8 +345,7 @@ class LectureDetailSection extends Component {
           gaCategory: 'Lecture',
           gaVariable: 'GET Related Reviews / Instance',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
         if (newProps.lectureFocus.lecture.id !== lectureFocus.lecture.id) {
@@ -344,36 +359,45 @@ class LectureDetailSection extends Component {
         });
         setReviewsDispatch(response.data);
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   render() {
     const { t } = this.props;
     const { shouldShowCloseDict } = this.state;
     const { lectureFocus, selectedTimetable, lists } = this.props;
 
-    const isSingleFocus = (
-      lectureFocus.from === LectureFocusFrom.LIST
-      || lectureFocus.from === LectureFocusFrom.TABLE
-    );
+    const isSingleFocus =
+      lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE;
     const shouldShowUnfix = isSingleFocus && lectureFocus.clicked;
 
     const mapReviewToBlock = (review, index) => (
       <ReviewSimpleBlock
         key={`review_${index}`}
         review={review}
-        linkTo={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: review.course.id }) }}
+        linkTo={{
+          pathname: '/dictionary',
+          search: qs.stringify({ startCourseId: review.course.id }),
+        }}
       />
     );
 
     const getSectionContent = () => {
       if (isSingleFocus) {
-        const reviewBlocks = (lectureFocus.reviews == null)
-          ? <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.loading')}</div></div>
-          : (lectureFocus.reviews.length
-            ? <div className={classNames('block-list', 'min-height-area')}>{lectureFocus.reviews.map(mapReviewToBlock)}</div>
-            : <div className={classNames('list-placeholder', 'min-height-area')}><div>{t('ui.placeholder.noResults')}</div></div>);
+        const reviewBlocks =
+          lectureFocus.reviews == null ? (
+            <div className={classNames('list-placeholder', 'min-height-area')}>
+              <div>{t('ui.placeholder.loading')}</div>
+            </div>
+          ) : lectureFocus.reviews.length ? (
+            <div className={classNames('block-list', 'min-height-area')}>
+              {lectureFocus.reviews.map(mapReviewToBlock)}
+            </div>
+          ) : (
+            <div className={classNames('list-placeholder', 'min-height-area')}>
+              <div>{t('ui.placeholder.noResults')}</div>
+            </div>
+          );
         return (
           <>
             <CloseButton onClick={this.unfix} />
@@ -386,25 +410,52 @@ class LectureDetailSection extends Component {
                 {lectureFocus.lecture.class_no.length ? ` (${lectureFocus.lecture.class_no})` : ''}
               </div>
               <div className={classNames('buttons')}>
-                <button onClick={this.unfix} className={classNames('text-button', (shouldShowUnfix ? null : 'text-button--disabled'))}>{t('ui.button.unfix')}</button>
-                <a className={classNames('text-button', 'text-button--right')} href={getSyllabusUrl(lectureFocus.lecture)} target="_blank" rel="noopener noreferrer">
+                <button
+                  onClick={this.unfix}
+                  className={classNames(
+                    'text-button',
+                    shouldShowUnfix ? null : 'text-button--disabled',
+                  )}>
+                  {t('ui.button.unfix')}
+                </button>
+                <a
+                  className={classNames('text-button', 'text-button--right')}
+                  href={getSyllabusUrl(lectureFocus.lecture)}
+                  target="_blank"
+                  rel="noopener noreferrer">
                   {t('ui.button.syllabus')}
                 </a>
-                <Link className={classNames('text-button', 'text-button--right')} to={{ pathname: '/dictionary', search: qs.stringify({ startCourseId: lectureFocus.lecture.course }) }} target="_blank" rel="noopener noreferrer">
+                <Link
+                  className={classNames('text-button', 'text-button--right')}
+                  to={{
+                    pathname: '/dictionary',
+                    search: qs.stringify({ startCourseId: lectureFocus.lecture.course }),
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer">
                   {t('ui.button.dictionary')}
                 </Link>
               </div>
             </div>
-            <Scroller
-              onScroll={this.onScroll}
-              key={lectureFocus.lecture.id}
-            >
+            <Scroller onScroll={this.onScroll} key={lectureFocus.lecture.id}>
               <Attributes
                 entries={[
-                  { name: t('ui.attribute.type'), info: lectureFocus.lecture[t('js.property.type')] },
-                  { name: t('ui.attribute.department'), info: lectureFocus.lecture[t('js.property.department_name')] },
-                  { name: t('ui.attribute.professors'), info: getProfessorsFullStr(lectureFocus.lecture) },
-                  { name: t('ui.attribute.classroom'), info: getClassroomStr(lectureFocus.lecture) },
+                  {
+                    name: t('ui.attribute.type'),
+                    info: lectureFocus.lecture[t('js.property.type')],
+                  },
+                  {
+                    name: t('ui.attribute.department'),
+                    info: lectureFocus.lecture[t('js.property.department_name')],
+                  },
+                  {
+                    name: t('ui.attribute.professors'),
+                    info: getProfessorsFullStr(lectureFocus.lecture),
+                  },
+                  {
+                    name: t('ui.attribute.classroom'),
+                    info: getClassroomStr(lectureFocus.lecture),
+                  },
                   { name: t('ui.attribute.limit'), info: lectureFocus.lecture.limit },
                   { name: t('ui.attribute.exam'), info: getExamFullStr(lectureFocus.lecture) },
                 ]}
@@ -414,23 +465,23 @@ class LectureDetailSection extends Component {
                 entries={[
                   {
                     name: t('ui.score.language'),
-                    score: lectureFocus.lecture.is_english
-                      ? 'Eng'
-                      : '한',
+                    score: lectureFocus.lecture.is_english ? 'Eng' : '한',
                   },
                   {
-                    name: (lectureFocus.lecture.credit > 0)
-                      ? t('ui.score.credit')
-                      : 'AU',
-                    score: (lectureFocus.lecture.credit > 0)
-                      ? lectureFocus.lecture.credit
-                      : lectureFocus.lecture.credit_au,
+                    name: lectureFocus.lecture.credit > 0 ? t('ui.score.credit') : 'AU',
+                    score:
+                      lectureFocus.lecture.credit > 0
+                        ? lectureFocus.lecture.credit
+                        : lectureFocus.lecture.credit_au,
                   },
                   {
                     name: t('ui.score.competition'),
-                    score: (lectureFocus.lecture.limit === 0)
-                      ? '0.0:1'
-                      : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit).toFixed(1).toString()}:1`,
+                    score:
+                      lectureFocus.lecture.limit === 0
+                        ? '0.0:1'
+                        : `${(lectureFocus.lecture.num_people / lectureFocus.lecture.limit)
+                            .toFixed(1)
+                            .toString()}:1`,
                   },
                 ]}
               />
@@ -450,72 +501,86 @@ class LectureDetailSection extends Component {
                   },
                 ]}
               />
-              { shouldShowCloseDict
-                ? (
-                  <button className={classNames('small-title', 'top-sticky')} onClick={this.closeDictPreview} ref={this.openDictRef}>
-                    <span>{t('ui.title.reviews')}</span>
-                    <i className={classNames('icon', 'icon--lecture-uparrow')} />
-                  </button>
-                )
-                : (
-                  <button className={classNames('small-title', 'top-sticky')} onClick={this.openDictPreview} ref={this.openDictRef}>
-                    <span>{t('ui.title.reviews')}</span>
-                    <i className={classNames('icon', 'icon--lecture-downarrow')} />
-                  </button>
-                )
-              }
-              { reviewBlocks }
+              {shouldShowCloseDict ? (
+                <button
+                  className={classNames('small-title', 'top-sticky')}
+                  onClick={this.closeDictPreview}
+                  ref={this.openDictRef}>
+                  <span>{t('ui.title.reviews')}</span>
+                  <i className={classNames('icon', 'icon--lecture-uparrow')} />
+                </button>
+              ) : (
+                <button
+                  className={classNames('small-title', 'top-sticky')}
+                  onClick={this.openDictPreview}
+                  ref={this.openDictRef}>
+                  <span>{t('ui.title.reviews')}</span>
+                  <i className={classNames('icon', 'icon--lecture-downarrow')} />
+                </button>
+              )}
+              {reviewBlocks}
             </Scroller>
             <Divider
               orientation={Divider.Orientation.HORIZONTAL}
               isVisible={{ desktop: false, mobile: true }}
             />
-            <div className={classNames('subsection--lecture-detail__mobile-buttons', 'desktop-hidden')}>
-              {
-                !inCart(lectureFocus.lecture, lists[LectureListCode.CART])
-                  ? (
-                    <button className={classNames('text-button', 'text-button--black')} onClick={this.addToCart}>
-                      <i className={classNames('icon', 'icon--add-cart')} />
-                      <span>{t('ui.button.addToWishlist')}</span>
-                    </button>
-                  )
-                  : (
-                    <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromCart}>
-                      <i className={classNames('icon', 'icon--delete-cart')} />
-                      <span>{t('ui.button.deleteFromWishlist')}</span>
-                    </button>
-                  )
-              }
-              {selectedTimetable && !selectedTimetable.isReadOnly
-                ? (!inTimetable(lectureFocus.lecture, selectedTimetable)
-                  ? (
-                    <button className={classNames('text-button', 'text-button--black')} onClick={this.addToTable}>
-                      <i className={classNames('icon', 'icon--add-lecture')} />
-                      <span>{t('ui.button.addToTable')}</span>
-                    </button>
-                  )
-                  : (
-                    <button className={classNames('text-button', 'text-button--black')} onClick={this.deleteFromTable}>
-                      <i className={classNames('icon', 'icon--delete-from-table')} />
-                      <span>{t('ui.button.deleteFromTable')}</span>
-                    </button>
-                  )
+            <div
+              className={classNames(
+                'subsection--lecture-detail__mobile-buttons',
+                'desktop-hidden',
+              )}>
+              {!inCart(lectureFocus.lecture, lists[LectureListCode.CART]) ? (
+                <button
+                  className={classNames('text-button', 'text-button--black')}
+                  onClick={this.addToCart}>
+                  <i className={classNames('icon', 'icon--add-cart')} />
+                  <span>{t('ui.button.addToWishlist')}</span>
+                </button>
+              ) : (
+                <button
+                  className={classNames('text-button', 'text-button--black')}
+                  onClick={this.deleteFromCart}>
+                  <i className={classNames('icon', 'icon--delete-cart')} />
+                  <span>{t('ui.button.deleteFromWishlist')}</span>
+                </button>
+              )}
+              {selectedTimetable && !selectedTimetable.isReadOnly ? (
+                !inTimetable(lectureFocus.lecture, selectedTimetable) ? (
+                  <button
+                    className={classNames('text-button', 'text-button--black')}
+                    onClick={this.addToTable}>
+                    <i className={classNames('icon', 'icon--add-lecture')} />
+                    <span>{t('ui.button.addToTable')}</span>
+                  </button>
+                ) : (
+                  <button
+                    className={classNames('text-button', 'text-button--black')}
+                    onClick={this.deleteFromTable}>
+                    <i className={classNames('icon', 'icon--delete-from-table')} />
+                    <span>{t('ui.button.deleteFromTable')}</span>
+                  </button>
                 )
-                : (!inTimetable(lectureFocus.lecture, selectedTimetable)
-                  ? (
-                    <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
-                      <i className={classNames('icon', 'icon--add-lecture')} />
-                      <span>{t('ui.button.addToTable')}</span>
-                    </button>
-                  )
-                  : (
-                    <button className={classNames('text-button', 'text-button--black', 'text-button--disabled')}>
-                      <i className={classNames('icon', 'icon--delete-from-table')} />
-                      <span>{t('ui.button.deleteFromTable')}</span>
-                    </button>
-                  )
-                )
-              }
+              ) : !inTimetable(lectureFocus.lecture, selectedTimetable) ? (
+                <button
+                  className={classNames(
+                    'text-button',
+                    'text-button--black',
+                    'text-button--disabled',
+                  )}>
+                  <i className={classNames('icon', 'icon--add-lecture')} />
+                  <span>{t('ui.button.addToTable')}</span>
+                </button>
+              ) : (
+                <button
+                  className={classNames(
+                    'text-button',
+                    'text-button--black',
+                    'text-button--disabled',
+                  )}>
+                  <i className={classNames('icon', 'icon--delete-from-table')} />
+                  <span>{t('ui.button.deleteFromTable')}</span>
+                </button>
+              )}
             </div>
           </>
         );
@@ -524,36 +589,54 @@ class LectureDetailSection extends Component {
         return (
           <>
             <div className={classNames('detail-title-area')}>
-              <div className={classNames('title')}>
-                {lectureFocus.multipleTitle}
-              </div>
+              <div className={classNames('title')}>{lectureFocus.multipleTitle}</div>
               <div className={classNames('subtitle')}>
                 {t('ui.others.multipleDetailCount', { count: lectureFocus.multipleDetails.length })}
               </div>
               <div className={classNames('buttons')}>
-                <span className={classNames('text-button', 'text-button--disabled')}>{t('ui.button.unfix')}</span>
-                <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.syllabus')}</span>
-                <span className={classNames('text-button', 'text-button--right', 'text-button--disabled')}>{t('ui.button.dictionary')}</span>
+                <span className={classNames('text-button', 'text-button--disabled')}>
+                  {t('ui.button.unfix')}
+                </span>
+                <span
+                  className={classNames(
+                    'text-button',
+                    'text-button--right',
+                    'text-button--disabled',
+                  )}>
+                  {t('ui.button.syllabus')}
+                </span>
+                <span
+                  className={classNames(
+                    'text-button',
+                    'text-button--right',
+                    'text-button--disabled',
+                  )}>
+                  {t('ui.button.dictionary')}
+                </span>
               </div>
             </div>
             <Attributes
-              entries={lectureFocus.multipleDetails.map((d) => (
-                { name: d.name, info: d.info }
-              ))}
+              entries={lectureFocus.multipleDetails.map((d) => ({ name: d.name, info: d.info }))}
               longName
             />
           </>
         );
       }
-      return (
-        <OtlplusPlaceholder />
-      );
+      return <OtlplusPlaceholder />;
     };
 
     return (
-      <div className={classNames('section', 'section--lecture-detail', 'section--mobile-modal', (lectureFocus.clicked ? null : 'mobile-hidden'))}>
-        <div className={classNames('subsection', 'subsection--lecture-detail', 'subsection--flex')} ref={this.scrollRef}>
-          { getSectionContent() }
+      <div
+        className={classNames(
+          'section',
+          'section--lecture-detail',
+          'section--mobile-modal',
+          lectureFocus.clicked ? null : 'mobile-hidden',
+        )}>
+        <div
+          className={classNames('subsection', 'subsection--lecture-detail', 'subsection--flex')}
+          ref={this.scrollRef}>
+          {getSectionContent()}
         </div>
       </div>
     );
@@ -610,9 +693,6 @@ LectureDetailSection.propTypes = {
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    LectureDetailSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(LectureDetailSection),
 );

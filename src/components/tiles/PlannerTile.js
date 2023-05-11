@@ -9,31 +9,42 @@ import futurePlannerItemShape from '../../shapes/model/planner/FuturePlannerItem
 import arbitraryPlannerItemShape from '../../shapes/model/planner/ArbitraryPlannerItemShape';
 import { getCourseOfItem, getSemesterOfItem } from '../../utils/itemUtils';
 
-
 const PlannerTile = ({
   t,
   item,
-  yearIndex, semesterIndex, beginIndex, endIndex,
+  yearIndex,
+  semesterIndex,
+  beginIndex,
+  endIndex,
   color,
-  tableSize, cellWidth, cellHeight,
-  isPlannerWithSummer, isPlannerWithWinter,
-  isRaised, isHighlighted, isDimmed, isSimple,
-  onMouseOver, onMouseOut, onClick, deleteLecture,
+  tableSize,
+  cellWidth,
+  cellHeight,
+  isPlannerWithSummer,
+  isPlannerWithWinter,
+  isRaised,
+  isHighlighted,
+  isDimmed,
+  isSimple,
+  onMouseOver,
+  onMouseOut,
+  onClick,
+  deleteLecture,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
-      onMouseOver(item);
-    }
+        onMouseOver(item);
+      }
     : null;
   const handleMouseOut = onMouseOut
     ? (event) => {
-      onMouseOut(item);
-    }
+        onMouseOut(item);
+      }
     : null;
   const handleClick = onClick
     ? (event) => {
-      onClick(item);
-    }
+        onClick(item);
+      }
     : null;
   const handleDeleteFromTableClick = (event) => {
     event.stopPropagation();
@@ -41,12 +52,12 @@ const PlannerTile = ({
   };
 
   const getTop = () => {
-    const base = 17 + (isPlannerWithSummer ? 15 : 0) + (cellHeight * tableSize);
+    const base = 17 + (isPlannerWithSummer ? 15 : 0) + cellHeight * tableSize;
     if (semesterIndex === 0) {
-      return base - (cellHeight * endIndex) + 2;
+      return base - cellHeight * endIndex + 2;
     }
     if (semesterIndex === 1) {
-      return (base + cellHeight * 2 + 11) + (cellHeight * beginIndex) + 1;
+      return base + cellHeight * 2 + 11 + cellHeight * beginIndex + 1;
     }
     return base;
   };
@@ -57,11 +68,11 @@ const PlannerTile = ({
         'tile',
         'tile--planner',
         `background-color--${color}`,
-        (item.item_type === 'TAKEN' ? null : 'background-color--stripe'),
-        (isRaised ? 'tile--raised' : null),
-        (isHighlighted ? 'tile--highlighted' : null),
-        (isDimmed ? 'tile--dimmed' : null),
-        (item.is_excluded ? 'tile--planner--excluded' : null),
+        item.item_type === 'TAKEN' ? null : 'background-color--stripe',
+        isRaised ? 'tile--raised' : null,
+        isHighlighted ? 'tile--highlighted' : null,
+        isDimmed ? 'tile--dimmed' : null,
+        item.is_excluded ? 'tile--planner--excluded' : null,
       )}
       style={{
         left: 26 + (cellWidth + 15) * yearIndex - 1,
@@ -71,67 +82,55 @@ const PlannerTile = ({
       }}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
-      onClick={handleClick}
-    >
-      { item.item_type !== 'TAKEN'
-        ? (
-          <button
-            className={classNames('tile--planner__button')}
-            onClick={handleDeleteFromTableClick}
-          >
-            <i className={classNames('icon', 'icon--delete-lecture')} />
-          </button>
-        )
-        : null
-      }
-      <div
-        className={classNames('tile--planner__content')}
-      >
-        <p className={classNames('tile--planner__content__title', (isSimple ? 'mobile-hidden' : null))}>
+      onClick={handleClick}>
+      {item.item_type !== 'TAKEN' ? (
+        <button
+          className={classNames('tile--planner__button')}
+          onClick={handleDeleteFromTableClick}>
+          <i className={classNames('icon', 'icon--delete-lecture')} />
+        </button>
+      ) : null}
+      <div className={classNames('tile--planner__content')}>
+        <p
+          className={classNames(
+            'tile--planner__content__title',
+            isSimple ? 'mobile-hidden' : null,
+          )}>
           {getCourseOfItem(item)[t('js.property.title')]}
         </p>
-        {
-          (getSemesterOfItem(item) % 2 === 0) && (
-            <p
-              className={classNames(
-                'tile--planner__content__label',
-                isSimple ? 'mobile-hidden' : null,
-                `background-color--${color}`,
-                'background-color--dark'
-              )}
-            >
-              S
-            </p>
-          )
-        }
-        {
-          (item.item_type === 'ARBITRARY') && (
-            <p
-              className={classNames(
-                'tile--planner__content__label',
-                isSimple ? 'mobile-hidden' : null,
-                `background-color--${color}`,
-                'background-color--dark'
-              )}
-            >
-              ?
-            </p>
-          )
-        }
-        {
-          (item.is_excluded) && (
-            <p
-              className={classNames(
-                'tile--planner__content__label',
-                isSimple ? 'mobile-hidden' : null,
-                `background-color--${color}`,
-                'background-color--dark'
-              )}
-            >
-              X
-            </p>
-          )
-        }
+        {getSemesterOfItem(item) % 2 === 0 && (
+          <p
+            className={classNames(
+              'tile--planner__content__label',
+              isSimple ? 'mobile-hidden' : null,
+              `background-color--${color}`,
+              'background-color--dark',
+            )}>
+            S
+          </p>
+        )}
+        {item.item_type === 'ARBITRARY' && (
+          <p
+            className={classNames(
+              'tile--planner__content__label',
+              isSimple ? 'mobile-hidden' : null,
+              `background-color--${color}`,
+              'background-color--dark',
+            )}>
+            ?
+          </p>
+        )}
+        {item.is_excluded && (
+          <p
+            className={classNames(
+              'tile--planner__content__label',
+              isSimple ? 'mobile-hidden' : null,
+              `background-color--${color}`,
+              'background-color--dark',
+            )}>
+            X
+          </p>
+        )}
       </div>
     </div>
   );
@@ -139,7 +138,9 @@ const PlannerTile = ({
 
 PlannerTile.propTypes = {
   item: PropTypes.oneOfType([
-    takenPlannerItemShape, futurePlannerItemShape, arbitraryPlannerItemShape,
+    takenPlannerItemShape,
+    futurePlannerItemShape,
+    arbitraryPlannerItemShape,
   ]).isRequired,
   yearIndex: PropTypes.number.isRequired,
   semesterIndex: PropTypes.oneOf([0, 1]).isRequired,
@@ -161,8 +162,4 @@ PlannerTile.propTypes = {
   deleteLecture: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(
-  React.memo(
-    PlannerTile
-  )
-);
+export default withTranslation()(React.memo(PlannerTile));

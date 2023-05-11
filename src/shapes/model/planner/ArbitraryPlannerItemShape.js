@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import departmentShape from '../subject/DepartmentShape';
 
-
 const arbitraryPlannerItemShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   item_type: PropTypes.oneOf(['ARBITRARY']).isRequired,

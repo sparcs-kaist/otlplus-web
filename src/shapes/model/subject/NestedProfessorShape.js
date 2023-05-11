@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const nestedProfessorShape = PropTypes.exact({
   name: PropTypes.string.isRequired,
   name_en: PropTypes.string.isRequired,

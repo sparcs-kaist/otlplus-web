@@ -3,7 +3,6 @@ import lectureShape from '../subject/LectureShape';
 import reviewShape from '../review/ReviewShape';
 import departmentShape from '../subject/DepartmentShape';
 
-
 const userShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,

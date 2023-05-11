@@ -10,7 +10,6 @@ export const SET_REVIEWS = BASE_STRING + 'SET_REVIEWS';
 export const SET_LECTURES = BASE_STRING + 'SET_LECTURES';
 /* eslint-enable prefer-template */
 
-
 export function reset() {
   return {
     type: RESET,

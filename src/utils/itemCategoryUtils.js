@@ -7,13 +7,12 @@ export const CategoryFirstIndex = {
   OTHERS: 4,
 };
 
-export const isIdenticalCategory = (category1, category2) => (
-  category1
-  && category2
-  && category1[0] === category2[0]
-  && category1[1] === category2[1]
-  && category1[2] === category2[2]
-);
+export const isIdenticalCategory = (category1, category2) =>
+  category1 &&
+  category2 &&
+  category1[0] === category2[0] &&
+  category1[1] === category2[1] &&
+  category1[2] === category2[2];
 
 export const getSeparateMajorTracks = (planner) => {
   if (!planner) {
@@ -22,18 +21,9 @@ export const getSeparateMajorTracks = (planner) => {
 
   return [
     planner.major_track,
-    ...(
-      planner.additional_tracks
-        .filter((at) => (at.type === 'DOUBLE'))
-    ),
-    ...(
-      planner.additional_tracks
-        .filter((at) => (at.type === 'MINOR'))
-    ),
-    ...(
-      planner.additional_tracks
-        .filter((at) => (at.type === 'INTERDISCIPLINARY'))
-    ),
+    ...planner.additional_tracks.filter((at) => at.type === 'DOUBLE'),
+    ...planner.additional_tracks.filter((at) => at.type === 'MINOR'),
+    ...planner.additional_tracks.filter((at) => at.type === 'INTERDISCIPLINARY'),
   ];
 };
 
@@ -45,12 +35,11 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
       return [CategoryFirstIndex.BASIC, 0, 1];
     case 'Major Required': {
       const separateMajorTracks = getSeparateMajorTracks(planner);
-      const targetTrack = (
-        separateMajorTracks.find((smt) => (smt.department?.code === departmentCode))
-        || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
-      );
+      const targetTrack =
+        separateMajorTracks.find((smt) => smt.department?.code === departmentCode) ||
+        separateMajorTracks.find((smt) => smt.type === 'INTERDISCIPLINARY');
       if (targetTrack) {
-        const secondIndex = separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id));
+        const secondIndex = separateMajorTracks.findIndex((smt) => smt.id === targetTrack.id);
         return [CategoryFirstIndex.MAJOR, secondIndex, 0];
       }
       break;
@@ -58,12 +47,11 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
     case 'Major Elective':
     case 'Elective(Graduate)': {
       const separateMajorTracks = getSeparateMajorTracks(planner);
-      const targetTrack = (
-        separateMajorTracks.find((smt) => (smt.department?.code === departmentCode))
-        || separateMajorTracks.find((smt) => (smt.type === 'INTERDISCIPLINARY'))
-      );
+      const targetTrack =
+        separateMajorTracks.find((smt) => smt.department?.code === departmentCode) ||
+        separateMajorTracks.find((smt) => smt.type === 'INTERDISCIPLINARY');
       if (targetTrack) {
-        const secondIndex = separateMajorTracks.findIndex((smt) => (smt.id === targetTrack.id));
+        const secondIndex = separateMajorTracks.findIndex((smt) => smt.id === targetTrack.id);
         return [CategoryFirstIndex.MAJOR, secondIndex, 1];
       }
       break;
@@ -90,11 +78,11 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
 
 export const getCategoryOfItem = (planner, item) => {
   switch (item.item_type) {
-    case ('TAKEN'):
+    case 'TAKEN':
       return getCategoryOfType(planner, item.lecture.type_en, item.lecture.department_code);
-    case ('FUTURE'):
+    case 'FUTURE':
       return getCategoryOfType(planner, item.course.type_en, item.course.department.code);
-    case ('ARBITRARY'):
+    case 'ARBITRARY':
       return getCategoryOfType(planner, item.type_en, item.department?.code);
     default:
       return getCategoryOfType(planner, '', '');

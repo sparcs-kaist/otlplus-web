@@ -12,7 +12,6 @@ import logoImage from '../images/Services-OTL.svg';
 
 import { API_URL } from '../../../const';
 
-
 export const getFullName = (user) => {
   // eslint-disable-next-line no-underscore-dangle
   const _isKorean = (string) => {
@@ -26,7 +25,6 @@ export const getFullName = (user) => {
   return `${user.firstName} ${user.lastName}`;
 };
 
-
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +34,6 @@ class Header extends Component {
       noBackground: false,
     };
   }
-
 
   componentDidMount() {
     window.addEventListener('scroll', this.setNoBackground);
@@ -56,21 +53,18 @@ class Header extends Component {
     window.removeEventListener('scroll', this.setNoBackground);
   }
 
-
   closeMenu = () => {
     this.setState({
       mobileIsMenuOpen: false,
     });
-  }
-
+  };
 
   toggleMenu = () => {
     const { mobileIsMenuOpen } = this.state;
     this.setState({
       mobileIsMenuOpen: !mobileIsMenuOpen,
     });
-  }
-
+  };
 
   setNoBackground = () => {
     const mainImage = document.getElementsByClassName(appBoundClassNames('section--main-search'));
@@ -84,8 +78,7 @@ class Header extends Component {
     this.setState({
       noBackground: mainImage[0].getBoundingClientRect().top > 55,
     });
-  }
-
+  };
 
   render() {
     const { t, i18n } = this.props;
@@ -98,15 +91,15 @@ class Header extends Component {
         <div
           className={classNames(
             'content',
-            (mobileIsMenuOpen ? null : 'menu-closed'),
-            (noBackground && !mobileIsMenuOpen ? 'no-background' : null),
-          )}
-        >
+            mobileIsMenuOpen ? null : 'menu-closed',
+            noBackground && !mobileIsMenuOpen ? 'no-background' : null,
+          )}>
           <button className={classNames('menu-icon-icon')} onClick={this.toggleMenu}>
-            { mobileIsMenuOpen
-              ? <i className={classNames('icon--header_menu_close')} />
-              : <i className={classNames('icon--header_menu_list')} />
-            }
+            {mobileIsMenuOpen ? (
+              <i className={classNames('icon--header_menu_close')} />
+            ) : (
+              <i className={classNames('icon--header_menu_list')} />
+            )}
           </button>
           <div className={classNames('content-left')}>
             <div className={classNames('logo')}>
@@ -118,19 +111,13 @@ class Header extends Component {
             </div>
             <div className={classNames('menus')}>
               <span>
-                <Link to="/dictionary">
-                  {t('ui.menu.dictionary')}
-                </Link>
+                <Link to="/dictionary">{t('ui.menu.dictionary')}</Link>
               </span>
               <span>
-                <Link to="/timetable">
-                  {t('ui.menu.timetable')}
-                </Link>
+                <Link to="/timetable">{t('ui.menu.timetable')}</Link>
               </span>
               <span>
-                <Link to="/write-reviews">
-                  {t('ui.menu.writeReviews')}
-                </Link>
+                <Link to="/write-reviews">{t('ui.menu.writeReviews')}</Link>
               </span>
               <span>
                 <Link to="/planner">
@@ -141,12 +128,11 @@ class Header extends Component {
             </div>
           </div>
           <div className={classNames('content-right')}>
-            <div className={classNames('special-menus')}>
-              {null}
-            </div>
+            <div className={classNames('special-menus')}>{null}</div>
             <div className={classNames('common-menus')}>
               <span>
-                <button onClick={() => i18n.changeLanguage(i18n.language.startsWith('ko') ? 'en' : 'ko')}>
+                <button
+                  onClick={() => i18n.changeLanguage(i18n.language.startsWith('ko') ? 'en' : 'ko')}>
                   <i className={classNames('icon--header_language')} />
                   <span>{t('ui.menu.toggleLang')}</span>
                 </button>
@@ -160,35 +146,22 @@ class Header extends Component {
               </span>
               */}
               <span>
-                { user
-                  ? (
-                    <Link to="/account">
-                      <i className={classNames('icon--header_user')} />
-                      <span>
-                        {getFullName(user)}
-                      </span>
-                    </Link>
-                  )
-                  : user === undefined
-                    ? (
-
-                      <span>
-                        <i className={classNames('icon--header_user')} />
-                        <span>
-                          {t('ui.placeholder.loading')}
-                        </span>
-                      </span>
-                    )
-                    : (
-
-                      <a href={`${API_URL}/session/login/?next=${window.location.href}`}>
-                        <i className={classNames('icon--header_user')} />
-                        <span>
-                          {t('ui.menu.signIn')}
-                        </span>
-                      </a>
-                    )
-                }
+                {user ? (
+                  <Link to="/account">
+                    <i className={classNames('icon--header_user')} />
+                    <span>{getFullName(user)}</span>
+                  </Link>
+                ) : user === undefined ? (
+                  <span>
+                    <i className={classNames('icon--header_user')} />
+                    <span>{t('ui.placeholder.loading')}</span>
+                  </span>
+                ) : (
+                  <a href={`${API_URL}/session/login/?next=${window.location.href}`}>
+                    <i className={classNames('icon--header_user')} />
+                    <span>{t('ui.menu.signIn')}</span>
+                  </a>
+                )}
               </span>
             </div>
           </div>
@@ -202,8 +175,7 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 Header.propTypes = {
   location: PropTypes.shape({
@@ -213,10 +185,4 @@ Header.propTypes = {
   user: userShape,
 };
 
-export default withTranslation()(
-  withRouter(
-    connect(mapStateToProps, mapDispatchToProps)(
-      Header
-    )
-  )
-);
+export default withTranslation()(withRouter(connect(mapStateToProps, mapDispatchToProps)(Header)));

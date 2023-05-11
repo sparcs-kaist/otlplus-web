@@ -4,13 +4,12 @@ import { LectureFocusFrom } from '../../../reducers/timetable/lectureFocus';
 import lectureShape from '../../model/subject/LectureShape';
 import reviewShape from '../../model/review/ReviewShape';
 
-
 const emptyArrayShape = (props, propName, componentName) => {
   if (props[propName] instanceof Array && props[propName].length === 0) {
     return undefined;
   }
   return new Error(
-    `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Validation failed.`
+    `Invalid prop \`${propName}\` supplied to \`${componentName}\`. Validation failed.`,
   );
 };
 

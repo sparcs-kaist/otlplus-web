@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const departmentShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,

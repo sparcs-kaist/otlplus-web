@@ -7,7 +7,6 @@ import generalTrackShape from '../graduation/GeneralTrackShape';
 import majorTrackShape from '../graduation/MajorTrackShape';
 import additionalTrackShape from '../graduation/AdditionalTrackShape';
 
-
 const plannerShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   start_year: PropTypes.number.isRequired,

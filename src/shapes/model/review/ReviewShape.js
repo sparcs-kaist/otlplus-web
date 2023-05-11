@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import nestedCourseShape from '../subject/NestedCourseShape';
 import nestedLectureShape from '../subject/NestedLectureShape';
 
-
 const reviewShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   course: nestedCourseShape.isRequired,

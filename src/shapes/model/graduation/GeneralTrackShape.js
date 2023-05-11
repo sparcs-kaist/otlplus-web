@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const generalTrackShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   start_year: PropTypes.number.isRequired,

@@ -14,13 +14,16 @@ import CourseRelatedCoursesSubSection from './CourseRelatedCoursesSubSection';
 import CourseHistorySubSection from './CourseHistorySubSection';
 import CourseReviewsSubSection from './CourseReviewsSubSection';
 
-import { clearCourseFocus, setLectures, setReviews } from '../../../../actions/dictionary/courseFocus';
+import {
+  clearCourseFocus,
+  setLectures,
+  setReviews,
+} from '../../../../actions/dictionary/courseFocus';
 import { addCourseRead } from '../../../../actions/dictionary/list';
 
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
 import userShape from '../../../../shapes/model/session/UserShape';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
-
 
 class CourseDetailSection extends Component {
   constructor(props) {
@@ -31,10 +34,7 @@ class CourseDetailSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      selectedListCode, courseFocus,
-      clearCourseFocusDispatch,
-    } = this.props;
+    const { selectedListCode, courseFocus, clearCourseFocusDispatch } = this.props;
 
     if (prevProps.selectedListCode !== selectedListCode) {
       clearCourseFocusDispatch();
@@ -44,20 +44,21 @@ class CourseDetailSection extends Component {
       this._fetchLectures();
       this._fetchReviews();
     }
-    if ((prevProps.courseFocus.course && courseFocus.course)
-    && (prevProps.courseFocus.course.id !== courseFocus.course.id)) {
+    if (
+      prevProps.courseFocus.course &&
+      courseFocus.course &&
+      prevProps.courseFocus.course.id !== courseFocus.course.id
+    ) {
       this._fetchLectures();
       this._fetchReviews();
     }
   }
 
-
   _fetchLectures = () => {
     const { courseFocus, setLecturesDispatch } = this.props;
 
-    axios.get(
-      `/api/courses/${courseFocus.course.id}/lectures`,
-      {
+    axios
+      .get(`/api/courses/${courseFocus.course.id}/lectures`, {
         params: {
           order: ['year', 'semester', 'class_no'],
         },
@@ -65,8 +66,7 @@ class CourseDetailSection extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET Lectures / Instance',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
         if (newProps.courseFocus.course.id !== courseFocus.course.id) {
@@ -74,19 +74,16 @@ class CourseDetailSection extends Component {
         }
         setLecturesDispatch(response.data);
       })
-      .catch((error) => {
-      });
-  }
-
+      .catch((error) => {});
+  };
 
   _fetchReviews = () => {
     const LIMIT = 100;
 
     const { courseFocus, setReviewsDispatch } = this.props;
 
-    axios.get(
-      `/api/courses/${courseFocus.course.id}/reviews`,
-      {
+    axios
+      .get(`/api/courses/${courseFocus.course.id}/reviews`, {
         params: {
           order: ['-lecture__year', '-lecture__semester', '-written_datetime', '-id'],
           limit: LIMIT,
@@ -95,8 +92,7 @@ class CourseDetailSection extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET Reviews / Instance',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
         if (newProps.courseFocus.course.id !== courseFocus.course.id) {
@@ -108,10 +104,8 @@ class CourseDetailSection extends Component {
         }
         setReviewsDispatch(response.data);
       })
-      .catch((error) => {
-      });
-  }
-
+      .catch((error) => {});
+  };
 
   _markRead = (course) => {
     const { user, addCourseReadDispatch } = this.props;
@@ -121,62 +115,63 @@ class CourseDetailSection extends Component {
       return;
     }
 
-    axios.post(
-      `/api/courses/${course.id}/read`,
-      {
-      },
-      {
-        metadata: {
-          gaCategory: 'Review',
-          gaVariable: 'POST Read / Instance',
+    axios
+      .post(
+        `/api/courses/${course.id}/read`,
+        {},
+        {
+          metadata: {
+            gaCategory: 'Review',
+            gaVariable: 'POST Read / Instance',
+          },
         },
-      },
-    )
+      )
       .then((cresponse) => {
         addCourseReadDispatch(course);
       })
-      .catch((error) => {
-      });
-  }
-
+      .catch((error) => {});
+  };
 
   unfix = () => {
     const { clearCourseFocusDispatch } = this.props;
     clearCourseFocusDispatch();
-  }
-
+  };
 
   render() {
     const { t } = this.props;
     const { courseFocus } = this.props;
 
-    const sectionContent = courseFocus.course
-      ? (
-        <>
-          <CloseButton onClick={this.unfix} />
-          <div className={classNames('detail-title-area')}>
-            <div className={classNames('title')}>{ courseFocus.course[t('js.property.title')] }</div>
-            <div className={classNames('subtitle')}>{ courseFocus.course.old_code }</div>
-          </div>
-          <Scroller key={courseFocus.course.id}>
-            <CourseInfoSubSection />
-            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <CourseRelatedCoursesSubSection />
-            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <CourseHistorySubSection />
-            <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-            <CourseReviewsSubSection />
-          </Scroller>
-        </>
-      )
-      : (
-        <OtlplusPlaceholder />
-      );
+    const sectionContent = courseFocus.course ? (
+      <>
+        <CloseButton onClick={this.unfix} />
+        <div className={classNames('detail-title-area')}>
+          <div className={classNames('title')}>{courseFocus.course[t('js.property.title')]}</div>
+          <div className={classNames('subtitle')}>{courseFocus.course.old_code}</div>
+        </div>
+        <Scroller key={courseFocus.course.id}>
+          <CourseInfoSubSection />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <CourseRelatedCoursesSubSection />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <CourseHistorySubSection />
+          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <CourseReviewsSubSection />
+        </Scroller>
+      </>
+    ) : (
+      <OtlplusPlaceholder />
+    );
 
     return (
-      <div className={classNames('section', 'section--course-detail', 'section--mobile-modal', (courseFocus.course ? null : 'mobile-hidden'))}>
+      <div
+        className={classNames(
+          'section',
+          'section--course-detail',
+          'section--mobile-modal',
+          courseFocus.course ? null : 'mobile-hidden',
+        )}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-detail')}>
-          { sectionContent }
+          {sectionContent}
         </div>
       </div>
     );
@@ -215,9 +210,4 @@ CourseDetailSection.propTypes = {
   addCourseReadDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseDetailSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseDetailSection));

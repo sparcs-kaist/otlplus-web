@@ -4,13 +4,9 @@ import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-
 class CountController extends Component {
   render() {
-    const {
-      count,
-      updateCount,
-    } = this.props;
+    const { count, updateCount } = this.props;
 
     return (
       <div className={classNames('course-status--info--controller')}>
@@ -22,7 +18,7 @@ class CountController extends Component {
             }
           }}
         />
-        <div>{ count }</div>
+        <div>{count}</div>
         <i
           className={classNames('icon', 'icon--planner-plus')}
           onClick={() => {
@@ -39,6 +35,4 @@ CountController.propTypes = {
   updateCount: PropTypes.func,
 };
 
-export default withTranslation()(
-  CountController
-);
+export default withTranslation()(CountController);

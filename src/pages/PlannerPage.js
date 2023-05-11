@@ -22,11 +22,12 @@ import SummarySubSection from '../components/sections/planner/plannerandinfos/Su
 // import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
 import TrackSettingsSection from '../components/sections/planner/TrackSettingsSection';
 
-
 class PlannerPage extends Component {
   componentWillUnmount() {
     const {
-      resetCourseFocusDispatch, resetListDispatch, resetSearchDispatch,
+      resetCourseFocusDispatch,
+      resetListDispatch,
+      resetSearchDispatch,
       resetPlannerDispatch,
     } = this.props;
 
@@ -35,7 +36,6 @@ class PlannerPage extends Component {
     resetSearchDispatch();
     resetPlannerDispatch();
   }
-
 
   render() {
     const { isTrackSettingsSectionOpen, selectedPlanner } = this.props;
@@ -82,7 +82,7 @@ class PlannerPage extends Component {
             </div>
             <CourseListSection />
             <CourseManageSection />
-            { isTrackSettingsSectionOpen && selectedPlanner && <TrackSettingsSection /> }
+            {isTrackSettingsSectionOpen && selectedPlanner && <TrackSettingsSection />}
           </div>
         </section>
       </>
@@ -120,7 +120,4 @@ PlannerPage.propTypes = {
   resetPlannerDispatch: PropTypes.func.isRequired,
 };
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(
-  PlannerPage
-);
+export default connect(mapStateToProps, mapDispatchToProps)(PlannerPage);

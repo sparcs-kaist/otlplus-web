@@ -15,17 +15,17 @@ import Scroller from '../../../Scroller';
 
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
-import {
-  getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
-} from '../../../../utils/itemUtils';
+import { getCreditOfItem, getAuOfItem, getCreditAndAuOfItem } from '../../../../utils/itemUtils';
 import {
   CategoryFirstIndex,
   getSeparateMajorTracks,
-  getCategoryOfItem, getCategoryOfType, getColorOfCategory, isIdenticalCategory,
+  getCategoryOfItem,
+  getCategoryOfType,
+  getColorOfCategory,
+  isIdenticalCategory,
 } from '../../../../utils/itemCategoryUtils';
 
 import { setCategoryFocus, clearCategoryFocus } from '../../../../actions/planner/itemFocus';
-
 
 class SummarySubSection extends Component {
   setFocusOnCategory = (category) => {
@@ -35,8 +35,7 @@ class SummarySubSection extends Component {
       return;
     }
     setCategoryFocusDispatch(category);
-  }
-
+  };
 
   clearFocus = () => {
     const { itemFocus, clearCategoryFocusDispatch } = this.props;
@@ -46,17 +45,14 @@ class SummarySubSection extends Component {
     }
 
     clearCategoryFocusDispatch();
-  }
-
+  };
 
   render() {
     const { t, itemFocus, selectedPlanner } = this.props;
 
-    const separateMajorTracks = selectedPlanner
-      ? getSeparateMajorTracks(selectedPlanner)
-      : [];
+    const separateMajorTracks = selectedPlanner ? getSeparateMajorTracks(selectedPlanner) : [];
     const advancedMajorTrack = selectedPlanner
-      ? selectedPlanner.additional_tracks.find((at) => (at.type === 'ADVANCED'))
+      ? selectedPlanner.additional_tracks.find((at) => at.type === 'ADVANCED')
       : undefined;
 
     const initializeCount = () => ({
@@ -69,21 +65,14 @@ class SummarySubSection extends Component {
     const totalCredit = initializeCount();
     const totalAu = initializeCount();
     const categoryCreditAndAus = {
-      [CategoryFirstIndex.BASIC]: [
-        [initializeCount(), initializeCount()],
-      ],
-      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => (
-        [initializeCount(), initializeCount()]
-      )),
-      [CategoryFirstIndex.RESEARCH]: [
-        [initializeCount(), initializeCount()],
-      ],
-      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [
-        [initializeCount(), initializeCount()],
-      ],
-      [CategoryFirstIndex.OTHERS]: [
-        [initializeCount(), initializeCount()],
-      ],
+      [CategoryFirstIndex.BASIC]: [[initializeCount(), initializeCount()]],
+      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => [
+        initializeCount(),
+        initializeCount(),
+      ]),
+      [CategoryFirstIndex.RESEARCH]: [[initializeCount(), initializeCount()]],
+      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [[initializeCount(), initializeCount()]],
+      [CategoryFirstIndex.OTHERS]: [[initializeCount(), initializeCount()]],
     };
 
     const categoryBigTitles = {
@@ -110,40 +99,39 @@ class SummarySubSection extends Component {
     };
     const categoryTitles = {
       [CategoryFirstIndex.BASIC]: [[t('ui.type.basicRequired'), t('ui.type.basicElective')]],
-      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => [t('ui.type.majorRequired'), t('ui.type.majorElective')]),
+      [CategoryFirstIndex.MAJOR]: separateMajorTracks.map((smt) => [
+        t('ui.type.majorRequired'),
+        t('ui.type.majorElective'),
+      ]),
       [CategoryFirstIndex.RESEARCH]: [[t('ui.type.thesisStudy'), t('ui.type.individualStudy')]],
-      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [[t('ui.type.generalRequired'), t('ui.type.humanities')]],
+      [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [
+        [t('ui.type.generalRequired'), t('ui.type.humanities')],
+      ],
       [CategoryFirstIndex.OTHERS]: [[t('ui.type.otherElective'), t('ui.type.unclassified')]],
     };
 
     if (selectedPlanner?.general_track) {
       // TODO: support unsigned user
-      const hasDoublemajor = selectedPlanner.additional_tracks.filter((at) => (at.type === 'DOUBLE')).length !== 0;
+      const hasDoublemajor =
+        selectedPlanner.additional_tracks.filter((at) => at.type === 'DOUBLE').length !== 0;
       /* eslint-disable fp/no-mutation */
       totalCredit.requirement = selectedPlanner.general_track.total_credit;
       totalAu.requirement = selectedPlanner.general_track.total_au;
-      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][0].requirement = (
-        selectedPlanner.general_track.basic_required
-      );
-      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][1].requirement = (
-        hasDoublemajor
-          ? selectedPlanner.major_track.basic_elective_doublemajor
-          : selectedPlanner.general_track.basic_elective
-      );
-      categoryCreditAndAus[CategoryFirstIndex.RESEARCH][0][0].requirement = (
-        hasDoublemajor
-          ? selectedPlanner.general_track.thesis_study_doublemajor
-          : selectedPlanner.general_track.thesis_study
-      );
-      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][0].requirement = (
-        selectedPlanner.general_track.general_required_credit
-          + selectedPlanner.general_track.general_required_au
-      );
-      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][1].requirement = (
+      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][0].requirement =
+        selectedPlanner.general_track.basic_required;
+      categoryCreditAndAus[CategoryFirstIndex.BASIC][0][1].requirement = hasDoublemajor
+        ? selectedPlanner.major_track.basic_elective_doublemajor
+        : selectedPlanner.general_track.basic_elective;
+      categoryCreditAndAus[CategoryFirstIndex.RESEARCH][0][0].requirement = hasDoublemajor
+        ? selectedPlanner.general_track.thesis_study_doublemajor
+        : selectedPlanner.general_track.thesis_study;
+      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][0].requirement =
+        selectedPlanner.general_track.general_required_credit +
+        selectedPlanner.general_track.general_required_au;
+      categoryCreditAndAus[CategoryFirstIndex.GENERAL_AND_HUMANITY][0][1].requirement =
         hasDoublemajor
           ? selectedPlanner.general_track.humanities_doublemajor
-          : selectedPlanner.general_track.humanities
-      );
+          : selectedPlanner.general_track.humanities;
       /* eslint-enable fp/no-mutation */
     }
 
@@ -155,36 +143,42 @@ class SummarySubSection extends Component {
     });
     if (advancedMajorTrack) {
       /* eslint-disable fp/no-mutation */
-      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][0].requirement
-        += advancedMajorTrack.major_required;
-      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][1].requirement
-        += advancedMajorTrack.major_elective;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][0].requirement +=
+        advancedMajorTrack.major_required;
+      categoryCreditAndAus[CategoryFirstIndex.MAJOR][0][1].requirement +=
+        advancedMajorTrack.major_elective;
       /* eslint-enable fp/no-mutation */
     }
 
     if (selectedPlanner) {
       /* eslint-disable fp/no-mutation */
-      selectedPlanner.taken_items.filter((i) => !i.is_excluded).forEach((i) => {
-        const category = getCategoryOfItem(selectedPlanner, i);
-        totalCredit.taken += getCreditOfItem(i);
-        totalAu.taken += getAuOfItem(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]].taken
-          += getCreditAndAuOfItem(i);
-      });
-      selectedPlanner.future_items.filter((i) => !i.is_excluded).forEach((i) => {
-        const category = getCategoryOfItem(selectedPlanner, i);
-        totalCredit.planned += getCreditOfItem(i);
-        totalAu.planned += getAuOfItem(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]].planned
-          += getCreditAndAuOfItem(i);
-      });
-      selectedPlanner.arbitrary_items.filter((i) => !i.is_excluded).forEach((i) => {
-        const category = getCategoryOfItem(selectedPlanner, i);
-        totalCredit.planned += getCreditOfItem(i);
-        totalAu.planned += getAuOfItem(i);
-        categoryCreditAndAus[category[0]][category[1]][category[2]].planned
-          += getCreditAndAuOfItem(i);
-      });
+      selectedPlanner.taken_items
+        .filter((i) => !i.is_excluded)
+        .forEach((i) => {
+          const category = getCategoryOfItem(selectedPlanner, i);
+          totalCredit.taken += getCreditOfItem(i);
+          totalAu.taken += getAuOfItem(i);
+          categoryCreditAndAus[category[0]][category[1]][category[2]].taken +=
+            getCreditAndAuOfItem(i);
+        });
+      selectedPlanner.future_items
+        .filter((i) => !i.is_excluded)
+        .forEach((i) => {
+          const category = getCategoryOfItem(selectedPlanner, i);
+          totalCredit.planned += getCreditOfItem(i);
+          totalAu.planned += getAuOfItem(i);
+          categoryCreditAndAus[category[0]][category[1]][category[2]].planned +=
+            getCreditAndAuOfItem(i);
+        });
+      selectedPlanner.arbitrary_items
+        .filter((i) => !i.is_excluded)
+        .forEach((i) => {
+          const category = getCategoryOfItem(selectedPlanner, i);
+          totalCredit.planned += getCreditOfItem(i);
+          totalAu.planned += getAuOfItem(i);
+          categoryCreditAndAus[category[0]][category[1]][category[2]].planned +=
+            getCreditAndAuOfItem(i);
+        });
       /* eslint-enable fp/no-mutation */
     }
 
@@ -192,27 +186,28 @@ class SummarySubSection extends Component {
       /* eslint-disable fp/no-mutation */
       const focusedCourse = itemFocus.course;
       const category = getCategoryOfType(
-        selectedPlanner, focusedCourse.type_en, focusedCourse.department?.code
+        selectedPlanner,
+        focusedCourse.type_en,
+        focusedCourse.department?.code,
       );
       totalCredit.focused += focusedCourse.credit;
       totalAu.focused += focusedCourse.credit_au;
-      categoryCreditAndAus[category[0]][category[1]][category[2]].focused
-        += focusedCourse.credit + focusedCourse.credit_au;
+      categoryCreditAndAus[category[0]][category[1]][category[2]].focused +=
+        focusedCourse.credit + focusedCourse.credit_au;
       /* eslint-enable fp/no-mutation */
-    }
-    else if (
-      (itemFocus.from === ItemFocusFrom.TABLE_TAKEN
-      || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
-      || itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY)
-      && !itemFocus.item.is_excluded
+    } else if (
+      (itemFocus.from === ItemFocusFrom.TABLE_TAKEN ||
+        itemFocus.from === ItemFocusFrom.TABLE_FUTURE ||
+        itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY) &&
+      !itemFocus.item.is_excluded
     ) {
       /* eslint-disable fp/no-mutation */
       const focusedItem = itemFocus.item;
       const category = getCategoryOfItem(selectedPlanner, focusedItem);
       totalCredit.focused += getCreditOfItem(focusedItem);
       totalAu.focused += getAuOfItem(focusedItem);
-      categoryCreditAndAus[category[0]][category[1]][category[2]].focused
-        += getCreditAndAuOfItem(focusedItem);
+      categoryCreditAndAus[category[0]][category[1]][category[2]].focused +=
+        getCreditAndAuOfItem(focusedItem);
       /* eslint-enable fp/no-mutation */
     }
 
@@ -235,10 +230,10 @@ class SummarySubSection extends Component {
                           totalCredit={totalCredit.requirement}
                           colorIndex={18}
                           isCategoryFocused={
-                            itemFocus.from === ItemFocusFrom.CATEGORY
-                            && isIdenticalCategory(
+                            itemFocus.from === ItemFocusFrom.CATEGORY &&
+                            isIdenticalCategory(
                               [CategoryFirstIndex.TOTAL, 0, 0],
-                              itemFocus.category
+                              itemFocus.category,
                             )
                           }
                           focusFrom={itemFocus.from}
@@ -257,10 +252,10 @@ class SummarySubSection extends Component {
                           totalCredit={totalAu.requirement}
                           colorIndex={18}
                           isCategoryFocused={
-                            itemFocus.from === ItemFocusFrom.CATEGORY
-                            && isIdenticalCategory(
+                            itemFocus.from === ItemFocusFrom.CATEGORY &&
+                            isIdenticalCategory(
                               [CategoryFirstIndex.TOTAL, 0, 1],
-                              itemFocus.category
+                              itemFocus.category,
                             )
                           }
                           focusFrom={itemFocus.from}
@@ -271,11 +266,11 @@ class SummarySubSection extends Component {
                     },
                   ],
                 },
-                ...range(0, 5).map((i) => (
-                  range(0, categoryCreditAndAus[i].length).map((j) => ({
-                    name: categoryBigTitles[i][j],
-                    info: range(0, categoryCreditAndAus[i][j].length).map((k) => (
-                      {
+                ...range(0, 5)
+                  .map((i) =>
+                    range(0, categoryCreditAndAus[i].length).map((j) => ({
+                      name: categoryBigTitles[i][j],
+                      info: range(0, categoryCreditAndAus[i][j].length).map((k) => ({
                         name: categoryTitles[i][j][k],
                         controller: (
                           <CreditBar
@@ -285,18 +280,18 @@ class SummarySubSection extends Component {
                             totalCredit={categoryCreditAndAus[i][j][k].requirement}
                             colorIndex={getColorOfCategory(selectedPlanner, [i, j, k])}
                             isCategoryFocused={
-                              itemFocus.from === ItemFocusFrom.CATEGORY
-                              && isIdenticalCategory([i, j, k], itemFocus.category)
+                              itemFocus.from === ItemFocusFrom.CATEGORY &&
+                              isIdenticalCategory([i, j, k], itemFocus.category)
                             }
                             focusFrom={itemFocus.from}
                           />
                         ),
                         onMouseOver: () => this.setFocusOnCategory([i, j, k]),
                         onMouseOut: () => this.clearFocus(),
-                      }
-                    )),
-                  }))
-                )).flat(),
+                      })),
+                    })),
+                  )
+                  .flat(),
               ]}
             />
           </Scroller>
@@ -328,8 +323,4 @@ SummarySubSection.propTypes = {
   clearCategoryFocusDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    SummarySubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SummarySubSection));

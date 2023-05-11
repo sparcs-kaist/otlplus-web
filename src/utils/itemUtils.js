@@ -1,4 +1,3 @@
-
 export const getYearOfItem = (item) => {
   switch (item.item_type) {
     case 'TAKEN':
@@ -86,11 +85,11 @@ export const getOldCodeOfArbitrary = (type, typeEn, department) => {
 
 export const getCourseOfItem = (item) => {
   switch (item.item_type) {
-    case ('TAKEN'):
+    case 'TAKEN':
       return item.course;
-    case ('FUTURE'):
+    case 'FUTURE':
       return item.course;
-    case ('ARBITRARY'):
+    case 'ARBITRARY':
       return {
         id: getIdOfArbitrary(item.type, item.type_en, item.department),
         isArbitrary: true,
@@ -109,7 +108,10 @@ export const getCourseOfItem = (item) => {
 };
 
 export const isAddedCourse = (course, planner) => {
-  return planner
-    && [...planner.taken_items, ...planner.future_items, ...planner.arbitrary_items]
-      .some((i) => (!i.is_excluded && (getCourseOfItem(i).id === course.id)));
+  return (
+    planner &&
+    [...planner.taken_items, ...planner.future_items, ...planner.arbitrary_items].some(
+      (i) => !i.is_excluded && getCourseOfItem(i).id === course.id,
+    )
+  );
 };

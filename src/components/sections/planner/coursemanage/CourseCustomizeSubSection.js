@@ -23,33 +23,31 @@ import userShape from '../../../../shapes/model/session/UserShape';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
-
 class CourseCustomizeSubSection extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedSemester: new Set([getSemesterOfItem(props.itemFocus.item) % 2 === 1 ? 'NORMAL' : 'SEASONAL']),
+      selectedSemester: new Set([
+        getSemesterOfItem(props.itemFocus.item) % 2 === 1 ? 'NORMAL' : 'SEASONAL',
+      ]),
       selectedRetake: new Set([props.itemFocus.item.is_excluded ? 'RETAKE' : 'NORMAL']),
     };
   }
 
   updateCheckedValuesForSemester = (checkedValues) => {
-    const {
-      user, selectedPlanner, itemFocus,
-      updateItemInPlannerDispatch, setItemFocusDispatch,
-    } = this.props;
+    const { user, selectedPlanner, itemFocus, updateItemInPlannerDispatch, setItemFocusDispatch } =
+      this.props;
 
     this.setState({
       selectedSemester: checkedValues,
     });
 
     const selectedSemester = Array.from(checkedValues)[0];
-    const newSemester = (
+    const newSemester =
       selectedSemester === 'NORMAL'
         ? Math.ceil(itemFocus.item.semester / 2) * 2 - 1
-        : Math.ceil(itemFocus.item.semester / 2) * 2
-    );
+        : Math.ceil(itemFocus.item.semester / 2) * 2;
 
     if (!user) {
       const newItem = {
@@ -58,22 +56,22 @@ class CourseCustomizeSubSection extends Component {
       };
       updateItemInPlannerDispatch(newItem);
       setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
-    }
-    else {
-      axios.post(
-        `/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`,
-        {
-          item: itemFocus.item.id,
-          item_type: itemFocus.item.item_type,
-          semester: newSemester,
-        },
-        {
-          metadata: {
-            gaCategory: 'Planner',
-            gaVariable: 'POST Update / Instance',
+    } else {
+      axios
+        .post(
+          `/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`,
+          {
+            item: itemFocus.item.id,
+            item_type: itemFocus.item.item_type,
+            semester: newSemester,
           },
-        },
-      )
+          {
+            metadata: {
+              gaCategory: 'Planner',
+              gaVariable: 'POST Update / Instance',
+            },
+          },
+        )
         .then((response) => {
           const newProps = this.props;
           if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
@@ -81,19 +79,19 @@ class CourseCustomizeSubSection extends Component {
           }
           updateItemInPlannerDispatch(response.data);
           setItemFocusDispatch(
-            response.data, getCourseOfItem(response.data), itemFocus.from, itemFocus.clicked
+            response.data,
+            getCourseOfItem(response.data),
+            itemFocus.from,
+            itemFocus.clicked,
           );
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
-  }
+  };
 
   updateCheckedValuesForRetake = (checkedValues) => {
-    const {
-      user, selectedPlanner, itemFocus,
-      updateItemInPlannerDispatch, setItemFocusDispatch,
-    } = this.props;
+    const { user, selectedPlanner, itemFocus, updateItemInPlannerDispatch, setItemFocusDispatch } =
+      this.props;
 
     this.setState({
       selectedRetake: checkedValues,
@@ -108,25 +106,23 @@ class CourseCustomizeSubSection extends Component {
         is_excluded: newIsRetake,
       };
       updateItemInPlannerDispatch(newItem);
-      setItemFocusDispatch(
-        newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked
-      );
-    }
-    else {
-      axios.post(
-        `/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`,
-        {
-          item: itemFocus.item.id,
-          item_type: itemFocus.item.item_type,
-          is_excluded: newIsRetake,
-        },
-        {
-          metadata: {
-            gaCategory: 'Planner',
-            gaVariable: 'POST Update / Instance',
+      setItemFocusDispatch(newItem, getCourseOfItem(newItem), itemFocus.from, itemFocus.clicked);
+    } else {
+      axios
+        .post(
+          `/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`,
+          {
+            item: itemFocus.item.id,
+            item_type: itemFocus.item.item_type,
+            is_excluded: newIsRetake,
           },
-        },
-      )
+          {
+            metadata: {
+              gaCategory: 'Planner',
+              gaVariable: 'POST Update / Instance',
+            },
+          },
+        )
         .then((response) => {
           const newProps = this.props;
           if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
@@ -134,13 +130,15 @@ class CourseCustomizeSubSection extends Component {
           }
           updateItemInPlannerDispatch(response.data);
           setItemFocusDispatch(
-            response.data, getCourseOfItem(response.data), itemFocus.from, itemFocus.clicked
+            response.data,
+            getCourseOfItem(response.data),
+            itemFocus.from,
+            itemFocus.clicked,
           );
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
-  }
+  };
 
   // updateCredits = (optionName) => (creditValues) => {
   //   this.setState({
@@ -148,11 +146,11 @@ class CourseCustomizeSubSection extends Component {
   //   });
   // }
 
-
   render() {
     const { t, itemFocus } = this.props;
     const {
-      selectedSemester, selectedRetake,
+      selectedSemester,
+      selectedRetake,
       // totalCredit,
       // basicRequired, basicElective,
       // generalRequired, generalElective,
@@ -163,7 +161,9 @@ class CourseCustomizeSubSection extends Component {
     const getSubtitle = () => {
       switch (itemFocus.from) {
         case ItemFocusFrom.TABLE_TAKEN:
-          return `수강 완료 - ${itemFocus.item.lecture.year} ${getSemesterName(itemFocus.item.lecture.semester)}`;
+          return `수강 완료 - ${itemFocus.item.lecture.year} ${getSemesterName(
+            itemFocus.item.lecture.semester,
+          )}`;
         case ItemFocusFrom.TABLE_FUTURE:
           return `수강 예정 - ${itemFocus.item.year} ${getSemesterName(itemFocus.item.semester)}`;
         case ItemFocusFrom.TABLE_ARBITRARY:
@@ -181,13 +181,9 @@ class CourseCustomizeSubSection extends Component {
         ];
       }
       if (itemFocus.item.lecture.semester % 2 === 1) {
-        return [
-          ['NORMAL', t('ui.semesterInfo.normal')],
-        ];
+        return [['NORMAL', t('ui.semesterInfo.normal')]];
       }
-      return [
-        ['SEASONAL', t('ui.semesterInfo.seasonal')],
-      ];
+      return [['SEASONAL', t('ui.semesterInfo.seasonal')]];
     };
 
     return (
@@ -196,7 +192,12 @@ class CourseCustomizeSubSection extends Component {
           <div className={classNames('title')}>{t('ui.title.lectureInformation')}</div>
           <div className={classNames('subtitle')}>{getSubtitle()}</div>
           <div className={classNames('buttons')}>
-            <button type="reset" className={classNames('text-button', 'text-button--right')} onClick={this.initialize}>{t('ui.button.reset')}</button>
+            <button
+              type="reset"
+              className={classNames('text-button', 'text-button--right')}
+              onClick={this.initialize}>
+              {t('ui.button.reset')}
+            </button>
           </div>
         </div>
         <Scroller>
@@ -352,9 +353,6 @@ CourseCustomizeSubSection.propTypes = {
   setItemFocusDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseCustomizeSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseCustomizeSubSection),
 );

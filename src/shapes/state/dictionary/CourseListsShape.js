@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 
 import courseShape from '../../model/subject/CourseShape';
 
-
 const courseListsShape = PropTypes.shape({
   search: PropTypes.exact({
     courses: PropTypes.arrayOf(courseShape),

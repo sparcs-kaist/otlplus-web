@@ -9,7 +9,6 @@ import lectureShape from '../../model/subject/LectureShape';
 import reviewShape from '../../model/review/ReviewShape';
 import takenPlannerItemShape from '../../model/planner/TakenPlannerItemShape';
 
-
 export const arbitraryPseudoCourseShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   isArbitrary: PropTypes.oneOf([true]).isRequired,
@@ -22,7 +21,6 @@ export const arbitraryPseudoCourseShape = PropTypes.exact({
   title_en: PropTypes.string.isRequired,
   old_code: PropTypes.string.isRequired,
 });
-
 
 const itemFocusShape = PropTypes.oneOfType([
   PropTypes.exact({
@@ -38,32 +36,30 @@ const itemFocusShape = PropTypes.oneOfType([
     from: PropTypes.oneOf([ItemFocusFrom.LIST]).isRequired,
     clicked: PropTypes.bool.isRequired,
     item: PropTypes.oneOf([null]),
-    course: PropTypes.oneOfType([
-      courseShape, arbitraryPseudoCourseShape,
-    ]),
+    course: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
     category: PropTypes.oneOf([null]),
     reviews: PropTypes.arrayOf(reviewShape),
     lectures: PropTypes.arrayOf(lectureShape),
   }),
   PropTypes.exact({
     from: PropTypes.oneOf([
-      ItemFocusFrom.TABLE_TAKEN, ItemFocusFrom.TABLE_FUTURE, ItemFocusFrom.TABLE_ARBITRARY,
+      ItemFocusFrom.TABLE_TAKEN,
+      ItemFocusFrom.TABLE_FUTURE,
+      ItemFocusFrom.TABLE_ARBITRARY,
     ]).isRequired,
     clicked: PropTypes.bool.isRequired,
     item: PropTypes.oneOfType([
-      takenPlannerItemShape, futurePlannerItemShape, arbitraryPlannerItemShape,
+      takenPlannerItemShape,
+      futurePlannerItemShape,
+      arbitraryPlannerItemShape,
     ]),
-    course: PropTypes.oneOfType([
-      courseShape, arbitraryPseudoCourseShape,
-    ]),
+    course: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
     category: PropTypes.oneOf([null]),
     reviews: PropTypes.arrayOf(reviewShape),
     lectures: PropTypes.arrayOf(lectureShape),
   }),
   PropTypes.exact({
-    from: PropTypes.oneOf([
-      ItemFocusFrom.CATEGORY,
-    ]).isRequired,
+    from: PropTypes.oneOf([ItemFocusFrom.CATEGORY]).isRequired,
     clicked: PropTypes.bool.isRequired,
     item: PropTypes.oneOf([null]),
     course: PropTypes.oneOf([null]),

@@ -10,25 +10,41 @@ import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../../common/con
 import TimetableTile from '../../../tiles/TimetableTile';
 
 import { setLectureFocus, clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
-import { setSelectedListCode, setMobileIsLectureListOpen } from '../../../../actions/timetable/list';
-import { setClasstimeOptions, clearClasstimeOptions, openSearch } from '../../../../actions/timetable/search';
-import { setIsDragging, updateCellSize, removeLectureFromTimetable } from '../../../../actions/timetable/timetable';
+import {
+  setSelectedListCode,
+  setMobileIsLectureListOpen,
+} from '../../../../actions/timetable/list';
+import {
+  setClasstimeOptions,
+  clearClasstimeOptions,
+  openSearch,
+} from '../../../../actions/timetable/search';
+import {
+  setIsDragging,
+  updateCellSize,
+  removeLectureFromTimetable,
+} from '../../../../actions/timetable/timetable';
 
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 import { LectureListCode } from '../../../../reducers/timetable/list';
 
 import userShape from '../../../../shapes/model/session/UserShape';
-import timetableShape, { myPseudoTimetableShape } from '../../../../shapes/model/timetable/TimetableShape';
+import timetableShape, {
+  myPseudoTimetableShape,
+} from '../../../../shapes/model/timetable/TimetableShape';
 import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
 import { getDayStr, getRangeStr } from '../../../../utils/timeUtils';
 
 import {
   inTimetable,
-  isFocused, isTableClicked, isDimmedTableLecture, getOverallLectures, getColorNumber,
+  isFocused,
+  isTableClicked,
+  isDimmedTableLecture,
+  getOverallLectures,
+  getColorNumber,
 } from '../../../../utils/lectureUtils';
 import { performDeleteFromTable } from '../../../../common/commonOperations';
 import TimetableDragTile from '../../../tiles/TimetableDragTile';
-
 
 class TimetableSubSection extends Component {
   constructor(props) {
@@ -66,20 +82,22 @@ class TimetableSubSection extends Component {
   resize = () => {
     const { updateCellSizeDispatch } = this.props;
 
-    const cell = document.getElementsByClassName(classNames('subsection--timetable__table__body__cell'))[0].getBoundingClientRect();
+    const cell = document
+      .getElementsByClassName(classNames('subsection--timetable__table__body__cell'))[0]
+      .getBoundingClientRect();
     updateCellSizeDispatch(cell.width, cell.height + 1);
-  }
+  };
 
   _getIndexOfMinute = (minute) => {
-    return minute / 30 - (2 * TIMETABLE_START_HOUR);
-  }
+    return minute / 30 - 2 * TIMETABLE_START_HOUR;
+  };
 
   onMouseDown = (e) => {
     e.stopPropagation();
     e.preventDefault();
 
     this._dragStart(e.target);
-  }
+  };
 
   onTouchStart = (e) => {
     e.stopPropagation();
@@ -89,13 +107,15 @@ class TimetableSubSection extends Component {
     if (elementAtPosition === null) {
       return;
     }
-    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('subsection--timetable__table__body__cell--drag')}`);
+    const targetElementAtPosition = elementAtPosition.closest(
+      `.${classNames('subsection--timetable__table__body__cell--drag')}`,
+    );
     if (targetElementAtPosition === null) {
       return;
     }
 
     this._dragStart(targetElementAtPosition);
-  }
+  };
 
   _dragStart = (target) => {
     const { clearLectureFocusDispatch, setIsDraggingDispatch } = this.props;
@@ -103,7 +123,7 @@ class TimetableSubSection extends Component {
     this.setState({ firstDragCell: target, secondDragCell: target });
     clearLectureFocusDispatch();
     setIsDraggingDispatch(true);
-  }
+  };
 
   _getOccupiedTimes = (day, begin, end) => {
     const { selectedTimetable } = this.props;
@@ -112,30 +132,30 @@ class TimetableSubSection extends Component {
       return [];
     }
 
-    const timetableClasstimes = selectedTimetable.lectures
-      .map((l) => l.classtimes)
-      .flat(1);
+    const timetableClasstimes = selectedTimetable.lectures.map((l) => l.classtimes).flat(1);
     return timetableClasstimes
-      .filter((ct) => ((ct.day === day) && (begin < ct.end) && (end > ct.begin)))
+      .filter((ct) => ct.day === day && begin < ct.end && end > ct.begin)
       .map((ct) => [Math.max(begin, ct.begin), Math.min(end, ct.end)]);
-  }
+  };
 
   onMouseMove = (e) => {
     this._dragMove(e.target);
-  }
+  };
 
   onTouchMove = (e) => {
     const elementAtPosition = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY);
     if (elementAtPosition === null) {
       return;
     }
-    const targetElementAtPosition = elementAtPosition.closest(`.${classNames('subsection--timetable__table__body__cell--drag')}`);
+    const targetElementAtPosition = elementAtPosition.closest(
+      `.${classNames('subsection--timetable__table__body__cell--drag')}`,
+    );
     if (targetElementAtPosition === null) {
       return;
     }
 
     this._dragMove(targetElementAtPosition);
-  }
+  };
 
   _dragMove = (target) => {
     const { firstDragCell } = this.state;
@@ -151,23 +171,26 @@ class TimetableSubSection extends Component {
       return;
     }
     this.setState({ secondDragCell: target });
-  }
+  };
 
   onMouseUp = (e) => {
     this._dragEnd();
-  }
+  };
 
   onTouchEnd = (e) => {
     this._dragEnd();
-  }
+  };
 
   _dragEnd = () => {
     const { firstDragCell, secondDragCell } = this.state;
     const {
       isDragging,
-      setIsDraggingDispatch, openSearchDispatch,
-      setClasstimeOptionsDispatch, clearClasstimeOptionsDispatch,
-      setSelectedListCodeDispatch, setMobileIsLectureListOpenDispatch,
+      setIsDraggingDispatch,
+      openSearchDispatch,
+      setClasstimeOptionsDispatch,
+      clearClasstimeOptionsDispatch,
+      setSelectedListCodeDispatch,
+      setMobileIsLectureListOpenDispatch,
     } = this.props;
 
     if (!isDragging) {
@@ -190,7 +213,7 @@ class TimetableSubSection extends Component {
     setMobileIsLectureListOpenDispatch(true);
     setSelectedListCodeDispatch(LectureListCode.SEARCH);
     openSearchDispatch();
-  }
+  };
 
   focusLectureWithHover = (lecture) => {
     const { lectureFocus, isDragging, setLectureFocusDispatch } = this.props;
@@ -198,7 +221,7 @@ class TimetableSubSection extends Component {
     if (!lectureFocus.clicked && !isDragging) {
       setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
     }
-  }
+  };
 
   unfocusLectureWithHover = (lecture) => {
     const { lectureFocus, clearLectureFocusDispatch } = this.props;
@@ -206,31 +229,31 @@ class TimetableSubSection extends Component {
     if (!lectureFocus.clicked) {
       clearLectureFocusDispatch();
     }
-  }
+  };
 
   focusLectureWithClick = (lecture) => {
     const { lectureFocus, setLectureFocusDispatch } = this.props;
 
     if (isTableClicked(lecture, lectureFocus)) {
       setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, false);
-    }
-    else {
+    } else {
       setLectureFocusDispatch(lecture, LectureFocusFrom.TABLE, true);
     }
-  }
+  };
 
   deleteLectureFromTimetable = (lecture) => {
     const {
-      selectedTimetable, user,
-      removeLectureFromTimetableDispatch, clearLectureFocusDispatch,
+      selectedTimetable,
+      user,
+      removeLectureFromTimetableDispatch,
+      clearLectureFocusDispatch,
     } = this.props;
 
     if (!selectedTimetable) {
       return;
     }
 
-    const beforeRequest = () => {
-    };
+    const beforeRequest = () => {};
     const afterResponse = () => {
       const newProps = this.props;
       if (!newProps.selectedTimetable || newProps.selectedTimetable.id !== selectedTimetable.id) {
@@ -241,63 +264,59 @@ class TimetableSubSection extends Component {
       clearLectureFocusDispatch();
     };
     performDeleteFromTable(
-      lecture, selectedTimetable, user, 'Timetable',
-      beforeRequest, afterResponse,
+      lecture,
+      selectedTimetable,
+      user,
+      'Timetable',
+      beforeRequest,
+      afterResponse,
     );
-  }
+  };
 
   render() {
     const { t } = this.props;
     const { firstDragCell, secondDragCell } = this.state;
-    const {
-      selectedTimetable, lectureFocus,
-      cellWidth, cellHeight,
-      mobileIsLectureListOpen,
-    } = this.props;
+    const { selectedTimetable, lectureFocus, cellWidth, cellHeight, mobileIsLectureListOpen } =
+      this.props;
 
     const overallLectures = getOverallLectures(selectedTimetable, lectureFocus);
-    const isOutsideTable = (classtime) => (
-      (classtime.day < 0 || classtime.day > 4)
-      || (classtime.begin < 60 * TIMETABLE_START_HOUR || classtime.end > 60 * TIMETABLE_END_HOUR)
-    );
+    const isOutsideTable = (classtime) =>
+      classtime.day < 0 ||
+      classtime.day > 4 ||
+      classtime.begin < 60 * TIMETABLE_START_HOUR ||
+      classtime.end > 60 * TIMETABLE_END_HOUR;
     const lecCtPairsWithClasstime = overallLectures
       .map((l) => l.classtimes.map((ct) => ({ lecture: l, classtime: ct })))
       .flat(1);
     const lecCtPairsWithoutClasstime = overallLectures
-      .filter((l) => (l.classtimes.length === 0))
+      .filter((l) => l.classtimes.length === 0)
       .map((l) => ({ lecture: l, classtime: null }));
-    const lecCtPairsInsideTable = (
-      lecCtPairsWithClasstime.filter((p) => !isOutsideTable(p.classtime))
+    const lecCtPairsInsideTable = lecCtPairsWithClasstime.filter(
+      (p) => !isOutsideTable(p.classtime),
     );
     const lecCtPairsOutsideTable = [
       ...lecCtPairsWithClasstime.filter((p) => isOutsideTable(p.classtime)),
       ...lecCtPairsWithoutClasstime,
     ];
 
-    const getUntimedTitle = (classtime) => (
+    const getUntimedTitle = (classtime) =>
       classtime
         ? getRangeStr(classtime.day, classtime.begin, classtime.end)
-        : t('ui.others.timeNone')
-    );
+        : t('ui.others.timeNone');
     const getTimetableTile = (lecture, classtime, isUntimed, untimedIndex, isTemp) => {
       return (
         <TimetableTile
-          key={classtime ? `${lecture.id}:${classtime.day}:${classtime.begin}` : `${lecture.id}:no-time`}
+          key={
+            classtime
+              ? `${lecture.id}:${classtime.day}:${classtime.begin}`
+              : `${lecture.id}:no-time`
+          }
           lecture={lecture}
           classtime={classtime}
-          tableIndex={isUntimed
-            ? Math.floor(untimedIndex / 5) + 1
-            : 0
-          }
-          dayIndex={isUntimed
-            ? (untimedIndex % 5)
-            : classtime.day}
-          beginIndex={isUntimed
-            ? 0
-            : (classtime.begin / 30 - TIMETABLE_START_HOUR * 2)}
-          endIndex={isUntimed
-            ? 3
-            : (classtime.end / 30 - TIMETABLE_START_HOUR * 2)}
+          tableIndex={isUntimed ? Math.floor(untimedIndex / 5) + 1 : 0}
+          dayIndex={isUntimed ? untimedIndex % 5 : classtime.day}
+          beginIndex={isUntimed ? 0 : classtime.begin / 30 - TIMETABLE_START_HOUR * 2}
+          endIndex={isUntimed ? 3 : classtime.end / 30 - TIMETABLE_START_HOUR * 2}
           color={getColorNumber(lecture)}
           cellWidth={cellWidth}
           cellHeight={cellHeight}
@@ -312,68 +331,75 @@ class TimetableSubSection extends Component {
           onClick={isTemp ? null : this.focusLectureWithClick}
           deleteLecture={this.deleteLectureFromTimetable}
           occupiedIndices={
-            (isTemp && !isUntimed)
-              ? this._getOccupiedTimes(classtime.day, classtime.begin, classtime.end)
-                .map((ot) => [this._getIndexOfMinute(ot[0]), this._getIndexOfMinute(ot[1])])
+            isTemp && !isUntimed
+              ? this._getOccupiedTimes(classtime.day, classtime.begin, classtime.end).map((ot) => [
+                  this._getIndexOfMinute(ot[0]),
+                  this._getIndexOfMinute(ot[1]),
+                ])
               : undefined
           }
         />
       );
     };
-    const isTemp = (lecture) => (
-      lectureFocus.from === LectureFocusFrom.LIST
-      && lectureFocus.lecture.id === lecture.id
-      && !inTimetable(lectureFocus.lecture, selectedTimetable)
+    const isTemp = (lecture) =>
+      lectureFocus.from === LectureFocusFrom.LIST &&
+      lectureFocus.lecture.id === lecture.id &&
+      !inTimetable(lectureFocus.lecture, selectedTimetable);
+    const tilesInsideTable = lecCtPairsInsideTable.map((p) =>
+      getTimetableTile(p.lecture, p.classtime, false, undefined, isTemp(p.lecture)),
     );
-    const tilesInsideTable = lecCtPairsInsideTable.map((p) => (
-      getTimetableTile(p.lecture, p.classtime, false, undefined, isTemp(p.lecture))
-    ));
-    const tilesOutsideTable = lecCtPairsOutsideTable.map((p, i) => (
-      getTimetableTile(p.lecture, p.classtime, true, i, isTemp(p.lecture))
-    ));
-    const untimedTileTitles = lecCtPairsOutsideTable.map((p) => (
-      getUntimedTitle(p.classtime)
-    ));
+    const tilesOutsideTable = lecCtPairsOutsideTable.map((p, i) =>
+      getTimetableTile(p.lecture, p.classtime, true, i, isTemp(p.lecture)),
+    );
+    const untimedTileTitles = lecCtPairsOutsideTable.map((p) => getUntimedTitle(p.classtime));
 
     const tableHours = range(TIMETABLE_START_HOUR, TIMETABLE_END_HOUR);
     const getHeadColumn = () => {
       const timedArea = [
         <div className={classNames('subsection--timetable__table__label__title')} key="title" />,
-        ...(
-          tableHours.map((h) => {
-            const HourTag = (h % 6 === 0) ? 'strong' : 'span';
+        ...tableHours
+          .map((h) => {
+            const HourTag = h % 6 === 0 ? 'strong' : 'span';
             return [
-              <div className={classNames('subsection--timetable__table__label__line')} key={`line:${h * 60}`}>
+              <div
+                className={classNames('subsection--timetable__table__label__line')}
+                key={`line:${h * 60}`}>
                 <HourTag>{((h - 1) % 12) + 1}</HourTag>
               </div>,
-              <div className={classNames('subsection--timetable__table__label__cell')} key={`cell:${h * 60}`} />,
-              <div className={classNames('subsection--timetable__table__label__line')} key={`line:${h * 60 + 30}`} />,
-              <div className={classNames('subsection--timetable__table__label__cell')} key={`cell:${h * 60 + 30}`} />,
+              <div
+                className={classNames('subsection--timetable__table__label__cell')}
+                key={`cell:${h * 60}`}
+              />,
+              <div
+                className={classNames('subsection--timetable__table__label__line')}
+                key={`line:${h * 60 + 30}`}
+              />,
+              <div
+                className={classNames('subsection--timetable__table__label__cell')}
+                key={`cell:${h * 60 + 30}`}
+              />,
             ];
           })
-            .flat(1)
-        ),
+          .flat(1),
         <div className={classNames('subsection--timetable__table__label__line')} key="line:1440">
           <strong>{12}</strong>
         </div>,
       ];
-      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((_, i) => (
-        [
-          <div className={classNames('subsection--timetable__table__label__gap')} key="gap" />,
-          <div className={classNames('subsection--timetable__table__label__title')} key="title" />,
-          <div className={classNames('subsection--timetable__table__label__line')} key="line:1" />,
-          <div className={classNames('subsection--timetable__table__label__cell')} key="cell:1" />,
-          <div className={classNames('subsection--timetable__table__label__line')} key="line:2" />,
-          <div className={classNames('subsection--timetable__table__label__cell')} key="cell:2" />,
-          <div className={classNames('subsection--timetable__table__label__line')} key="line:3" />,
-          <div className={classNames('subsection--timetable__table__label__cell')} key="cell:3" />,
-          <div className={classNames('subsection--timetable__table__label__line')} key="line:4" />,
-        ]
-      ));
+      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((_, i) => [
+        <div className={classNames('subsection--timetable__table__label__gap')} key="gap" />,
+        <div className={classNames('subsection--timetable__table__label__title')} key="title" />,
+        <div className={classNames('subsection--timetable__table__label__line')} key="line:1" />,
+        <div className={classNames('subsection--timetable__table__label__cell')} key="cell:1" />,
+        <div className={classNames('subsection--timetable__table__label__line')} key="line:2" />,
+        <div className={classNames('subsection--timetable__table__label__cell')} key="cell:2" />,
+        <div className={classNames('subsection--timetable__table__label__line')} key="line:3" />,
+        <div className={classNames('subsection--timetable__table__label__cell')} key="cell:3" />,
+        <div className={classNames('subsection--timetable__table__label__line')} key="line:4" />,
+      ]);
       return (
         <div className={classNames('subsection--timetable__table__label')}>
-          { timedArea }
-          { untimedArea }
+          {timedArea}
+          {untimedArea}
         </div>
       );
     };
@@ -382,13 +408,13 @@ class TimetableSubSection extends Component {
         <div className={classNames('subsection--timetable__table__body__title')} key="title">
           {getDayStr(dayIdx)}
         </div>,
-        ...(
-          tableHours.map((h) => {
+        ...tableHours
+          .map((h) => {
             return [
               <div
                 className={classNames(
                   'subsection--timetable__table__body__line',
-                  (h % 6 === 0) ? 'subsection--timetable__table__body__line--bold' : null,
+                  h % 6 === 0 ? 'subsection--timetable__table__body__line--bold' : null,
                 )}
                 key={`line:${h * 60}`}
               />,
@@ -409,7 +435,9 @@ class TimetableSubSection extends Component {
                 className={classNames(
                   'subsection--timetable__table__body__line',
                   'subsection--timetable__table__body__line--dashed',
-                  (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
+                  mobileIsLectureListOpen
+                    ? 'subsection--timetable__table__body__line--mobile-noline'
+                    : null,
                 )}
                 key={`line:${h * 60 + 30}`}
               />,
@@ -428,8 +456,7 @@ class TimetableSubSection extends Component {
               />,
             ];
           })
-            .flat(1)
-        ),
+          .flat(1),
         <div
           className={classNames(
             'subsection--timetable__table__body__line',
@@ -438,79 +465,81 @@ class TimetableSubSection extends Component {
           key="line:1440"
         />,
       ];
-      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((i) => (
-        [
-          <div className={classNames('subsection--timetable__table__body__gap')} key="gap" />,
-          <div className={classNames('subsection--timetable__table__body__title')} key="title">
-            { untimedTileTitles[i * 5 + dayIdx] }
-          </div>,
-          <div
-            className={classNames(
-              'subsection--timetable__table__body__line',
-              'subsection--timetable__table__body__line--bold',
-            )}
-            key="line:1"
-          />,
-          <div className={classNames('subsection--timetable__table__body__cell')} key="cell:1" />,
-          <div
-            className={classNames(
-              'subsection--timetable__table__body__line',
-              'subsection--timetable__table__body__line--dashed',
-              (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
-            )}
-            key="line:2"
-          />,
-          <div className={classNames('subsection--timetable__table__body__cell')} key="cell:2" />,
-          <div
-            className={classNames(
-              'subsection--timetable__table__body__line',
-              'subsection--timetable__table__body__line--dashed',
-              (mobileIsLectureListOpen ? 'subsection--timetable__table__body__line--mobile-noline' : null),
-            )}
-            key="line:3"
-          />,
-          <div className={classNames('subsection--timetable__table__body__cell')} key="cell:3" />,
-          <div
-            className={classNames(
-              'subsection--timetable__table__body__line',
-              'subsection--timetable__table__body__line--bold',
-            )}
-            key="line:4"
-          />,
-        ]
-      ));
+      const untimedArea = range(Math.ceil(untimedTileTitles.length / 5)).map((i) => [
+        <div className={classNames('subsection--timetable__table__body__gap')} key="gap" />,
+        <div className={classNames('subsection--timetable__table__body__title')} key="title">
+          {untimedTileTitles[i * 5 + dayIdx]}
+        </div>,
+        <div
+          className={classNames(
+            'subsection--timetable__table__body__line',
+            'subsection--timetable__table__body__line--bold',
+          )}
+          key="line:1"
+        />,
+        <div className={classNames('subsection--timetable__table__body__cell')} key="cell:1" />,
+        <div
+          className={classNames(
+            'subsection--timetable__table__body__line',
+            'subsection--timetable__table__body__line--dashed',
+            mobileIsLectureListOpen
+              ? 'subsection--timetable__table__body__line--mobile-noline'
+              : null,
+          )}
+          key="line:2"
+        />,
+        <div className={classNames('subsection--timetable__table__body__cell')} key="cell:2" />,
+        <div
+          className={classNames(
+            'subsection--timetable__table__body__line',
+            'subsection--timetable__table__body__line--dashed',
+            mobileIsLectureListOpen
+              ? 'subsection--timetable__table__body__line--mobile-noline'
+              : null,
+          )}
+          key="line:3"
+        />,
+        <div className={classNames('subsection--timetable__table__body__cell')} key="cell:3" />,
+        <div
+          className={classNames(
+            'subsection--timetable__table__body__line',
+            'subsection--timetable__table__body__line--bold',
+          )}
+          key="line:4"
+        />,
+      ]);
       return (
         <div className={classNames('subsection--timetable__table__body')}>
-          { timedArea }
-          { untimedArea }
+          {timedArea}
+          {untimedArea}
         </div>
       );
     };
 
-    const dragTile = firstDragCell && secondDragCell
-      ? (
+    const dragTile =
+      firstDragCell && secondDragCell ? (
         <TimetableDragTile
           dayIndex={Number(firstDragCell.dataset.day)}
-          beginIndex={
-            Math.min(
-              this._getIndexOfMinute(Number(firstDragCell.dataset.minute)),
-              this._getIndexOfMinute(Number(secondDragCell.dataset.minute))
-            )
-          }
+          beginIndex={Math.min(
+            this._getIndexOfMinute(Number(firstDragCell.dataset.minute)),
+            this._getIndexOfMinute(Number(secondDragCell.dataset.minute)),
+          )}
           endIndex={
             Math.max(
               this._getIndexOfMinute(Number(firstDragCell.dataset.minute)),
-              this._getIndexOfMinute(Number(secondDragCell.dataset.minute))
+              this._getIndexOfMinute(Number(secondDragCell.dataset.minute)),
             ) + 1
           }
           cellWidth={cellWidth}
           cellHeight={cellHeight}
         />
-      )
-      : null;
+      ) : null;
 
     return (
-      <div className={classNames('subsection', 'subsection--timetable')} onMouseUp={(e) => this.onMouseUp(e)} onTouchEnd={(e) => this.onTouchEnd(e)}>
+      <div
+        className={classNames('subsection', 'subsection--timetable')}
+        onMouseUp={(e) => this.onMouseUp(e)}
+        onTouchEnd={(e) => this.onTouchEnd(e)}>
         <div className={classNames('subsection--timetable__table')}>
           {getHeadColumn()}
           {getDayColumn(0)}
@@ -591,9 +620,4 @@ TimetableSubSection.propTypes = {
   setMobileIsLectureListOpenDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    TimetableSubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection));

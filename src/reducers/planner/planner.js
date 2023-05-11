@@ -1,10 +1,14 @@
 import {
   RESET,
-  SET_PLANNERS, CLEAR_PLANNERS,
+  SET_PLANNERS,
+  CLEAR_PLANNERS,
   SET_SELECTED_PLANNER,
-  CREATE_PLANNER, DELETE_PLANNER,
+  CREATE_PLANNER,
+  DELETE_PLANNER,
   UPDATE_PLANNER,
-  ADD_ITEM_TO_PLANNER, UPDATE_ITEM_IN_PLANNER, REMOVE_ITEM_FROM_PLANNER,
+  ADD_ITEM_TO_PLANNER,
+  UPDATE_ITEM_IN_PLANNER,
+  REMOVE_ITEM_FROM_PLANNER,
   REORDER_PLANNER,
   UPDATE_CELL_SIZE,
   SET_IS_TRACK_SETTINGS_SECTION_OPEN,
@@ -41,9 +45,7 @@ const planner = (state = initialState, action) => {
     case SET_PLANNERS: {
       return Object.assign({}, state, {
         planners: action.planners,
-        selectedPlanner: action.planners.length > 0
-          ? action.planners[0]
-          : null,
+        selectedPlanner: action.planners.length > 0 ? action.planners[0] : null,
       });
     }
     case CLEAR_PLANNERS: {
@@ -60,18 +62,16 @@ const planner = (state = initialState, action) => {
     case CREATE_PLANNER: {
       return Object.assign({}, state, {
         selectedPlanner: action.newPlanner,
-        planners: [
-          ...state.planners,
-          action.newPlanner,
-        ],
+        planners: [...state.planners, action.newPlanner],
       });
     }
     case DELETE_PLANNER: {
-      const indexOfPlanner = state.planners.findIndex((t) => (t.id === action.planner.id));
-      const newPlanners = state.planners.filter((t) => (t.id !== action.planner.id));
-      const newSelectedPlanner = (indexOfPlanner !== state.planners.length - 1)
-        ? newPlanners[indexOfPlanner]
-        : newPlanners[indexOfPlanner - 1];
+      const indexOfPlanner = state.planners.findIndex((t) => t.id === action.planner.id);
+      const newPlanners = state.planners.filter((t) => t.id !== action.planner.id);
+      const newSelectedPlanner =
+        indexOfPlanner !== state.planners.length - 1
+          ? newPlanners[indexOfPlanner]
+          : newPlanners[indexOfPlanner - 1];
       return Object.assign({}, state, {
         selectedPlanner: newSelectedPlanner,
         planners: newPlanners,
@@ -79,16 +79,13 @@ const planner = (state = initialState, action) => {
     }
     case UPDATE_PLANNER: {
       return Object.assign({}, state, {
-        selectedPlanner: (
+        selectedPlanner:
           state.selectedPlanner.id === action.updatedPlanner.id
             ? action.updatedPlanner
-            : state.selectedPlanner
+            : state.selectedPlanner,
+        planners: state.planners.map((t) =>
+          t.id === action.updatedPlanner.id ? action.updatedPlanner : t,
         ),
-        planners: state.planners.map((t) => (
-          t.id === action.updatedPlanner.id
-            ? action.updatedPlanner
-            : t
-        )),
       });
     }
     case ADD_ITEM_TO_PLANNER: {
@@ -97,11 +94,7 @@ const planner = (state = initialState, action) => {
         ...state.selectedPlanner,
         [listName]: state.selectedPlanner[listName].concat([action.item]),
       };
-      const newPlanners = state.planners.map((t) => (
-        t.id === newPlanner.id
-          ? newPlanner
-          : t
-      ));
+      const newPlanners = state.planners.map((t) => (t.id === newPlanner.id ? newPlanner : t));
       return Object.assign({}, state, {
         selectedPlanner: newPlanner,
         planners: newPlanners,
@@ -111,14 +104,11 @@ const planner = (state = initialState, action) => {
       const listName = getListNameOfType(action.item.item_type);
       const newPlanner = {
         ...state.selectedPlanner,
-        [listName]:
-          state.selectedPlanner[listName].map((i) => (i.id === action.item.id ? action.item : i)),
+        [listName]: state.selectedPlanner[listName].map((i) =>
+          i.id === action.item.id ? action.item : i,
+        ),
       };
-      const newPlanners = state.planners.map((t) => (
-        t.id === newPlanner.id
-          ? newPlanner
-          : t
-      ));
+      const newPlanners = state.planners.map((t) => (t.id === newPlanner.id ? newPlanner : t));
       return Object.assign({}, state, {
         selectedPlanner: newPlanner,
         planners: newPlanners,
@@ -128,13 +118,9 @@ const planner = (state = initialState, action) => {
       const listName = getListNameOfType(action.item.item_type);
       const newPlanner = {
         ...state.selectedPlanner,
-        [listName]: state.selectedPlanner[listName].filter((i) => (i.id !== action.item.id)),
+        [listName]: state.selectedPlanner[listName].filter((i) => i.id !== action.item.id),
       };
-      const newPlanners = state.planners.map((t) => (
-        t.id === newPlanner.id
-          ? newPlanner
-          : t
-      ));
+      const newPlanners = state.planners.map((t) => (t.id === newPlanner.id ? newPlanner : t));
       return Object.assign({}, state, {
         selectedPlanner: newPlanner,
         planners: newPlanners,
@@ -148,15 +134,19 @@ const planner = (state = initialState, action) => {
             arrange_order: action.arrangeOrder,
           };
         }
-        if (action.arrangeOrder <= t.arrange_order
-          && t.arrange_order < action.planner.arrange_order) {
+        if (
+          action.arrangeOrder <= t.arrange_order &&
+          t.arrange_order < action.planner.arrange_order
+        ) {
           return {
             ...t,
             arrange_order: t.arrange_order + 1,
           };
         }
-        if (action.planner.arrange_order < t.arrange_order
-          && t.arrange_order <= action.arrangeOrder) {
+        if (
+          action.planner.arrange_order < t.arrange_order &&
+          t.arrange_order <= action.arrangeOrder
+        ) {
           return {
             ...t,
             arrange_order: t.arrange_order - 1,
@@ -165,8 +155,8 @@ const planner = (state = initialState, action) => {
         return t;
       });
       // eslint-disable-next-line fp/no-mutating-methods
-      newPlanners.sort((t1, t2) => (t1.arrange_order - t2.arrange_order));
-      const updatedPlanner = newPlanners.find((t) => (t.id === state.selectedPlanner.id));
+      newPlanners.sort((t1, t2) => t1.arrange_order - t2.arrange_order);
+      const updatedPlanner = newPlanners.find((t) => t.id === state.selectedPlanner.id);
       return Object.assign({}, state, {
         planners: newPlanners,
         selectedPlanner: updatedPlanner,

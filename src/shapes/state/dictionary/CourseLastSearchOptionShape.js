@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 
-
 const courseLastSearchOptionShape = PropTypes.exact({
   keyword: PropTypes.string,
   type: PropTypes.arrayOf(PropTypes.string),

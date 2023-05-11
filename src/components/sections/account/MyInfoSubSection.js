@@ -9,7 +9,6 @@ import userShape from '../../../shapes/model/session/UserShape';
 import { getFullName } from '../../../common/guideline/components/Header';
 import Attributes from '../../Attributes';
 
-
 class MyInfoSubSection extends Component {
   render() {
     const { t } = this.props;
@@ -21,9 +20,7 @@ class MyInfoSubSection extends Component {
 
     return (
       <div className={classNames('subsection', 'subsection--my-info')}>
-        <div className={classNames('title')}>
-          {t('ui.title.myInformation')}
-        </div>
+        <div className={classNames('title')}>{t('ui.title.myInformation')}</div>
         <Attributes
           entries={[
             { name: t('ui.attribute.name'), info: getFullName(user) },
@@ -36,8 +33,7 @@ class MyInfoSubSection extends Component {
             href="https://sparcssso.kaist.ac.kr/"
             className={classNames('text-button')}
             target="_blank"
-            rel="noopener noreferrer"
-          >
+            rel="noopener noreferrer">
             SPARCS SSO
           </a>
           {t('ui.message.myInfoCaptionTail')}
@@ -51,16 +47,10 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 MyInfoSubSection.propTypes = {
   user: userShape,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    MyInfoSubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(MyInfoSubSection));

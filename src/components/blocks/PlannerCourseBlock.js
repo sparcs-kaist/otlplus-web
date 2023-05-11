@@ -7,27 +7,30 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import courseShape from '../../shapes/model/subject/CourseShape';
 import { arbitraryPseudoCourseShape } from '../../shapes/state/planner/ItemFocusShape';
 
-
 const PlannerCourseBlock = ({
   t,
   course,
-  isRaised, isDimmed, isAdded,
-  onMouseOver, onMouseOut, onClick,
+  isRaised,
+  isDimmed,
+  isAdded,
+  onMouseOver,
+  onMouseOut,
+  onClick,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
-      onMouseOver(course);
-    }
+        onMouseOver(course);
+      }
     : null;
   const handleMouseOut = onMouseOut
     ? (event) => {
-      onMouseOut(course);
-    }
+        onMouseOut(course);
+      }
     : null;
   const handleClick = onClick
     ? (event) => {
-      onClick(course);
-    }
+        onClick(course);
+      }
     : null;
 
   return (
@@ -35,22 +38,19 @@ const PlannerCourseBlock = ({
       className={classNames(
         'block',
         'block--planner-course',
-        (onClick ? 'block--clickable' : null),
-        (isRaised ? 'block--raised' : null),
-        (isDimmed ? 'block--dimmed' : null),
-        (isAdded ? 'block--completed' : null),
+        onClick ? 'block--clickable' : null,
+        isRaised ? 'block--raised' : null,
+        isDimmed ? 'block--dimmed' : null,
+        isAdded ? 'block--completed' : null,
       )}
       onClick={handleClick}
       onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
+      onMouseOut={handleMouseOut}>
       <div className={classNames('block__completed-text')}>{t('ui.others.added')}</div>
       <div className={classNames('block--planner-course__title')}>
-        { course[t('js.property.title')] }
+        {course[t('js.property.title')]}
       </div>
-      <div className={classNames('block--planner-course__subtitle')}>
-        { course.old_code }
-      </div>
+      <div className={classNames('block--planner-course__subtitle')}>{course.old_code}</div>
     </div>
   );
 };
@@ -65,9 +65,4 @@ PlannerCourseBlock.propTypes = {
   onClick: PropTypes.func,
 };
 
-
-export default withTranslation()(
-  React.memo(
-    PlannerCourseBlock
-  )
-);
+export default withTranslation()(React.memo(PlannerCourseBlock));

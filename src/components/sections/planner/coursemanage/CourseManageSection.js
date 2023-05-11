@@ -23,7 +23,6 @@ import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import CourseAddSubSection from './CourseAddSubSection';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
-
 class CourseManageSection extends Component {
   constructor(props) {
     super(props);
@@ -33,21 +32,17 @@ class CourseManageSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      selectedListCode, selectedPlanner, itemFocus,
-      clearItemFocusDispatch,
-    } = this.props;
+    const { selectedListCode, selectedPlanner, itemFocus, clearItemFocusDispatch } = this.props;
 
-    if (itemFocus.from === ItemFocusFrom.LIST
-      && prevProps.selectedListCode !== selectedListCode) {
+    if (itemFocus.from === ItemFocusFrom.LIST && prevProps.selectedListCode !== selectedListCode) {
       clearItemFocusDispatch();
     }
-    if ((
-      itemFocus.from === ItemFocusFrom.TABLE_TAKEN
-        || itemFocus.from === ItemFocusFrom.TABLE_FUTURE
-        || itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY
-    )
-      && prevProps.selectedPlanner.id !== selectedPlanner.id) {
+    if (
+      (itemFocus.from === ItemFocusFrom.TABLE_TAKEN ||
+        itemFocus.from === ItemFocusFrom.TABLE_FUTURE ||
+        itemFocus.from === ItemFocusFrom.TABLE_ARBITRARY) &&
+      prevProps.selectedPlanner.id !== selectedPlanner.id
+    ) {
       clearItemFocusDispatch();
     }
 
@@ -55,13 +50,15 @@ class CourseManageSection extends Component {
       this._fetchLectures();
       this._fetchReviews();
     }
-    if (prevProps.itemFocus.clicked && itemFocus.clicked
-      && (prevProps.itemFocus.course?.id !== itemFocus.course?.id)) {
+    if (
+      prevProps.itemFocus.clicked &&
+      itemFocus.clicked &&
+      prevProps.itemFocus.course?.id !== itemFocus.course?.id
+    ) {
       this._fetchLectures();
       this._fetchReviews();
     }
   }
-
 
   _fetchLectures = () => {
     const { itemFocus, setLecturesDispatch } = this.props;
@@ -70,9 +67,8 @@ class CourseManageSection extends Component {
       return;
     }
 
-    axios.get(
-      `/api/courses/${itemFocus.course.id}/lectures`,
-      {
+    axios
+      .get(`/api/courses/${itemFocus.course.id}/lectures`, {
         params: {
           order: ['year', 'semester', 'class_no'],
         },
@@ -80,18 +76,15 @@ class CourseManageSection extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET Lectures / Instance',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
         if (newProps.itemFocus.course.id === itemFocus.course.id) {
           setLecturesDispatch(response.data);
         }
       })
-      .catch((error) => {
-      });
-  }
-
+      .catch((error) => {});
+  };
 
   _fetchReviews = () => {
     const LIMIT = 100;
@@ -102,9 +95,8 @@ class CourseManageSection extends Component {
       return;
     }
 
-    axios.get(
-      `/api/courses/${itemFocus.course.id}/reviews`,
-      {
+    axios
+      .get(`/api/courses/${itemFocus.course.id}/reviews`, {
         params: {
           order: ['-lecture__year', '-lecture__semester', '-written_datetime', '-id'],
           limit: LIMIT,
@@ -113,8 +105,7 @@ class CourseManageSection extends Component {
           gaCategory: 'Course',
           gaVariable: 'GET Reviews / Instance',
         },
-      },
-    )
+      })
       .then((response) => {
         const newProps = this.props;
         if (newProps.itemFocus.course.id !== itemFocus.course.id) {
@@ -125,80 +116,68 @@ class CourseManageSection extends Component {
         }
         setReviewsDispatch(response.data);
       })
-      .catch((error) => {
-      });
-  }
-
+      .catch((error) => {});
+  };
 
   unfix = () => {
     const { clearItemFocusDispatch } = this.props;
     clearItemFocusDispatch();
-  }
-
+  };
 
   render() {
     const { t, itemFocus } = this.props;
 
-    const sectionContent = itemFocus.course
-      ? (
-        <>
-          <div className={classNames('subsection', 'subsection--course-manage-left')}>
-            <div className={classNames('subsection', 'subsection--flex')}>
-              <CloseButton onClick={this.unfix} />
-              <div className={classNames('detail-title-area')}>
-                <div className={classNames('title')}>
-                  {itemFocus.course[t('js.property.title')]}
-                </div>
-                <div className={classNames('subtitle')}>
-                  {itemFocus.course.old_code}
-                </div>
-                <div className={classNames('buttons')}>
-                  <Link
-                    className={classNames(
-                      'text-button',
-                      'text-button--right',
-                      itemFocus.course.isArbitrary ? 'text-button--disabled' : ''
-                    )}
-                    to={{
-                      pathname: '/dictionary',
-                      search: qs.stringify({ startCourseId: itemFocus.course.id }),
-                    }}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t('ui.button.dictionary')}
-                  </Link>
-                </div>
+    const sectionContent = itemFocus.course ? (
+      <>
+        <div className={classNames('subsection', 'subsection--course-manage-left')}>
+          <div className={classNames('subsection', 'subsection--flex')}>
+            <CloseButton onClick={this.unfix} />
+            <div className={classNames('detail-title-area')}>
+              <div className={classNames('title')}>{itemFocus.course[t('js.property.title')]}</div>
+              <div className={classNames('subtitle')}>{itemFocus.course.old_code}</div>
+              <div className={classNames('buttons')}>
+                <Link
+                  className={classNames(
+                    'text-button',
+                    'text-button--right',
+                    itemFocus.course.isArbitrary ? 'text-button--disabled' : '',
+                  )}
+                  to={{
+                    pathname: '/dictionary',
+                    search: qs.stringify({ startCourseId: itemFocus.course.id }),
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  {t('ui.button.dictionary')}
+                </Link>
               </div>
-              {
-                !itemFocus.course.isArbitrary && (
-                  <Scroller key={itemFocus.course.id}>
-                    <CourseInfoSubSection />
-                    <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-                    <CourseReviewsSubSection />
-                  </Scroller>
-                )
-              }
             </div>
+            {!itemFocus.course.isArbitrary && (
+              <Scroller key={itemFocus.course.id}>
+                <CourseInfoSubSection />
+                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                <CourseReviewsSubSection />
+              </Scroller>
+            )}
           </div>
-          <Divider
-            orientation={{
-              desktop: Divider.Orientation.VERTICAL,
-              mobile: Divider.Orientation.HORIZONTAL,
-            }}
-            isVisible={true}
-            gridArea="divider-main"
-          />
-          {
-            itemFocus.from === ItemFocusFrom.LIST
-              ? <CourseAddSubSection />
-              : <CourseCustomizeSubSection key={`${itemFocus.item.item_type}:${itemFocus.item.id}`} />
-          }
-        </>
-      )
-      : (
-        <OtlplusPlaceholder />
-      );
+        </div>
+        <Divider
+          orientation={{
+            desktop: Divider.Orientation.VERTICAL,
+            mobile: Divider.Orientation.HORIZONTAL,
+          }}
+          isVisible={true}
+          gridArea="divider-main"
+        />
+        {itemFocus.from === ItemFocusFrom.LIST ? (
+          <CourseAddSubSection />
+        ) : (
+          <CourseCustomizeSubSection key={`${itemFocus.item.item_type}:${itemFocus.item.id}`} />
+        )}
+      </>
+    ) : (
+      <OtlplusPlaceholder />
+    );
     return (
       <div className={classNames('section', 'section--course-manage', 'mobile-hidden')}>
         {sectionContent}
@@ -235,8 +214,4 @@ CourseManageSection.propTypes = {
   setReviewsDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseManageSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseManageSection));

@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { withTranslation } from 'react-i18next';
-import {
-  range, sortBy, sum, sumBy,
-} from 'lodash';
+import { range, sortBy, sum, sumBy } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
@@ -21,15 +19,14 @@ import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 import {
   getCourseOfItem,
-  getCreditOfItem, getAuOfItem, getCreditAndAuOfItem,
+  getCreditOfItem,
+  getAuOfItem,
+  getCreditAndAuOfItem,
 } from '../../../../utils/itemUtils';
 import { getCategoryOfItem, getColorOfItem } from '../../../../utils/itemCategoryUtils';
-import {
-  isDimmedItem, isFocusedItem, isTableClickedItem,
-} from '../../../../utils/itemFocusUtils';
+import { isDimmedItem, isFocusedItem, isTableClickedItem } from '../../../../utils/itemFocusUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 import { getSemesterName } from '../../../../utils/semesterUtils';
-
 
 class PlannerSubSection extends Component {
   componentDidMount() {
@@ -52,33 +49,33 @@ class PlannerSubSection extends Component {
 
     return sortBy(
       [
-        ...planner.taken_items.filter((i) => (
-          i.lecture.year === year && i.lecture.semester === semester
-        )),
-        ...planner.future_items.filter((i) => (
-          i.year === year && i.semester === semester
-        )),
-        ...planner.arbitrary_items.filter((i) => (
-          i.year === year && i.semester === semester
-        )),
+        ...planner.taken_items.filter(
+          (i) => i.lecture.year === year && i.lecture.semester === semester,
+        ),
+        ...planner.future_items.filter((i) => i.year === year && i.semester === semester),
+        ...planner.arbitrary_items.filter((i) => i.year === year && i.semester === semester),
       ],
       (i) => {
         const category = getCategoryOfItem(planner, i);
-        return i.is_excluded ? (100 ** 4) : 0
-        + category[0] * (100 ** 3)
-        + category[1] * (100 ** 2)
-        + category[2] * 100
-        + (100 - getCreditAndAuOfItem(i));
-      }
+        return i.is_excluded
+          ? 100 ** 4
+          : 0 +
+              category[0] * 100 ** 3 +
+              category[1] * 100 ** 2 +
+              category[2] * 100 +
+              (100 - getCreditAndAuOfItem(i));
+      },
     );
-  }
+  };
 
   resize = () => {
     const { updateCellSizeDispatch } = this.props;
 
-    const cell = document.getElementsByClassName(classNames('subsection--planner__table__body__cell'))[0].getBoundingClientRect();
+    const cell = document
+      .getElementsByClassName(classNames('subsection--planner__table__body__cell'))[0]
+      .getBoundingClientRect();
     updateCellSizeDispatch(cell.width, cell.height + 1);
-  }
+  };
 
   _getFromOfItem = (item) => {
     if (item.item_type === 'TAKEN') {
@@ -91,11 +88,11 @@ class PlannerSubSection extends Component {
       return ItemFocusFrom.TABLE_ARBITRARY;
     }
     return '';
-  }
+  };
 
   _getTileSizeOfItem = (item) => {
     return getCreditAndAuOfItem(item);
-  }
+  };
 
   focusItemWithHover = (item) => {
     const { itemFocus, isDragging, setItemFocusDispatch } = this.props;
@@ -103,7 +100,7 @@ class PlannerSubSection extends Component {
     if (!itemFocus.clicked && !isDragging) {
       setItemFocusDispatch(item, getCourseOfItem(item), this._getFromOfItem(item), false);
     }
-  }
+  };
 
   unfocusItemWithHover = (item) => {
     const { itemFocus, clearItemFocusDispatch } = this.props;
@@ -111,24 +108,21 @@ class PlannerSubSection extends Component {
     if (!itemFocus.clicked) {
       clearItemFocusDispatch();
     }
-  }
+  };
 
   focusItemWithClick = (item) => {
     const { itemFocus, setItemFocusDispatch } = this.props;
 
     if (isTableClickedItem(item, itemFocus)) {
       setItemFocusDispatch(item, getCourseOfItem(item), this._getFromOfItem(item), false);
-    }
-    else {
+    } else {
       setItemFocusDispatch(item, getCourseOfItem(item), this._getFromOfItem(item), true);
     }
-  }
+  };
 
   deleteItemFromPlanner = (item) => {
-    const {
-      selectedPlanner, user,
-      removeItemFromPlannerDispatch, clearItemFocusDispatch,
-    } = this.props;
+    const { selectedPlanner, user, removeItemFromPlannerDispatch, clearItemFocusDispatch } =
+      this.props;
 
     if (!selectedPlanner) {
       return;
@@ -137,21 +131,21 @@ class PlannerSubSection extends Component {
     if (!user) {
       removeItemFromPlannerDispatch(item);
       clearItemFocusDispatch();
-    }
-    else {
-      axios.post(
-        `/api/users/${user.id}/planners/${selectedPlanner.id}/remove-item`,
-        {
-          item: item.id,
-          item_type: item.item_type,
-        },
-        {
-          metadata: {
-            gaCategory: 'Planner',
-            gaVariable: 'POST Update / Instance',
+    } else {
+      axios
+        .post(
+          `/api/users/${user.id}/planners/${selectedPlanner.id}/remove-item`,
+          {
+            item: item.id,
+            item_type: item.item_type,
           },
-        },
-      )
+          {
+            metadata: {
+              gaCategory: 'Planner',
+              gaVariable: 'POST Update / Instance',
+            },
+          },
+        )
         .then((response) => {
           const newProps = this.props;
           if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
@@ -160,69 +154,67 @@ class PlannerSubSection extends Component {
           removeItemFromPlannerDispatch(item);
           clearItemFocusDispatch();
         })
-        .catch((error) => {
-        });
+        .catch((error) => {});
     }
-  }
+  };
 
   render() {
     const {
       t,
-      selectedPlanner, itemFocus,
-      cellWidth, cellHeight,
+      selectedPlanner,
+      itemFocus,
+      cellWidth,
+      cellHeight,
       // mobileIsLectureListOpen,
     } = this.props;
 
     const mobileIsLectureListOpen = false;
 
-    const currentYear = (new Date()).getFullYear();
+    const currentYear = new Date().getFullYear();
     const plannerStartYear = selectedPlanner ? selectedPlanner.start_year : currentYear;
     const plannerEndYear = selectedPlanner ? selectedPlanner.end_year : currentYear + 3;
     const plannerYears = range(plannerStartYear, plannerEndYear + 1);
 
     const tableSize = Math.max(
-      ...plannerYears.map((y) => (
-        [1, 3].map((s) => {
-          const regularItems = this._getItemsForSemester(selectedPlanner, y, s);
-          const seasonalItems = this._getItemsForSemester(selectedPlanner, y, s + 1);
-          const requiredSize = (
-            sumBy(regularItems, (i) => this._getTileSizeOfItem(i))
-            + sumBy(seasonalItems, (i) => this._getTileSizeOfItem(i))
-          );
-          return Math.floor(requiredSize / 3) * 3;
-        })
-      )).flat(),
+      ...plannerYears
+        .map((y) =>
+          [1, 3].map((s) => {
+            const regularItems = this._getItemsForSemester(selectedPlanner, y, s);
+            const seasonalItems = this._getItemsForSemester(selectedPlanner, y, s + 1);
+            const requiredSize =
+              sumBy(regularItems, (i) => this._getTileSizeOfItem(i)) +
+              sumBy(seasonalItems, (i) => this._getTileSizeOfItem(i));
+            return Math.floor(requiredSize / 3) * 3;
+          }),
+        )
+        .flat(),
       PLANNER_DEFAULT_CREDIT,
     );
     const hasSummerSemester = plannerYears
       .map((y) => this._getItemsForSemester(selectedPlanner, y, 2).length)
-      .some((l) => (l > 0));
+      .some((l) => l > 0);
     const hasWinterSemester = plannerYears
       .map((y) => this._getItemsForSemester(selectedPlanner, y, 4).length)
-      .some((l) => (l > 0));
+      .some((l) => l > 0);
 
     const getTitleForSemester = (year, semester) => {
       const items = this._getItemsForSemester(selectedPlanner, year, semester);
       const credit = sumBy(items, (i) => getCreditOfItem(i));
       const au = sumBy(items, (i) => getAuOfItem(i));
 
-      if ((semester % 2 === 0) && (credit === 0) && (au === 0)) {
+      if (semester % 2 === 0 && credit === 0 && au === 0) {
         return null;
       }
 
       return (
         <>
+          <span>{`${year} ${getSemesterName(semester)}`}</span>
           <span>
-            {
-              `${year} ${getSemesterName(semester)}`
-            }
-          </span>
-          <span>
-            {
-              au === 0
-                ? `${t('ui.others.creditCount', { count: credit })}`
-                : `${t('ui.others.creditCount', { count: credit })} ${t('ui.others.auCount', { count: au })}`
-            }
+            {au === 0
+              ? `${t('ui.others.creditCount', { count: credit })}`
+              : `${t('ui.others.creditCount', { count: credit })} ${t('ui.others.auCount', {
+                  count: au,
+                })}`}
           </span>
         </>
       );
@@ -232,53 +224,103 @@ class PlannerSubSection extends Component {
     const getHeadColumn = () => {
       const springArea = [
         hasSummerSemester && (
-          <div className={classNames('subsection--planner__table__label__toptitle')} key="title:summer" />
+          <div
+            className={classNames('subsection--planner__table__label__toptitle')}
+            key="title:summer"
+          />
         ),
-        <div className={classNames('subsection--planner__table__label__toptitle')} key="title:spring" />,
-        <div className={classNames('subsection--planner__table__label__line')} key={`line:${tableSize}`}>
+        <div
+          className={classNames('subsection--planner__table__label__toptitle')}
+          key="title:spring"
+        />,
+        <div
+          className={classNames('subsection--planner__table__label__line')}
+          key={`line:${tableSize}`}>
           <strong>{tableSize}</strong>
         </div>,
-        ...(
-          // eslint-disable-next-line fp/no-mutating-methods
-          plannerCreditunits.slice().reverse().map((c) => {
-            const CreditTag = ((3 * c) % 12 === 0 && c !== 0) ? 'strong' : 'span';
+        ...// eslint-disable-next-line fp/no-mutating-methods
+        plannerCreditunits
+          .slice()
+          .reverse()
+          .map((c) => {
+            const CreditTag = (3 * c) % 12 === 0 && c !== 0 ? 'strong' : 'span';
             return [
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 3}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 2}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 2}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c}`}>
+              <div
+                className={classNames('subsection--planner__table__label__cell')}
+                key={`cell:${3 * c + 3}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__line')}
+                key={`line:${3 * c + 2}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__cell')}
+                key={`cell:${3 * c + 2}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__line')}
+                key={`line:${3 * c + 1}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__cell')}
+                key={`cell:${3 * c + 1}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__line')}
+                key={`line:${3 * c}`}>
                 <CreditTag>{3 * c}</CreditTag>
               </div>,
             ];
           })
-            .flat(1)
-        ),
+          .flat(1),
       ];
       const fallArea = [
-        ...(
-          plannerCreditunits.map((c) => {
-            const CreditTag = ((3 * c) % 12 === 0 && c !== 0) ? 'strong' : 'span';
+        ...plannerCreditunits
+          .map((c) => {
+            const CreditTag = (3 * c) % 12 === 0 && c !== 0 ? 'strong' : 'span';
             return [
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c}`}>
+              <div
+                className={classNames('subsection--planner__table__label__line')}
+                key={`line:${3 * c}`}>
                 <CreditTag>{3 * c}</CreditTag>
               </div>,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 1}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 2}`} />,
-              <div className={classNames('subsection--planner__table__label__line')} key={`line:${3 * c + 2}`} />,
-              <div className={classNames('subsection--planner__table__label__cell')} key={`cell:${3 * c + 3}`} />,
+              <div
+                className={classNames('subsection--planner__table__label__cell')}
+                key={`cell:${3 * c + 1}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__line')}
+                key={`line:${3 * c + 1}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__cell')}
+                key={`cell:${3 * c + 2}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__line')}
+                key={`line:${3 * c + 2}`}
+              />,
+              <div
+                className={classNames('subsection--planner__table__label__cell')}
+                key={`cell:${3 * c + 3}`}
+              />,
             ];
           })
-            .flat(1)
-        ),
-        <div className={classNames('subsection--planner__table__label__line')} key={`line:${tableSize}`}>
+          .flat(1),
+        <div
+          className={classNames('subsection--planner__table__label__line')}
+          key={`line:${tableSize}`}>
           <strong>{tableSize}</strong>
         </div>,
-        <div className={classNames('subsection--planner__table__label__bottomtitle')} key="title:fall" />,
+        <div
+          className={classNames('subsection--planner__table__label__bottomtitle')}
+          key="title:fall"
+        />,
         hasWinterSemester && (
-          <div className={classNames('subsection--planner__table__label__bottomtitle')} key="title:winter" />
+          <div
+            className={classNames('subsection--planner__table__label__bottomtitle')}
+            key="title:winter"
+          />
         ),
       ];
       return (
@@ -294,12 +336,16 @@ class PlannerSubSection extends Component {
     const getYearColumn = (year) => {
       const springArea = [
         hasSummerSemester && (
-          <div className={classNames('subsection--planner__table__body__toptitle')} key="title:summer">
-            { getTitleForSemester(year, 2) }
+          <div
+            className={classNames('subsection--planner__table__body__toptitle')}
+            key="title:summer">
+            {getTitleForSemester(year, 2)}
           </div>
         ),
-        <div className={classNames('subsection--planner__table__body__toptitle')} key="title:spring">
-          { getTitleForSemester(year, 1) }
+        <div
+          className={classNames('subsection--planner__table__body__toptitle')}
+          key="title:spring">
+          {getTitleForSemester(year, 1)}
         </div>,
         <div
           className={classNames(
@@ -308,105 +354,105 @@ class PlannerSubSection extends Component {
           )}
           key={`line:${tableSize}`}
         />,
-        ...(
-          // eslint-disable-next-line fp/no-mutating-methods
-          plannerCreditunits.slice().reverse().map((c) => {
+        ...// eslint-disable-next-line fp/no-mutating-methods
+        plannerCreditunits
+          .slice()
+          .reverse()
+          .map((c) => {
             return [
               <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                )}
+                className={classNames('subsection--planner__table__body__cell')}
                 key={`cell:${3 * c + 3}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
+                  mobileIsLectureListOpen
+                    ? 'subsection--planner__table__body__line--mobile-noline'
+                    : null,
                 )}
                 key={`line:${3 * c + 2}`}
               />,
               <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                )}
+                className={classNames('subsection--planner__table__body__cell')}
                 key={`cell:${3 * c + 2}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
+                  mobileIsLectureListOpen
+                    ? 'subsection--planner__table__body__line--mobile-noline'
+                    : null,
                 )}
                 key={`line:${3 * c + 1}`}
               />,
               <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                )}
+                className={classNames('subsection--planner__table__body__cell')}
                 key={`cell:${3 * c + 1}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
-                  ((3 * c) % 12 === 0 && c !== 0) ? 'subsection--planner__table__body__line--bold' : null,
+                  (3 * c) % 12 === 0 && c !== 0
+                    ? 'subsection--planner__table__body__line--bold'
+                    : null,
                 )}
                 key={`line:${3 * c}`}
               />,
             ];
           })
-            .flat(1)
-        ),
+          .flat(1),
       ];
       const fallArea = [
-        ...(
-          plannerCreditunits.map((c) => {
+        ...plannerCreditunits
+          .map((c) => {
             return [
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
-                  ((3 * c) % 12 === 0 && c !== 0) ? 'subsection--planner__table__body__line--bold' : null,
+                  (3 * c) % 12 === 0 && c !== 0
+                    ? 'subsection--planner__table__body__line--bold'
+                    : null,
                 )}
                 key={`line:${3 * c}`}
               />,
               <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                )}
+                className={classNames('subsection--planner__table__body__cell')}
                 key={`cell:${3 * c + 1}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
+                  mobileIsLectureListOpen
+                    ? 'subsection--planner__table__body__line--mobile-noline'
+                    : null,
                 )}
                 key={`line:${3 * c + 1}`}
               />,
               <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                )}
+                className={classNames('subsection--planner__table__body__cell')}
                 key={`cell:${3 * c + 2}`}
               />,
               <div
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  (mobileIsLectureListOpen ? 'subsection--planner__table__body__line--mobile-noline' : null),
+                  mobileIsLectureListOpen
+                    ? 'subsection--planner__table__body__line--mobile-noline'
+                    : null,
                 )}
                 key={`line:${3 * c + 2}`}
               />,
               <div
-                className={classNames(
-                  'subsection--planner__table__body__cell',
-                )}
+                className={classNames('subsection--planner__table__body__cell')}
                 key={`cell:${3 * c + 3}`}
               />,
             ];
           })
-            .flat(1)
-        ),
+          .flat(1),
         <div
           className={classNames(
             'subsection--planner__table__body__line',
@@ -414,12 +460,16 @@ class PlannerSubSection extends Component {
           )}
           key={`line:${tableSize}`}
         />,
-        <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:fall">
-          { getTitleForSemester(year, 3) }
+        <div
+          className={classNames('subsection--planner__table__body__bottomtitle')}
+          key="title:fall">
+          {getTitleForSemester(year, 3)}
         </div>,
         hasWinterSemester && (
-          <div className={classNames('subsection--planner__table__body__bottomtitle')} key="title:winter">
-            { getTitleForSemester(year, 4) }
+          <div
+            className={classNames('subsection--planner__table__body__bottomtitle')}
+            key="title:winter">
+            {getTitleForSemester(year, 4)}
           </div>
         ),
       ];
@@ -439,11 +489,9 @@ class PlannerSubSection extends Component {
     const getTiles = (year, semester, shouldIncludeSeasonal) => {
       const items = [
         ...this._getItemsForSemester(selectedPlanner, year, semester),
-        ...(
-          shouldIncludeSeasonal
-            ? this._getItemsForSemester(selectedPlanner, year, semester + 1)
-            : []
-        ),
+        ...(shouldIncludeSeasonal
+          ? this._getItemsForSemester(selectedPlanner, year, semester + 1)
+          : []),
       ];
       const sizes = items.map((i) => this._getTileSizeOfItem(i));
       return items.map((i, index) => (
@@ -476,18 +524,8 @@ class PlannerSubSection extends Component {
       <div className={classNames('subsection', 'subsection--planner')}>
         <div className={classNames('subsection--planner__table')}>
           {getHeadColumn()}
-          {
-            plannerYears.map((y) => (
-              getYearColumn(y)
-            ))
-          }
-          {
-            plannerYears.map((y) => (
-              [1, 3].map((s) => (
-                getTiles(y, s, true)
-              ))
-            ))
-          }
+          {plannerYears.map((y) => getYearColumn(y))}
+          {plannerYears.map((y) => [1, 3].map((s) => getTiles(y, s, true)))}
         </div>
       </div>
     );
@@ -534,9 +572,4 @@ PlannerSubSection.propTypes = {
   removeItemFromPlannerDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    PlannerSubSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(PlannerSubSection));

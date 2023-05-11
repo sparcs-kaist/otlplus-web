@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 
 import lectureShape from '../subject/LectureShape';
 
-
 export const myPseudoTimetableShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   lectures: PropTypes.arrayOf(lectureShape).isRequired,

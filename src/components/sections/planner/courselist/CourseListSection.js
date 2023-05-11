@@ -13,12 +13,13 @@ import CourseSearchSubSection from './CourseSearchSubSection';
 import PlannerCourseBlock from '../../../blocks/PlannerCourseBlock';
 
 import {
-  getTitleOfArbitrary, getTitleEnOfArbitrary, getOldCodeOfArbitrary, getIdOfArbitrary,
+  getTitleOfArbitrary,
+  getTitleEnOfArbitrary,
+  getOldCodeOfArbitrary,
+  getIdOfArbitrary,
   isAddedCourse,
 } from '../../../../utils/itemUtils';
-import {
-  isDimmedListCourse, isClickedListCourse,
-} from '../../../../utils/itemFocusUtils';
+import { isDimmedListCourse, isClickedListCourse } from '../../../../utils/itemFocusUtils';
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
@@ -29,16 +30,19 @@ import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import courseLastSearchOptionShape from '../../../../shapes/state/dictionary/CourseLastSearchOptionShape';
 
 import {
-  getLabelOfValue, getDepartmentOptions, getTypeOptions, getLevelOptions, getTermOptions,
+  getLabelOfValue,
+  getDepartmentOptions,
+  getTypeOptions,
+  getLevelOptions,
+  getTermOptions,
 } from '../../../../common/searchOptions';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
-
 
 class CourseListSection extends Component {
   showSearch = () => {
     const { openSearchDispatch } = this.props;
     openSearchDispatch();
-  }
+  };
 
   focusCourseWithHover = (course) => {
     const { itemFocus, setItemFocusDispatch } = this.props;
@@ -47,7 +51,7 @@ class CourseListSection extends Component {
       return;
     }
     setItemFocusDispatch(null, course, ItemFocusFrom.LIST, false);
-  }
+  };
 
   unfocusCourseWithHover = (course) => {
     const { itemFocus, clearItemFocusDispatch } = this.props;
@@ -56,13 +60,11 @@ class CourseListSection extends Component {
       return;
     }
     clearItemFocusDispatch();
-  }
+  };
 
   focusCourseWithClick = (course) => {
-    const {
-      itemFocus, selectedListCode,
-      setItemFocusDispatch, clearItemFocusDispatch,
-    } = this.props;
+    const { itemFocus, selectedListCode, setItemFocusDispatch, clearItemFocusDispatch } =
+      this.props;
 
     if (!isClickedListCourse(course, itemFocus)) {
       setItemFocusDispatch(null, course, ItemFocusFrom.LIST, true);
@@ -76,10 +78,11 @@ class CourseListSection extends Component {
       ReactGA.event({
         category: 'Dictionary - Selection',
         action: 'Selected Course',
-        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
+        label: `Course : ${course.id} / From : Course List : ${
+          labelOfTabs.get(selectedListCode) || selectedListCode
+        }`,
       });
-    }
-    else {
+    } else {
       clearItemFocusDispatch();
 
       const labelOfTabs = new Map([
@@ -91,11 +94,12 @@ class CourseListSection extends Component {
       ReactGA.event({
         category: 'Dictionary - Selection',
         action: 'Unselected Course',
-        label: `Course : ${course.id} / From : Course List : ${labelOfTabs.get(selectedListCode) || selectedListCode}`,
+        label: `Course : ${course.id} / From : Course List : ${
+          labelOfTabs.get(selectedListCode) || selectedListCode
+        }`,
       });
     }
-  }
-
+  };
 
   _getArbitraryCourses = () => {
     const { user, selectedListCode } = this.props;
@@ -117,7 +121,7 @@ class CourseListSection extends Component {
       ];
     }
 
-    const matchingDepartment = user?.departments?.find((d) => (selectedListCode === d.code));
+    const matchingDepartment = user?.departments?.find((d) => selectedListCode === d.code);
     if (matchingDepartment) {
       return [
         {
@@ -148,28 +152,21 @@ class CourseListSection extends Component {
     }
 
     return [];
-  }
-
+  };
 
   _getCourses = (selectedListCode) => {
-    const {
-      lists,
-    } = this.props;
+    const { lists } = this.props;
 
     if (!lists[selectedListCode]) {
       return null;
     }
     return lists[selectedListCode].courses;
-  }
-
+  };
 
   render() {
     const { t } = this.props;
-    const {
-      user,
-      itemFocus, selectedListCode, selectedPlanner,
-      searchOpen, lastSearchOption,
-    } = this.props;
+    const { user, itemFocus, selectedListCode, selectedPlanner, searchOpen, lastSearchOption } =
+      this.props;
 
     const getListTitle = () => {
       if (selectedListCode === CourseListCode.SEARCH) {
@@ -195,7 +192,9 @@ class CourseListSection extends Component {
           .flat(1)
           .join(', ');
         return (
-          <div className={classNames('list-title', 'list-title--search')} onClick={() => this.showSearch()}>
+          <div
+            className={classNames('list-title', 'list-title--search')}
+            onClick={() => this.showSearch()}>
             <i className={classNames('icon', 'icon--search')} />
             <span>{t('ui.tab.search')}</span>
             <span>{lastSearchOptionText.length > 0 ? `:${lastSearchOptionText}` : ''}</span>
@@ -203,33 +202,21 @@ class CourseListSection extends Component {
         );
       }
       if (selectedListCode === CourseListCode.BASIC) {
-        return (
-          <div className={classNames('list-title')}>
-            {t('ui.tab.basic')}
-          </div>
-        );
+        return <div className={classNames('list-title')}>{t('ui.tab.basic')}</div>;
       }
-      if (user && user.departments.some((d) => (selectedListCode === d.code))) {
-        const department = user.departments.find((d) => (selectedListCode === d.code));
+      if (user && user.departments.some((d) => selectedListCode === d.code)) {
+        const department = user.departments.find((d) => selectedListCode === d.code);
         return (
-          <div className={classNames('list-title')}>
-            {`${department[t('js.property.name')]} ${t('ui.tab.major')}`}
-          </div>
+          <div className={classNames('list-title')}>{`${department[t('js.property.name')]} ${t(
+            'ui.tab.major',
+          )}`}</div>
         );
       }
       if (selectedListCode === CourseListCode.HUMANITY) {
-        return (
-          <div className={classNames('list-title')}>
-            {t('ui.tab.humanity')}
-          </div>
-        );
+        return <div className={classNames('list-title')}>{t('ui.tab.humanity')}</div>;
       }
       if (selectedListCode === CourseListCode.TAKEN) {
-        return (
-          <div className={classNames('list-title')}>
-            {t('ui.tab.taken')}
-          </div>
-        );
+        return <div className={classNames('list-title')}>{t('ui.tab.taken')}</div>;
       }
       return null;
     };
@@ -237,45 +224,46 @@ class CourseListSection extends Component {
     const getListElement = () => {
       const courses = this._getCourses(selectedListCode);
       if (!courses) {
-        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.loading')}</div></div>;
+        return (
+          <div className={classNames('list-placeholder')}>
+            <div>{t('ui.placeholder.loading')}</div>
+          </div>
+        );
       }
       if (courses.length === 0) {
-        return <div className={classNames('list-placeholder')}><div>{t('ui.placeholder.noResults')}</div></div>;
+        return (
+          <div className={classNames('list-placeholder')}>
+            <div>{t('ui.placeholder.noResults')}</div>
+          </div>
+        );
       }
       return (
         <Scroller key={selectedListCode}>
-          <div className={classNames(
-            'block-list',
-          )}
-          >
-            {
-              this._getArbitraryCourses(selectedListCode).map((c) => (
-                <PlannerCourseBlock
-                  course={c}
-                  key={c.id}
-                  isRaised={isClickedListCourse(c, itemFocus)}
-                  isDimmed={isDimmedListCourse(c, itemFocus)}
-                  isAdded={false}
-                  onMouseOver={this.focusCourseWithHover}
-                  onMouseOut={this.unfocusCourseWithHover}
-                  onClick={this.focusCourseWithClick}
-                />
-              ))
-            }
-            {
-              courses.map((c) => (
-                <PlannerCourseBlock
-                  course={c}
-                  key={c.id}
-                  isRaised={isClickedListCourse(c, itemFocus)}
-                  isDimmed={isDimmedListCourse(c, itemFocus)}
-                  isAdded={isAddedCourse(c, selectedPlanner)}
-                  onMouseOver={this.focusCourseWithHover}
-                  onMouseOut={this.unfocusCourseWithHover}
-                  onClick={this.focusCourseWithClick}
-                />
-              ))
-            }
+          <div className={classNames('block-list')}>
+            {this._getArbitraryCourses(selectedListCode).map((c) => (
+              <PlannerCourseBlock
+                course={c}
+                key={c.id}
+                isRaised={isClickedListCourse(c, itemFocus)}
+                isDimmed={isDimmedListCourse(c, itemFocus)}
+                isAdded={false}
+                onMouseOver={this.focusCourseWithHover}
+                onMouseOut={this.unfocusCourseWithHover}
+                onClick={this.focusCourseWithClick}
+              />
+            ))}
+            {courses.map((c) => (
+              <PlannerCourseBlock
+                course={c}
+                key={c.id}
+                isRaised={isClickedListCourse(c, itemFocus)}
+                isDimmed={isDimmedListCourse(c, itemFocus)}
+                isAdded={isAddedCourse(c, selectedPlanner)}
+                onMouseOver={this.focusCourseWithHover}
+                onMouseOut={this.unfocusCourseWithHover}
+                onClick={this.focusCourseWithClick}
+              />
+            ))}
           </div>
         </Scroller>
       );
@@ -284,10 +272,7 @@ class CourseListSection extends Component {
     return (
       <div className={classNames('section', 'section--course-list', 'mobile-hidden')}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-list')}>
-          {
-            ((selectedListCode === CourseListCode.SEARCH) && searchOpen)
-              && <CourseSearchSubSection />
-          }
+          {selectedListCode === CourseListCode.SEARCH && searchOpen && <CourseSearchSubSection />}
           {getListTitle()}
           {getListElement()}
         </div>
@@ -332,9 +317,4 @@ CourseListSection.propTypes = {
   clearItemFocusDispatch: PropTypes.func.isRequired,
 };
 
-
-export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseListSection
-  )
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListSection));

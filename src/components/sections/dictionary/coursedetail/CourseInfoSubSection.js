@@ -10,7 +10,6 @@ import { getAverageScoreLabel } from '../../../../utils/scoreUtils';
 import Attributes from '../../../Attributes';
 import Scores from '../../../Scores';
 
-
 class CourseInfoSubSection extends Component {
   render() {
     const { t } = this.props;
@@ -26,7 +25,9 @@ class CourseInfoSubSection extends Component {
           entries={[
             {
               name: t('ui.attribute.classification'),
-              info: `${courseFocus.course.department[t('js.property.name')]}, ${courseFocus.course[t('js.property.type')]}`,
+              info: `${courseFocus.course.department[t('js.property.name')]}, ${
+                courseFocus.course[t('js.property.type')]
+              }`,
             },
             {
               name: t('ui.attribute.description'),
@@ -46,12 +47,11 @@ class CourseInfoSubSection extends Component {
               score: courseFocus.course.num_labs,
             },
             {
-              name: (courseFocus.course.credit === 0)
-                ? t('ui.score.au')
-                : t('ui.score.credit'),
-              score: (courseFocus.course.credit === 0)
-                ? courseFocus.course.credit_au
-                : courseFocus.course.credit,
+              name: courseFocus.course.credit === 0 ? t('ui.score.au') : t('ui.score.credit'),
+              score:
+                courseFocus.course.credit === 0
+                  ? courseFocus.course.credit_au
+                  : courseFocus.course.credit,
             },
           ]}
           big
@@ -73,16 +73,12 @@ const mapStateToProps = (state) => ({
   courseFocus: state.dictionary.courseFocus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 CourseInfoSubSection.propTypes = {
   courseFocus: courseFocusShape.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseInfoSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseInfoSubSection),
 );

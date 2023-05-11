@@ -12,12 +12,9 @@ import { ReviewsFocusFrom } from '../../../../reducers/write-reviews/reviewsFocu
 import userShape from '../../../../shapes/model/session/UserShape';
 import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
 
-
 class ReviewsMenusSubSection extends Component {
   handleMenuClick = (from) => (e) => {
-    const {
-      setReviewsFocusDispatch,
-    } = this.props;
+    const { setReviewsFocusDispatch } = this.props;
 
     setReviewsFocusDispatch(from, null);
 
@@ -26,8 +23,7 @@ class ReviewsMenusSubSection extends Component {
       action: 'Selected List',
       label: `List : ${from}`,
     });
-  }
-
+  };
 
   render() {
     const { t } = this.props;
@@ -39,10 +35,11 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LATEST) ? 'text-button--disabled' : null),
+              reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LATEST
+                ? 'text-button--disabled'
+                : null,
             )}
-            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LATEST)}
-          >
+            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LATEST)}>
             {t('ui.title.latestReviews')}
           </button>
         </div>
@@ -50,10 +47,11 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((reviewsFocus.from === ReviewsFocusFrom.REVIEWS_RANKED) ? 'text-button--disabled' : null),
+              reviewsFocus.from === ReviewsFocusFrom.REVIEWS_RANKED
+                ? 'text-button--disabled'
+                : null,
             )}
-            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_RANKED)}
-          >
+            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_RANKED)}>
             {t('ui.title.rankedReviews')}
           </button>
         </div>
@@ -61,10 +59,11 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_MY)) ? 'text-button--disabled' : null),
+              !user || reviewsFocus.from === ReviewsFocusFrom.REVIEWS_MY
+                ? 'text-button--disabled'
+                : null,
             )}
-            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_MY)}
-          >
+            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_MY)}>
             {t('ui.title.myReviews')}
           </button>
         </div>
@@ -72,10 +71,11 @@ class ReviewsMenusSubSection extends Component {
           <button
             className={classNames(
               'text-button',
-              ((!user || (reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LIKED)) ? 'text-button--disabled' : null),
+              !user || reviewsFocus.from === ReviewsFocusFrom.REVIEWS_LIKED
+                ? 'text-button--disabled'
+                : null,
             )}
-            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LIKED)}
-          >
+            onClick={this.handleMenuClick(ReviewsFocusFrom.REVIEWS_LIKED)}>
             {t('ui.title.likedReviews')}
           </button>
         </div>
@@ -102,9 +102,6 @@ ReviewsMenusSubSection.propTypes = {
   setReviewsFocusDispatch: PropTypes.func.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    ReviewsMenusSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(ReviewsMenusSubSection),
 );

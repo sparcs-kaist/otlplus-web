@@ -4,7 +4,6 @@ import courseShape from '../../model/subject/CourseShape';
 import lectureShape from '../../model/subject/LectureShape';
 import reviewShape from '../../model/review/ReviewShape';
 
-
 const courseFocusShape = PropTypes.oneOfType([
   PropTypes.exact({
     course: PropTypes.oneOf([null]),

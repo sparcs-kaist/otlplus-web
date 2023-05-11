@@ -8,7 +8,10 @@ import { ItemFocusFrom } from '../reducers/planner/itemFocus';
 class CreditBar extends Component {
   render() {
     const {
-      takenCredit, plannedCredit, totalCredit, focusedCredit,
+      takenCredit,
+      plannedCredit,
+      totalCredit,
+      focusedCredit,
       colorIndex,
       isCategoryFocused,
       focusFrom,
@@ -18,62 +21,41 @@ class CreditBar extends Component {
       if (totalCredit === 0) {
         return 100;
       }
-      return credit / totalCredit * 100;
+      return (credit / totalCredit) * 100;
     };
 
-    const focusPosition = (
+    const focusPosition =
       focusedCredit === 0
         ? 0
         : focusFrom === ItemFocusFrom.LIST
-          ? 3
-          : focusFrom === ItemFocusFrom.TABLE_TAKEN
-            ? 1
-            : 2
-    );
+        ? 3
+        : focusFrom === ItemFocusFrom.TABLE_TAKEN
+        ? 1
+        : 2;
 
     const text = (
       <>
         {takenCredit}
-        {
-          focusPosition === 1 && (
-            <span>
-              {`(${focusedCredit})`}
-            </span>
-          )
-        }
+        {focusPosition === 1 && <span>{`(${focusedCredit})`}</span>}
         {' \u2192 '}
         {takenCredit + plannedCredit}
-        {
-          focusPosition === 2 && (
-            <span>
-              {`(${focusedCredit})`}
-            </span>
-          )
-        }
-        {
-          focusPosition === 3 && (
-            <span>
-              {`+${focusedCredit}`}
-            </span>
-          )
-        }
+        {focusPosition === 2 && <span>{`(${focusedCredit})`}</span>}
+        {focusPosition === 3 && <span>{`+${focusedCredit}`}</span>}
         {' / '}
         {totalCredit}
       </>
     );
 
     const widths = [
-      getWidth(takenCredit - ((focusPosition === 1) ? focusedCredit : 0)),
-      getWidth((focusPosition === 1) ? focusedCredit : 0),
-      getWidth(plannedCredit - ((focusPosition === 2) ? focusedCredit : 0)),
-      getWidth((focusPosition === 2 || focusPosition === 3) ? focusedCredit : 0),
+      getWidth(takenCredit - (focusPosition === 1 ? focusedCredit : 0)),
+      getWidth(focusPosition === 1 ? focusedCredit : 0),
+      getWidth(plannedCredit - (focusPosition === 2 ? focusedCredit : 0)),
+      getWidth(focusPosition === 2 || focusPosition === 3 ? focusedCredit : 0),
     ];
 
     return (
       <div className={classNames('credit-bar')}>
-        <div className={classNames('credit-bar__text')}>
-          {text}
-        </div>
+        <div className={classNames('credit-bar__text')}>{text}</div>
         <div className={classNames('credit-bar__body')}>
           <div
             className={classNames(
@@ -129,6 +111,4 @@ CreditBar.propTypes = {
   focusFrom: PropTypes.oneOf(Object.values(ItemFocusFrom)).isRequired,
 };
 
-export default withTranslation()(
-  CreditBar
-);
+export default withTranslation()(CreditBar);

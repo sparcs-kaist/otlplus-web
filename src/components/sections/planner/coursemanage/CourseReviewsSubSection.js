@@ -8,7 +8,6 @@ import ReviewBlock from '../../../blocks/ReviewBlock';
 
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
-
 class CourseReviewsSubSection extends Component {
   render() {
     const { t } = this.props;
@@ -18,32 +17,21 @@ class CourseReviewsSubSection extends Component {
       return null;
     }
 
-    const reviewBlocksArea = (itemFocus.reviews == null)
-      ? (
+    const reviewBlocksArea =
+      itemFocus.reviews == null ? (
         <div className={classNames('list-placeholder', 'min-height-area')}>
           <div>{t('ui.placeholder.loading')}</div>
         </div>
-      )
-      : (itemFocus.reviews.length
-        ? (
-          <div className={classNames('block-list', 'min-height-area')}>
-            {
-              itemFocus.reviews.map((r) => (
-                <ReviewBlock
-                  review={r}
-                  shouldLimitLines={false}
-                  pageFrom="Dictionary"
-                  key={r.id}
-                />
-              ))
-            }
-          </div>
-        )
-        : (
-          <div className={classNames('list-placeholder', 'min-height-area')}>
-            <div>{t('ui.placeholder.noResults')}</div>
-          </div>
-        )
+      ) : itemFocus.reviews.length ? (
+        <div className={classNames('block-list', 'min-height-area')}>
+          {itemFocus.reviews.map((r) => (
+            <ReviewBlock review={r} shouldLimitLines={false} pageFrom="Dictionary" key={r.id} />
+          ))}
+        </div>
+      ) : (
+        <div className={classNames('list-placeholder', 'min-height-area')}>
+          <div>{t('ui.placeholder.noResults')}</div>
+        </div>
       );
 
     return (
@@ -59,16 +47,12 @@ const mapStateToProps = (state) => ({
   itemFocus: state.planner.itemFocus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 CourseReviewsSubSection.propTypes = {
   itemFocus: itemFocusShape.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseReviewsSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseReviewsSubSection),
 );

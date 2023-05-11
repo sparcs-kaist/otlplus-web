@@ -30,17 +30,18 @@ import { setSemesters } from './actions/common/semester';
 import { setTracks } from './actions/common/track';
 import { setIsPortrait } from './actions/common/media';
 
-
-const store = createStore(combineReducers({
-  common: commonReducer,
-  dictionary: dictionaryReducer,
-  timetable: timetableReducer,
-  writeReviews: writeReviewsReducer,
-  planner: plannerReducer,
-}));
+const store = createStore(
+  combineReducers({
+    common: commonReducer,
+    dictionary: dictionaryReducer,
+    timetable: timetableReducer,
+    writeReviews: writeReviewsReducer,
+    planner: plannerReducer,
+  }),
+);
 
 class App extends Component {
-  portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)')
+  portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)');
 
   componentDidMount() {
     this._fetchUser();
@@ -61,29 +62,26 @@ class App extends Component {
   }
 
   _fetchUser = () => {
-    axios.get(
-      '/session/info',
-      {
+    axios
+      .get('/session/info', {
         metadata: {
           gaCategory: 'User',
           gaVariable: 'Get / Instance',
         },
-      },
-    )
+      })
       .then((response) => {
         store.dispatch(setUser(response.data));
       })
       .catch((error) => {
-        if (error.response && (error.response.status === 401)) {
+        if (error.response && error.response.status === 401) {
           store.dispatch(setUser(null));
         }
       });
-  }
+  };
 
   _fetchSemesters = () => {
-    axios.get(
-      '/api/semesters',
-      {
+    axios
+      .get('/api/semesters', {
         params: {
           order: ['year', 'semester'],
         },
@@ -91,39 +89,33 @@ class App extends Component {
           gaCategory: 'Semester',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         store.dispatch(setSemesters(response.data));
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
 
-    axios.get(
-      '/api/tracks',
-      {
-        params: {
-        },
+    axios
+      .get('/api/tracks', {
+        params: {},
         metadata: {
           gaCategory: 'Track',
           gaVariable: 'GET / List',
         },
-      },
-    )
+      })
       .then((response) => {
         store.dispatch(setTracks(response.data));
       })
-      .catch((error) => {
-      });
-  }
+      .catch((error) => {});
+  };
 
   _updateSizeProperty = () => {
     document.documentElement.style.setProperty('--window-inner-height', `${window.innerHeight}px`);
-  }
+  };
 
   _updateIsPortrait = () => {
     store.dispatch(setIsPortrait(this.portraitMediaQuery.matches));
-  }
+  };
 
   render() {
     const parseObject = (object) => {
@@ -165,47 +157,102 @@ class App extends Component {
             <Route
               exact
               path="/dictionary"
-              render={(props) => (
-                props.location.search
-                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
-                  : <DictionaryPage {...props} />
-              )}
+              render={(props) =>
+                props.location.search ? (
+                  <Redirect
+                    to={{
+                      ...props.location,
+                      state: {
+                        ...props.location.state,
+                        ...parseQueryString(props.location.search),
+                      },
+                      search: '',
+                    }}
+                  />
+                ) : (
+                  <DictionaryPage {...props} />
+                )
+              }
             />
             <Route
               exact
               path="/planner"
-              render={(props) => (
-                props.location.search
-                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
-                  : <PlannerPage {...props} />
-              )}
+              render={(props) =>
+                props.location.search ? (
+                  <Redirect
+                    to={{
+                      ...props.location,
+                      state: {
+                        ...props.location.state,
+                        ...parseQueryString(props.location.search),
+                      },
+                      search: '',
+                    }}
+                  />
+                ) : (
+                  <PlannerPage {...props} />
+                )
+              }
             />
             <Route
               exact
               path="/timetable"
-              render={(props) => (
-                props.location.search
-                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
-                  : <TimetablePage {...props} />
-              )}
+              render={(props) =>
+                props.location.search ? (
+                  <Redirect
+                    to={{
+                      ...props.location,
+                      state: {
+                        ...props.location.state,
+                        ...parseQueryString(props.location.search),
+                      },
+                      search: '',
+                    }}
+                  />
+                ) : (
+                  <TimetablePage {...props} />
+                )
+              }
             />
             <Route
               exact
               path="/timetable/syllabus"
-              render={(props) => (
-                props.location.search
-                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
-                  : <SyllabusPage {...props} />
-              )}
+              render={(props) =>
+                props.location.search ? (
+                  <Redirect
+                    to={{
+                      ...props.location,
+                      state: {
+                        ...props.location.state,
+                        ...parseQueryString(props.location.search),
+                      },
+                      search: '',
+                    }}
+                  />
+                ) : (
+                  <SyllabusPage {...props} />
+                )
+              }
             />
             <Route
               exact
               path="/write-reviews"
-              render={(props) => (
-                props.location.search
-                  ? <Redirect to={{ ...props.location, state: { ...props.location.state, ...parseQueryString(props.location.search) }, search: '' }} />
-                  : <WriteReviewsPage {...props} />
-              )}
+              render={(props) =>
+                props.location.search ? (
+                  <Redirect
+                    to={{
+                      ...props.location,
+                      state: {
+                        ...props.location.state,
+                        ...parseQueryString(props.location.search),
+                      },
+                      search: '',
+                    }}
+                  />
+                ) : (
+                  <WriteReviewsPage {...props} />
+                )
+              }
             />
             <Route exact path="/account" component={AccountPage} />
             <Route exact path="/credits" component={CreditPage} />

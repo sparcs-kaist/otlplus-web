@@ -14,6 +14,4 @@ class ShareSubSection extends Component {
   }
 }
 
-export default (
-  ShareSubSection
-);
+export default ShareSubSection;

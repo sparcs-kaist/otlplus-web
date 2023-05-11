@@ -10,7 +10,6 @@ import { getSemesterName } from '../../utils/semesterUtils';
 import reviewShape from '../../shapes/model/review/ReviewShape';
 import linkShape from '../../shapes/LinkShape';
 
-
 const ReviewSimpleBlock = ({ t, review, linkTo }) => {
   const RootTag = linkTo ? Link : 'div';
 
@@ -19,21 +18,14 @@ const ReviewSimpleBlock = ({ t, review, linkTo }) => {
       to={linkTo}
       className={classNames('block', 'block--review-simple')}
       target="_blank"
-      rel="noopener noreferrer"
-    >
+      rel="noopener noreferrer">
       <div>
-        <span>
-          {`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}
-        </span>
-        {
-          isSpecialLecture(review.lecture)
-            ? <span>{review.lecture[t('js.property.class_title')]}</span>
-            : null
-        }
+        <span>{`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}</span>
+        {isSpecialLecture(review.lecture) ? (
+          <span>{review.lecture[t('js.property.class_title')]}</span>
+        ) : null}
       </div>
-      <div>
-        {review.content}
-      </div>
+      <div>{review.content}</div>
       <div>
         <span>
           {t('ui.score.likes')}
@@ -65,8 +57,4 @@ ReviewSimpleBlock.propTypes = {
   linkTo: linkShape,
 };
 
-export default withTranslation()(
-  React.memo(
-    ReviewSimpleBlock
-  )
-);
+export default withTranslation()(React.memo(ReviewSimpleBlock));

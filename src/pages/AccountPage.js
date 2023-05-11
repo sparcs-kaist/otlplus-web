@@ -10,7 +10,6 @@ import AcademicInfoSubSection from '../components/sections/account/AcademicInfoS
 import FavoriteDepartmentsSubSection from '../components/sections/account/FavoriteDepartmentsSubSection';
 import { API_URL } from '../const';
 
-
 class AccountPage extends Component {
   render() {
     const { t } = this.props;
@@ -26,7 +25,9 @@ class AccountPage extends Component {
               <FavoriteDepartmentsSubSection />
               <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
               <div>
-                <a href={`${API_URL}/session/logout?next=${window.location.origin}`} className={classNames('text-button')}>
+                <a
+                  href={`${API_URL}/session/logout?next=${window.location.origin}`}
+                  className={classNames('text-button')}>
                   {t('ui.button.signOut')}
                 </a>
               </div>
@@ -38,10 +39,6 @@ class AccountPage extends Component {
   }
 }
 
-AccountPage.propTypes = {
-};
+AccountPage.propTypes = {};
 
-
-export default withTranslation()(
-  AccountPage
-);
+export default withTranslation()(AccountPage);

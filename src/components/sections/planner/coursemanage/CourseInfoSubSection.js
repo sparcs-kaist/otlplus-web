@@ -10,7 +10,6 @@ import { getAverageScoreLabel } from '../../../../utils/scoreUtils';
 import Attributes from '../../../Attributes';
 import Scores from '../../../Scores';
 
-
 class CourseInfoSubSection extends Component {
   render() {
     const { t } = this.props;
@@ -24,7 +23,12 @@ class CourseInfoSubSection extends Component {
       <div className={classNames('subsection', 'subsection--course-info')}>
         <Attributes
           entries={[
-            { name: t('ui.attribute.classification'), info: `${itemFocus.course.department[t('js.property.name')]}, ${itemFocus.course[t('js.property.type')]}` },
+            {
+              name: t('ui.attribute.classification'),
+              info: `${itemFocus.course.department[t('js.property.name')]}, ${
+                itemFocus.course[t('js.property.type')]
+              }`,
+            },
             { name: t('ui.attribute.description'), info: itemFocus.course.summary },
           ]}
           longInfo
@@ -40,12 +44,11 @@ class CourseInfoSubSection extends Component {
               score: itemFocus.course.num_labs,
             },
             {
-              name: (itemFocus.course.credit === 0)
-                ? t('ui.score.au')
-                : t('ui.score.credit'),
-              score: (itemFocus.course.credit === 0)
-                ? itemFocus.course.credit_au
-                : itemFocus.course.credit,
+              name: itemFocus.course.credit === 0 ? t('ui.score.au') : t('ui.score.credit'),
+              score:
+                itemFocus.course.credit === 0
+                  ? itemFocus.course.credit_au
+                  : itemFocus.course.credit,
             },
           ]}
           big
@@ -67,16 +70,12 @@ const mapStateToProps = (state) => ({
   itemFocus: state.planner.itemFocus,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 CourseInfoSubSection.propTypes = {
   itemFocus: itemFocusShape.isRequired,
 };
 
-
 export default withTranslation()(
-  connect(mapStateToProps, mapDispatchToProps)(
-    CourseInfoSubSection
-  )
+  connect(mapStateToProps, mapDispatchToProps)(CourseInfoSubSection),
 );
