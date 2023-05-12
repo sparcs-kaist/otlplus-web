@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - name: Install npm dependencies
-        run: npm install --regacy-peer-deps
+        run: npm install
       - name: Format
         run: npm run prettier
       - name: Lint
@@ -40,7 +40,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - name: Install npm dependencies
-        run: npm install --regacy-peer-deps
+        run: npm install
       - name: Build
         run: npm run build
 
@@ -56,6 +56,6 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - name: Install npm dependencies
-        run: npm install --regacy-peer-deps
+        run: npm install
       - name: Run tests
         run: npm test
