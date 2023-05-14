@@ -114,9 +114,11 @@ $media-no-hover: (
 
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-height-desktop-lecture-detail: calc(
-  #{$section-padding} + (#{$line-height-big} + 2px) + (#{$line-height-normal} + #{$delta-line-height-longcontent}) + (
-      #{$line-height-small} + #{$title-margin-bottom}
-    ) + ((#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)) + (
+  #{$section-padding} + (#{$line-height-big} + 2px) + (
+      #{$line-height-normal} + #{$delta-line-height-longcontent}
+    ) + (#{$line-height-small} + #{$title-margin-bottom}) + (
+      (#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)
+    ) + (
       (#{$score-line-height-desktop} + 2px + #{$line-height-smaller}) * 2 +
         (#{$score-margin-tb-desktop} * 3)
     ) + #{$line-height-normal} + #{$section-padding}
@@ -774,7 +776,7 @@ a {
     box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
     top: 50%;
     left: 50%;
-    transform: translate(-50%, calc(-50% - #{$header-height} / 2));;
+    transform: translate(-50%, calc(-50% - #{$header-height} / 2));
   }
 
   &--mobile-modal {
@@ -1006,8 +1008,6 @@ a {
         margin-bottom: 4px;
       }
     }
-    
-
   }
 
   &--lecture-detail {
