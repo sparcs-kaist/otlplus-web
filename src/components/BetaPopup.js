@@ -7,7 +7,6 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import CloseButton from './CloseButton';
 
-
 class BetaPopup extends Component {
   constructor(props) {
     super(props);
@@ -17,13 +16,11 @@ class BetaPopup extends Component {
     };
   }
 
-
   close = () => {
     this.setState({
       isOpen: false,
     });
-  }
-
+  };
 
   render() {
     const { isOpen } = this.state;
@@ -36,18 +33,14 @@ class BetaPopup extends Component {
     return (
       <div className={classNames('section', 'section--popup')}>
         <CloseButton onClick={this.close} />
-        <div className={classNames('title')}>
-          { title }
-        </div>
-        <div className={classNames('subsection', 'subsection--beta-popup')}>
-          <div>
-            {
-              content.map((l) => (
-                <div>{ l }</div>
-              ))
-            }
+        <div className={classNames('subsection', 'subsection--flex', 'subsection--beta-popup')}>
+          <div className={classNames('title')}>{title}</div>
+          <div className={classNames('subsection--beta-popup__content')}>
+            {content.map((l) => (
+              <div>{l}</div>
+            ))}
           </div>
-          <div>
+          <div className={classNames('buttons')}>
             <Link to={link} className={classNames('text-button')}>
               피드백 제출하기
             </Link>
@@ -64,6 +57,4 @@ BetaPopup.propTypes = {
   link: PropTypes.string.isRequired,
 };
 
-export default withTranslation()(
-  BetaPopup
-);
+export default withTranslation()(BetaPopup);

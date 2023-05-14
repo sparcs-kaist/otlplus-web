@@ -995,6 +995,19 @@ a {
     flex-direction: column;
   }
 
+  &--beta-popup {
+    &__content {
+      flex: 1 1 auto;
+      line-height: $line-height-normal + 4px;
+
+      & > div:not(:last-child) {
+        margin-bottom: 4px;
+      }
+    }
+    
+
+  }
+
   &--lecture-detail {
     &__mobile-buttons {
       text-align: right;
