@@ -2009,7 +2009,8 @@ a {
   @media #{$media-landscape} {
     display: none;
 
-    .section--modal & {
+    .section--modal &,
+    .section--popup & {
       display: initial;
     }
   }
