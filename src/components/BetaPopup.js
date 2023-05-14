@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -41,9 +40,13 @@ class BetaPopup extends Component {
             ))}
           </div>
           <div className={classNames('buttons')}>
-            <Link to={link} className={classNames('text-button')}>
+            <a
+              href={link}
+              className={classNames('text-button')}
+              target="_blank"
+              rel="noopener noreferrer">
               피드백 제출하기
-            </Link>
+            </a>
           </div>
         </div>
       </div>
