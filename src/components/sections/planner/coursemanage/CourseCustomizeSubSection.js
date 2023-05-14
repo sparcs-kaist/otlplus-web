@@ -35,6 +35,18 @@ class CourseCustomizeSubSection extends Component {
     };
   }
 
+  hasAnyChanges = () => {
+    const { selectedSemester, selectedRetake } = this.state;
+
+    if (!selectedSemester.has('NORMAL')) {
+      return true;
+    }
+    if (!selectedRetake.has('NORMAL')) {
+      return true;
+    }
+    return false;
+  };
+
   resetCustomizations = () => {
     const { itemFocus } = this.props;
 
@@ -203,7 +215,11 @@ class CourseCustomizeSubSection extends Component {
           <div className={classNames('buttons')}>
             <button
               type="reset"
-              className={classNames('text-button', 'text-button--right')}
+              className={classNames(
+                'text-button',
+                'text-button--right',
+                !this.hasAnyChanges() && 'text-button--disabled',
+              )}
               onClick={this.resetCustomizations}>
               {t('ui.button.reset')}
             </button>
