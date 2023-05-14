@@ -35,6 +35,15 @@ class CourseCustomizeSubSection extends Component {
     };
   }
 
+  resetCustomizations = () => {
+    const { itemFocus } = this.props;
+
+    if (itemFocus.item.item_type !== 'TAKEN') {
+      this.updateCheckedValuesForSemester(new Set(['NORMAL']));
+    }
+    this.updateCheckedValuesForRetake(new Set(['NORMAL']));
+  };
+
   updateCheckedValuesForSemester = (checkedValues) => {
     const { user, selectedPlanner, itemFocus, updateItemInPlannerDispatch, setItemFocusDispatch } =
       this.props;
@@ -195,7 +204,7 @@ class CourseCustomizeSubSection extends Component {
             <button
               type="reset"
               className={classNames('text-button', 'text-button--right')}
-              onClick={this.initialize}>
+              onClick={this.resetCustomizations}>
               {t('ui.button.reset')}
             </button>
           </div>
