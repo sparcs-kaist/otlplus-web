@@ -38,6 +38,8 @@ $line-height-smaller: 12px;
 $font-size-smallest: 10px;
 $line-height-smallest: 11px;
 
+$delta-line-height-longcontent: 4px;
+
 $opacity-text-overlay: 0.7;
 
 $offset-raise: 3px;
@@ -112,9 +114,11 @@ $media-no-hover: (
 
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-height-desktop-lecture-detail: calc(
-  #{$section-padding} + (#{$line-height-big} + 2px) + (#{$line-height-normal} + 4px) + (
-      #{$line-height-small} + #{$title-margin-bottom}
-    ) + ((#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)) + (
+  #{$section-padding} + (#{$line-height-big} + 2px) + (
+      #{$line-height-normal} + #{$delta-line-height-longcontent}
+    ) + (#{$line-height-small} + #{$title-margin-bottom}) + (
+      (#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)
+    ) + (
       (#{$score-line-height-desktop} + 2px + #{$line-height-smaller}) * 2 +
         (#{$score-margin-tb-desktop} * 3)
     ) + #{$line-height-normal} + #{$section-padding}
@@ -764,6 +768,17 @@ a {
     }
   }
 
+  &--popup {
+    position: absolute;
+    width: 260px;
+    height: 240px;
+    z-index: 200;
+    box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - #{$header-height} / 2));
+  }
+
   &--mobile-modal {
     @media #{$media-portrait} {
       position: absolute;
@@ -982,6 +997,17 @@ a {
   &--flex {
     display: flex;
     flex-direction: column;
+  }
+
+  &--beta-popup {
+    &__content {
+      flex: 1 1 auto;
+      line-height: $line-height-normal + $delta-line-height-longcontent;
+
+      & > div:not(:last-child) {
+        margin-bottom: 4px;
+      }
+    }
   }
 
   &--lecture-detail {
@@ -1581,7 +1607,7 @@ a {
 
   &--notice {
     &__content {
-      line-height: $line-height-normal + 4px;
+      line-height: $line-height-normal + $delta-line-height-longcontent;
     }
   }
 
@@ -1759,7 +1785,7 @@ a {
     flex-direction: column;
 
     &__content {
-      line-height: $line-height-normal + 4px;
+      line-height: $line-height-normal + $delta-line-height-longcontent;
 
       a {
         text-decoration: underline;
@@ -1998,7 +2024,8 @@ a {
   @media #{$media-landscape} {
     display: none;
 
-    .section--modal & {
+    .section--modal &,
+    .section--popup & {
       display: initial;
     }
   }
@@ -2149,7 +2176,7 @@ a {
 
     &__content {
       color: $color-text-light;
-      line-height: $line-height-normal + 4px;
+      line-height: $line-height-normal + $delta-line-height-longcontent;
       &--limit-5 {
         overflow: hidden;
         display: -webkit-box; // Remove after line-clamp officially supported
@@ -2199,10 +2226,10 @@ a {
 
     &__content {
       color: $color-text-light;
-      line-height: $line-height-normal + 4px;
+      line-height: $line-height-normal + $delta-line-height-longcontent;
       display: block;
       width: 100%;
-      height: ($line-height-normal + 4px) * 9 + 8px * 2;
+      height: ($line-height-normal + $delta-line-height-longcontent) * 9 + 8px * 2;
       border: 1px dashed #aaaaaa;
       padding: 8px;
       border-radius: 2px;
@@ -2450,10 +2477,10 @@ a {
     & > div:nth-child(2) {
       color: $color-text-light;
       font-size: $font-size-normal;
-      line-height: $line-height-normal + 4px;
+      line-height: $line-height-normal + $delta-line-height-longcontent;
       margin-bottom: 4px;
       overflow: hidden;
-      max-height: ($line-height-normal + 4px) * 3; // Fallback, Remove after line-clamp officially supported
+      max-height: ($line-height-normal + $delta-line-height-longcontent) * 3; // Fallback, Remove after line-clamp officially supported
       display: -webkit-box; // Remove after line-clamp officially supported
       -webkit-box-orient: vertical; // Remove after line-clamp officially supported
       -webkit-line-clamp: 3; // Remove after line-clamp officially supported
@@ -3243,7 +3270,7 @@ a {
       min-height: calc(
         #{$section-height-desktop-lecture-detail} - (#{$section-padding} + (
                 #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + 4px) + (
+              ) + (#{$line-height-normal} + #{$delta-line-height-longcontent}) + (
                 #{$line-height-small} + #{$title-margin-bottom}
               ) + (#{$line-height-big} + 8px) + #{$section-padding})
       ) !important;
@@ -3252,7 +3279,7 @@ a {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
                 #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + 4px) + (
+              ) + (#{$line-height-normal} + #{$delta-line-height-longcontent}) + (
                 #{$line-height-small} + #{$title-margin-bottom}
               ) + (#{$line-height-big} + 8px) + (#{$section-padding} * 2 + 1px) + #{$line-height-normal} +
               #{$section-padding} + (#{$section-margin-bottom} * 2))
