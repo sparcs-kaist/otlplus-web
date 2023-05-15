@@ -84,7 +84,10 @@
       "save": "저장",
       "submit": "제출하기",
       "signOut": "로그아웃",
-      "reset": "초기화"
+      "reset": "초기화",
+      "shareImage": "이미지로 내보내기",
+      "shareCalendar": "캘린더로 내보내기",
+      "openSyllabus": "실라버스 모아보기"
     },
     "attribute": {
       "department": "학과",

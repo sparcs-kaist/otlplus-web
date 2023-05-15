@@ -1361,20 +1361,45 @@ a {
     grid-area: share;
 
     & > div:first-child {
-      float: left;
+      
+      .subsection--share__item {
+        height: 30px;
+                
+          &  > * {
+            display: flex;
+            align-items: center;
 
-      & > * {
-        display: inline-block;
+            & i {
+              margin-right: $attribute-name-margin-right;
+            }
+                    
+            & span {
+              font-size: $font-size-small;
+              font-weight: bold;
+            }
+          }
+
+          & .disabled{
+            color: $color-text-disable                      
+          }
+
+          @media #{$media-portrait} {
+            display: inline-block;
+          }
+      }   
+
+      & .divider{
+          margin: 0 0 $section-padding 0;
+      }
+
+      @media #{$media-portrait} {
+        height: 10px;
+        float: left;
         margin-right: 8px;
         vertical-align: middle;
-
-        &:first-child {
-          font-weight: bold;
-          font-size: $font-size-small;
-          line-height: $line-height-small;
-        }
-      }
+      }   
     }
+    
 
     & > div:nth-child(2) {
       float: right;

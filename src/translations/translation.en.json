@@ -84,7 +84,10 @@
       "save": "Save",
       "submit": "Submit",
       "signOut": "Sign Out",
-      "reset": "Reset"
+      "reset": "Reset",
+      "shareImage": "Share as Image",
+      "shareCalendar": "Share as Calendar",
+      "openSyllabus": "Syllabi Collection"
     },
     "attribute": {
       "department": "Dept.",
