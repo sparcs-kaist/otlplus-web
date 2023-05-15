@@ -15,7 +15,7 @@ import timetableShape, {
 } from '../../../../shapes/model/timetable/TimetableShape';
 import userShape from '../../../../shapes/model/session/UserShape';
 
-import { Divider } from '../../../Divider';
+import  Divider from '../../../Divider';
 
 class ShareSubSection extends Component {
   render() {
