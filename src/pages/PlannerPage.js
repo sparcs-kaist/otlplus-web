@@ -91,7 +91,7 @@ class PlannerPage extends Component {
               '졸업플레너 서비스는 현재 베타 상태입니다.',
               '일부 학점 계산이 정확하지 않거나 기능 사용이 불편할 수 있으며, 이는 정식 출시 때 개선될 예정입니다.',
             ]}
-            link="https://forms.gle/tnBpPQN7x3wMzbDi8"
+            link="https://sparcs.page.link/otl-feedback"
           />
         </section>
       </>
