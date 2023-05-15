@@ -1389,7 +1389,7 @@ a {
       }   
 
       & .divider{
-          margin: 0 0 12px 0;
+          margin: 0 0 $section-padding 0;
       }
 
       @media #{$media-portrait} {
