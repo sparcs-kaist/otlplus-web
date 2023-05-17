@@ -199,6 +199,25 @@ class SummarySubSection extends Component {
         getCreditAndAuOfItem(focusedItem);
     }
 
+    separateMajorTracks.forEach((smt, index) => {
+      const targetCount = categoryCreditAndAus[CategoryFirstIndex.MAJOR][index];
+      if (targetCount[0].taken > targetCount[0].requirement) {
+        const takenDiff = targetCount[0].taken - targetCount[0].requirement;
+        targetCount[0].taken -= takenDiff;
+        targetCount[1].taken += takenDiff;
+      }
+      if (targetCount[0].taken + targetCount[0].planned > targetCount[0].requirement) {
+        const plannedDiff =
+          targetCount[0].taken + targetCount[0].planned - targetCount[0].requirement;
+        targetCount[0].planned -= plannedDiff;
+        targetCount[1].planned += plannedDiff;
+      }
+      if (targetCount[0].requirement === 0) {
+        targetCount[1].focused += targetCount[0].focused;
+        targetCount[0].focused = 0;
+      }
+    });
+
     return (
       <>
         <div className={classNames('subsection', 'subsection--planner-summary', 'mobile-hidden')}>

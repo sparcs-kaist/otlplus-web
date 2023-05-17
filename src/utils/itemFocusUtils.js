@@ -1,5 +1,10 @@
 import { ItemFocusFrom } from '../reducers/planner/itemFocus';
-import { CategoryFirstIndex, getCategoryOfItem, isIdenticalCategory } from './itemCategoryUtils';
+import {
+  CategoryFirstIndex,
+  getCategoryOfItem,
+  getSeparateMajorTracks,
+  isIdenticalCategory,
+} from './itemCategoryUtils';
 import { getCourseOfItem, getCreditOfItem, getAuOfItem } from './itemUtils';
 
 export const isIdenticalItem = (item1, item2) =>
@@ -21,14 +26,44 @@ export const isSingleFocusedItem = (item, itemFocus) =>
     itemFocus.course &&
     getCourseOfItem(item).id === itemFocus.course.id);
 
-export const isMultipleFocusedItem = (item, itemFocus, planner) =>
-  itemFocus.from === ItemFocusFrom.CATEGORY &&
-  planner &&
-  (itemFocus.category[0] !== CategoryFirstIndex.TOTAL
-    ? isIdenticalCategory(getCategoryOfItem(planner, item), itemFocus.category)
-    : itemFocus.category[2] === 0
-    ? getCreditOfItem(item) > 0
-    : getAuOfItem(item) > 0);
+export const isMultipleFocusedItem = (item, itemFocus, planner) => {
+  if (itemFocus.from !== ItemFocusFrom.CATEGORY) {
+    return false;
+  }
+  if (!planner) {
+    return false;
+  }
+  const focusedCategory = itemFocus.category;
+  const itemCategory = getCategoryOfItem(planner, item);
+  if (focusedCategory[0] !== itemCategory[0]) {
+    return false;
+  }
+  switch (focusedCategory[0]) {
+    case CategoryFirstIndex.TOTAL: {
+      if (focusedCategory[2] === 0) {
+        return getCreditOfItem(item) > 0;
+      }
+      return getAuOfItem(item) > 0;
+    }
+    case CategoryFirstIndex.MAJOR: {
+      const targetSmt = getSeparateMajorTracks(planner)[focusedCategory[1]];
+      if (targetSmt.major_required === 0) {
+        if (focusedCategory[2] === 0) {
+          return false;
+        }
+        const mrCategory = [focusedCategory[0], focusedCategory[1], 0];
+        return (
+          isIdenticalCategory(itemCategory, focusedCategory) ||
+          isIdenticalCategory(itemCategory, mrCategory)
+        );
+      }
+      return isIdenticalCategory(itemCategory, focusedCategory);
+    }
+    default: {
+      return isIdenticalCategory(itemCategory, focusedCategory);
+    }
+  }
+};
 
 export const isFocusedItem = (item, itemFocus, planner) =>
   isSingleFocusedItem(item, itemFocus) || isMultipleFocusedItem(item, itemFocus, planner);
