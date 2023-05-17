@@ -1387,18 +1387,41 @@ a {
     grid-area: share;
 
     & > div:first-child {
-      float: left;
+      .subsection--share__item {
+        height: 30px;
 
-      & > * {
-        display: inline-block;
+        & > * {
+          display: flex;
+          align-items: center;
+
+          & i {
+            margin-right: $attribute-name-margin-right;
+          }
+
+          & span {
+            font-size: $font-size-small;
+            font-weight: bold;
+          }
+        }
+
+        & .disabled {
+          color: $color-text-disable;
+        }
+
+        @media #{$media-portrait} {
+          display: inline-block;
+        }
+      }
+
+      & .divider {
+        margin: 0 0 $section-padding 0;
+      }
+
+      @media #{$media-portrait} {
+        height: 10px;
+        float: left;
         margin-right: 8px;
         vertical-align: middle;
-
-        &:first-child {
-          font-weight: bold;
-          font-size: $font-size-small;
-          line-height: $line-height-small;
-        }
       }
     }
 
@@ -2121,9 +2144,6 @@ a {
       font-weight: bold;
       margin-bottom: 2px;
     }
-
-    &__subtitle {
-    }
   }
 
   &--course-simple {
@@ -2507,9 +2527,6 @@ a {
     &__title {
       font-weight: bold;
       margin-bottom: 2px;
-    }
-
-    &__content {
     }
   }
 
@@ -3230,15 +3247,6 @@ a {
 
   & :global(.ScrollbarsCustom) {
     flex: 1 1 auto !important;
-  }
-
-  & :global(.ScrollbarsCustom-Wrapper) {
-  }
-
-  & :global(.ScrollbarsCustom-Track.ScrollbarsCustom-TrackY) {
-  }
-
-  & :global(.ScrollbarsCustom-Scroller) {
   }
 
   & > form {
