@@ -1387,35 +1387,34 @@ a {
     grid-area: share;
 
     & > div:first-child {
-      
       .subsection--share__item {
         height: 30px;
-                
-          &  > * {
-            display: flex;
-            align-items: center;
 
-            & i {
-              margin-right: $attribute-name-margin-right;
-            }
-                    
-            & span {
-              font-size: $font-size-small;
-              font-weight: bold;
-            }
+        & > * {
+          display: flex;
+          align-items: center;
+
+          & i {
+            margin-right: $attribute-name-margin-right;
           }
 
-          & .disabled{
-            color: $color-text-disable                      
+          & span {
+            font-size: $font-size-small;
+            font-weight: bold;
           }
+        }
 
-          @media #{$media-portrait} {
-            display: inline-block;
-          }
-      }   
+        & .disabled {
+          color: $color-text-disable;
+        }
 
-      & .divider{
-          margin: 0 0 $section-padding 0;
+        @media #{$media-portrait} {
+          display: inline-block;
+        }
+      }
+
+      & .divider {
+        margin: 0 0 $section-padding 0;
       }
 
       @media #{$media-portrait} {
@@ -1423,9 +1422,8 @@ a {
         float: left;
         margin-right: 8px;
         vertical-align: middle;
-      }   
+      }
     }
-    
 
     & > div:nth-child(2) {
       float: right;
@@ -2146,9 +2144,6 @@ a {
       font-weight: bold;
       margin-bottom: 2px;
     }
-
-    &__subtitle {
-    }
   }
 
   &--course-simple {
@@ -2532,9 +2527,6 @@ a {
     &__title {
       font-weight: bold;
       margin-bottom: 2px;
-    }
-
-    &__content {
     }
   }
 
@@ -3255,15 +3247,6 @@ a {
 
   & :global(.ScrollbarsCustom) {
     flex: 1 1 auto !important;
-  }
-
-  & :global(.ScrollbarsCustom-Wrapper) {
-  }
-
-  & :global(.ScrollbarsCustom-Track.ScrollbarsCustom-TrackY) {
-  }
-
-  & :global(.ScrollbarsCustom-Scroller) {
   }
 
   & > form {
