@@ -137,7 +137,7 @@ class CourseDetailSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { courseFocus } = this.props;
+    const { isPortrait, courseFocus } = this.props;
 
     const sectionContent = courseFocus.course ? (
       <>
@@ -165,7 +165,7 @@ class CourseDetailSection extends Component {
         className={classNames(
           'section',
           'section--course-detail',
-          'section--mobile-modal',
+          isPortrait && 'section--modal',
           courseFocus.course ? null : 'mobile-hidden',
         )}>
         <div className={classNames('subsection', 'subsection--flex', 'subsection--course-detail')}>
@@ -178,6 +178,7 @@ class CourseDetailSection extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
   courseFocus: state.dictionary.courseFocus,
   selectedListCode: state.dictionary.list.selectedListCode,
 });
@@ -199,6 +200,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 CourseDetailSection.propTypes = {
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
   courseFocus: courseFocusShape.isRequired,
   selectedListCode: PropTypes.string.isRequired,
 

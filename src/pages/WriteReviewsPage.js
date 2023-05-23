@@ -50,7 +50,7 @@ class WriteReviewsPage extends Component {
   }
 
   render() {
-    const { reviewsFocus } = this.props;
+    const { isPortrait, reviewsFocus } = this.props;
 
     const getReviewsSubSection = (focusFrom) => {
       if (focusFrom === ReviewsFocusFrom.NONE) {
@@ -98,7 +98,7 @@ class WriteReviewsPage extends Component {
               className={classNames(
                 'section',
                 'section--write-reviews-right',
-                'section--mobile-modal',
+                isPortrait && 'section--modal',
                 reviewsFocus.from !== ReviewsFocusFrom.NONE ? null : 'mobile-hidden',
               )}>
               {getReviewsSubSection(reviewsFocus.from)}
@@ -111,6 +111,7 @@ class WriteReviewsPage extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  isPortrait: state.common.media.isPortrait,
   reviewsFocus: state.writeReviews.reviewsFocus,
 });
 
@@ -139,6 +140,7 @@ WriteReviewsPage.propTypes = {
     }),
   }).isRequired,
 
+  isPortrait: PropTypes.bool.isRequired,
   reviewsFocus: reviewsFocusShape.isRequired,
 
   setReviewsFocusDispatch: PropTypes.func.isRequired,

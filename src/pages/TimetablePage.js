@@ -62,6 +62,7 @@ class TimetablePage extends Component {
     // eslint-disable-next-line react/destructuring-assignment
     const { startSemester } = this.props.location.state || {};
     const {
+      isPortrait,
       mobileIsTimetableTabsOpen,
       mobileIsLectureListOpen,
       setMobileIsTimetableTabsOpenDispatch,
@@ -84,7 +85,7 @@ class TimetablePage extends Component {
                 'section',
                 'section--semester-and-timetable-list',
                 'section--desktop-transparent',
-                'section--mobile-modal',
+                isPortrait && 'section--modal',
                 mobileIsTimetableTabsOpen ? null : 'mobile-hidden',
               )}>
               <CloseButton onClick={() => setMobileIsTimetableTabsOpenDispatch(false)} />
@@ -130,6 +131,7 @@ class TimetablePage extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
+  isPortrait: state.common.media.isPortrait,
   myTimetable: state.timetable.timetable.myTimetable,
   mobileIsTimetableTabsOpen: state.timetable.timetable.mobileIsTimetableTabsOpen,
   mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
@@ -168,6 +170,7 @@ TimetablePage.propTypes = {
   }).isRequired,
 
   user: userShape,
+  isPortrait: PropTypes.bool.isRequired,
   myTimetable: myPseudoTimetableShape.isRequired,
   mobileIsTimetableTabsOpen: PropTypes.bool.isRequired,
   mobileIsLectureListOpen: PropTypes.bool.isRequired,
