@@ -771,24 +771,12 @@ a {
     transform: translate(-50%, calc(-50% - #{$header-height} / 2));
   }
 
-  &--desktop-transparent {
-    @media #{$media-landscape} {
-      padding: initial !important;
-      background-color: initial;
-      border-radius: initial;
-      background-origin: initial;
-      box-shadow: initial;
-    }
-  }
-
-  &--mobile-transparent {
-    @media #{$media-portrait} {
-      padding: initial !important;
-      background-color: initial;
-      border-radius: initial;
-      background-origin: initial;
-      box-shadow: initial;
-    }
+  &--transparent {
+    padding: initial !important;
+    background-color: initial;
+    border-radius: initial;
+    background-origin: initial;
+    box-shadow: initial;
   }
 
   &--main-search {

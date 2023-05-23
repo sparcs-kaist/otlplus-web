@@ -84,7 +84,7 @@ class TimetablePage extends Component {
               className={classNames(
                 'section',
                 'section--semester-and-timetable-list',
-                'section--desktop-transparent',
+                !isPortrait && 'section--transparent',
                 isPortrait && 'section--modal',
                 mobileIsTimetableTabsOpen ? null : 'mobile-hidden',
               )}>
