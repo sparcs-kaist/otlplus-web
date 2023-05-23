@@ -165,10 +165,10 @@ class PlannerSubSection extends Component {
       itemFocus,
       cellWidth,
       cellHeight,
-      // mobileIsLectureListOpen,
+      // isLectureListOpenOnMobile,
     } = this.props;
 
-    const mobileIsLectureListOpen = false;
+    const isLectureListOpenOnMobile = false;
 
     const currentYear = new Date().getFullYear();
     const plannerStartYear = selectedPlanner ? selectedPlanner.start_year : currentYear;
@@ -366,7 +366,7 @@ class PlannerSubSection extends Component {
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  mobileIsLectureListOpen
+                  isLectureListOpenOnMobile
                     ? 'subsection--planner__table__body__line--mobile-noline'
                     : null,
                 )}
@@ -380,7 +380,7 @@ class PlannerSubSection extends Component {
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  mobileIsLectureListOpen
+                  isLectureListOpenOnMobile
                     ? 'subsection--planner__table__body__line--mobile-noline'
                     : null,
                 )}
@@ -424,7 +424,7 @@ class PlannerSubSection extends Component {
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  mobileIsLectureListOpen
+                  isLectureListOpenOnMobile
                     ? 'subsection--planner__table__body__line--mobile-noline'
                     : null,
                 )}
@@ -438,7 +438,7 @@ class PlannerSubSection extends Component {
                 className={classNames(
                   'subsection--planner__table__body__line',
                   'subsection--planner__table__body__line--dashed',
-                  mobileIsLectureListOpen
+                  isLectureListOpenOnMobile
                     ? 'subsection--planner__table__body__line--mobile-noline'
                     : null,
                 )}
@@ -537,7 +537,7 @@ const mapStateToProps = (state) => ({
   cellWidth: state.planner.planner.cellWidth,
   cellHeight: state.planner.planner.cellHeight,
   isDragging: state.planner.planner.isDragging,
-  // mobileIsLectureListOpen: state.planner.list.mobileIsLectureListOpen,
+  // isLectureListOpenOnMobile: state.planner.list.isLectureListOpenOnMobile,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -562,7 +562,7 @@ PlannerSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  // mobileIsLectureListOpen: PropTypes.bool.isRequired,
+  // isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
   setItemFocusDispatch: PropTypes.func.isRequired,

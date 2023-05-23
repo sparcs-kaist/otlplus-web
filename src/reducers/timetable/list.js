@@ -34,7 +34,7 @@ const initialState = {
       lectureGroups: null,
     },
   },
-  mobileIsLectureListOpen: false,
+  isLectureListOpenOnMobile: false,
 };
 
 const list = (state = initialState, action) => {
@@ -118,7 +118,7 @@ const list = (state = initialState, action) => {
     }
     case SET_MOBILE_IS_LECTURE_LIST_OPEN: {
       return Object.assign({}, state, {
-        mobileIsLectureListOpen: action.mobileIsLectureListOpen,
+        isLectureListOpenOnMobile: action.isLectureListOpenOnMobile,
       });
     }
     default: {

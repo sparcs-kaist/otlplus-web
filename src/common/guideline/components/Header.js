@@ -31,7 +31,7 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      mobileIsMenuOpen: false,
+      isMenuOpenOnMobile: false,
       noBackground: false,
     };
   }
@@ -56,14 +56,14 @@ class Header extends Component {
 
   closeMenu = () => {
     this.setState({
-      mobileIsMenuOpen: false,
+      isMenuOpenOnMobile: false,
     });
   };
 
   toggleMenu = () => {
-    const { mobileIsMenuOpen } = this.state;
+    const { isMenuOpenOnMobile } = this.state;
     this.setState({
-      mobileIsMenuOpen: !mobileIsMenuOpen,
+      isMenuOpenOnMobile: !isMenuOpenOnMobile,
     });
   };
 
@@ -83,7 +83,7 @@ class Header extends Component {
 
   render() {
     const { t, i18n } = this.props;
-    const { mobileIsMenuOpen, noBackground } = this.state;
+    const { isMenuOpenOnMobile, noBackground } = this.state;
     const { user } = this.props;
 
     return (
@@ -92,11 +92,11 @@ class Header extends Component {
         <div
           className={classNames(
             'content',
-            mobileIsMenuOpen ? null : 'menu-closed',
-            noBackground && !mobileIsMenuOpen ? 'no-background' : null,
+            isMenuOpenOnMobile ? null : 'menu-closed',
+            noBackground && !isMenuOpenOnMobile ? 'no-background' : null,
           )}>
           <button className={classNames('menu-icon-icon')} onClick={this.toggleMenu}>
-            {mobileIsMenuOpen ? (
+            {isMenuOpenOnMobile ? (
               <i className={classNames('icon--header_menu_close')} />
             ) : (
               <i className={classNames('icon--header_menu_list')} />

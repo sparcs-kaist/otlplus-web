@@ -16,7 +16,7 @@ import {
   deleteTimetable,
   duplicateTimetable,
   reorderTimetable,
-  setMobileIsTimetableTabsOpen,
+  setIsTimetableTabsOpenOnMobile,
 } from '../../../../actions/timetable/timetable';
 
 import userShape from '../../../../shapes/model/session/UserShape';
@@ -114,10 +114,10 @@ class TimetableTabs extends Component {
   };
 
   changeTab = (timetable) => {
-    const { setSelectedTimetableDispatch, setMobileIsTimetableTabsOpenDispatch } = this.props;
+    const { setSelectedTimetableDispatch, setIsTimetableTabsOpenOnMobileDispatch } = this.props;
 
     setSelectedTimetableDispatch(timetable);
-    setMobileIsTimetableTabsOpenDispatch(false);
+    setIsTimetableTabsOpenOnMobileDispatch(false);
 
     ReactGA.event({
       category: 'Timetable - Timetable',
@@ -563,8 +563,8 @@ const mapDispatchToProps = (dispatch) => ({
   reorderTimetableDispatch: (timetable, arrangeOrder) => {
     dispatch(reorderTimetable(timetable, arrangeOrder));
   },
-  setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
-    dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
+  setIsTimetableTabsOpenOnMobileDispatch: (isTimetableTabsOpenOnMobile) => {
+    dispatch(setIsTimetableTabsOpenOnMobile(isTimetableTabsOpenOnMobile));
   },
 });
 
@@ -585,7 +585,7 @@ TimetableTabs.propTypes = {
   deleteTimetableDispatch: PropTypes.func.isRequired,
   duplicateTimetableDispatch: PropTypes.func.isRequired,
   reorderTimetableDispatch: PropTypes.func.isRequired,
-  setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
+  setIsTimetableTabsOpenOnMobileDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableTabs));

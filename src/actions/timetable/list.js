@@ -58,9 +58,9 @@ export function deleteLectureFromCart(lecture) {
   };
 }
 
-export function setMobileIsLectureListOpen(mobileIsLectureListOpen) {
+export function setIsLectureListOpenOnMobile(isLectureListOpenOnMobile) {
   return {
     type: SET_MOBILE_IS_LECTURE_LIST_OPEN,
-    mobileIsLectureListOpen: mobileIsLectureListOpen,
+    isLectureListOpenOnMobile: isLectureListOpenOnMobile,
   };
 }

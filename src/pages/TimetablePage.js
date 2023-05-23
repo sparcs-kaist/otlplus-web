@@ -11,7 +11,7 @@ import { reset as resetSemester } from '../actions/timetable/semester';
 import {
   reset as resetTimetable,
   setSelectedTimetable,
-  setMobileIsTimetableTabsOpen,
+  setIsTimetableTabsOpenOnMobile,
 } from '../actions/timetable/timetable';
 
 import CloseButton from '../components/CloseButton';
@@ -63,9 +63,9 @@ class TimetablePage extends Component {
     const { startSemester } = this.props.location.state || {};
     const {
       isPortrait,
-      mobileIsTimetableTabsOpen,
-      mobileIsLectureListOpen,
-      setMobileIsTimetableTabsOpenDispatch,
+      isTimetableTabsOpenOnMobile,
+      isLectureListOpenOnMobile,
+      setIsTimetableTabsOpenOnMobileDispatch,
     } = this.props;
 
     return (
@@ -75,7 +75,7 @@ class TimetablePage extends Component {
             className={classNames(
               'page-grid',
               'page-grid--timetable',
-              mobileIsLectureListOpen ? 'page-grid--timetable--mobile-expanded' : null,
+              isLectureListOpenOnMobile ? 'page-grid--timetable--mobile-expanded' : null,
             )}>
             <LectureDetailSection />
             <LectureListTabs />
@@ -86,9 +86,9 @@ class TimetablePage extends Component {
                 'section--semester-and-timetable-list',
                 !isPortrait && 'section--transparent',
                 isPortrait && 'section--modal',
-                mobileIsTimetableTabsOpen ? null : 'mobile-hidden',
+                isTimetableTabsOpenOnMobile ? null : 'mobile-hidden',
               )}>
-              <CloseButton onClick={() => setMobileIsTimetableTabsOpenDispatch(false)} />
+              <CloseButton onClick={() => setIsTimetableTabsOpenOnMobileDispatch(false)} />
               <TimetableTabs />
               <SemesterSection startSemester={startSemester} />
             </div>
@@ -117,7 +117,7 @@ class TimetablePage extends Component {
               <ExamSubSection />
               <Divider
                 orientation={Divider.Orientation.HORIZONTAL}
-                isVisible={{ desktop: true, mobile: !mobileIsLectureListOpen }}
+                isVisible={{ desktop: true, mobile: !isLectureListOpenOnMobile }}
                 gridArea="divider-sub-3"
               />
               <ShareSubSection />
@@ -133,8 +133,8 @@ const mapStateToProps = (state) => ({
   user: state.common.user.user,
   isPortrait: state.common.media.isPortrait,
   myTimetable: state.timetable.timetable.myTimetable,
-  mobileIsTimetableTabsOpen: state.timetable.timetable.mobileIsTimetableTabsOpen,
-  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
+  isTimetableTabsOpenOnMobile: state.timetable.timetable.isTimetableTabsOpenOnMobile,
+  isLectureListOpenOnMobile: state.timetable.list.isLectureListOpenOnMobile,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -156,8 +156,8 @@ const mapDispatchToProps = (dispatch) => ({
   resetTimetableDispatch: () => {
     dispatch(resetTimetable());
   },
-  setMobileIsTimetableTabsOpenDispatch: (mobileIsTimetableTabsOpen) => {
-    dispatch(setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen));
+  setIsTimetableTabsOpenOnMobileDispatch: (isTimetableTabsOpenOnMobile) => {
+    dispatch(setIsTimetableTabsOpenOnMobile(isTimetableTabsOpenOnMobile));
   },
 });
 
@@ -172,8 +172,8 @@ TimetablePage.propTypes = {
   user: userShape,
   isPortrait: PropTypes.bool.isRequired,
   myTimetable: myPseudoTimetableShape.isRequired,
-  mobileIsTimetableTabsOpen: PropTypes.bool.isRequired,
-  mobileIsLectureListOpen: PropTypes.bool.isRequired,
+  isTimetableTabsOpenOnMobile: PropTypes.bool.isRequired,
+  isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
   setSelectedTimetableDispatch: PropTypes.func.isRequired,
   resetLectureFocusDispatch: PropTypes.func.isRequired,
@@ -181,7 +181,7 @@ TimetablePage.propTypes = {
   resetSearchDispatch: PropTypes.func.isRequired,
   resetSemesterDispatch: PropTypes.func.isRequired,
   resetTimetableDispatch: PropTypes.func.isRequired,
-  setMobileIsTimetableTabsOpenDispatch: PropTypes.func.isRequired,
+  setIsTimetableTabsOpenOnMobileDispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);

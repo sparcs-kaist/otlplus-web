@@ -12,7 +12,7 @@ import TimetableTile from '../../../tiles/TimetableTile';
 import { setLectureFocus, clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
 import {
   setSelectedListCode,
-  setMobileIsLectureListOpen,
+  setIsLectureListOpenOnMobile,
 } from '../../../../actions/timetable/list';
 import {
   setClasstimeOptions,
@@ -61,10 +61,10 @@ class TimetableSubSection extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { mobileIsLectureListOpen } = this.props;
+    const { isLectureListOpenOnMobile } = this.props;
     this.resize();
 
-    if (prevProps.mobileIsLectureListOpen !== mobileIsLectureListOpen) {
+    if (prevProps.isLectureListOpenOnMobile !== isLectureListOpenOnMobile) {
       const TOTAL_DURATION = 0.15;
       const INTERVAL = 0.05;
 
@@ -190,7 +190,7 @@ class TimetableSubSection extends Component {
       setClasstimeOptionsDispatch,
       clearClasstimeOptionsDispatch,
       setSelectedListCodeDispatch,
-      setMobileIsLectureListOpenDispatch,
+      setIsLectureListOpenOnMobileDispatch,
     } = this.props;
 
     if (!isDragging) {
@@ -210,7 +210,7 @@ class TimetableSubSection extends Component {
     const upperTime = Math.min(firstCellTime, secondCellTime);
     const lowerTime = Math.max(firstCellTime, secondCellTime) + 30;
     setClasstimeOptionsDispatch(day, upperTime, lowerTime);
-    setMobileIsLectureListOpenDispatch(true);
+    setIsLectureListOpenOnMobileDispatch(true);
     setSelectedListCodeDispatch(LectureListCode.SEARCH);
     openSearchDispatch();
   };
@@ -276,7 +276,7 @@ class TimetableSubSection extends Component {
   render() {
     const { t } = this.props;
     const { firstDragCell, secondDragCell } = this.state;
-    const { selectedTimetable, lectureFocus, cellWidth, cellHeight, mobileIsLectureListOpen } =
+    const { selectedTimetable, lectureFocus, cellWidth, cellHeight, isLectureListOpenOnMobile } =
       this.props;
 
     const overallLectures = getOverallLectures(selectedTimetable, lectureFocus);
@@ -325,7 +325,7 @@ class TimetableSubSection extends Component {
           isHighlighted={isFocused(lecture, lectureFocus)}
           isDimmed={isDimmedTableLecture(lecture, lectureFocus)}
           isTemp={isTemp}
-          isSimple={mobileIsLectureListOpen}
+          isSimple={isLectureListOpenOnMobile}
           onMouseOver={isTemp ? null : this.focusLectureWithHover}
           onMouseOut={isTemp ? null : this.unfocusLectureWithHover}
           onClick={isTemp ? null : this.focusLectureWithClick}
@@ -435,7 +435,7 @@ class TimetableSubSection extends Component {
                 className={classNames(
                   'subsection--timetable__table__body__line',
                   'subsection--timetable__table__body__line--dashed',
-                  mobileIsLectureListOpen
+                  isLectureListOpenOnMobile
                     ? 'subsection--timetable__table__body__line--mobile-noline'
                     : null,
                 )}
@@ -482,7 +482,7 @@ class TimetableSubSection extends Component {
           className={classNames(
             'subsection--timetable__table__body__line',
             'subsection--timetable__table__body__line--dashed',
-            mobileIsLectureListOpen
+            isLectureListOpenOnMobile
               ? 'subsection--timetable__table__body__line--mobile-noline'
               : null,
           )}
@@ -493,7 +493,7 @@ class TimetableSubSection extends Component {
           className={classNames(
             'subsection--timetable__table__body__line',
             'subsection--timetable__table__body__line--dashed',
-            mobileIsLectureListOpen
+            isLectureListOpenOnMobile
               ? 'subsection--timetable__table__body__line--mobile-noline'
               : null,
           )}
@@ -563,7 +563,7 @@ const mapStateToProps = (state) => ({
   cellWidth: state.timetable.timetable.cellWidth,
   cellHeight: state.timetable.timetable.cellHeight,
   isDragging: state.timetable.timetable.isDragging,
-  mobileIsLectureListOpen: state.timetable.list.mobileIsLectureListOpen,
+  isLectureListOpenOnMobile: state.timetable.list.isLectureListOpenOnMobile,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -594,8 +594,8 @@ const mapDispatchToProps = (dispatch) => ({
   setSelectedListCodeDispatch: (listCode) => {
     dispatch(setSelectedListCode(listCode));
   },
-  setMobileIsLectureListOpenDispatch: (mobileIsLectureListOpen) => {
-    dispatch(setMobileIsLectureListOpen(mobileIsLectureListOpen));
+  setIsLectureListOpenOnMobileDispatch: (isLectureListOpenOnMobile) => {
+    dispatch(setIsLectureListOpenOnMobile(isLectureListOpenOnMobile));
   },
 });
 
@@ -606,7 +606,7 @@ TimetableSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  mobileIsLectureListOpen: PropTypes.bool.isRequired,
+  isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
   openSearchDispatch: PropTypes.func.isRequired,
@@ -617,7 +617,7 @@ TimetableSubSection.propTypes = {
   clearLectureFocusDispatch: PropTypes.func.isRequired,
   removeLectureFromTimetableDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
-  setMobileIsLectureListOpenDispatch: PropTypes.func.isRequired,
+  setIsLectureListOpenOnMobileDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(TimetableSubSection));

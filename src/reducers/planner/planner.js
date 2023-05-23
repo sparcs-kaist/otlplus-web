@@ -21,7 +21,7 @@ const initialState = {
   cellHeight: 50,
   isDragging: false,
   isTrackSettingsSectionOpen: false,
-  mobileIsPlannerTabsOpen: false,
+  isPlannerTabsOpenOnMobile: false,
 };
 
 const getListNameOfType = (type) => {
