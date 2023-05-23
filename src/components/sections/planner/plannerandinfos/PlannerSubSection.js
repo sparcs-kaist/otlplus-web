@@ -505,6 +505,13 @@ class PlannerSubSection extends Component {
           cellHeight={cellHeight}
           isPlannerWithSummer={hasSummerSemester}
           isPlannerWithWinter={hasWinterSemester}
+          isDuplicate={
+            i.item_type !== 'ARBITRARY' &&
+            !i.is_excluded &&
+            [...selectedPlanner.taken_items, ...selectedPlanner.future_items].filter(
+              (i2) => getCourseOfItem(i2).id === getCourseOfItem(i).id && !i2.is_excluded,
+            ).length > 1
+          }
           isRaised={isTableClickedItem(i, itemFocus)}
           isHighlighted={isFocusedItem(i, itemFocus, selectedPlanner)}
           isDimmed={isDimmedItem(i, itemFocus)}
