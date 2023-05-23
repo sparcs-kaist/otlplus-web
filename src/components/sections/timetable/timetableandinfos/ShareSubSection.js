@@ -49,13 +49,13 @@ class ShareSubSection extends Component {
                   <span className={classNames('mobile-hidden')}>{t('ui.button.shareImage')}</span>
                 </a>
               </div>
-              <a
+              {/* <a
                 style={{ display: 'none' }}
                 href={`/api/share/timetable/calendar?${apiParameter}`}
                 target="_blank"
                 rel="noopener noreferrer">
                 <i className={classNames('icon', 'icon--share-googlecalendar')} />
-              </a>
+              </a> */}
               <div className={classNames('subsection--share__item')}>
                 <a href={`/api/share/timetable/ical?${apiParameter}`} download>
                   <i className={classNames('icon', 'icon--share-icalendar')} />
@@ -94,9 +94,9 @@ class ShareSubSection extends Component {
                   <span className={classNames('mobile-hidden')}>{t('ui.button.shareImage')}</span>
                 </span>
               </div>
-              <span style={{ display: 'none' }} className={classNames('disabled')}>
+              {/* <span style={{ display: 'none' }} className={classNames('disabled')}>
                 <i className={classNames('icon', 'icon--share-googlecalendar')} />
-              </span>
+              </span> */}
               <div className={classNames('subsection--share__item')}>
                 <span className={classNames('disabled')}>
                   <i className={classNames('icon', 'icon--share-icalendar')} />
