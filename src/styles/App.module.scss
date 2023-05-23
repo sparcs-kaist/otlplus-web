@@ -1372,6 +1372,9 @@ a {
           & span {
             font-size: $font-size-small;
             font-weight: bold;
+            @media #{$media-portrait} {
+              display: none;
+            }
           }
         }
 
