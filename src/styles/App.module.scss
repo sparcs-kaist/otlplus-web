@@ -1384,10 +1384,6 @@ a {
         }
       }
 
-      & .divider {
-        margin: 0 0 $section-padding 0;
-      }
-
       @media #{$media-portrait} {
         height: 10px;
         float: left;
