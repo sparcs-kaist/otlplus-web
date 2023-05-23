@@ -1353,6 +1353,13 @@ a {
     grid-area: share;
 
     & > div:first-child {
+      @media #{$media-portrait} {
+        height: 10px;
+        float: left;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+
       .subsection--share__item {
         &:not(:last-child) {
           margin-bottom: 8px;
@@ -1361,6 +1368,7 @@ a {
           margin-bottom: $section-padding;
         }
         @media #{$media-portrait} {
+          display: inline-block;
           margin-right: 8px;
         }
 
@@ -1386,17 +1394,6 @@ a {
         & .disabled {
           color: $color-text-disable;
         }
-
-        @media #{$media-portrait} {
-          display: inline-block;
-        }
-      }
-
-      @media #{$media-portrait} {
-        height: 10px;
-        float: left;
-        margin-right: 8px;
-        vertical-align: middle;
       }
     }
 
