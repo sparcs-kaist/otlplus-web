@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
 $color-page-background: #f9f0f0;
 $color-section-background: #ffffff;
 $color-tab-background: $color-section-background;
@@ -26,6 +28,8 @@ $color-divider-line: #edd1dc;
 $color-block-line: #c9c9c9;
 $color-normal-line: #e8e8e8;
 $color-normal-line-dark: #c9c9c9;
+
+$font-stack: 'noto-sans-cjk-kr', sans-serif;
 
 $font-size-big: 14px;
 $line-height-big: 15px;
@@ -125,7 +129,7 @@ $section-height-desktop-lecture-detail: calc(
 );
 
 body * {
-  font-family: sans-serif;
+  font-family: $font-stack;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
