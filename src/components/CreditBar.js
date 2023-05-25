@@ -33,12 +33,13 @@ class CreditBar extends Component {
         ? 1
         : 2;
 
+    const Tag = isCategoryFocused ? 'span' : React.Fragment;
     const text = (
       <>
-        {takenCredit}
+        <Tag>{takenCredit}</Tag>
         {focusPosition === 1 && <span>{`(${focusedCredit})`}</span>}
         {' \u2192 '}
-        {takenCredit + plannedCredit}
+        <Tag>{takenCredit + plannedCredit}</Tag>
         {focusPosition === 2 && <span>{`(${focusedCredit})`}</span>}
         {focusPosition === 3 && <span>{`+${focusedCredit}`}</span>}
         {' / '}
