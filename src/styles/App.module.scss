@@ -754,18 +754,10 @@ a {
     height: initial;
     z-index: 200;
     box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
-    @media #{$media-landscape} {
-      top: $section-margin-top;
-      bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
-      left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
-      right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
-    }
-    @media #{$media-portrait} {
-      top: $section-margin-top;
-      bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
-      left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
-      right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
-    }
+    top: $section-margin-top;
+    bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
+    left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
+    right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
   }
 
   &--popup {
@@ -779,38 +771,12 @@ a {
     transform: translate(-50%, calc(-50% - #{$header-height} / 2));
   }
 
-  &--mobile-modal {
-    @media #{$media-portrait} {
-      position: absolute;
-      top: $section-margin-top;
-      bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
-      left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
-      right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
-      width: initial;
-      height: initial;
-      z-index: 200;
-      box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
-    }
-  }
-
-  &--desktop-transparent {
-    @media #{$media-landscape} {
-      padding: initial !important;
-      background-color: initial;
-      border-radius: initial;
-      background-origin: initial;
-      box-shadow: initial;
-    }
-  }
-
-  &--mobile-transparent {
-    @media #{$media-portrait} {
-      padding: initial !important;
-      background-color: initial;
-      border-radius: initial;
-      background-origin: initial;
-      box-shadow: initial;
-    }
+  &--transparent {
+    padding: initial !important;
+    background-color: initial;
+    border-radius: initial;
+    background-origin: initial;
+    box-shadow: initial;
   }
 
   &--main-search {
@@ -2040,7 +2006,7 @@ a {
   right: $section-padding;
   background-color: rgba($color-section-background, $opacity-text-overlay);
   z-index: 90;
-  .section--mobile-modal & {
+  .section--modal & {
     z-index: 290;
   }
 

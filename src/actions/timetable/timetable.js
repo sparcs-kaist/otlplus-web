@@ -109,9 +109,9 @@ export function setIsDragging(isDragging) {
   };
 }
 
-export function setMobileIsTimetableTabsOpen(mobileIsTimetableTabsOpen) {
+export function setIsTimetableTabsOpenOnMobile(isTimetableTabsOpenOnMobile) {
   return {
     type: SET_MOBILE_IS_TIMETABLE_TABS_OPEN,
-    mobileIsTimetableTabsOpen: mobileIsTimetableTabsOpen,
+    isTimetableTabsOpenOnMobile: isTimetableTabsOpenOnMobile,
   };
 }

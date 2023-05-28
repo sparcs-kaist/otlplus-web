@@ -28,7 +28,7 @@ const initialState = {
   cellWidth: 200,
   cellHeight: 50,
   isDragging: false,
-  mobileIsTimetableTabsOpen: false,
+  isTimetableTabsOpenOnMobile: false,
 };
 
 const timetable = (state = initialState, action) => {
@@ -188,7 +188,7 @@ const timetable = (state = initialState, action) => {
     }
     case SET_MOBILE_IS_TIMETABLE_TABS_OPEN: {
       return Object.assign({}, state, {
-        mobileIsTimetableTabsOpen: action.mobileIsTimetableTabsOpen,
+        isTimetableTabsOpenOnMobile: action.isTimetableTabsOpenOnMobile,
       });
     }
     default: {

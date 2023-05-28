@@ -363,7 +363,7 @@ class LectureDetailSection extends Component {
   render() {
     const { t } = this.props;
     const { shouldShowCloseDict } = this.state;
-    const { lectureFocus, selectedTimetable, lists } = this.props;
+    const { isPortrait, lectureFocus, selectedTimetable, lists } = this.props;
 
     const isSingleFocus =
       lectureFocus.from === LectureFocusFrom.LIST || lectureFocus.from === LectureFocusFrom.TABLE;
@@ -628,7 +628,7 @@ class LectureDetailSection extends Component {
         className={classNames(
           'section',
           'section--lecture-detail',
-          'section--mobile-modal',
+          isPortrait && 'section--modal',
           lectureFocus.clicked ? null : 'mobile-hidden',
         )}>
         <div

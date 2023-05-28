@@ -94,7 +94,7 @@ class SemesterSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { year, semester } = this.props;
+    const { isPortrait, year, semester } = this.props;
 
     const sectionContent =
       year && semester ? (
@@ -116,7 +116,12 @@ class SemesterSection extends Component {
       );
 
     return (
-      <div className={classNames('section', 'section--semester', 'section--mobile-transparent')}>
+      <div
+        className={classNames(
+          'section',
+          'section--semester',
+          isPortrait && 'section--transparent',
+        )}>
         <div
           className={classNames(
             'subsection',
@@ -132,6 +137,7 @@ class SemesterSection extends Component {
 
 const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
+  isPortrait: state.common.media.isPortrait,
   year: state.timetable.semester.year,
   semester: state.timetable.semester.semester,
 });
@@ -144,6 +150,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 SemesterSection.propTypes = {
   startSemester: semesterShape,
+  isPortrait: PropTypes.bool.isRequired,
 
   semesters: PropTypes.arrayOf(semesterShape),
   year: PropTypes.number,
