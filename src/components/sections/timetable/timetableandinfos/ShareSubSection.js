@@ -46,22 +46,20 @@ class ShareSubSection extends Component {
               <div className={classNames('subsection--share__item')}>
                 <a href={`/api/share/timetable/image?${apiParameter}`} download>
                   <i className={classNames('icon', 'icon--share-image')} />
-                  <span className={classNames('mobile-hidden')}>{t('ui.button.shareImage')}</span>
+                  <span>{t('ui.button.shareImage')}</span>
                 </a>
               </div>
-              <a
+              {/* <a
                 style={{ display: 'none' }}
                 href={`/api/share/timetable/calendar?${apiParameter}`}
                 target="_blank"
                 rel="noopener noreferrer">
                 <i className={classNames('icon', 'icon--share-googlecalendar')} />
-              </a>
+              </a> */}
               <div className={classNames('subsection--share__item')}>
                 <a href={`/api/share/timetable/ical?${apiParameter}`} download>
                   <i className={classNames('icon', 'icon--share-icalendar')} />
-                  <span className={classNames('mobile-hidden')}>
-                    {t('ui.button.shareCalendar')}
-                  </span>
+                  <span>{t('ui.button.shareCalendar')}</span>
                 </a>
               </div>
               <Divider
@@ -82,7 +80,7 @@ class ShareSubSection extends Component {
                   target="_blank"
                   rel="noopener noreferrer">
                   <i className={classNames('icon', 'icon--share-syllabus')} />
-                  <span className={classNames('mobile-hidden')}>{t('ui.button.openSyllabus')}</span>
+                  <span>{t('ui.button.openSyllabus')}</span>
                 </Link>
               </div>
             </>
@@ -91,18 +89,16 @@ class ShareSubSection extends Component {
               <div className={classNames('subsection--share__item')}>
                 <span className={classNames('disabled')}>
                   <i className={classNames('icon', 'icon--share-image')} />
-                  <span className={classNames('mobile-hidden')}>{t('ui.button.shareImage')}</span>
+                  <span>{t('ui.button.shareImage')}</span>
                 </span>
               </div>
-              <span style={{ display: 'none' }} className={classNames('disabled')}>
+              {/* <span style={{ display: 'none' }} className={classNames('disabled')}>
                 <i className={classNames('icon', 'icon--share-googlecalendar')} />
-              </span>
+              </span> */}
               <div className={classNames('subsection--share__item')}>
                 <span className={classNames('disabled')}>
                   <i className={classNames('icon', 'icon--share-icalendar')} />
-                  <span className={classNames('mobile-hidden')}>
-                    {t('ui.button.shareCalendar')}
-                  </span>
+                  <span>{t('ui.button.shareCalendar')}</span>
                 </span>
               </div>
               <Divider
@@ -113,7 +109,7 @@ class ShareSubSection extends Component {
               <div className={classNames('subsection--share__item')}>
                 <span className={classNames('disabled')}>
                   <i className={classNames('icon', 'icon--share-syllabus')} />
-                  <span className={classNames('mobile-hidden')}>{t('ui.button.openSyllabus')}</span>
+                  <span>{t('ui.button.openSyllabus')}</span>
                 </span>
               </div>
             </>
