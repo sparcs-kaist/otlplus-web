@@ -35,16 +35,16 @@ export const isMultipleFocusedItem = (item, itemFocus, planner) => {
   }
   const focusedCategory = itemFocus.category;
   const itemCategory = getCategoryOfItem(planner, item);
+  if (focusedCategory[0] === CategoryFirstIndex.TOTAL) {
+    if (focusedCategory[2] === 0) {
+      return getCreditOfItem(item) > 0;
+    }
+    return getAuOfItem(item) > 0;
+  }
   if (focusedCategory[0] !== itemCategory[0]) {
     return false;
   }
   switch (focusedCategory[0]) {
-    case CategoryFirstIndex.TOTAL: {
-      if (focusedCategory[2] === 0) {
-        return getCreditOfItem(item) > 0;
-      }
-      return getAuOfItem(item) > 0;
-    }
     case CategoryFirstIndex.MAJOR: {
       const targetSmt = getSeparateMajorTracks(planner)[focusedCategory[1]];
       if (targetSmt.major_required === 0) {
