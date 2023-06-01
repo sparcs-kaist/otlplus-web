@@ -13,6 +13,7 @@ import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
+import { isSpecialLectureCourse } from '../../../../utils/courseUtils';
 import { getSemesterName, getTimetableSemester } from '../../../../utils/semesterUtils';
 import { getCourseOfItem } from '../../../../utils/itemUtils';
 import Attributes from '../../../Attributes';
@@ -35,7 +36,10 @@ class CourseCustomizeSubSection extends Component {
     } = this.props;
 
     const duplicateFutureItems = selectedPlanner.future_items.filter(
-      (fi) => !fi.is_excluded && getCourseOfItem(fi).id === course.id,
+      (fi) =>
+        !fi.is_excluded &&
+        !isSpecialLectureCourse(getCourseOfItem(fi)) &&
+        getCourseOfItem(fi).id === course.id,
     );
     if (duplicateFutureItems.length > 0) {
       // eslint-disable-next-line no-alert
@@ -44,7 +48,10 @@ class CourseCustomizeSubSection extends Component {
     }
 
     const duplicateTakenItems = selectedPlanner.taken_items.filter(
-      (ti) => !ti.is_excluded && getCourseOfItem(ti).id === course.id,
+      (ti) =>
+        !ti.is_excluded &&
+        !isSpecialLectureCourse(getCourseOfItem(ti)) &&
+        getCourseOfItem(ti).id === course.id,
     );
     if (duplicateTakenItems.length > 0) {
       // eslint-disable-next-line no-alert
