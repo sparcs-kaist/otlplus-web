@@ -14,3 +14,8 @@ export const getProfessorsFullStr = (course) => {
   const professorNames = professors.map((p) => p[i18n.t('js.property.name')]);
   return professorNames.join(', ');
 };
+
+export const isSpecialLectureCourse = (course) =>
+  course.title.includes('특강') ||
+  course.title_en.includes('Special Lectures') ||
+  course.title_en.includes('Special Topics');
