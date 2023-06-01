@@ -41,7 +41,7 @@ const store = createStore(
 );
 
 class App extends Component {
-  portraitMediaQuery = window.matchMedia('(orientation: portrait)');
+  portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)');
 
   componentDidMount() {
     this._fetchUser();

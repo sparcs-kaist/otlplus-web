@@ -107,10 +107,10 @@ $score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
 $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 
 $media-landscape: (
-  min-aspect-ratio: 1,
+  min-aspect-ratio: 4/3,
 );
 $media-portrait: (
-  max-aspect-ratio: 1,
+  max-aspect-ratio: 4/3,
 );
 $media-no-hover: (
   hover: none,
