@@ -22,6 +22,7 @@ const PlannerTile = ({
   cellHeight,
   isPlannerWithSummer,
   isPlannerWithWinter,
+  isDuplicate,
   isRaised,
   isHighlighted,
   isDimmed,
@@ -131,6 +132,17 @@ const PlannerTile = ({
             X
           </p>
         )}
+        {isDuplicate && (
+          <p
+            className={classNames(
+              'tile--planner__content__label',
+              isSimple ? 'mobile-hidden' : null,
+              `background-color--${color}`,
+              'background-color--dark',
+            )}>
+            !
+          </p>
+        )}
       </div>
     </div>
   );
@@ -152,6 +164,7 @@ PlannerTile.propTypes = {
   cellHeight: PropTypes.number.isRequired,
   isPlannerWithSummer: PropTypes.bool.isRequired,
   isPlannerWithWinter: PropTypes.bool.isRequired,
+  isDuplicate: PropTypes.bool.isRequired,
   isRaised: PropTypes.bool.isRequired,
   isHighlighted: PropTypes.bool.isRequired,
   isDimmed: PropTypes.bool.isRequired,
