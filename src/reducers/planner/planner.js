@@ -11,6 +11,7 @@ import {
   REMOVE_ITEM_FROM_PLANNER,
   REORDER_PLANNER,
   UPDATE_CELL_SIZE,
+  SET_COURSE_TO_ADD,
   SET_IS_TRACK_SETTINGS_SECTION_OPEN,
 } from '../../actions/planner/planner';
 
@@ -20,6 +21,7 @@ const initialState = {
   cellWidth: 200,
   cellHeight: 50,
   isDragging: false,
+  courseToAdd: null,
   isTrackSettingsSectionOpen: false,
   isPlannerTabsOpenOnMobile: false,
 };
@@ -166,6 +168,11 @@ const planner = (state = initialState, action) => {
       return Object.assign({}, state, {
         cellWidth: action.width,
         cellHeight: action.height,
+      });
+    }
+    case SET_COURSE_TO_ADD: {
+      return Object.assign({}, state, {
+        courseToAdd: action.course,
       });
     }
     case SET_IS_TRACK_SETTINGS_SECTION_OPEN: {

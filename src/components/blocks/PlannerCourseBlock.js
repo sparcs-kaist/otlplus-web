@@ -16,6 +16,7 @@ const PlannerCourseBlock = ({
   onMouseOver,
   onMouseOut,
   onClick,
+  addToPlanner,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
@@ -32,6 +33,10 @@ const PlannerCourseBlock = ({
         onClick(course);
       }
     : null;
+  const handleAddToPlannerClick = (event) => {
+    event.stopPropagation();
+    addToPlanner(course);
+  };
 
   return (
     <div
@@ -53,7 +58,9 @@ const PlannerCourseBlock = ({
         </div>
         <div className={classNames('block--planner-course__text__subtitle')}>{course.old_code}</div>
       </div>
-      <button className={classNames('block--planner-course__button')}>
+      <button
+        className={classNames('block--planner-course__button')}
+        onClick={handleAddToPlannerClick}>
         <i className={classNames('icon', 'icon--add-lecture')} />
       </button>
     </div>
@@ -68,6 +75,7 @@ PlannerCourseBlock.propTypes = {
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func,
   onClick: PropTypes.func,
+  addToPlanner: PropTypes.func,
 };
 
 export default withTranslation()(React.memo(PlannerCourseBlock));
