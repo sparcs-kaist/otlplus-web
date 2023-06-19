@@ -47,10 +47,15 @@ const PlannerCourseBlock = ({
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}>
       <div className={classNames('block__completed-text')}>{t('ui.others.added')}</div>
-      <div className={classNames('block--planner-course__title')}>
-        {course[t('js.property.title')]}
+      <div className={classNames('block--planner-course__text')}>
+        <div className={classNames('block--planner-course__text__title')}>
+          {course[t('js.property.title')]}
+        </div>
+        <div className={classNames('block--planner-course__text__subtitle')}>{course.old_code}</div>
       </div>
-      <div className={classNames('block--planner-course__subtitle')}>{course.old_code}</div>
+      <button className={classNames('block--planner-course__button')}>
+        <i className={classNames('icon', 'icon--add-lecture')} />
+      </button>
     </div>
   );
 };
