@@ -165,7 +165,7 @@ class CourseListTabs extends Component {
       [CourseListCode.TAKEN, 'Taken'],
     ]);
     ReactGA.event({
-      category: 'Dictionary - List',
+      category: 'Planner - List',
       action: 'Switched Course List',
       label: `Course List : ${labelOfTabs.get(listCode) || listCode}`,
     });

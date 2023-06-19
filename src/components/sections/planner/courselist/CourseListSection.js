@@ -77,7 +77,7 @@ class CourseListSection extends Component {
         [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
-        category: 'Dictionary - Selection',
+        category: 'Planner - Selection',
         action: 'Selected Course',
         label: `Course : ${course.id} / From : Course List : ${
           labelOfTabs.get(selectedListCode) || selectedListCode
@@ -93,7 +93,7 @@ class CourseListSection extends Component {
         [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
-        category: 'Dictionary - Selection',
+        category: 'Planner - Selection',
         action: 'Unselected Course',
         label: `Course : ${course.id} / From : Course List : ${
           labelOfTabs.get(selectedListCode) || selectedListCode
