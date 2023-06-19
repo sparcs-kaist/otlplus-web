@@ -2072,6 +2072,7 @@ a {
     font-size: $font-size-smaller;
     line-height: $line-height-smaller;
     position: absolute;
+    z-index: 1;
     top: 0;
     right: 0;
     padding: ($block-padding-tb + ($font-size-normal - $font-size-smaller) / 2) $block-padding-lr
@@ -2105,16 +2106,24 @@ a {
   &--planner-course {
     cursor: pointer;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
 
     &:last-child {
       margin-bottom: 0;
     }
 
-    &__title {
-      font-weight: bold;
-      margin-bottom: 2px;
+    &__text {
+      flex: 1 1 auto;
+
+      &__title {
+        font-weight: bold;
+        margin-bottom: 2px;
+      }
+    }
+
+    &__button {
+      margin-left: 6px;
     }
   }
 
