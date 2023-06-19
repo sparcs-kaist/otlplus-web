@@ -37,6 +37,7 @@ import {
   getTermOptions,
 } from '../../../../common/searchOptions';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+import { setCourseToAdd } from '../../../../actions/planner/planner';
 
 class CourseListSection extends Component {
   showSearch = () => {
@@ -99,6 +100,12 @@ class CourseListSection extends Component {
         }`,
       });
     }
+  };
+
+  setCourseToAddToPlanner = (course) => {
+    const { setCourseToAddDispatch } = this.props;
+
+    setCourseToAddDispatch(course);
   };
 
   _getArbitraryCourses = () => {
@@ -250,6 +257,7 @@ class CourseListSection extends Component {
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
                 onClick={this.focusCourseWithClick}
+                addToPlanner={this.setCourseToAddToPlanner}
               />
             ))}
             {courses.map((c) => (
@@ -262,6 +270,7 @@ class CourseListSection extends Component {
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
                 onClick={this.focusCourseWithClick}
+                addToPlanner={this.setCourseToAddToPlanner}
               />
             ))}
           </div>
@@ -301,6 +310,9 @@ const mapDispatchToProps = (dispatch) => ({
   clearItemFocusDispatch: () => {
     dispatch(clearItemFocus());
   },
+  setCourseToAddDispatch: (course) => {
+    dispatch(setCourseToAdd(course));
+  },
 });
 
 CourseListSection.propTypes = {
@@ -315,6 +327,7 @@ CourseListSection.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   setItemFocusDispatch: PropTypes.func.isRequired,
   clearItemFocusDispatch: PropTypes.func.isRequired,
+  setCourseToAddDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListSection));
