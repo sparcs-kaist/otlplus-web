@@ -23,7 +23,10 @@ import { isDimmedListCourse, isClickedListCourse } from '../../../../utils/itemF
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
-import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
+import courseShape from '../../../../shapes/model/subject/CourseShape';
+import itemFocusShape, {
+  arbitraryPseudoCourseShape,
+} from '../../../../shapes/state/planner/ItemFocusShape';
 import courseListsShape from '../../../../shapes/state/dictionary/CourseListsShape';
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
@@ -172,8 +175,15 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const { user, itemFocus, selectedListCode, selectedPlanner, searchOpen, lastSearchOption } =
-      this.props;
+    const {
+      user,
+      itemFocus,
+      selectedListCode,
+      selectedPlanner,
+      courseToAdd,
+      searchOpen,
+      lastSearchOption,
+    } = this.props;
 
     const getListTitle = () => {
       if (selectedListCode === CourseListCode.SEARCH) {
@@ -252,7 +262,7 @@ class CourseListSection extends Component {
                 course={c}
                 key={c.id}
                 isRaised={isClickedListCourse(c, itemFocus)}
-                isDimmed={isDimmedListCourse(c, itemFocus)}
+                isDimmed={isDimmedListCourse(c, itemFocus, courseToAdd)}
                 isAdded={false}
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
@@ -265,7 +275,7 @@ class CourseListSection extends Component {
                 course={c}
                 key={c.id}
                 isRaised={isClickedListCourse(c, itemFocus)}
-                isDimmed={isDimmedListCourse(c, itemFocus)}
+                isDimmed={isDimmedListCourse(c, itemFocus, courseToAdd)}
                 isAdded={isAddedCourse(c, selectedPlanner)}
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
@@ -295,6 +305,7 @@ const mapStateToProps = (state) => ({
   selectedListCode: state.planner.list.selectedListCode,
   lists: state.planner.list.lists,
   selectedPlanner: state.planner.planner.selectedPlanner,
+  courseToAdd: state.planner.planner.courseToAdd,
   itemFocus: state.planner.itemFocus,
   searchOpen: state.planner.search.open,
   lastSearchOption: state.planner.search.lastSearchOption,
@@ -320,6 +331,7 @@ CourseListSection.propTypes = {
   selectedListCode: PropTypes.string.isRequired,
   lists: courseListsShape,
   selectedPlanner: plannerShape,
+  courseToAdd: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
   itemFocus: itemFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: courseLastSearchOptionShape.isRequired,
