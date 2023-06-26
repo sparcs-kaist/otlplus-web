@@ -600,7 +600,17 @@ class PlannerSubSection extends Component {
           cellHeight={cellHeight}
           isPlannerWithSummer={hasSummerSemester}
           isPlannerWithWinter={hasWinterSemester}
-          onClick={() => this.addCourseToPlanner(courseToAdd, year, semester)}
+          options={[
+            {
+              label: `${getSemesterName(semester)}학기에 추가하기`,
+              onClick: () => this.addCourseToPlanner(courseToAdd, year, semester),
+            },
+            {
+              label: `${getSemesterName(semester + 1)}학기에 추가하기`,
+              onClick: () => this.addCourseToPlanner(courseToAdd, year, semester + 1),
+              isSmall: true,
+            },
+          ]}
         />
       );
     };
