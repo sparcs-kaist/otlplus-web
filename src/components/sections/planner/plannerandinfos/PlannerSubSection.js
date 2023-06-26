@@ -9,7 +9,13 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
 
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
-import { removeItemFromPlanner, updateCellSize } from '../../../../actions/planner/planner';
+import {
+  addItemToPlanner,
+  removeItemFromPlanner,
+  setCourseToAdd,
+  updateCellSize,
+  updateItemInPlanner,
+} from '../../../../actions/planner/planner';
 
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
@@ -31,6 +37,8 @@ import PlannerTile from '../../../tiles/PlannerTile';
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import courseShape from '../../../../shapes/model/subject/CourseShape';
 import PlannerOverlay from '../../../PlannerOverlay';
+
+import { performAddToPlanner } from '../../../../common/commonOperations';
 
 class PlannerSubSection extends Component {
   componentDidMount() {
@@ -122,6 +130,58 @@ class PlannerSubSection extends Component {
     } else {
       setItemFocusDispatch(item, getCourseOfItem(item), this._getFromOfItem(item), true);
     }
+  };
+
+  addCourseToPlanner = (course, year, semester) => {
+    const {
+      user,
+      selectedPlanner,
+      addItemToPlannerDispatch,
+      setItemFocusDispatch,
+      updateItemInPlannerDispatch,
+      setCourseToAddDispatch,
+    } = this.props;
+
+    const beforeRequest = () => {};
+    const afterResponse = (item, duplicateTakenItems) => {
+      addItemToPlannerDispatch(item);
+      setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_FUTURE, true);
+      setCourseToAddDispatch(null);
+      duplicateTakenItems.forEach((ti) => {
+        if (!user) {
+          const newItem = {
+            ...ti,
+            is_excluded: true,
+          };
+          updateItemInPlannerDispatch(newItem);
+        } else {
+          axios
+            .post(`/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`, {
+              item: ti.id,
+              item_type: ti.item_type,
+              is_excluded: true,
+            })
+            .then((response) => {
+              const newProps = this.props;
+              if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+                return;
+              }
+              updateItemInPlannerDispatch(response.data);
+            })
+            .catch((error) => {});
+        }
+      });
+    };
+    performAddToPlanner(
+      course,
+      year,
+      semester,
+      selectedPlanner,
+      user,
+      '',
+      beforeRequest,
+      afterResponse,
+    );
   };
 
   deleteItemFromPlanner = (item) => {
@@ -540,7 +600,7 @@ class PlannerSubSection extends Component {
           cellHeight={cellHeight}
           isPlannerWithSummer={hasSummerSemester}
           isPlannerWithWinter={hasWinterSemester}
-          onClick={() => {}}
+          onClick={() => this.addCourseToPlanner(courseToAdd, year, semester)}
         />
       );
     };
@@ -573,14 +633,23 @@ const mapDispatchToProps = (dispatch) => ({
   updateCellSizeDispatch: (width, height) => {
     dispatch(updateCellSize(width, height));
   },
+  addItemToPlannerDispatch: (item) => {
+    dispatch(addItemToPlanner(item));
+  },
   setItemFocusDispatch: (item, course, from, clicked) => {
     dispatch(setItemFocus(item, course, from, clicked));
+  },
+  updateItemInPlannerDispatch: (item) => {
+    dispatch(updateItemInPlanner(item));
   },
   clearItemFocusDispatch: () => {
     dispatch(clearItemFocus());
   },
   removeItemFromPlannerDispatch: (item) => {
     dispatch(removeItemFromPlanner(item));
+  },
+  setCourseToAddDispatch: (course) => {
+    dispatch(setCourseToAdd(course));
   },
 });
 
@@ -595,9 +664,12 @@ PlannerSubSection.propTypes = {
   // isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
+  addItemToPlannerDispatch: PropTypes.func.isRequired,
   setItemFocusDispatch: PropTypes.func.isRequired,
+  updateItemInPlannerDispatch: PropTypes.func.isRequired,
   clearItemFocusDispatch: PropTypes.func.isRequired,
   removeItemFromPlannerDispatch: PropTypes.func.isRequired,
+  setCourseToAddDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(PlannerSubSection));
