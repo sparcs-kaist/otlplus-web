@@ -13,13 +13,13 @@ import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
-import { isSpecialLectureCourse } from '../../../../utils/courseUtils';
 import { getSemesterName, getTimetableSemester } from '../../../../utils/semesterUtils';
-import { getCourseOfItem } from '../../../../utils/itemUtils';
 import Attributes from '../../../Attributes';
 import { addItemToPlanner, updateItemInPlanner } from '../../../../actions/planner/planner';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import { setItemFocus } from '../../../../actions/planner/itemFocus';
+
+import { performAddToPlanner } from '../../../../common/commonOperations';
 
 class CourseCustomizeSubSection extends Component {
   _createRandomItemId = () => {
@@ -35,95 +35,45 @@ class CourseCustomizeSubSection extends Component {
       updateItemInPlannerDispatch,
     } = this.props;
 
-    const duplicateFutureItems = selectedPlanner.future_items.filter(
-      (fi) =>
-        !fi.is_excluded &&
-        !isSpecialLectureCourse(getCourseOfItem(fi)) &&
-        getCourseOfItem(fi).id === course.id,
-    );
-    if (duplicateFutureItems.length > 0) {
-      // eslint-disable-next-line no-alert
-      alert('동일한 과목의 수강 예정이 이미 추가되어 있습니다.');
-      return;
-    }
-
-    const duplicateTakenItems = selectedPlanner.taken_items.filter(
-      (ti) =>
-        !ti.is_excluded &&
-        !isSpecialLectureCourse(getCourseOfItem(ti)) &&
-        getCourseOfItem(ti).id === course.id,
-    );
-    if (duplicateTakenItems.length > 0) {
-      // eslint-disable-next-line no-alert
-      const userConfirmed = window.confirm(
-        '동일한 과목의 수강 기록이 플래너에 이미 추가되어 있습니다. 정말 추가하시겠습니까? 이전에 수강한 과목은 제외 처리됩니다.',
-      );
-      if (!userConfirmed) {
-        return;
-      }
-    }
-
-    if (!user) {
-      const id = this._createRandomItemId();
-      const item = {
-        id: id,
-        item_type: 'FUTURE',
-        is_excluded: false,
-        course: course,
-        year: year,
-        semester: semester,
-      };
+    const beforeRequest = () => {};
+    const afterResponse = (item, duplicateTakenItems) => {
       addItemToPlannerDispatch(item);
       setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_FUTURE, true);
       duplicateTakenItems.forEach((ti) => {
-        const newItem = {
-          ...ti,
-          is_excluded: true,
-        };
-        updateItemInPlannerDispatch(newItem);
-      });
-    } else {
-      axios
-        .post(
-          `/api/users/${user.id}/planners/${selectedPlanner.id}/add-future-item`,
-          {
-            course: course.id,
-            year: year,
-            semester: semester,
-          },
-          {
-            metadata: {
-              gaCategory: 'Timetable',
-              gaVariable: 'POST Update / Instance',
-            },
-          },
-        )
-        .then((response) => {
-          const newProps = this.props;
-          if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
-            return;
-          }
-          addItemToPlannerDispatch(response.data);
-          setItemFocusDispatch(response.data, course, ItemFocusFrom.TABLE_FUTURE, true);
-        })
-        .catch((error) => {});
-      duplicateTakenItems.forEach((ti) => {
-        axios
-          .post(`/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`, {
-            item: ti.id,
-            item_type: ti.item_type,
+        if (!user) {
+          const newItem = {
+            ...ti,
             is_excluded: true,
-          })
-          .then((response) => {
-            const newProps = this.props;
-            if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
-              return;
-            }
-            updateItemInPlannerDispatch(response.data);
-          })
-          .catch((error) => {});
+          };
+          updateItemInPlannerDispatch(newItem);
+        } else {
+          axios
+            .post(`/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`, {
+              item: ti.id,
+              item_type: ti.item_type,
+              is_excluded: true,
+            })
+            .then((response) => {
+              const newProps = this.props;
+              if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+                return;
+              }
+              updateItemInPlannerDispatch(response.data);
+            })
+            .catch((error) => {});
+        }
       });
-    }
+    };
+    performAddToPlanner(
+      course,
+      year,
+      semester,
+      selectedPlanner,
+      user,
+      '',
+      beforeRequest,
+      afterResponse,
+    );
   };
 
   addArbitraryCourseToPlanner = (course, year, semester) => {
