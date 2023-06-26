@@ -3222,6 +3222,15 @@ a {
     text-align: center;
     color: $color-highlight;
     cursor: pointer;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    &--small {
+      font-size: $font-size-small;
+      line-height: $line-height-small;
+    }
   }
 }
 

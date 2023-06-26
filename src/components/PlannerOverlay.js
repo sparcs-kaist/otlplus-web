@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import { getSemesterName } from '../utils/semesterUtils';
 
 const PlannerOverlay = ({
   t,
@@ -14,14 +13,8 @@ const PlannerOverlay = ({
   cellHeight,
   isPlannerWithSummer,
   isPlannerWithWinter,
-  onClick,
+  options,
 }) => {
-  const handleClick = onClick
-    ? (event) => {
-        onClick();
-      }
-    : null;
-
   const getTop = () => {
     const base = 17 + (isPlannerWithSummer ? 15 : 0) + cellHeight * tableSize;
     if (semesterIndex === 0) {
@@ -41,11 +34,17 @@ const PlannerOverlay = ({
         top: getTop(),
         width: cellWidth + 2,
         height: cellHeight * tableSize - 3,
-      }}
-      onClick={handleClick}>
-      <div className={classNames('planner-overlay__button')}>
-        {`${getSemesterName(semesterIndex * 2 + 1)}학기에 추가하기`}
-      </div>
+      }}>
+      {options.map((o) => (
+        <div
+          className={classNames(
+            'planner-overlay__button',
+            o.isSmall && 'planner-overlay__button--small',
+          )}
+          onClick={o.onClick}>
+          {o.label}
+        </div>
+      ))}
     </div>
   );
 };
@@ -58,7 +57,13 @@ PlannerOverlay.propTypes = {
   cellHeight: PropTypes.number.isRequired,
   isPlannerWithSummer: PropTypes.bool.isRequired,
   isPlannerWithWinter: PropTypes.bool.isRequired,
-  onClick: PropTypes.func,
+  options: PropTypes.arrayOf(
+    PropTypes.exact({
+      label: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
+      isSmall: PropTypes.bool,
+    }),
+  ).isRequired,
 };
 
 export default withTranslation()(React.memo(PlannerOverlay));
