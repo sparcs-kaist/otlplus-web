@@ -3207,6 +3207,24 @@ a {
   }
 }
 
+.planner-overlay {
+  position: absolute;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: $tile-border-radius;
+  z-index: 3;
+  overflow: hidden;
+  background-color: rgba($color-block-background-highlight, 0.7);
+
+  &__button {
+    text-align: center;
+    color: $color-highlight;
+    cursor: pointer;
+  }
+}
+
 .buttons {
   margin-top: 10px;
   text-align: right;

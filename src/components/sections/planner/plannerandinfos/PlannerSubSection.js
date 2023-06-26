@@ -15,7 +15,9 @@ import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
-import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
+import itemFocusShape, {
+  arbitraryPseudoCourseShape,
+} from '../../../../shapes/state/planner/ItemFocusShape';
 
 import {
   getCourseOfItem,
@@ -27,6 +29,8 @@ import { getCategoryOfItem, getColorOfItem } from '../../../../utils/itemCategor
 import { isDimmedItem, isFocusedItem, isTableClickedItem } from '../../../../utils/itemFocusUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 import { getSemesterName } from '../../../../utils/semesterUtils';
+import courseShape from '../../../../shapes/model/subject/CourseShape';
+import PlannerOverlay from '../../../PlannerOverlay';
 
 class PlannerSubSection extends Component {
   componentDidMount() {
@@ -165,6 +169,7 @@ class PlannerSubSection extends Component {
       itemFocus,
       cellWidth,
       cellHeight,
+      courseToAdd,
       // isLectureListOpenOnMobile,
     } = this.props;
 
@@ -525,12 +530,28 @@ class PlannerSubSection extends Component {
       ));
     };
 
+    const getOverlay = (year, semester) => {
+      return (
+        <PlannerOverlay
+          yearIndex={year - plannerStartYear}
+          semesterIndex={semester <= 2 ? 0 : 1}
+          tableSize={tableSize}
+          cellWidth={cellWidth}
+          cellHeight={cellHeight}
+          isPlannerWithSummer={hasSummerSemester}
+          isPlannerWithWinter={hasWinterSemester}
+          onClick={() => {}}
+        />
+      );
+    };
+
     return (
       <div className={classNames('subsection', 'subsection--planner')}>
         <div className={classNames('subsection--planner__table')}>
           {getHeadColumn()}
           {plannerYears.map((y) => getYearColumn(y))}
           {plannerYears.map((y) => [1, 3].map((s) => getTiles(y, s, true)))}
+          {courseToAdd && plannerYears.map((y) => [1, 3].map((s) => getOverlay(y, s)))}
         </div>
       </div>
     );
@@ -544,6 +565,7 @@ const mapStateToProps = (state) => ({
   cellWidth: state.planner.planner.cellWidth,
   cellHeight: state.planner.planner.cellHeight,
   isDragging: state.planner.planner.isDragging,
+  courseToAdd: state.planner.planner.courseToAdd,
   // isLectureListOpenOnMobile: state.planner.list.isLectureListOpenOnMobile,
 });
 
@@ -569,6 +591,7 @@ PlannerSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
+  courseToAdd: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
   // isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
