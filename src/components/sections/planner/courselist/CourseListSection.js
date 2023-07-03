@@ -23,10 +23,7 @@ import { isDimmedListCourse, isClickedListCourse } from '../../../../utils/itemF
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
 import { openSearch } from '../../../../actions/planner/search';
 
-import courseShape from '../../../../shapes/model/subject/CourseShape';
-import itemFocusShape, {
-  arbitraryPseudoCourseShape,
-} from '../../../../shapes/state/planner/ItemFocusShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import courseListsShape from '../../../../shapes/state/dictionary/CourseListsShape';
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
@@ -40,7 +37,6 @@ import {
   getTermOptions,
 } from '../../../../common/searchOptions';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
-import { setCourseToAdd } from '../../../../actions/planner/planner';
 
 class CourseListSection extends Component {
   showSearch = () => {
@@ -106,12 +102,9 @@ class CourseListSection extends Component {
   };
 
   setCourseToAddToPlanner = (course) => {
-    const { itemFocus, setCourseToAddDispatch, clearItemFocusDispatch } = this.props;
+    const { setItemFocusDispatch } = this.props;
 
-    setCourseToAddDispatch(course);
-    if (itemFocus.from !== ItemFocusFrom.LIST || itemFocus.course.id !== course.id) {
-      clearItemFocusDispatch();
-    }
+    setItemFocusDispatch(null, course, ItemFocusFrom.ADDING, true);
   };
 
   _getArbitraryCourses = () => {
@@ -178,15 +171,8 @@ class CourseListSection extends Component {
 
   render() {
     const { t } = this.props;
-    const {
-      user,
-      itemFocus,
-      selectedListCode,
-      selectedPlanner,
-      courseToAdd,
-      searchOpen,
-      lastSearchOption,
-    } = this.props;
+    const { user, itemFocus, selectedListCode, selectedPlanner, searchOpen, lastSearchOption } =
+      this.props;
 
     const getListTitle = () => {
       if (selectedListCode === CourseListCode.SEARCH) {
@@ -265,7 +251,7 @@ class CourseListSection extends Component {
                 course={c}
                 key={c.id}
                 isRaised={isClickedListCourse(c, itemFocus)}
-                isDimmed={isDimmedListCourse(c, itemFocus, courseToAdd)}
+                isDimmed={isDimmedListCourse(c, itemFocus)}
                 isAdded={false}
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
@@ -278,7 +264,7 @@ class CourseListSection extends Component {
                 course={c}
                 key={c.id}
                 isRaised={isClickedListCourse(c, itemFocus)}
-                isDimmed={isDimmedListCourse(c, itemFocus, courseToAdd)}
+                isDimmed={isDimmedListCourse(c, itemFocus)}
                 isAdded={isAddedCourse(c, selectedPlanner)}
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
@@ -308,7 +294,6 @@ const mapStateToProps = (state) => ({
   selectedListCode: state.planner.list.selectedListCode,
   lists: state.planner.list.lists,
   selectedPlanner: state.planner.planner.selectedPlanner,
-  courseToAdd: state.planner.planner.courseToAdd,
   itemFocus: state.planner.itemFocus,
   searchOpen: state.planner.search.open,
   lastSearchOption: state.planner.search.lastSearchOption,
@@ -324,9 +309,6 @@ const mapDispatchToProps = (dispatch) => ({
   clearItemFocusDispatch: () => {
     dispatch(clearItemFocus());
   },
-  setCourseToAddDispatch: (course) => {
-    dispatch(setCourseToAdd(course));
-  },
 });
 
 CourseListSection.propTypes = {
@@ -334,7 +316,6 @@ CourseListSection.propTypes = {
   selectedListCode: PropTypes.string.isRequired,
   lists: courseListsShape,
   selectedPlanner: plannerShape,
-  courseToAdd: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
   itemFocus: itemFocusShape.isRequired,
   searchOpen: PropTypes.bool.isRequired,
   lastSearchOption: courseLastSearchOptionShape.isRequired,
@@ -342,7 +323,6 @@ CourseListSection.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   setItemFocusDispatch: PropTypes.func.isRequired,
   clearItemFocusDispatch: PropTypes.func.isRequired,
-  setCourseToAddDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListSection));

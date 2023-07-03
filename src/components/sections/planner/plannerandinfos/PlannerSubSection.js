@@ -12,7 +12,6 @@ import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFo
 import {
   addItemToPlanner,
   removeItemFromPlanner,
-  setCourseToAdd,
   updateCellSize,
   updateItemInPlanner,
 } from '../../../../actions/planner/planner';
@@ -21,9 +20,6 @@ import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
-import itemFocusShape, {
-  arbitraryPseudoCourseShape,
-} from '../../../../shapes/state/planner/ItemFocusShape';
 
 import {
   getCourseOfItem,
@@ -35,7 +31,6 @@ import { getCategoryOfItem, getColorOfItem } from '../../../../utils/itemCategor
 import { isDimmedItem, isFocusedItem, isTableClickedItem } from '../../../../utils/itemFocusUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 import { getSemesterName } from '../../../../utils/semesterUtils';
-import courseShape from '../../../../shapes/model/subject/CourseShape';
 import PlannerOverlay from '../../../PlannerOverlay';
 
 import {
@@ -43,6 +38,7 @@ import {
   performAddToPlanner,
 } from '../../../../common/commonOperations';
 import semesterShape from '../../../../shapes/model/subject/SemesterShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 class PlannerSubSection extends Component {
   componentDidMount() {
@@ -143,14 +139,12 @@ class PlannerSubSection extends Component {
       addItemToPlannerDispatch,
       setItemFocusDispatch,
       updateItemInPlannerDispatch,
-      setCourseToAddDispatch,
     } = this.props;
 
     const beforeRequest = () => {};
     const afterResponse = (item, duplicateTakenItems) => {
       addItemToPlannerDispatch(item);
       setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_FUTURE, true);
-      setCourseToAddDispatch(null);
       duplicateTakenItems.forEach((ti) => {
         if (!user) {
           const newItem = {
@@ -189,13 +183,7 @@ class PlannerSubSection extends Component {
   };
 
   addArbitraryCourseToPlanner = (course, year, semester) => {
-    const {
-      user,
-      selectedPlanner,
-      addItemToPlannerDispatch,
-      setItemFocusDispatch,
-      setCourseToAddDispatch,
-    } = this.props;
+    const { user, selectedPlanner, addItemToPlannerDispatch, setItemFocusDispatch } = this.props;
 
     const beforeRequest = () => {};
     const afterResponse = (item) => {
@@ -205,7 +193,6 @@ class PlannerSubSection extends Component {
       }
       addItemToPlannerDispatch(item);
       setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_ARBITRARY, true);
-      setCourseToAddDispatch(null);
     };
     performAddArbitraryToPlanner(
       course,
@@ -258,9 +245,9 @@ class PlannerSubSection extends Component {
   };
 
   cancelAddCourseToPlanner = () => {
-    const { setCourseToAddDispatch } = this.props;
+    const { clearItemFocusDispatch } = this.props;
 
-    setCourseToAddDispatch(null);
+    clearItemFocusDispatch();
   };
 
   render() {
@@ -270,7 +257,6 @@ class PlannerSubSection extends Component {
       itemFocus,
       cellWidth,
       cellHeight,
-      courseToAdd,
       semesters,
       // isLectureListOpenOnMobile,
     } = this.props;
@@ -647,9 +633,9 @@ class PlannerSubSection extends Component {
           options={[
             {
               label: `+ ${getSemesterName(semester)}학기에 추가하기`,
-              onClick: !courseToAdd.isArbitrary
-                ? () => this.addCourseToPlanner(courseToAdd, year, semester)
-                : () => this.addArbitraryCourseToPlanner(courseToAdd, year, semester),
+              onClick: !itemFocus.course.isArbitrary
+                ? () => this.addCourseToPlanner(itemFocus.course, year, semester)
+                : () => this.addArbitraryCourseToPlanner(itemFocus.course, year, semester),
               isDisabled:
                 semesterData &&
                 semesterData.courseAddDropPeriodEnd &&
@@ -657,9 +643,9 @@ class PlannerSubSection extends Component {
             },
             {
               label: `+ ${getSemesterName(semester + 1)}학기에 추가하기`,
-              onClick: !courseToAdd.isArbitrary
-                ? () => this.addCourseToPlanner(courseToAdd, year, semester + 1)
-                : () => this.addArbitraryCourseToPlanner(courseToAdd, year, semester + 1),
+              onClick: !itemFocus.course.isArbitrary
+                ? () => this.addCourseToPlanner(itemFocus.course, year, semester + 1)
+                : () => this.addArbitraryCourseToPlanner(itemFocus.course, year, semester + 1),
               isSmall: true,
               isDisabled:
                 semesterData &&
@@ -678,8 +664,9 @@ class PlannerSubSection extends Component {
           {getHeadColumn()}
           {plannerYears.map((y) => getYearColumn(y))}
           {plannerYears.map((y) => [1, 3].map((s) => getTiles(y, s, true)))}
-          {courseToAdd && plannerYears.map((y) => [1, 3].map((s) => getOverlay(y, s)))}
-          {courseToAdd && (
+          {itemFocus.from === ItemFocusFrom.ADDING &&
+            plannerYears.map((y) => [1, 3].map((s) => getOverlay(y, s)))}
+          {itemFocus.from === ItemFocusFrom.ADDING && (
             <PlannerOverlay
               yearIndex={-1}
               semesterIndex={-1}
@@ -711,7 +698,6 @@ const mapStateToProps = (state) => ({
   cellWidth: state.planner.planner.cellWidth,
   cellHeight: state.planner.planner.cellHeight,
   isDragging: state.planner.planner.isDragging,
-  courseToAdd: state.planner.planner.courseToAdd,
   semesters: state.common.semester.semesters,
   // isLectureListOpenOnMobile: state.planner.list.isLectureListOpenOnMobile,
 });
@@ -735,9 +721,6 @@ const mapDispatchToProps = (dispatch) => ({
   removeItemFromPlannerDispatch: (item) => {
     dispatch(removeItemFromPlanner(item));
   },
-  setCourseToAddDispatch: (course) => {
-    dispatch(setCourseToAdd(course));
-  },
 });
 
 PlannerSubSection.propTypes = {
@@ -747,7 +730,6 @@ PlannerSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  courseToAdd: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
   semesters: PropTypes.arrayOf(semesterShape),
   // isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
@@ -757,7 +739,6 @@ PlannerSubSection.propTypes = {
   updateItemInPlannerDispatch: PropTypes.func.isRequired,
   clearItemFocusDispatch: PropTypes.func.isRequired,
   removeItemFromPlannerDispatch: PropTypes.func.isRequired,
-  setCourseToAddDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(PlannerSubSection));
