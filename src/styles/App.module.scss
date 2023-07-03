@@ -3231,6 +3231,11 @@ a {
       font-size: $font-size-small;
       line-height: $line-height-small;
     }
+
+    &--disabled {
+      color: $color-text-disable;
+      pointer-events: none;
+    }
   }
 }
 

@@ -40,6 +40,7 @@ const PlannerOverlay = ({
           className={classNames(
             'planner-overlay__button',
             o.isSmall && 'planner-overlay__button--small',
+            o.isDisabled && 'planner-overlay__button--disabled',
           )}
           onClick={o.onClick}>
           {o.label}
@@ -62,6 +63,7 @@ PlannerOverlay.propTypes = {
       label: PropTypes.string.isRequired,
       onClick: PropTypes.func.isRequired,
       isSmall: PropTypes.bool,
+      isDisabled: PropTypes.bool,
     }),
   ).isRequired,
 };
