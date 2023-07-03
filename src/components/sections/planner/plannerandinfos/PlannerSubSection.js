@@ -38,7 +38,10 @@ import { getSemesterName } from '../../../../utils/semesterUtils';
 import courseShape from '../../../../shapes/model/subject/CourseShape';
 import PlannerOverlay from '../../../PlannerOverlay';
 
-import { performAddToPlanner } from '../../../../common/commonOperations';
+import {
+  performAddArbitraryToPlanner,
+  performAddToPlanner,
+} from '../../../../common/commonOperations';
 import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 
 class PlannerSubSection extends Component {
@@ -174,6 +177,37 @@ class PlannerSubSection extends Component {
       });
     };
     performAddToPlanner(
+      course,
+      year,
+      semester,
+      selectedPlanner,
+      user,
+      '',
+      beforeRequest,
+      afterResponse,
+    );
+  };
+
+  addArbitraryCourseToPlanner = (course, year, semester) => {
+    const {
+      user,
+      selectedPlanner,
+      addItemToPlannerDispatch,
+      setItemFocusDispatch,
+      setCourseToAddDispatch,
+    } = this.props;
+
+    const beforeRequest = () => {};
+    const afterResponse = (item) => {
+      const newProps = this.props;
+      if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+        return;
+      }
+      addItemToPlannerDispatch(item);
+      setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_ARBITRARY, true);
+      setCourseToAddDispatch(null);
+    };
+    performAddArbitraryToPlanner(
       course,
       year,
       semester,
@@ -607,7 +641,9 @@ class PlannerSubSection extends Component {
           options={[
             {
               label: `+ ${getSemesterName(semester)}학기에 추가하기`,
-              onClick: () => this.addCourseToPlanner(courseToAdd, year, semester),
+              onClick: !courseToAdd.isArbitrary
+                ? () => this.addCourseToPlanner(courseToAdd, year, semester)
+                : () => this.addArbitraryCourseToPlanner(courseToAdd, year, semester),
               isDisabled:
                 semesterData &&
                 semesterData.courseAddDropPeriodEnd &&
@@ -615,7 +651,9 @@ class PlannerSubSection extends Component {
             },
             {
               label: `+ ${getSemesterName(semester + 1)}학기에 추가하기`,
-              onClick: () => this.addCourseToPlanner(courseToAdd, year, semester + 1),
+              onClick: !courseToAdd.isArbitrary
+                ? () => this.addCourseToPlanner(courseToAdd, year, semester + 1)
+                : () => this.addArbitraryCourseToPlanner(courseToAdd, year, semester + 1),
               isSmall: true,
               isDisabled:
                 semesterData &&
