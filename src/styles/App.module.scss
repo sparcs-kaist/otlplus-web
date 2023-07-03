@@ -1609,10 +1609,20 @@ a {
   &--course-manage-left {
     flex-basis: 1px;
     flex-grow: 1;
+    
+    & .subsection--course-history {
+      width: calc(#{$content-width-desktop} - (
+        #{$section-margin-lr}
+        + #{$section-padding} * 2
+        + #{$section-width-desktop-1v3-left} * 2)
+      );
+    }
   }
 
   &--course-manage-right {
     flex-basis: calc(#{$section-width-desktop-1v3-left} - (#{$section-padding} * 2));
+    flex-grow: 0;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
   }
