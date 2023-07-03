@@ -57,7 +57,8 @@ const PlannerOverlay = ({
             o.isSmall && 'planner-overlay__button--small',
             o.isDisabled && 'planner-overlay__button--disabled',
           )}
-          onClick={o.onClick}>
+          onClick={o.onClick}
+          key={`button:${o.label}`}>
           {o.label}
         </div>
       ))}
@@ -67,7 +68,7 @@ const PlannerOverlay = ({
 
 PlannerOverlay.propTypes = {
   yearIndex: PropTypes.number.isRequired,
-  semesterIndex: PropTypes.oneOf([0, 1]).isRequired,
+  semesterIndex: PropTypes.oneOf([-1, 0, 1]).isRequired,
   tableSize: PropTypes.number.isRequired,
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
