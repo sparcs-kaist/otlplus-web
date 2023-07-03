@@ -11,6 +11,7 @@ import {
 export const ItemFocusFrom = {
   NONE: 'NONE',
   LIST: 'LIST',
+  ADDING: 'ADDING',
   TABLE_TAKEN: 'TABLE_TAKEN',
   TABLE_FUTURE: 'TABLE_FUTURE',
   TABLE_ARBITRARY: 'TABLE_ARBITRARY',

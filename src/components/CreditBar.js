@@ -27,7 +27,7 @@ class CreditBar extends Component {
     const focusPosition =
       focusedCredit === 0
         ? 0
-        : focusFrom === ItemFocusFrom.LIST
+        : focusFrom === ItemFocusFrom.LIST || focusFrom === ItemFocusFrom.ADDING
         ? 3
         : focusFrom === ItemFocusFrom.TABLE_TAKEN
         ? 1

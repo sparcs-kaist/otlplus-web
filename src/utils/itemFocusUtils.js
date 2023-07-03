@@ -21,7 +21,7 @@ export const isTableClickedItem = (item, itemFocus) =>
 
 export const isSingleFocusedItem = (item, itemFocus) =>
   isTableFocusedItem(item, itemFocus) ||
-  (itemFocus.from === ItemFocusFrom.LIST &&
+  ((itemFocus.from === ItemFocusFrom.LIST || itemFocus.from === ItemFocusFrom.ADDING) &&
     getCourseOfItem(item) &&
     itemFocus.course &&
     getCourseOfItem(item).id === itemFocus.course.id);
@@ -79,8 +79,6 @@ export const isClickedListCourse = (course, itemFocus) =>
   itemFocus.course.id === course.id &&
   itemFocus.clicked === true;
 
-export const isDimmedListCourse = (course, itemFocus, courseToAdd) =>
-  Boolean(courseToAdd) ||
-  (itemFocus.from === ItemFocusFrom.LIST &&
-    itemFocus.clicked === true &&
-    itemFocus.course.id !== course.id);
+export const isDimmedListCourse = (course, itemFocus) =>
+  itemFocus.clicked === true &&
+  (itemFocus.course.id !== course.id || itemFocus.from !== ItemFocusFrom.LIST);

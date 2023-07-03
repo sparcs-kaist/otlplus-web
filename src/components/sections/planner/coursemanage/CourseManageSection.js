@@ -166,7 +166,7 @@ class CourseManageSection extends Component {
           isVisible={true}
           gridArea="divider-main"
         />
-        {itemFocus.from === ItemFocusFrom.LIST ? (
+        {itemFocus.from === ItemFocusFrom.LIST || itemFocus.from === ItemFocusFrom.ADDING ? (
           <div className={classNames('subsection', 'subsection--course-manage-right')} />
         ) : (
           <CourseCustomizeSubSection key={`${itemFocus.item.item_type}:${itemFocus.item.id}`} />
