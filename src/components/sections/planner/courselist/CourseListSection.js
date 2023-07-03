@@ -106,9 +106,12 @@ class CourseListSection extends Component {
   };
 
   setCourseToAddToPlanner = (course) => {
-    const { setCourseToAddDispatch } = this.props;
+    const { itemFocus, setCourseToAddDispatch, clearItemFocusDispatch } = this.props;
 
     setCourseToAddDispatch(course);
+    if (itemFocus.from !== ItemFocusFrom.LIST || itemFocus.course.id !== course.id) {
+      clearItemFocusDispatch();
+    }
   };
 
   _getArbitraryCourses = () => {
