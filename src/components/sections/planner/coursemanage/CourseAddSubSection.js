@@ -19,7 +19,10 @@ import { addItemToPlanner, updateItemInPlanner } from '../../../../actions/plann
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import { setItemFocus } from '../../../../actions/planner/itemFocus';
 
-import { performAddToPlanner } from '../../../../common/commonOperations';
+import {
+  performAddArbitraryToPlanner,
+  performAddToPlanner,
+} from '../../../../common/commonOperations';
 
 class CourseCustomizeSubSection extends Component {
   _createRandomItemId = () => {
@@ -79,52 +82,25 @@ class CourseCustomizeSubSection extends Component {
   addArbitraryCourseToPlanner = (course, year, semester) => {
     const { user, selectedPlanner, addItemToPlannerDispatch, setItemFocusDispatch } = this.props;
 
-    if (!user) {
-      const id = this._createRandomItemId();
-      const item = {
-        id: id,
-        item_type: 'ARBITRARY',
-        is_excluded: false,
-        year: year,
-        semester: semester,
-        department: course.department,
-        type: course.type,
-        type_en: course.type_en,
-        credit: course.credit,
-        credit_au: course.credit_au,
-      };
+    const beforeRequest = () => {};
+    const afterResponse = (item) => {
+      const newProps = this.props;
+      if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+        return;
+      }
       addItemToPlannerDispatch(item);
       setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_ARBITRARY, true);
-    } else {
-      axios
-        .post(
-          `/api/users/${user.id}/planners/${selectedPlanner.id}/add-arbitrary-item`,
-          {
-            year: year,
-            semester: semester,
-            department: course.department ? course.department.id : undefined,
-            type: course.type,
-            type_en: course.type_en,
-            credit: course.credit,
-            credit_au: course.credit_au,
-          },
-          {
-            metadata: {
-              gaCategory: 'Planner',
-              gaVariable: 'POST Update / Instance',
-            },
-          },
-        )
-        .then((response) => {
-          const newProps = this.props;
-          if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
-            return;
-          }
-          addItemToPlannerDispatch(response.data);
-          setItemFocusDispatch(response.data, course, ItemFocusFrom.TABLE_ARBITRARY, true);
-        })
-        .catch((error) => {});
-    }
+    };
+    performAddArbitraryToPlanner(
+      course,
+      year,
+      semester,
+      selectedPlanner,
+      user,
+      '',
+      beforeRequest,
+      afterResponse,
+    );
   };
 
   render() {

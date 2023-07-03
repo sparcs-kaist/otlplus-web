@@ -266,6 +266,60 @@ export const performAddToPlanner = (
   }
 };
 
+export const performAddArbitraryToPlanner = (
+  course,
+  year,
+  semester,
+  selectedPlanner,
+  user,
+  fromString,
+  beforeRequest,
+  afterResponse,
+) => {
+  beforeRequest();
+
+  if (!user) {
+    const id = this._createRandomItemId();
+    const item = {
+      id: id,
+      item_type: 'ARBITRARY',
+      is_excluded: false,
+      year: year,
+      semester: semester,
+      department: course.department,
+      type: course.type,
+      type_en: course.type_en,
+      credit: course.credit,
+      credit_au: course.credit_au,
+    };
+    afterResponse(item);
+  } else {
+    axios
+      .post(
+        `/api/users/${user.id}/planners/${selectedPlanner.id}/add-arbitrary-item`,
+        {
+          year: year,
+          semester: semester,
+          department: course.department ? course.department.id : undefined,
+          type: course.type,
+          type_en: course.type_en,
+          credit: course.credit,
+          credit_au: course.credit_au,
+        },
+        {
+          metadata: {
+            gaCategory: 'Planner',
+            gaVariable: 'POST Update / Instance',
+          },
+        },
+      )
+      .then((response) => {
+        afterResponse(response.data);
+      })
+      .catch((error) => {});
+  }
+};
+
 export const performSubmitReview = (
   existingReview,
   lecture,
