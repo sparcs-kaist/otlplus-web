@@ -25,8 +25,8 @@ class SearchFilterEntity extends Component {
           onChange={onChange}
           checked={isChecked}
         />
-        {label}
         <i className={classNames('icon', isRadio ? 'icon--radio' : 'icon--checkbox')} />
+        {label}
       </label>
     );
   }
