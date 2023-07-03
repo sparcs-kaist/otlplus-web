@@ -20,7 +20,6 @@ import { clearItemFocus, setLectures, setReviews } from '../../../../actions/pla
 
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
-import CourseAddSubSection from './CourseAddSubSection';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
 class CourseManageSection extends Component {
@@ -168,7 +167,7 @@ class CourseManageSection extends Component {
           gridArea="divider-main"
         />
         {itemFocus.from === ItemFocusFrom.LIST ? (
-          <CourseAddSubSection />
+          <div className={classNames('subsection', 'subsection--course-manage-right')} />
         ) : (
           <CourseCustomizeSubSection key={`${itemFocus.item.item_type}:${itemFocus.item.id}`} />
         )}
