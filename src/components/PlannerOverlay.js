@@ -15,28 +15,40 @@ const PlannerOverlay = ({
   isPlannerWithWinter,
   options,
 }) => {
+  const verticalBase = 17 + (isPlannerWithSummer ? 15 : 0) + cellHeight * tableSize;
+
   const getTop = () => {
-    const base = 17 + (isPlannerWithSummer ? 15 : 0) + cellHeight * tableSize;
     if (semesterIndex === 0) {
-      return base - cellHeight * tableSize + 2;
+      return verticalBase - cellHeight * tableSize + 2;
     }
     if (semesterIndex === 1) {
-      return base + cellHeight * 2 + 11 + 1;
+      return verticalBase + cellHeight * 2 + 11 + 1;
     }
-    if (semesterIndex === -1) {
-      return base + 2;
-    }
-    return base;
+    return verticalBase;
   };
 
   return (
     <div
       className={classNames('planner-overlay')}
       style={{
-        left: yearIndex !== -1 ? 26 + (cellWidth + 15) * yearIndex - 1 : 26 - 1,
-        top: getTop(),
-        width: yearIndex !== -1 ? cellWidth + 2 : (cellWidth + 15) * 4 - 13,
-        height: semesterIndex !== -1 ? cellHeight * tableSize - 3 : 20,
+        ...(yearIndex !== -1
+          ? {
+              left: 26 + (cellWidth + 15) * yearIndex - 1,
+              width: cellWidth + 2,
+            }
+          : {
+              left: 26 - 1,
+              right: 7,
+            }),
+        ...(semesterIndex !== -1
+          ? {
+              top: getTop(),
+              height: cellHeight * tableSize - 3,
+            }
+          : {
+              top: verticalBase + 2,
+              height: 20,
+            }),
       }}>
       {options.map((o) => (
         <div
