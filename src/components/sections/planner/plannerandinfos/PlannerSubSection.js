@@ -39,6 +39,7 @@ import courseShape from '../../../../shapes/model/subject/CourseShape';
 import PlannerOverlay from '../../../PlannerOverlay';
 
 import { performAddToPlanner } from '../../../../common/commonOperations';
+import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 
 class PlannerSubSection extends Component {
   componentDidMount() {
@@ -230,6 +231,7 @@ class PlannerSubSection extends Component {
       cellWidth,
       cellHeight,
       courseToAdd,
+      semesters,
       // isLectureListOpenOnMobile,
     } = this.props;
 
@@ -591,6 +593,8 @@ class PlannerSubSection extends Component {
     };
 
     const getOverlay = (year, semester) => {
+      const semesterData = semesters.find((s) => s.year === year && s.semester === semester);
+      // TODO: Add seasonal semester data and utilize them in addition of regular ones
       return (
         <PlannerOverlay
           yearIndex={year - plannerStartYear}
@@ -602,13 +606,21 @@ class PlannerSubSection extends Component {
           isPlannerWithWinter={hasWinterSemester}
           options={[
             {
-              label: `${getSemesterName(semester)}학기에 추가하기`,
+              label: `+ ${getSemesterName(semester)}학기에 추가하기`,
               onClick: () => this.addCourseToPlanner(courseToAdd, year, semester),
+              isDisabled:
+                semesterData &&
+                semesterData.courseAddDropPeriodEnd &&
+                new Date(semesterData.courseAddDropPeriodEnd) < Date.now(),
             },
             {
-              label: `${getSemesterName(semester + 1)}학기에 추가하기`,
+              label: `+ ${getSemesterName(semester + 1)}학기에 추가하기`,
               onClick: () => this.addCourseToPlanner(courseToAdd, year, semester + 1),
               isSmall: true,
+              isDisabled:
+                semesterData &&
+                Date.now() - new Date(semesterData.end) >
+                  1000 * 60 * 60 * 24 * (semester < 3 ? 12 : 5),
             },
           ]}
         />
@@ -636,6 +648,7 @@ const mapStateToProps = (state) => ({
   cellHeight: state.planner.planner.cellHeight,
   isDragging: state.planner.planner.isDragging,
   courseToAdd: state.planner.planner.courseToAdd,
+  semesters: state.common.semester.semesters,
   // isLectureListOpenOnMobile: state.planner.list.isLectureListOpenOnMobile,
 });
 
@@ -671,6 +684,7 @@ PlannerSubSection.propTypes = {
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
   courseToAdd: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
+  semesters: PropTypes.arrayOf(semesterShape),
   // isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
