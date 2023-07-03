@@ -14,6 +14,7 @@ import CloseButton from '../../../CloseButton';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 import CourseCustomizeSubSection from './CourseCustomizeSubSection';
 import CourseInfoSubSection from './CourseInfoSubSection';
+import CourseHistorySubSection from './CourseHistorySubSection';
 import CourseReviewsSubSection from './CourseReviewsSubSection';
 
 import { clearItemFocus, setLectures, setReviews } from '../../../../actions/planner/itemFocus';
@@ -152,6 +153,8 @@ class CourseManageSection extends Component {
             {!itemFocus.course.isArbitrary && (
               <Scroller key={itemFocus.course.id}>
                 <CourseInfoSubSection />
+                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                <CourseHistorySubSection />
                 <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
                 <CourseReviewsSubSection />
               </Scroller>
