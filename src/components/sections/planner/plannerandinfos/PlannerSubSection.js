@@ -667,6 +667,7 @@ class PlannerSubSection extends Component {
                   1000 * 60 * 60 * 24 * (semester < 3 ? 12 : 5),
             },
           ]}
+          key={`overlay:${year}:${semester}`}
         />
       );
     };
