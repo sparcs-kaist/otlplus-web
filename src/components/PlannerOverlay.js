@@ -23,6 +23,9 @@ const PlannerOverlay = ({
     if (semesterIndex === 1) {
       return base + cellHeight * 2 + 11 + 1;
     }
+    if (semesterIndex === -1) {
+      return base + 2;
+    }
     return base;
   };
 
@@ -30,10 +33,10 @@ const PlannerOverlay = ({
     <div
       className={classNames('planner-overlay')}
       style={{
-        left: 26 + (cellWidth + 15) * yearIndex - 1,
+        left: yearIndex !== -1 ? 26 + (cellWidth + 15) * yearIndex - 1 : 26 - 1,
         top: getTop(),
-        width: cellWidth + 2,
-        height: cellHeight * tableSize - 3,
+        width: yearIndex !== -1 ? cellWidth + 2 : (cellWidth + 15) * 4 - 13,
+        height: semesterIndex !== -1 ? cellHeight * tableSize - 3 : 20,
       }}>
       {options.map((o) => (
         <div

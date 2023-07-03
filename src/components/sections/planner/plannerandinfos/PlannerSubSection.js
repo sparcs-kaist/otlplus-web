@@ -257,6 +257,12 @@ class PlannerSubSection extends Component {
     }
   };
 
+  cancelAddCourseToPlanner = () => {
+    const { setCourseToAddDispatch } = this.props;
+
+    setCourseToAddDispatch(null);
+  };
+
   render() {
     const {
       t,
@@ -672,6 +678,25 @@ class PlannerSubSection extends Component {
           {plannerYears.map((y) => getYearColumn(y))}
           {plannerYears.map((y) => [1, 3].map((s) => getTiles(y, s, true)))}
           {courseToAdd && plannerYears.map((y) => [1, 3].map((s) => getOverlay(y, s)))}
+          {courseToAdd && (
+            <PlannerOverlay
+              yearIndex={-1}
+              semesterIndex={-1}
+              tableSize={tableSize}
+              cellWidth={cellWidth}
+              cellHeight={cellHeight}
+              isPlannerWithSummer={hasSummerSemester}
+              isPlannerWithWinter={hasWinterSemester}
+              options={[
+                {
+                  label: '취소하기',
+                  onClick: () => this.cancelAddCourseToPlanner(),
+                  isSmall: true,
+                  isDisabled: false,
+                },
+              ]}
+            />
+          )}
         </div>
       </div>
     );
