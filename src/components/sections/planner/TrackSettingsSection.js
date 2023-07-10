@@ -24,6 +24,7 @@ import userShape from '../../../shapes/model/session/UserShape';
 import generalTrackShape from '../../../shapes/model/graduation/GeneralTrackShape';
 import majorTrackShape from '../../../shapes/model/graduation/MajorTrackShape';
 import additionalTrackShape from '../../../shapes/model/graduation/AdditionalTrackShape';
+import Dropdown from '../../Dropdown';
 
 class TrackSettingsSection extends Component {
   constructor(props) {
@@ -34,8 +35,8 @@ class TrackSettingsSection extends Component {
     const selectedPlannerDuration = selectedPlanner.end_year - selectedPlanner.start_year + 1;
 
     this.state = {
-      selectedStartYears: new Set([selectedPlanner.start_year.toString()]),
-      selectedDurations: new Set([selectedPlannerDuration.toString()]),
+      selectedStartYear: selectedPlanner.start_year.toString(),
+      selectedDuration: selectedPlannerDuration.toString(),
       selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
       selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
       selectedMinorTracks: new Set(
@@ -62,15 +63,15 @@ class TrackSettingsSection extends Component {
   }
 
   _getSelectedStartYear = () => {
-    const { selectedStartYears } = this.state;
+    const { selectedStartYear } = this.state;
 
-    return parseInt(Array.from(selectedStartYears)[0], 10);
+    return parseInt(selectedStartYear, 10);
   };
 
   _getSelectedDuration = () => {
-    const { selectedDurations } = this.state;
+    const { selectedDuration } = this.state;
 
-    return parseInt(Array.from(selectedDurations)[0], 10);
+    return parseInt(selectedDuration, 10);
   };
 
   _getSelectedGeneralTrack = () => {
@@ -107,7 +108,7 @@ class TrackSettingsSection extends Component {
     return additionalTrackIds.map((i) => tracks.additional.find((at) => at.id === i));
   };
 
-  updateCheckedValues = (filterName) => (checkedValues) => {
+  getStateSetterOfName = (filterName) => (checkedValues) => {
     this.setState({
       [filterName]: checkedValues,
     });
@@ -264,8 +265,8 @@ class TrackSettingsSection extends Component {
 
   render() {
     const {
-      selectedStartYears,
-      selectedDurations,
+      selectedStartYear,
+      selectedDuration,
       selectedGeneralTracks,
       selectedMajorTracks,
       selectedMinorTracks,
@@ -283,27 +284,25 @@ class TrackSettingsSection extends Component {
         <CloseButton onClick={this.close} />
         <div className={classNames('title')}>{t('ui.title.plannerSettings')}</div>
         <Scroller>
-          <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedStartYears')}
+          <Dropdown
+            updateSelectedValue={this.getStateSetterOfName('selectedStartYear')}
             inputName="startYear"
             titleName={t('ui.attribute.entranceYear')}
             options={range(2015, new Date().getFullYear() + 1).map((y) => [
               y.toString(),
               y.toString(),
             ])}
-            checkedValues={selectedStartYears}
-            isRadio={true}
+            selectedValue={selectedStartYear}
           />
-          <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedDurations')}
+          <Dropdown
+            updateSelectedValue={this.getStateSetterOfName('selectedDuration')}
             inputName="duration"
             titleName={t('ui.attribute.enrollmentPeriod')}
             options={range(4, 9).map((d) => [d.toString(), t('ui.others.yearCount', { count: d })])}
-            checkedValues={selectedDurations}
-            isRadio={true}
+            selectedValue={selectedDuration}
           />
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedGeneralTracks')}
+            updateCheckedValues={this.getStateSetterOfName('selectedGeneralTracks')}
             inputName="general"
             titleName={t('ui.attribute.general')}
             options={tracks.general
@@ -320,7 +319,7 @@ class TrackSettingsSection extends Component {
             isRadio={true}
           />
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedMajorTracks')}
+            updateCheckedValues={this.getStateSetterOfName('selectedMajorTracks')}
             inputName="major"
             titleName={t('ui.attribute.major')}
             options={tracks.major
@@ -343,7 +342,7 @@ class TrackSettingsSection extends Component {
             isRadio={true}
           />
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedMinorTracks')}
+            updateCheckedValues={this.getStateSetterOfName('selectedMinorTracks')}
             inputName="minor"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.minor')}`}
             options={tracks.additional
@@ -366,7 +365,7 @@ class TrackSettingsSection extends Component {
             checkedValues={new Set(selectedMinorTracks)}
           />
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedDoubleTracks')}
+            updateCheckedValues={this.getStateSetterOfName('selectedDoubleTracks')}
             inputName="double"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.doubleMajor')}`}
             options={tracks.additional
@@ -389,7 +388,7 @@ class TrackSettingsSection extends Component {
             checkedValues={new Set(selectedDoubleTracks)}
           />
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedAdvancedTracks')}
+            updateCheckedValues={this.getStateSetterOfName('selectedAdvancedTracks')}
             inputName="advanced"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.advancedMajor')}`}
             options={tracks.additional
@@ -412,7 +411,7 @@ class TrackSettingsSection extends Component {
             checkedValues={new Set(selectedAdvancedTracks)}
           />
           <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedInterdisciplinaryTracks')}
+            updateCheckedValues={this.getStateSetterOfName('selectedInterdisciplinaryTracks')}
             inputName="interdisciplinary"
             titleName={`${t('ui.attribute.additional')} - ${t('ui.type.interdisciplinaryMajor')}`}
             options={tracks.additional
