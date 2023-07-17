@@ -290,20 +290,22 @@ class LectureSearchSubSection extends Component {
                     />
                   ),
                 },
+                {
+                  name: t('ui.search.time'),
+                  info: (
+                    <div>
+                      {classtimeDay !== null ? (
+                        <span className={classNames('text-button')} onClick={this.clearSearchTime}>
+                          {`${getRangeStr(classtimeDay, classtimeBegin, classtimeEnd)}`}
+                        </span>
+                      ) : (
+                        <span>{t('ui.others.dragTimetable')}</span>
+                      )}
+                    </div>
+                  ),
+                },
               ]}
             />
-            <div className={classNames('attribute')}>
-              <span>{t('ui.search.time')}</span>
-              <div>
-                {classtimeDay !== null ? (
-                  <span className={classNames('text-button')} onClick={this.clearSearchTime}>
-                    {`${getRangeStr(classtimeDay, classtimeBegin, classtimeEnd)}`}
-                  </span>
-                ) : (
-                  <span>{t('ui.others.dragTimetable')}</span>
-                )}
-              </div>
-            </div>
           </Scroller>
           <div className={classNames('buttons')}>
             <button type="submit" className={classNames('text-button')}>
