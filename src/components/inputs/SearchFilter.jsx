@@ -45,7 +45,7 @@ class SearchFilter extends Component {
   };
 
   render() {
-    const { inputName, titleName, options, checkedValues, isRadio } = this.props;
+    const { inputName, options, checkedValues, isRadio } = this.props;
 
     const mapCircle = (o) => (
       <SearchFilterEntity
@@ -60,19 +60,13 @@ class SearchFilter extends Component {
       />
     );
 
-    return (
-      <div className={classNames('attribute')}>
-        <span>{titleName}</span>
-        <div className={classNames('search-fields')}>{options.map(mapCircle)}</div>
-      </div>
-    );
+    return <div className={classNames('search-fields')}>{options.map(mapCircle)}</div>;
   }
 }
 
 SearchFilter.propTypes = {
   updateCheckedValues: PropTypes.func.isRequired,
   inputName: PropTypes.string.isRequired,
-  titleName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.bool])),
   ).isRequired,

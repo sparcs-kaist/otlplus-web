@@ -12,6 +12,7 @@ import { LectureListCode } from '../../../../reducers/timetable/list';
 import { getRangeStr } from '../../../../utils/timeUtils';
 
 import Divider from '../../../Divider';
+import Attributes from '../../../Attributes';
 import SearchFilter from '../../../inputs/SearchFilter';
 import Scroller from '../../../Scroller';
 
@@ -254,26 +255,42 @@ class LectureSearchSubSection extends Component {
             </div>
           </div>
           <Scroller expandBottom={0}>
-            <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('selectedTypes')}
-              inputName="type"
-              titleName={t('ui.search.type')}
-              options={getTypeOptions()}
-              checkedValues={selectedTypes}
-            />
-            <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
-              inputName="department"
-              titleName={t('ui.search.department')}
-              options={getDepartmentOptions()}
-              checkedValues={selectedDepartments}
-            />
-            <SearchFilter
-              updateCheckedValues={this.updateCheckedValues('selectedLevels')}
-              inputName="level"
-              titleName={t('ui.search.level')}
-              options={getLevelOptions()}
-              checkedValues={selectedLevels}
+            <Attributes
+              entries={[
+                {
+                  name: t('ui.search.type'),
+                  info: (
+                    <SearchFilter
+                      updateCheckedValues={this.updateCheckedValues('selectedTypes')}
+                      inputName="type"
+                      options={getTypeOptions()}
+                      checkedValues={selectedTypes}
+                    />
+                  ),
+                },
+                {
+                  name: t('ui.search.department'),
+                  info: (
+                    <SearchFilter
+                      updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
+                      inputName="department"
+                      options={getDepartmentOptions()}
+                      checkedValues={selectedDepartments}
+                    />
+                  ),
+                },
+                {
+                  name: t('ui.search.level'),
+                  info: (
+                    <SearchFilter
+                      updateCheckedValues={this.updateCheckedValues('selectedLevels')}
+                      inputName="level"
+                      options={getLevelOptions()}
+                      checkedValues={selectedLevels}
+                    />
+                  ),
+                },
+              ]}
             />
             <div className={classNames('attribute')}>
               <span>{t('ui.search.time')}</span>

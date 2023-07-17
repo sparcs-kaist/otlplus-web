@@ -9,7 +9,9 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
+import Attributes from '../../Attributes';
 import SearchFilter from '../../inputs/SearchFilter';
+import Dropdown from '../../inputs/Dropdown';
 
 import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
 
@@ -24,7 +26,6 @@ import userShape from '../../../shapes/model/session/UserShape';
 import generalTrackShape from '../../../shapes/model/graduation/GeneralTrackShape';
 import majorTrackShape from '../../../shapes/model/graduation/MajorTrackShape';
 import additionalTrackShape from '../../../shapes/model/graduation/AdditionalTrackShape';
-import Dropdown from '../../inputs/Dropdown';
 
 class TrackSettingsSection extends Component {
   constructor(props) {
@@ -301,130 +302,184 @@ class TrackSettingsSection extends Component {
             options={range(4, 9).map((d) => [d.toString(), t('ui.others.yearCount', { count: d })])}
             selectedValue={selectedDuration}
           />
-          <SearchFilter
-            updateCheckedValues={this.getStateSetterOfName('selectedGeneralTracks')}
-            inputName="general"
-            titleName={t('ui.attribute.general')}
-            options={tracks.general
-              .filter((at) => at.end_year >= 2020)
-              .sort((at1, at2) => {
-                return at1.start_year - at2.start_year;
-              })
-              .map((gt) => [
-                gt.id.toString(),
-                getGeneralTrackName(gt, true),
-                !this._checkYearInTrackRange(gt, startYear),
-              ])}
-            checkedValues={selectedGeneralTracks}
-            isRadio={true}
-          />
-          <SearchFilter
-            updateCheckedValues={this.getStateSetterOfName('selectedMajorTracks')}
-            inputName="major"
-            titleName={t('ui.attribute.major')}
-            options={tracks.major
-              .filter((at) => at.end_year >= 2020)
-              .sort((at1, at2) => {
-                if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
-                  return -1000;
-                }
-                if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
-                  return 1000;
-                }
-                return at1.start_year - at2.start_year;
-              })
-              .map((mt) => [
-                mt.id.toString(),
-                getMajorTrackName(mt, true),
-                !this._checkYearInTrackRange(mt, startYear),
-              ])}
-            checkedValues={new Set(selectedMajorTracks)}
-            isRadio={true}
-          />
-          <SearchFilter
-            updateCheckedValues={this.getStateSetterOfName('selectedMinorTracks')}
-            inputName="minor"
-            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.minor')}`}
-            options={tracks.additional
-              .filter((at) => at.end_year >= 2020 && at.type === 'MINOR')
-              .sort((at1, at2) => {
-                if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
-                  return -1000;
-                }
-                if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
-                  return 1000;
-                }
-                return at1.start_year - at2.start_year;
-              })
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at, true),
-                !this._checkYearInTrackRange(at, startYear) ||
-                  at.department.code === majorTrack.department.code,
-              ])}
-            checkedValues={new Set(selectedMinorTracks)}
-          />
-          <SearchFilter
-            updateCheckedValues={this.getStateSetterOfName('selectedDoubleTracks')}
-            inputName="double"
-            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.doubleMajor')}`}
-            options={tracks.additional
-              .filter((at) => at.end_year >= 2020 && at.type === 'DOUBLE')
-              .sort((at1, at2) => {
-                if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
-                  return -1000;
-                }
-                if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
-                  return 1000;
-                }
-                return at1.start_year - at2.start_year;
-              })
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at, true),
-                !this._checkYearInTrackRange(at, startYear) ||
-                  at.department.code === majorTrack.department.code,
-              ])}
-            checkedValues={new Set(selectedDoubleTracks)}
-          />
-          <SearchFilter
-            updateCheckedValues={this.getStateSetterOfName('selectedAdvancedTracks')}
-            inputName="advanced"
-            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.advancedMajor')}`}
-            options={tracks.additional
-              .filter((at) => at.end_year >= 2020 && at.type === 'ADVANCED')
-              .sort((at1, at2) => {
-                if (at1.department[t('js.property.name')] < at2.department[t('js.property.name')]) {
-                  return -1000;
-                }
-                if (at1.department[t('js.property.name')] > at2.department[t('js.property.name')]) {
-                  return 1000;
-                }
-                return at1.start_year - at2.start_year;
-              })
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at, true),
-                !this._checkYearInTrackRange(at, startYear) ||
-                  at.department.code !== majorTrack.department.code,
-              ])}
-            checkedValues={new Set(selectedAdvancedTracks)}
-          />
-          <SearchFilter
-            updateCheckedValues={this.getStateSetterOfName('selectedInterdisciplinaryTracks')}
-            inputName="interdisciplinary"
-            titleName={`${t('ui.attribute.additional')} - ${t('ui.type.interdisciplinaryMajor')}`}
-            options={tracks.additional
-              .filter((at) => at.end_year >= 2020 && at.type === 'INTERDISCIPLINARY')
-              .sort((at1, at2) => {
-                return at1.start_year - at2.start_year;
-              })
-              .map((at) => [
-                at.id.toString(),
-                getAdditionalTrackName(at, true),
-                !this._checkYearInTrackRange(at, startYear),
-              ])}
-            checkedValues={new Set(selectedInterdisciplinaryTracks)}
+          <Attributes
+            entries={[
+              {
+                name: t('ui.attribute.general'),
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.getStateSetterOfName('selectedGeneralTracks')}
+                    inputName="general"
+                    options={tracks.general
+                      .filter((at) => at.end_year >= 2020)
+                      .sort((at1, at2) => {
+                        return at1.start_year - at2.start_year;
+                      })
+                      .map((gt) => [
+                        gt.id.toString(),
+                        getGeneralTrackName(gt, true),
+                        !this._checkYearInTrackRange(gt, startYear),
+                      ])}
+                    checkedValues={selectedGeneralTracks}
+                    isRadio={true}
+                  />
+                ),
+              },
+              {
+                name: t('ui.attribute.major'),
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.getStateSetterOfName('selectedMajorTracks')}
+                    inputName="major"
+                    options={tracks.major
+                      .filter((at) => at.end_year >= 2020)
+                      .sort((at1, at2) => {
+                        if (
+                          at1.department[t('js.property.name')] <
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return -1000;
+                        }
+                        if (
+                          at1.department[t('js.property.name')] >
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return 1000;
+                        }
+                        return at1.start_year - at2.start_year;
+                      })
+                      .map((mt) => [
+                        mt.id.toString(),
+                        getMajorTrackName(mt, true),
+                        !this._checkYearInTrackRange(mt, startYear),
+                      ])}
+                    checkedValues={new Set(selectedMajorTracks)}
+                    isRadio={true}
+                  />
+                ),
+              },
+              {
+                name: `${t('ui.attribute.additional')} - ${t('ui.type.minor')}`,
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.getStateSetterOfName('selectedMinorTracks')}
+                    inputName="minor"
+                    options={tracks.additional
+                      .filter((at) => at.end_year >= 2020 && at.type === 'MINOR')
+                      .sort((at1, at2) => {
+                        if (
+                          at1.department[t('js.property.name')] <
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return -1000;
+                        }
+                        if (
+                          at1.department[t('js.property.name')] >
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return 1000;
+                        }
+                        return at1.start_year - at2.start_year;
+                      })
+                      .map((at) => [
+                        at.id.toString(),
+                        getAdditionalTrackName(at, true),
+                        !this._checkYearInTrackRange(at, startYear) ||
+                          at.department.code === majorTrack.department.code,
+                      ])}
+                    checkedValues={new Set(selectedMinorTracks)}
+                  />
+                ),
+              },
+              {
+                name: `${t('ui.attribute.additional')} - ${t('ui.type.doubleMajor')}`,
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.getStateSetterOfName('selectedDoubleTracks')}
+                    inputName="double"
+                    options={tracks.additional
+                      .filter((at) => at.end_year >= 2020 && at.type === 'DOUBLE')
+                      .sort((at1, at2) => {
+                        if (
+                          at1.department[t('js.property.name')] <
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return -1000;
+                        }
+                        if (
+                          at1.department[t('js.property.name')] >
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return 1000;
+                        }
+                        return at1.start_year - at2.start_year;
+                      })
+                      .map((at) => [
+                        at.id.toString(),
+                        getAdditionalTrackName(at, true),
+                        !this._checkYearInTrackRange(at, startYear) ||
+                          at.department.code === majorTrack.department.code,
+                      ])}
+                    checkedValues={new Set(selectedDoubleTracks)}
+                  />
+                ),
+              },
+              {
+                name: `${t('ui.attribute.additional')} - ${t('ui.type.advancedMajor')}`,
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.getStateSetterOfName('selectedAdvancedTracks')}
+                    inputName="advanced"
+                    options={tracks.additional
+                      .filter((at) => at.end_year >= 2020 && at.type === 'ADVANCED')
+                      .sort((at1, at2) => {
+                        if (
+                          at1.department[t('js.property.name')] <
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return -1000;
+                        }
+                        if (
+                          at1.department[t('js.property.name')] >
+                          at2.department[t('js.property.name')]
+                        ) {
+                          return 1000;
+                        }
+                        return at1.start_year - at2.start_year;
+                      })
+                      .map((at) => [
+                        at.id.toString(),
+                        getAdditionalTrackName(at, true),
+                        !this._checkYearInTrackRange(at, startYear) ||
+                          at.department.code !== majorTrack.department.code,
+                      ])}
+                    checkedValues={new Set(selectedAdvancedTracks)}
+                  />
+                ),
+              },
+              {
+                name: `${t('ui.attribute.additional')} - ${t('ui.type.interdisciplinaryMajor')}`,
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.getStateSetterOfName(
+                      'selectedInterdisciplinaryTracks',
+                    )}
+                    inputName="interdisciplinary"
+                    options={tracks.additional
+                      .filter((at) => at.end_year >= 2020 && at.type === 'INTERDISCIPLINARY')
+                      .sort((at1, at2) => {
+                        return at1.start_year - at2.start_year;
+                      })
+                      .map((at) => [
+                        at.id.toString(),
+                        getAdditionalTrackName(at, true),
+                        !this._checkYearInTrackRange(at, startYear),
+                      ])}
+                    checkedValues={new Set(selectedInterdisciplinaryTracks)}
+                  />
+                ),
+              },
+            ]}
           />
           <div className={classNames('caption')}>
             Beta UI:

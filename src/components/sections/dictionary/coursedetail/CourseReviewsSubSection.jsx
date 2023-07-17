@@ -8,6 +8,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import ReviewBlock from '../../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../../blocks/ReviewWriteBlock';
+import Attributes from '../../../Attributes';
 import SearchFilter from '../../../inputs/SearchFilter';
 
 import { updateReview } from '../../../../actions/dictionary/courseFocus';
@@ -146,19 +147,31 @@ class CourseReviewsSubSection extends Component {
     return (
       <div className={classNames('subsection', 'subsection--course-reviews')}>
         <div className={classNames('small-title')}>{t('ui.title.reviews')}</div>
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedProfessors')}
-          inputName="professor"
-          titleName={t('ui.search.professor')}
-          options={professorOptions}
-          checkedValues={selectedProfessors}
-        />
-        <SearchFilter
-          updateCheckedValues={this.updateCheckedValues('selectedLanguages')}
-          inputName="language"
-          titleName={t('ui.search.language')}
-          options={languageOptions}
-          checkedValues={selectedLanguages}
+        <Attributes
+          entries={[
+            {
+              name: t('ui.search.professor'),
+              info: (
+                <SearchFilter
+                  updateCheckedValues={this.updateCheckedValues('selectedProfessors')}
+                  inputName="professor"
+                  options={professorOptions}
+                  checkedValues={selectedProfessors}
+                />
+              ),
+            },
+            {
+              name: t('ui.search.language'),
+              info: (
+                <SearchFilter
+                  updateCheckedValues={this.updateCheckedValues('selectedLanguages')}
+                  inputName="language"
+                  options={languageOptions}
+                  checkedValues={selectedLanguages}
+                />
+              ),
+            },
+          ]}
         />
         <Scores
           entries={[
