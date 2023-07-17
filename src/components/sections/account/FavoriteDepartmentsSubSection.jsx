@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import SearchFilter from '../../SearchFilter';
+import SearchFilter from '../../inputs/SearchFilter';
 
 import { setUser } from '../../../actions/common/user';
 

@@ -9,7 +9,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
-import SearchFilter from '../../SearchFilter';
+import SearchFilter from '../../inputs/SearchFilter';
 
 import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
 
@@ -24,7 +24,7 @@ import userShape from '../../../shapes/model/session/UserShape';
 import generalTrackShape from '../../../shapes/model/graduation/GeneralTrackShape';
 import majorTrackShape from '../../../shapes/model/graduation/MajorTrackShape';
 import additionalTrackShape from '../../../shapes/model/graduation/AdditionalTrackShape';
-import Dropdown from '../../Dropdown';
+import Dropdown from '../../inputs/Dropdown';
 
 class TrackSettingsSection extends Component {
   constructor(props) {

@@ -10,7 +10,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { CourseListCode } from '../../../../reducers/dictionary/list';
 
 import Divider from '../../../Divider';
-import SearchFilter from '../../../SearchFilter';
+import SearchFilter from '../../../inputs/SearchFilter';
 import Scroller from '../../../Scroller';
 
 import { closeSearch, setLastSearchOption } from '../../../../actions/dictionary/search';

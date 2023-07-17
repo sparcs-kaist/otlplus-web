@@ -12,7 +12,7 @@ import { LectureListCode } from '../../../../reducers/timetable/list';
 import { getRangeStr } from '../../../../utils/timeUtils';
 
 import Divider from '../../../Divider';
-import SearchFilter from '../../../SearchFilter';
+import SearchFilter from '../../../inputs/SearchFilter';
 import Scroller from '../../../Scroller';
 
 import {

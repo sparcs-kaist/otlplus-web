@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import Scroller from '../../../Scroller';
 // import Divider from '../../../Divider';
-import SearchFilter from '../../../SearchFilter';
+import SearchFilter from '../../../inputs/SearchFilter';
 // import CourseStatus from '../../../CourseStatus';
 // import CountController from '../../../CountController';
 

@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import ReviewBlock from '../../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../../blocks/ReviewWriteBlock';
-import SearchFilter from '../../../SearchFilter';
+import SearchFilter from '../../../inputs/SearchFilter';
 
 import { updateReview } from '../../../../actions/dictionary/courseFocus';
 import { updateUserReview } from '../../../../actions/common/user';
