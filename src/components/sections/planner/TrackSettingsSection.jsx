@@ -285,25 +285,36 @@ class TrackSettingsSection extends Component {
         <CloseButton onClick={this.close} />
         <div className={classNames('title')}>{t('ui.title.plannerSettings')}</div>
         <Scroller>
-          <Dropdown
-            updateSelectedValue={this.getStateSetterOfName('selectedStartYear')}
-            inputName="startYear"
-            titleName={t('ui.attribute.entranceYear')}
-            options={range(2015, new Date().getFullYear() + 1).map((y) => [
-              y.toString(),
-              y.toString(),
-            ])}
-            selectedValue={selectedStartYear}
-          />
-          <Dropdown
-            updateSelectedValue={this.getStateSetterOfName('selectedDuration')}
-            inputName="duration"
-            titleName={t('ui.attribute.enrollmentPeriod')}
-            options={range(4, 9).map((d) => [d.toString(), t('ui.others.yearCount', { count: d })])}
-            selectedValue={selectedDuration}
-          />
           <Attributes
             entries={[
+              {
+                name: t('ui.attribute.entranceYear'),
+                info: (
+                  <Dropdown
+                    updateSelectedValue={this.getStateSetterOfName('selectedStartYear')}
+                    inputName="startYear"
+                    options={range(2015, new Date().getFullYear() + 1).map((y) => [
+                      y.toString(),
+                      y.toString(),
+                    ])}
+                    selectedValue={selectedStartYear}
+                  />
+                ),
+              },
+              {
+                name: t('ui.attribute.enrollmentPeriod'),
+                info: (
+                  <Dropdown
+                    updateSelectedValue={this.getStateSetterOfName('selectedDuration')}
+                    inputName="duration"
+                    options={range(4, 9).map((d) => [
+                      d.toString(),
+                      t('ui.others.yearCount', { count: d }),
+                    ])}
+                    selectedValue={selectedDuration}
+                  />
+                ),
+              },
               {
                 name: t('ui.attribute.general'),
                 info: (
