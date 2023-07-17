@@ -241,7 +241,7 @@ class SummarySubSection extends Component {
             ].map(([ti, tn]) => ({
               name: tn,
               info: (
-                <>
+                <div>
                   <span
                     className={classNames(
                       'mobile-hidden',
@@ -261,7 +261,7 @@ class SummarySubSection extends Component {
                     )}>
                     {overallTypeCredit[ti]}
                   </span>
-                </>
+                </div>
               ),
               onMouseOver: () => this.setFocusOnType(typeOfIndex(ti)),
               onMouseOut: () => this.clearFocus(),
