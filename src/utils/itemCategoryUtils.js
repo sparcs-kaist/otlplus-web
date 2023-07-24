@@ -42,7 +42,7 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
         const secondIndex = separateMajorTracks.findIndex((smt) => smt.id === targetTrack.id);
         return [CategoryFirstIndex.MAJOR, secondIndex, 0];
       }
-      break;
+      return [CategoryFirstIndex.OTHERS, 0, 0];
     }
     case 'Major Elective':
     case 'Elective(Graduate)': {
@@ -54,7 +54,7 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
         const secondIndex = separateMajorTracks.findIndex((smt) => smt.id === targetTrack.id);
         return [CategoryFirstIndex.MAJOR, secondIndex, 1];
       }
-      break;
+      return [CategoryFirstIndex.OTHERS, 0, 0];
     }
     case 'Thesis Study(Undergraduate)':
       return [CategoryFirstIndex.RESEARCH, 0, 0];
