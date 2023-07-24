@@ -73,7 +73,7 @@ export const getCategoryOfType = (planner, type, departmentCode) => {
   if (type?.startsWith('Humanities & Social Elective')) {
     return [CategoryFirstIndex.GENERAL_AND_HUMANITY, 0, 1];
   }
-  return [CategoryFirstIndex.OTHERS, 0, 1];
+  return [CategoryFirstIndex.OTHERS, 0, 0];
 };
 
 export const getCategoryOfItem = (planner, item) => {

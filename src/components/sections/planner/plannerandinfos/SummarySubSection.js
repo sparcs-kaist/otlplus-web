@@ -72,7 +72,7 @@ class SummarySubSection extends Component {
       ]),
       [CategoryFirstIndex.RESEARCH]: [[initializeCount(), initializeCount()]],
       [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [[initializeCount(), initializeCount()]],
-      [CategoryFirstIndex.OTHERS]: [[initializeCount(), initializeCount()]],
+      [CategoryFirstIndex.OTHERS]: [[initializeCount()]],
     };
 
     const categoryBigTitles = {
@@ -107,7 +107,7 @@ class SummarySubSection extends Component {
       [CategoryFirstIndex.GENERAL_AND_HUMANITY]: [
         [t('ui.type.generalRequired'), t('ui.type.humanities')],
       ],
-      [CategoryFirstIndex.OTHERS]: [[t('ui.type.otherElective'), t('ui.type.unclassified')]],
+      [CategoryFirstIndex.OTHERS]: [[t('ui.type.otherElective')]],
     };
 
     if (selectedPlanner?.general_track) {
