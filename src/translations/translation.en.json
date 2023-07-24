@@ -67,6 +67,7 @@
       "deleteTable": "Delete",
       "switchTable": "Switch Table",
       "showLectures": "Show Lectures",
+      "addToSemester": "Add to {{semester}} Semester",
       "search": "Search",
       "change": "Change",
       "confirm": "Confirm",

@@ -67,6 +67,7 @@
       "deleteTable": "삭제",
       "switchTable": "시간표 변경",
       "showLectures": "과목 목록 보기",
+      "addToSemester": "{{semester}}학기에 추가하기",
       "search": "검색",
       "change": "변경",
       "confirm": "확인",

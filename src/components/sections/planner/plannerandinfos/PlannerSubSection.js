@@ -632,7 +632,7 @@ class PlannerSubSection extends Component {
           isPlannerWithWinter={hasWinterSemester}
           options={[
             {
-              label: `+ ${getSemesterName(semester)}학기에 추가하기`,
+              label: `+ ${t('ui.button.addToSemester', { semester: getSemesterName(semester) })}`,
               onClick: !itemFocus.course.isArbitrary
                 ? () => this.addCourseToPlanner(itemFocus.course, year, semester)
                 : () => this.addArbitraryCourseToPlanner(itemFocus.course, year, semester),
@@ -642,7 +642,9 @@ class PlannerSubSection extends Component {
                 new Date(semesterData.courseAddDropPeriodEnd) < Date.now(),
             },
             {
-              label: `+ ${getSemesterName(semester + 1)}학기에 추가하기`,
+              label: `+ ${t('ui.button.addToSemester', {
+                semester: getSemesterName(semester + 1),
+              })}`,
               onClick: !itemFocus.course.isArbitrary
                 ? () => this.addCourseToPlanner(itemFocus.course, year, semester + 1)
                 : () => this.addArbitraryCourseToPlanner(itemFocus.course, year, semester + 1),
@@ -677,7 +679,7 @@ class PlannerSubSection extends Component {
               isPlannerWithWinter={hasWinterSemester}
               options={[
                 {
-                  label: '취소하기',
+                  label: t('ui.button.cancel'),
                   onClick: () => this.cancelAddCourseToPlanner(),
                   isSmall: true,
                   isDisabled: false,
