@@ -2056,7 +2056,8 @@ a {
     &:not(.block--raised) {
       color: rgba($color-text-normal, 0.45);
 
-      & .block--lecture-group__row-content__texts__sub {
+      & .block--lecture-group__row-content__texts__sub,
+      & .block--planner-course__text__caption {
         color: rgba($color-text-lighter, 0.45);
       }
     }
@@ -2115,6 +2116,13 @@ a {
 
     &__text {
       flex: 1 1 auto;
+
+      &__caption {
+        font-size: $font-size-smaller;
+        line-height: $line-height-smaller;
+        color: $color-text-lighter;
+        margin-bottom: 3px;
+      }
 
       &__title {
         font-weight: bold;
