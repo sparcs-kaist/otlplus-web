@@ -20,13 +20,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Install npm dependencies
-        run: npm install
+          cache: yarn
+      - name: Install yarn dependencies
+        run: yarn install
       - name: Format
-        run: npm run prettier
+        run: yarn prettier
       - name: Lint
-        run: npm run lint
+        run: yarn lint
 
   build:
     name: Build
@@ -38,11 +38,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Install npm dependencies
-        run: npm install
+          cache: yarn
+      - name: Install yarn dependencies
+        run: yarn install
       - name: Build
-        run: npm run build
+        run: yarn build
 
   test:
     name: Test
@@ -54,8 +54,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - name: Install npm dependencies
-        run: npm install
+          cache: yarn
+      - name: Install yarn dependencies
+        run: yarn install
       - name: Run tests
-        run: npm test
+        run: yarn test

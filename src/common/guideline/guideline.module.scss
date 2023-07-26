@@ -1,11 +1,23 @@
 $side-filling: 100px;
 
 $media-landscape: (
-  min-aspect-ratio: 4/3,
+  min-aspect-ratio: calc(4/3),
 );
 $media-portrait: (
-  max-aspect-ratio: 4/3,
+  max-aspect-ratio: calc(4/3),
 );
+
+@mixin mixin-media-landscape() {
+  @media (min-aspect-ratio: calc(4/3)) {
+    @content;
+  }
+}
+
+@mixin mixin-media-portrait() {
+  @media (max-aspect-ratio: calc(4/3)) {
+    @content;
+  }
+}
 
 header,
 footer {
@@ -45,9 +57,9 @@ footer {
     display: none;
     position: absolute;
     cursor: pointer;
-    top: (50px - 24px) / 2;
+    top: calc(calc(50px - 24px) / 2);
     right: 16px;
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       display: block;
     }
 
@@ -73,22 +85,22 @@ footer {
       display: inline-flex;
       justify-content: space-between;
       &.content-right {
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           text-align: right;
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           @at-root .menu-closed .content-right {
             display: none !important;
           }
         }
       }
-      @media #{$media-landscape} {
+      @include mixin-media-landscape {
         width: 50%;
         height: 50px;
         flex-direction: row;
         align-items: center;
       }
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         width: 100%;
         height: initial;
         flex-direction: column;
@@ -100,10 +112,10 @@ footer {
 
       @mixin side-menus {
         flex: 0 0 auto;
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           margin: 0 24px;
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           width: calc(100% - 16px * 2);
           margin: 0 34px;
           flex-wrap: wrap;
@@ -119,7 +131,7 @@ footer {
       .logo {
         @include side-menus;
 
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           margin: 0 16px;
           & > span {
             height: 50px;
@@ -131,10 +143,10 @@ footer {
       }
       .common-menus {
         @include side-menus;
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           font-size: 14px;
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           font-size: 15px;
           padding-bottom: 16px;
 
@@ -144,7 +156,7 @@ footer {
         }
 
         & > span {
-          @media #{$media-landscape} {
+          @include mixin-media-landscape {
             &:not(:last-child) {
               margin-right: 16px;
 
@@ -169,10 +181,10 @@ footer {
         flex: 0 1 auto;
         font-size: 15px;
         white-space: nowrap;
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           width: calc((80vh + 382px) / 2);
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           width: calc(100% - 34px);
           margin-left: 34px;
 
@@ -188,7 +200,7 @@ footer {
       .menus {
         @include center-menus;
 
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           padding-bottom: 8px;
 
           @at-root .menu-closed .menus {
@@ -212,7 +224,7 @@ footer {
       .special-menus {
         @include center-menus;
 
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           @at-root .menu-closed .special-menus {
             display: none;
           }
@@ -236,7 +248,7 @@ footer {
 
     & > * {
       margin: 0 24px;
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         margin: 0 16px;
       }
     }

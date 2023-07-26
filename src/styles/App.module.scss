@@ -102,15 +102,23 @@ $score-line-height-desktop-big: calc(#{$score-font-size-desktop-big} - 2px);
 $score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
 $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 
-$media-landscape: (
-  min-aspect-ratio: 4/3,
-);
-$media-portrait: (
-  max-aspect-ratio: 4/3,
-);
-$media-no-hover: (
-  hover: none,
-);
+@mixin mixin-media-landscape() {
+  @media (min-aspect-ratio: 4/3) {
+    @content;
+  }
+}
+
+@mixin mixin-media-portrait() {
+  @media (max-aspect-ratio: 4/3) {
+    @content;
+  }
+}
+
+@mixin mixin-media-no-hover() {
+  @media (hover: none) {
+    @content;
+  }
+}
 
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-height-desktop-lecture-detail: calc(
@@ -259,13 +267,13 @@ a {
   header + & {
     margin-top: $header-height;
   }
-  @media #{$media-landscape} {
+  @include mixin-media-landscape {
     width: calc(
       #{$content-width-desktop} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) +
             env(safe-area-inset-right))
     );
   }
-  @media #{$media-portrait} {
+  @include mixin-media-portrait {
     width: 100%;
   }
 
@@ -292,12 +300,12 @@ a {
   }
 
   &--full {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
       grid-template-areas: 'full';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
       grid-template-areas: 'full';
@@ -305,7 +313,7 @@ a {
   }
 
   &--timetable {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       margin-left: -$tabs-width-vertical;
       grid-template-columns:
         $tabs-width-vertical
@@ -323,7 +331,7 @@ a {
         '.                  .              .   timetable-and-infos'
         'lecture-list-tabs  lecture-list   .   timetable-and-infos';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       padding-bottom: 0px !important;
       grid-template-columns: 1fr;
       grid-template-rows:
@@ -351,7 +359,7 @@ a {
   }
 
   &--dictionary {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       margin-left: -$tabs-width-vertical;
       grid-template-columns:
         $tabs-width-vertical
@@ -361,7 +369,7 @@ a {
       grid-template-rows: 1fr;
       grid-template-areas: 'course-list-tabs   course-list .   course-detail';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows:
         $tabs-height-horizontal
@@ -373,7 +381,7 @@ a {
   }
 
   &--planner {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       margin-left: -$tabs-width-vertical;
       grid-template-columns:
         $tabs-width-vertical
@@ -393,7 +401,7 @@ a {
         'course-list-tabs   course-list         .                   course-manage'
         'course-list-tabs   course-list         .                   course-manage';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
       grid-template-areas: 'planner-and-infos';
@@ -401,7 +409,7 @@ a {
   }
 
   &--syllabus {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       width: calc(900px + #{$section-padding} * 2);
       grid-template-columns: 1fr;
       grid-template-rows:
@@ -411,7 +419,7 @@ a {
         'syllabus-tabs'
         'syllabus';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows:
         $tabs-height-horizontal
@@ -423,7 +431,7 @@ a {
   }
 
   &--write-reviews {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-template-columns:
         $section-width-desktop-1v3-left
         $section-margin-lr
@@ -431,7 +439,7 @@ a {
       grid-template-rows: 1fr;
       grid-template-areas: 'write-reviews-left .   write-reviews-right';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
       grid-template-areas: 'write-reviews-left';
@@ -441,18 +449,18 @@ a {
   &--main {
     overflow: hidden;
     padding-top: $section-margin-top;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       min-height: calc(
         #{$screen-height} - (#{$main-image-height-desktop} + #{$footer-height-desktop} + #{$section-margin-top})
       );
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$main-image-height-mobile} + #{$footer-height-mobile} + #{$section-margin-top})
       );
     }
 
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-template-columns:
         1fr
         $section-margin-lr
@@ -466,7 +474,7 @@ a {
         'feeds-column-1 .           feeds-column-2  .           feeds-column-3'
         'main-date      main-date   main-date       main-date   main-date';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows:
         max-content
@@ -481,17 +489,17 @@ a {
 .main-image {
   background: url(../static/images/main/background_photo.jpg) center 0;
   background-size: 100% auto;
-  @media #{$media-landscape} {
+  @include mixin-media-landscape {
     height: $main-image-height-desktop;
-    padding-top: $main-image-height-desktop / 2 - 9px;
+    padding-top: calc(calc($main-image-height-desktop / 2) - 9px);
     min-width: calc(
       #{$content-width-desktop} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) +
             env(safe-area-inset-right))
     );
   }
-  @media #{$media-portrait} {
+  @include mixin-media-portrait {
     height: $main-image-height-mobile;
-    padding-top: $main-image-height-mobile / 2 - 9px;
+    padding-top: calc(calc($main-image-height-mobile / 2) - 9px);
     min-width: 100%;
   }
 }
@@ -508,10 +516,10 @@ a {
     background-color: $color-tab-background-dark;
     white-space: nowrap;
     display: inline-block;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       touch-action: pinch-zoom;
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       touch-action: pan-x pinch-zoom;
     }
     &.tabs__elem--selected {
@@ -539,20 +547,20 @@ a {
   &--course-list,
   &--lecture-list {
     & .tabs__flexbox {
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         display: flex;
         flex-direction: row;
       }
     }
 
     & .tabs__elem {
-      @media #{$media-landscape} {
+      @include mixin-media-landscape {
         margin-left: auto;
         margin-bottom: $tab-margin;
         border-radius: $tab-border-radius 0 0 $tab-border-radius;
         line-height: 0;
       }
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         margin-right: $tab-margin;
         border-radius: $tab-border-radius $tab-border-radius 0 0;
         flex: 1 1 0;
@@ -564,7 +572,7 @@ a {
       & > span {
         margin-left: 6px;
 
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           display: none;
         }
       }
@@ -591,7 +599,7 @@ a {
       display: inline-flex;
       flex-direction: row;
       justify-content: center;
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         width: 100%;
         padding: $block-padding-tb $block-padding-lr;
         background-color: $color-block-background;
@@ -609,7 +617,7 @@ a {
       }
       &:not(.tabs__elem--selected) {
         & > button {
-          @media #{$media-landscape} {
+          @include mixin-media-landscape {
             display: none;
           }
         }
@@ -617,7 +625,7 @@ a {
       &--add-button {
         padding: $tab-padding;
         line-height: 0;
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           margin-bottom: 0;
         }
       }
@@ -628,10 +636,10 @@ a {
 
       & > button {
         color: $color-text-light;
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           margin-left: 4px;
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           margin-left: 8px;
         }
         &:hover {
@@ -640,7 +648,7 @@ a {
 
         & > span {
           margin-left: 4px;
-          @media #{$media-landscape} {
+          @include mixin-media-landscape {
             display: none;
           }
         }
@@ -651,7 +659,7 @@ a {
   &--planner {
     grid-area: planner-tabs;
 
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       // TODO: Remove this after mobile UI implemented
       display: none;
     }
@@ -665,7 +673,7 @@ a {
       display: inline-flex;
       flex-direction: row;
       justify-content: center;
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         width: 100%;
         padding: $block-padding-tb $block-padding-lr;
         background-color: $color-block-background;
@@ -683,7 +691,7 @@ a {
       }
       &:not(.tabs__elem--selected) {
         & > button {
-          @media #{$media-landscape} {
+          @include mixin-media-landscape {
             display: none;
           }
         }
@@ -691,7 +699,7 @@ a {
       &--add-button {
         padding: $tab-padding;
         line-height: 0;
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           margin-bottom: 0;
         }
       }
@@ -702,10 +710,10 @@ a {
 
       & > button {
         color: $color-text-light;
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           margin-left: 4px;
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           margin-left: 8px;
         }
         &:hover {
@@ -714,7 +722,7 @@ a {
 
         & > span {
           margin-left: 4px;
-          @media #{$media-landscape} {
+          @include mixin-media-landscape {
             display: none;
           }
         }
@@ -781,10 +789,10 @@ a {
 
   &--main-search {
     margin: 0 auto;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       width: calc(#{$content-width-desktop});
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       width: calc(100% - #{$section-margin-lr} * 2);
     }
   }
@@ -800,17 +808,17 @@ a {
 
   &--course-list {
     grid-area: course-list;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-top-left-radius: 0;
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
     }
   }
 
   &--course-detail {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-area: course-detail;
     }
   }
@@ -818,7 +826,7 @@ a {
   &--timetable-and-infos {
     display: grid;
     grid-area: timetable-and-infos;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-top-left-radius: 0;
       grid-template-columns: 1fr min-content calc(
           #{$section-width-desktop-1v3-left} - (#{$section-padding} * 2)
@@ -833,7 +841,7 @@ a {
         'timetable  divider-main    divider-sub-3'
         'timetable  divider-main    share';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr min-content min-content min-content min-content;
       grid-template-areas:
@@ -847,7 +855,7 @@ a {
 
   &--semester-and-timetable-list {
     display: grid;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-top-left-radius: 0;
       grid-area: semester-and-timetable-tabs;
       grid-template-columns: 1fr 8px min-content;
@@ -856,7 +864,7 @@ a {
         'timetable-tabs .   semester'
         'timetable-tabs .   .';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr min-content 1fr;
       grid-template-rows: min-content 12px 1fr;
       grid-template-areas:
@@ -867,20 +875,20 @@ a {
   }
 
   &--lecture-detail {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-area: lecture-detail;
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
     }
   }
 
   &--lecture-list {
     position: relative;
     grid-area: lecture-list;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-top-left-radius: 0;
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
 
@@ -899,7 +907,7 @@ a {
   &--planner-and-infos {
     grid-area: planner-and-infos;
     display: grid;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-top-left-radius: 0;
       grid-template-columns: 1fr min-content calc(
           #{$section-width-desktop-1v3-left} - (#{$section-padding} * 2)
@@ -912,7 +920,7 @@ a {
         'planner  divider-main    divider-sub-2'
         'planner  divider-main    planner-share';
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr;
       grid-template-areas: 'planner';
@@ -920,7 +928,7 @@ a {
   }
 
   &--course-manage {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-area: course-manage;
       display: flex;
       flex-direction: row;
@@ -945,7 +953,7 @@ a {
   }
 
   &--write-reviews-right {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-area: write-reviews-right;
     }
   }
@@ -988,7 +996,7 @@ a {
       top: calc((100% + #{$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
       right: #{$section-padding};
       display: none;
-      @media #{$media-no-hover} {
+      @include mixin-media-no-hover {
         display: initial;
       }
 
@@ -998,7 +1006,7 @@ a {
     }
 
     & > div:last-child {
-      @media #{$media-no-hover} {
+      @include mixin-media-no-hover {
         .block--lecture-group {
           margin-right: 6px + 10px;
           &:first-child {
@@ -1023,7 +1031,7 @@ a {
                       #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{$line-height-big} +
                             #{$list-title-margin-bottom})
                     )
-                ) / 2 - (#{$line-height-smaller / 2} + #{$block-padding-tb}) + #{$section-padding}
+                ) / 2 - (#{calc($line-height-smaller / 2)} + #{$block-padding-tb}) + #{$section-padding}
             );
           }
         }
@@ -1054,7 +1062,7 @@ a {
       flex: 1 1 auto;
       text-align: center;
       white-space: nowrap;
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         font-size: $font-size-big;
         line-height: $line-height-big;
       }
@@ -1093,7 +1101,7 @@ a {
             font-size: $font-size-smallest;
             line-height: $line-height-smallest;
             display: block;
-            margin-top: -($line-height-smallest / 2) + 1px;
+            margin-top: calc(calc($line-height-smallest / 2) * -1) + 1px;
           }
         }
 
@@ -1138,7 +1146,7 @@ a {
             border-bottom-style: dashed;
           }
           &--mobile-noline {
-            @media #{$media-portrait} {
+            @include mixin-media-portrait {
               border-bottom: none;
             }
           }
@@ -1243,7 +1251,7 @@ a {
     grid-area: summary;
     display: flex;
     flex-direction: column;
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       flex-direction: row;
     }
 
@@ -1254,7 +1262,7 @@ a {
     &__type {
       display: flex;
       flex-direction: row;
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         flex-direction: column;
         flex: 3 3 (40px * 3);
       }
@@ -1265,7 +1273,7 @@ a {
         display: flex;
         flex-direction: column;
         white-space: nowrap;
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           flex-direction: row;
           width: 100%;
           margin-left: 0;
@@ -1273,7 +1281,7 @@ a {
             margin-bottom: $attribute-margin-bottom;
           }
         }
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           &:first-child {
             margin-left: 10%;
           }
@@ -1353,7 +1361,7 @@ a {
     grid-area: share;
 
     & > div:first-child {
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         height: 10px;
         float: left;
         margin-right: 8px;
@@ -1367,7 +1375,7 @@ a {
         &:has(+ .divider) {
           margin-bottom: $section-padding;
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           display: inline-block;
           margin-right: 8px;
         }
@@ -1377,7 +1385,7 @@ a {
           align-items: center;
 
           & i {
-            @media #{$media-landscape} {
+            @include mixin-media-landscape {
               margin-right: $attribute-name-margin-right;
             }
           }
@@ -1385,7 +1393,7 @@ a {
           & span {
             font-size: $font-size-small;
             font-weight: bold;
-            @media #{$media-portrait} {
+            @include mixin-media-portrait {
               display: none;
             }
           }
@@ -1399,7 +1407,7 @@ a {
 
     & > div:nth-child(2) {
       float: right;
-      @media #{$media-landscape} {
+      @include mixin-media-landscape {
         display: none;
       }
     }
@@ -1477,7 +1485,7 @@ a {
     overflow: hidden;
 
     &__table {
-      margin: 0 ((5px - 1px) / 2);
+      margin: 0 calc(calc(5px - 1px) / 2);
 
       &__label {
         display: flex;
@@ -1502,10 +1510,10 @@ a {
 
         &__cell {
           flex: none;
-          @media #{$media-landscape} {
+          @include mixin-media-landscape {
             width: 7vh;
           }
-          @media #{$media-portrait} {
+          @include mixin-media-portrait {
             width: 15vw;
           }
         }
@@ -1530,10 +1538,10 @@ a {
 
         &__cell {
           flex: none;
-          @media #{$media-landscape} {
+          @include mixin-media-landscape {
             width: 7vh;
           }
-          @media #{$media-portrait} {
+          @include mixin-media-portrait {
             width: 15vw;
           }
         }
@@ -1671,7 +1679,7 @@ a {
             font-size: $font-size-smallest;
             line-height: $line-height-smallest;
             display: block;
-            margin-top: -($line-height-smallest / 2) + 1px;
+            margin-top: calc(calc($line-height-smallest / 2) * -1) + 1px;
           }
         }
 
@@ -1747,7 +1755,7 @@ a {
             border-bottom-style: dashed;
           }
           &--mobile-noline {
-            @media #{$media-portrait} {
+            @include mixin-media-portrait {
               border-bottom: none;
             }
           }
@@ -1860,7 +1868,7 @@ a {
       .tile--timetable:not(.tile--highlighted):not(.tile--raised) & {
         display: none;
       }
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         display: none;
       }
     }
@@ -1947,7 +1955,7 @@ a {
       .tile--planner:not(.tile--highlighted):not(.tile--raised) & {
         display: none;
       }
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         display: none;
       }
     }
@@ -1977,7 +1985,7 @@ a {
 
       &__label {
         $size: $line-height-normal;
-        $padding-tb-base: ($size - $line-height-smallest) / 2;
+        $padding-tb-base: calc(calc($size - $line-height-smallest) / 2);
         $offset-y: 1px;
 
         flex: 0 0 auto;
@@ -2016,7 +2024,7 @@ a {
     z-index: 290;
   }
 
-  @media #{$media-landscape} {
+  @include mixin-media-landscape {
     display: none;
 
     .section--modal &,
@@ -2074,9 +2082,9 @@ a {
     position: absolute;
     top: 0;
     right: 0;
-    padding: ($block-padding-tb + ($font-size-normal - $font-size-smaller) / 2) $block-padding-lr
-      (($block-padding-tb - 2px) + ($font-size-normal - $font-size-smaller) / 2)
-      ($block-padding-lr - 2px);
+    padding: calc($block-padding-tb + calc(calc($font-size-normal - $font-size-smaller) / 2)) $block-padding-lr
+      calc(calc($block-padding-tb - 2px) + calc(calc($font-size-normal - $font-size-smaller) / 2))
+      calc($block-padding-lr - 2px);
     background-color: inherit;
     opacity: $opacity-text-overlay;
     &:hover {
@@ -2248,7 +2256,7 @@ a {
 
       &__name {
         margin-right: $attribute-name-margin-right;
-        padding: (($option-size - $line-height-normal) / 2) 0;
+        padding: calc(calc($option-size - $line-height-normal) / 2) 0;
       }
 
       &__option {
@@ -2262,7 +2270,7 @@ a {
         }
 
         & > span {
-          $padding-tb-base: ($option-size - $line-height-smaller) / 2;
+          $padding-tb-base: calc(calc($option-size - $line-height-smaller) / 2);
           $offset-y: 1px;
 
           display: inline-block;
@@ -2370,7 +2378,7 @@ a {
           line-height: $line-height-smaller;
           color: $color-text-lighter;
           display: none;
-          @media #{$media-no-hover} {
+          @include mixin-media-no-hover {
             @at-root .block--lecture-group__row--highlighted #{&} {
               display: block;
             }
@@ -2388,10 +2396,10 @@ a {
         margin-left: 6px;
         pointer-events: auto;
         cursor: pointer;
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           display: none;
         }
-        @media #{$media-no-hover} {
+        @include mixin-media-no-hover {
           .block--lecture-group__row:not(.block--lecture-group__row--highlighted) & {
             display: none;
           }
@@ -2530,10 +2538,10 @@ a {
   grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
   .subsection--various-reviews & {
     margin-bottom: 12px;
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       grid-template-columns: repeat(auto-fill, minmax(114px, 1fr));
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       grid-template-columns: repeat(auto-fill, minmax(94px, 1fr));
     }
   }
@@ -2879,13 +2887,13 @@ a {
       }
 
       & > * {
-        @media #{$media-landscape} {
+        @include mixin-media-landscape {
           width: calc(64px + 7vh);
           @at-root .history--special-lecture#{&} {
             width: calc(108px + 7vh);
           }
         }
-        @media #{$media-portrait} {
+        @include mixin-media-portrait {
           width: calc(64px + 19vw - 30px);
           @at-root .history--special-lecture#{&} {
             width: calc(108px + 19vw - 30px);
@@ -2941,7 +2949,7 @@ a {
   }
   .subsection--summary & {
     overflow: hidden;
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       margin-bottom: 0px;
       flex: 1 1 40px;
     }
@@ -3040,7 +3048,7 @@ a {
 
 .scores {
   text-align: center;
-  @media #{$media-landscape} {
+  @include mixin-media-landscape {
     margin-top: $score-margin-tb-desktop;
     margin-bottom: $score-margin-tb-desktop;
     @at-root .scores--big#{&} {
@@ -3048,7 +3056,7 @@ a {
       margin-bottom: $score-margin-tb-desktop-big;
     }
   }
-  @media #{$media-portrait} {
+  @include mixin-media-portrait {
     margin-top: $score-margin-tb-mobile;
     margin-bottom: $score-margin-tb-mobile;
   }
@@ -3060,7 +3068,7 @@ a {
   .subsection--summary & {
     margin-top: $score-margin-tb-desktop;
     margin-bottom: 0;
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       margin-top: 0;
       display: flex;
       flex-direction: row;
@@ -3084,13 +3092,13 @@ a {
   & > div {
     display: inline-block;
 
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       width: $score-width-desktop;
       @at-root .scores--big#{&} {
         width: $score-width-desktop-big;
       }
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       width: $score-width-mobile;
       .subsection--summary & {
         flex: 1 1 30px;
@@ -3102,7 +3110,7 @@ a {
       font-weight: 300;
       margin-bottom: 2px;
 
-      @media #{$media-landscape} {
+      @include mixin-media-landscape {
         font-size: $score-font-size-desktop;
         line-height: $score-line-height-desktop;
         @at-root .scores--big#{&} {
@@ -3110,7 +3118,7 @@ a {
           line-height: $score-line-height-desktop-big;
         }
       }
-      @media #{$media-portrait} {
+      @include mixin-media-portrait {
         font-size: $score-font-size-mobile;
         line-height: $score-line-height-mobile;
         .subsection--summary & {
@@ -3140,25 +3148,25 @@ a {
 
 .divider {
   &--desktop-horizontal {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-bottom: 1px solid $color-divider-line;
       margin: $section-padding 0;
     }
   }
   &--desktop-vertical {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-right: 1px solid $color-divider-line;
       margin: 0 $section-padding;
     }
   }
   &--mobile-horizontal {
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       border-bottom: 1px solid $color-divider-line;
       margin: $section-padding 0;
     }
   }
   &--mobile-vertical {
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       border-right: 1px solid $color-divider-line;
       margin: 0 $section-padding;
     }
@@ -3170,25 +3178,25 @@ a {
 
 .divider-planner {
   &--desktop-horizontal {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-bottom: 1px solid $color-divider-line;
       margin: $section-padding 0;
     }
   }
   &--desktop-vertical {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       border-right: 1px solid $color-normal-line;
       margin: 0 5px; //TODO
     }
   }
   &--mobile-horizontal {
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       border-bottom: 1px solid $color-divider-line;
       margin: $section-padding 0;
     }
   }
   &--mobile-vertical {
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       border-right: 1px solid $color-divider-line;
       margin: 0 $section-padding;
     }
@@ -3246,7 +3254,7 @@ a {
 
 .min-height-area {
   .subsection--lecture-detail & {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       min-height: calc(
         #{$section-height-desktop-lecture-detail} - (#{$section-padding} + (
                 #{$line-height-big} + 2px
@@ -3255,7 +3263,7 @@ a {
               ) + (#{$line-height-big} + 8px) + #{$section-padding})
       ) !important;
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
                 #{$line-height-big} + 2px
@@ -3267,7 +3275,7 @@ a {
     }
   }
   .subsection--course-reviews & {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-padding} + (#{$line-height-big} + 2px) +
               (#{$line-height-normal} + #{$title-margin-bottom}) +
@@ -3276,7 +3284,7 @@ a {
               ((#{$line-height-normal} + #{$attribute-margin-bottom}) * 2) + #{$section-padding} + #{$section-margin-bottom})
       ) !important;
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
                 #{$line-height-big} + 2px
@@ -3289,13 +3297,13 @@ a {
     }
   }
   .subsection--various-reviews & {
-    @media #{$media-landscape} {
+    @include mixin-media-landscape {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-padding} +
               (#{$line-height-big} + #{$title-margin-bottom}) + #{$section-padding} + #{$section-margin-bottom})
       ) !important;
     }
-    @media #{$media-portrait} {
+    @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
                 #{$line-height-big} + #{$title-margin-bottom}
@@ -3386,7 +3394,7 @@ a {
     text-align: center;
     font-size: 14px;
     line-height: 15px;
-    padding: ((26px - 17px) / 2) 0;
+    padding: calc(calc(26px - 17px) / 2) 0;
   }
 }
 
@@ -3446,7 +3454,7 @@ i.icon {
     width: 14px;
     height: 12px;
     background-image: url(../static/icons/lecture_uparrow.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/lecture_uparrow_hover.svg);
@@ -3457,7 +3465,7 @@ i.icon {
     width: 14px;
     height: 12px;
     background-image: url(../static/icons/lecture_downarrow.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/lecture_downarrow_hover.svg);
@@ -3468,7 +3476,7 @@ i.icon {
     width: 12px;
     height: 13px;
     background-image: url(../static/icons/search.svg);
-    margin: (($line-height-big - 13px) / 2) 0;
+    margin: calc(calc($line-height-big - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/search_hover.svg);
@@ -3545,7 +3553,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/add_cart.svg);
-    margin: (($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc($line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/add_cart_hover.svg);
@@ -3560,7 +3568,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/delete_cart.svg);
-    margin: (($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc($line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_cart_hover.svg);
@@ -3571,7 +3579,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/add_lecture.svg);
-    margin: (($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc($line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/add_lecture_hover.svg);
@@ -3587,7 +3595,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/delete_from_table.svg);
-    margin: (($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc($line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_from_table_hover.svg);
@@ -3668,7 +3676,7 @@ i.icon {
     width: 10px;
     height: 11px;
     background-image: url(../static/icons/duplicate_table.svg);
-    margin: (($line-height-small - 11px) / 2) 0;
+    margin: calc(calc($line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/duplicate_table_hover.svg);
@@ -3683,7 +3691,7 @@ i.icon {
     width: 10px;
     height: 11px;
     background-image: url(../static/icons/delete_table.svg);
-    margin: (($line-height-small - 11px) / 2) 0;
+    margin: calc(calc($line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_table_hover.svg);
@@ -3709,7 +3717,7 @@ i.icon {
     width: 7px;
     height: 11px;
     background-image: url(../static/icons/semester_prev.svg);
-    margin: (($line-height-small - 11px) / 2) 0;
+    margin: calc(calc($line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/semester_prev_hover.svg);
@@ -3724,7 +3732,7 @@ i.icon {
     width: 7px;
     height: 11px;
     background-image: url(../static/icons/semester_next.svg);
-    margin: (($line-height-small - 11px) / 2) 0;
+    margin: calc(calc($line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/semester_next_hover.svg);
@@ -3739,7 +3747,7 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/checkbox_unselected.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/checkbox_unselected_hover.svg);
@@ -3758,7 +3766,7 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/radio_unselected.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/radio_unselected_hover.svg);
@@ -3789,14 +3797,14 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/status_read.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
   }
 
   &--status-unread {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/status_unread.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
   }
 
   &--close-section {
@@ -3813,7 +3821,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/switch_table.svg);
-    margin: (($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc($line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/switch_table_hover.svg);
@@ -3824,7 +3832,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/show_lectures.svg);
-    margin: (($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc($line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/show_lectures_hover.svg);
@@ -3845,7 +3853,7 @@ i.icon {
     width: 12px;
     height: 12px;
     background-image: url(../static/icons/plus_circled.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
     margin-left: 8px;
   }
 
@@ -3853,7 +3861,7 @@ i.icon {
     width: 12px;
     height: 12px;
     background-image: url(../static/icons/minus_circled.svg);
-    margin: (($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
     margin-right: 8px;
   }
 }
@@ -3866,28 +3874,28 @@ i.icon {
 }
 
 .mobile-hidden {
-  @media #{$media-portrait} {
+  @include mixin-media-portrait {
     display: none !important;
   }
 }
 
 .desktop-hidden {
-  @media #{$media-landscape} {
+  @include mixin-media-landscape {
     display: none !important;
   }
 }
 
 .credit-bar {
   $bar-height: 6px;
-  $margin-tb-base: ($line-height-normal - $bar-height - $line-height-smallest) / 2;
+  $margin-tb-base: calc(calc(calc($line-height-normal - $bar-height) - $line-height-smallest) / 2);
 
   position: relative;
   width: 50%;
-  margin: ($margin-tb-base - 4px) 0 ($margin-tb-base + 4px) 0;
+  margin: calc($margin-tb-base - 4px) 0 calc($margin-tb-base + 4px) 0;
 
   &__body {
     height: $bar-height;
-    border-radius: ($bar-height / 2);
+    border-radius: calc($bar-height / 2);
     overflow: hidden;
     background-color: #eeeeee;
     display: flex;
