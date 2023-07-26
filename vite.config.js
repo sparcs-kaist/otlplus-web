@@ -4,4 +4,7 @@ import EnvironmentPlugin from 'vite-plugin-environment';
 
 export default defineConfig({
   plugins: [react(), EnvironmentPlugin('all')],
+  build: {
+    outDir: './build',
+  },
 });
