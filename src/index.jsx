@@ -98,14 +98,15 @@ axios.interceptors.response.use(
 
 import { Router } from 'react-router-dom';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import App from './App';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container); // createRoot(container!) if you use TypeScript
+root.render(
   <Router history={history}>
     <App />
   </Router>,
-  document.getElementById('root'),
 );
 
 import registerServiceWorker from './registerServiceWorker';

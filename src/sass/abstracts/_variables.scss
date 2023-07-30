@@ -1,0 +1,116 @@
+$color-page-background: #f9f0f0;
+$color-section-background: #ffffff;
+$color-tab-background: $color-section-background;
+$color-tab-background-dark: #e2e2e2;
+$color-tab-background-darker: #d8d8d8;
+$color-block-background: #eeeeee;
+$color-block-background-dark: #dddddd;
+$color-block-background-highlight: #f9f0f0;
+$color-tile-background-highlight: #e0546f;
+
+$color-text-dark: #000000;
+$color-text-normal: #333333;
+$color-text-light: #555555;
+$color-text-lighter: #888888;
+$color-text-placeholder: #aaaaaa;
+$color-text-disable: #aaaaaa;
+
+$color-highlight: #e54c65;
+$color-highlight-dark: #963246;
+
+$color-section-shadow: rgba(#ed8c9c, 0.5);
+$color-block-shadow-dark: rgba(#333333, 0.5);
+$color-block-shadow-highlight: rgba(#431014, 0.5);
+
+$color-divider-line: #edd1dc;
+$color-block-line: #c9c9c9;
+$color-normal-line: #e8e8e8;
+$color-normal-line-dark: #c9c9c9;
+
+$font-size-big: 14px;
+$line-height-big: 15px;
+$font-size-normal: 13px;
+$line-height-normal: 14px;
+$font-size-small: 12px;
+$line-height-small: 13px;
+$font-size-smaller: 11px;
+$line-height-smaller: 12px;
+$font-size-smallest: 10px;
+$line-height-smallest: 11px;
+
+$delta-line-height-longcontent: 4px;
+
+$opacity-text-overlay: 0.7;
+
+$offset-raise: 3px;
+
+$transition-duration-normal: 0.15s;
+$transition-duration-short: 0.06s;
+
+$screen-height: var(
+  --window-inner-height,
+  100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
+);
+
+$header-height: 55px;
+$footer-height-desktop: 50px;
+$footer-height-mobile: 130px;
+$main-image-height-desktop: 400px;
+$main-image-height-mobile: 240px;
+
+$content-width-desktop: calc(80vh + 384px);
+
+$section-margin-top: 12px;
+$section-margin-bottom: 12px;
+$section-margin-lr: 12px;
+$section-padding: 12px;
+$section-border-radius: 6px;
+$section-box-shadow: 0 6px 3px -3px $color-section-shadow;
+
+$tab-padding: 8px;
+$tab-margin: 6px;
+$tab-border-radius: 4px;
+$tabs-height-horizontal: (13px + $tab-padding * 2);
+$tabs-width-vertical: (13px + $tab-padding * 2);
+
+$block-margin: 8px;
+$block-padding-lr: 10px;
+$block-padding-tb: 8px;
+$block-border-radius: 4px;
+
+$tile-padding-lr: 6px;
+$tile-padding-tb: 4px;
+$tile-border-radius: 2px;
+
+$title-margin-bottom: 10px;
+$list-title-margin-bottom: 12px;
+
+$attribute-margin-bottom: 8px;
+$attribute-name-margin-right: 6px;
+$attribute-info-margin-between: 6px;
+
+$score-margin-tb-desktop-big: calc(1.4vh + 2px + 4px);
+$score-margin-tb-desktop: calc(1.4vh + 2px);
+$score-margin-tb-mobile: calc(3.8vw + 2px);
+$score-width-desktop-big: calc(3.5vh + 34px + 20px);
+$score-width-desktop: calc(3.5vh + 34px);
+$score-width-mobile: calc(9.5vw + 34px);
+$score-font-size-desktop-big: calc(0.7vh + 15px + 2px);
+$score-font-size-desktop: calc(0.7vh + 15px);
+$score-font-size-mobile: calc(1.9vw + 15px);
+$score-line-height-desktop-big: calc(#{$score-font-size-desktop-big} - 2px);
+$score-line-height-desktop: calc(#{$score-font-size-desktop} - 2px);
+$score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
+
+// TODO: This really should be a function
+$section-width-desktop-1v3-left: calc(15vh + 126px);
+$section-height-desktop-lecture-detail: calc(
+  #{$section-padding} + (#{$line-height-big} + 2px) + (
+      #{$line-height-normal} + #{$delta-line-height-longcontent}
+    ) + (#{$line-height-small} + #{$title-margin-bottom}) + (
+      (#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)
+    ) + (
+      (#{$score-line-height-desktop} + 2px + #{$line-height-smaller}) * 2 +
+        (#{$score-margin-tb-desktop} * 3)
+    ) + #{$line-height-normal} + #{$section-padding}
+);

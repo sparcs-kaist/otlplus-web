@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "scss:ts-generate": "typed-scss-modules src",
     "test": "echo \"TODO\"",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
@@ -17,6 +18,7 @@
   "dependencies": {
     "axios": "^0.21.2",
     "classnames": "^2.2.6",
+    "framer-motion": "^10.15.0",
     "history": "^4.7.2",
     "i18next": "^19.7.0",
     "i18next-browser-languagedetector": "^6.0.1",
@@ -25,8 +27,8 @@
     "moment": "^2.29.2",
     "prop-types": "^15.7.2",
     "qs": "^6.9.4",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-ga": "^3.1.2",
     "react-i18next": "^11.7.2",
     "react-markdown": "^7.1.0",
@@ -34,6 +36,8 @@
     "react-router": "^5.2.1",
     "react-router-dom": "^4.2.2",
     "react-scrollbars-custom": "^4.0.21",
+    "react-spring": "^9.7.2",
+    "react-spring-carousel": "^2.0.19",
     "redux": "^4.0.0"
   },
   "devDependencies": {
@@ -53,6 +57,7 @@
     "prettier": "3.0.0",
     "react-error-overlay": "^6.0.9",
     "sass": "^1.64.1",
+    "typed-scss-modules": "^7.1.2",
     "typescript": "^5.1.6",
     "vite": "^4.4.7",
     "vite-plugin-environment": "^1.1.3"

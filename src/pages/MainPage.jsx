@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import axios from 'axios';
 import { range } from 'lodash';
 
@@ -20,13 +20,27 @@ import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/model/session/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection';
+import CampaignSection from '@/features/campaign/components/main/CampaignSection';
+import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
 
 class MainPage extends Component {
   constructor(props) {
     super(props);
 
+    const STORAGE_KEY = 'otl-banner-key';
+    const CAMPAIGN_KEY = 'CMPGN-2023-07-30-v1';
+
+    let showPopup = false;
+
+    const key = localStorage.getItem(STORAGE_KEY);
+    if (key !== CAMPAIGN_KEY) {
+      localStorage.setItem(STORAGE_KEY, 'null');
+      showPopup = true;
+    }
+
     this.state = {
       feedDays: [],
+      popupOpen: showPopup,
       notices: null,
       isLoading: false,
     };
@@ -172,7 +186,7 @@ class MainPage extends Component {
 
   render() {
     const { t } = this.props;
-    const { feedDays, notices } = this.state;
+    const { feedDays, notices, popupOpen } = this.state;
     const { user, isPortrait } = this.props;
 
     const mapFeedToSection = (feed, date) => {
@@ -230,6 +244,7 @@ class MainPage extends Component {
     const feeds = [
       <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
       <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
+      <CampaignSection key="CAMPAIGN" />,
       notices
         ? notices.map((n) => (
             <NoticeSection notice={n} key={`${n.start_date}-${n.end_date}-${n.title}`} />
@@ -278,6 +293,12 @@ class MainPage extends Component {
               )}
             </div>
           </div>
+        </section>
+        <section>
+          <BannerPopup
+            popupOpen={popupOpen}
+            setPopupOpen={(state) => this.setState({ popupOpen: state })}
+          />
         </section>
         <Footer />
       </>

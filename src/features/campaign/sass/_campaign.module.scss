@@ -1,0 +1,11 @@
+@import "../../../sass/abstracts/variables";
+
+.fullscreen-section {
+  position: relative;
+  background-color: $color-section-background;
+  border-radius: $section-border-radius;
+  box-shadow: $section-box-shadow;
+  overflow: hidden;
+  margin-bottom: $section-margin-bottom;
+  padding: 0;
+}
