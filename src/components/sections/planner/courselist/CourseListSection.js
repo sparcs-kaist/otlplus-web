@@ -76,7 +76,7 @@ class CourseListSection extends Component {
         [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
-        category: 'Dictionary - Selection',
+        category: 'Planner - Selection',
         action: 'Selected Course',
         label: `Course : ${course.id} / From : Course List : ${
           labelOfTabs.get(selectedListCode) || selectedListCode
@@ -92,13 +92,19 @@ class CourseListSection extends Component {
         [CourseListCode.TAKEN, 'Taken'],
       ]);
       ReactGA.event({
-        category: 'Dictionary - Selection',
+        category: 'Planner - Selection',
         action: 'Unselected Course',
         label: `Course : ${course.id} / From : Course List : ${
           labelOfTabs.get(selectedListCode) || selectedListCode
         }`,
       });
     }
+  };
+
+  setCourseToAddToPlanner = (course) => {
+    const { setItemFocusDispatch } = this.props;
+
+    setItemFocusDispatch(null, course, ItemFocusFrom.ADDING, true);
   };
 
   _getArbitraryCourses = () => {
@@ -250,6 +256,7 @@ class CourseListSection extends Component {
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
                 onClick={this.focusCourseWithClick}
+                addToPlanner={this.setCourseToAddToPlanner}
               />
             ))}
             {courses.map((c) => (
@@ -262,6 +269,7 @@ class CourseListSection extends Component {
                 onMouseOver={this.focusCourseWithHover}
                 onMouseOut={this.unfocusCourseWithHover}
                 onClick={this.focusCourseWithClick}
+                addToPlanner={this.setCourseToAddToPlanner}
               />
             ))}
           </div>

@@ -42,6 +42,15 @@ const itemFocusShape = PropTypes.oneOfType([
     lectures: PropTypes.arrayOf(lectureShape),
   }),
   PropTypes.exact({
+    from: PropTypes.oneOf([ItemFocusFrom.ADDING]).isRequired,
+    clicked: PropTypes.oneOf([true]).isRequired,
+    item: PropTypes.oneOf([null]),
+    course: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]),
+    category: PropTypes.oneOf([null]),
+    reviews: PropTypes.arrayOf(reviewShape),
+    lectures: PropTypes.arrayOf(lectureShape),
+  }),
+  PropTypes.exact({
     from: PropTypes.oneOf([
       ItemFocusFrom.TABLE_TAKEN,
       ItemFocusFrom.TABLE_FUTURE,

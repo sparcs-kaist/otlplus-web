@@ -174,7 +174,7 @@ class SummarySubSection extends Component {
         });
     }
 
-    if (itemFocus.from === ItemFocusFrom.LIST) {
+    if (itemFocus.from === ItemFocusFrom.LIST || itemFocus.from === ItemFocusFrom.ADDING) {
       const focusedCourse = itemFocus.course;
       const category = getCategoryOfType(
         selectedPlanner,

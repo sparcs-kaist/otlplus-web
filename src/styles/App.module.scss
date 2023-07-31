@@ -2056,7 +2056,8 @@ a {
     &:not(.block--raised) {
       color: rgba($color-text-normal, 0.45);
 
-      & .block--lecture-group__row-content__texts__sub {
+      & .block--lecture-group__row-content__texts__sub,
+      & .block--planner-course__text__caption {
         color: rgba($color-text-lighter, 0.45);
       }
     }
@@ -2072,6 +2073,7 @@ a {
     font-size: $font-size-smaller;
     line-height: $line-height-smaller;
     position: absolute;
+    z-index: 1;
     top: 0;
     right: 0;
     padding: ($block-padding-tb + ($font-size-normal - $font-size-smaller) / 2) $block-padding-lr
@@ -2105,16 +2107,31 @@ a {
   &--planner-course {
     cursor: pointer;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
 
     &:last-child {
       margin-bottom: 0;
     }
 
-    &__title {
-      font-weight: bold;
-      margin-bottom: 2px;
+    &__text {
+      flex: 1 1 auto;
+
+      &__caption {
+        font-size: $font-size-smaller;
+        line-height: $line-height-smaller;
+        color: $color-text-lighter;
+        margin-bottom: 3px;
+      }
+
+      &__title {
+        font-weight: bold;
+        margin-bottom: 2px;
+      }
+    }
+
+    &__button {
+      margin-left: 6px;
     }
   }
 
@@ -3195,6 +3212,38 @@ a {
   }
   .search-area & {
     margin-bottom: 0;
+  }
+}
+
+.planner-overlay {
+  position: absolute;
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: $tile-border-radius;
+  z-index: 3;
+  overflow: hidden;
+  background-color: rgba($color-block-background-highlight, 0.7);
+
+  &__button {
+    text-align: center;
+    color: $color-highlight;
+    cursor: pointer;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    &--small {
+      font-size: $font-size-small;
+      line-height: $line-height-small;
+    }
+
+    &--disabled {
+      color: $color-text-disable;
+      pointer-events: none;
+    }
   }
 }
 
