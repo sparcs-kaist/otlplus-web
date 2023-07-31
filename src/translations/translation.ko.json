@@ -325,7 +325,7 @@
       "sthAndNumOtherPeople": "{{something}} 외 {{count}}명",
       "sthAndNumOthers": "{{something}} 외 {{count}}개",
       "dragTimetable": "시간표에서 드래그",
-      "sectionCount": "{{count}}개 분반",
+      "sectionCount": "<strong>{{count}}</strong>개 분반",
       "notOffered": "미개설",
       "taken": "수강완료",
       "added": "추가됨",
