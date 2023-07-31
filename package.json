@@ -6,7 +6,7 @@
     "node": "^18"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "scss:ts-generate": "typed-scss-modules src",
     "test": "echo \"TODO\"",
@@ -28,6 +28,7 @@
     "prop-types": "^15.7.2",
     "qs": "^6.9.4",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-ga": "^3.1.2",
     "react-i18next": "^11.7.2",
@@ -36,13 +37,14 @@
     "react-router": "^5.2.1",
     "react-router-dom": "^4.2.2",
     "react-scrollbars-custom": "^4.0.21",
-    "react-spring": "^9.7.2",
-    "react-spring-carousel": "^2.0.19",
-    "redux": "^4.0.0"
+    "react-slick": "^0.29.0",
+    "redux": "^4.0.0",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
     "@types/react-router-dom": "^5.3.3",
+    "@types/react-slick": "^0.23.10",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "@typescript-eslint/parser": "^6.2.0",
     "@vitejs/plugin-react-swc": "^3.3.2",

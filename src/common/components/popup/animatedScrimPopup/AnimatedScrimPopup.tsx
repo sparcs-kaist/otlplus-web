@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import style from '@/common/sass/popup/_animatedScrimPopup.module.scss';
 import globalStyle from '@/sass/global.module.scss';
 import { motion } from 'framer-motion';
+import { useOnEscape } from '@/common/utils/interaction/useOnKeyPress';
 
 const PopupPortal: React.FC<React.PropsWithChildren> = (props) => {
   const [el, setEl] = React.useState<HTMLDivElement | undefined>();
@@ -31,13 +32,13 @@ const PopupPortal: React.FC<React.PropsWithChildren> = (props) => {
 interface IAnimatedScrimPopupProps {
   isOpen: boolean;
   onClose?: VoidFunction;
+  noEscapeKeyBinding?: boolean;
 }
 
-const decideContainerClassName = (isOpen: boolean, animationState: boolean): string => {
+const decideContainerClassName = (isOpen: boolean): string => {
   return classNames(
     style.container,
     isOpen ? style.containerShouldRender : style.containerShouldNotRender,
-    animationState ? style.containerOpacity100 : style.containerOpacity0,
     globalStyle.scrollNoDisplay,
   );
 };
@@ -47,6 +48,14 @@ const AnimatedScrimPopup: React.FC<React.PropsWithChildren<IAnimatedScrimPopupPr
   const preventRaceConditionID = React.useRef<number>(0);
   const [_isOpen, _setIsOpen] = React.useState(props.isOpen);
   const [animationState, setAnimationState] = React.useState<boolean>(props.isOpen);
+
+  useOnEscape(
+    props.noEscapeKeyBinding
+      ? () => {
+          return;
+        }
+      : props.onClose ?? (() => {}),
+  );
 
   React.useEffect(() => {
     let mounted = true;
@@ -96,7 +105,7 @@ const AnimatedScrimPopup: React.FC<React.PropsWithChildren<IAnimatedScrimPopupPr
     <div>
       <PopupPortal>
         <motion.div
-          className={decideContainerClassName(_isOpen, animationState)}
+          className={decideContainerClassName(_isOpen)}
           data-testid="popupContainer"
           ref={ref}
           onClick={handleClose}

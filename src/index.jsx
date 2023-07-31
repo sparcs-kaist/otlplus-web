@@ -20,6 +20,10 @@ import moment from 'moment';
 import en from './translations/translation.en.json';
 import ko from './translations/translation.ko.json';
 
+// Import css files
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 i18n
   .use(Backend)
   .use(LanguageDetector)

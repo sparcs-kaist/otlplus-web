@@ -1,31 +1,28 @@
 import React from 'react';
 import { appBoundClassNames as classNames } from '@/common/boundClassNames';
-import { useSpringCarousel } from 'react-spring-carousel';
+import Slider from 'react-slick';
+import ImageCarouselBanner from './carouselPages/ImageCarouselBanner';
 import style from '../../sass/_campaign.module.scss';
 
 const CampaignSection: React.FC = () => {
-  const { carouselFragment, slideToPrevItem, slideToNextItem } = useSpringCarousel({
-    withLoop: true,
-    items: [
-      {
-        id: 'app-preview-1',
-        renderItem: <div>App Preview 1</div>,
-      },
-    ],
-  });
-
-  React.useEffect(() => {
-    const callback = setInterval(() => {
-      slideToNextItem();
-    }, 3000);
-
-    return () => clearInterval(callback);
-  }, []);
-
   return (
     <div className={style.fullscreenSection}>
-      <div className={classNames('subsection', 'subsection--campaign')}>테스트</div>
-      <div>{carouselFragment}</div>
+      <Slider dots={false} infinite speed={800} autoplay={true} autoplaySpeed={8000}>
+        <ImageCarouselBanner
+          ifDefault={{
+            imageUrl: 'https://profill.s3.ap-northeast-2.amazonaws.com/otl-ios.png',
+            cta: '공지 보기 1',
+            link: 'google.com',
+          }}
+        />
+        <ImageCarouselBanner
+          ifDefault={{
+            imageUrl: 'https://profill.s3.ap-northeast-2.amazonaws.com/otl-macos.png',
+            cta: '공지 보기 2',
+            link: 'google.com',
+          }}
+        />
+      </Slider>
     </div>
   );
 };
