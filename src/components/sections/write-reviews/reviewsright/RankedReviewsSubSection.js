@@ -289,13 +289,15 @@ class RankedReviewsSubSection extends Component {
           )} - ${subtitle}`}</div>
           <Scores
             entries={[
-              {
-                name: t('ui.score.totalReviews'),
-                score:
-                  this._getReviewCountOfSemester(selectedSemester) !== undefined
-                    ? this._getReviewCountOfSemester(selectedSemester)
-                    : '-',
-              },
+              [
+                {
+                  name: t('ui.score.totalReviews'),
+                  score:
+                    this._getReviewCountOfSemester(selectedSemester) !== undefined
+                      ? this._getReviewCountOfSemester(selectedSemester)
+                      : '-',
+                },
+              ],
             ]}
           />
           {reviewBlocksArea}

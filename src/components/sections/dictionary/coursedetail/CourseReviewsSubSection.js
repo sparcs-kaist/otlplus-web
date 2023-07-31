@@ -162,9 +162,11 @@ class CourseReviewsSubSection extends Component {
         />
         <Scores
           entries={[
-            { name: t('ui.score.grade'), score: getAverageScoreLabel(grade) },
-            { name: t('ui.score.load'), score: getAverageScoreLabel(load) },
-            { name: t('ui.score.speech'), score: getAverageScoreLabel(speech) },
+            [
+              { name: t('ui.score.grade'), score: getAverageScoreLabel(grade) },
+              { name: t('ui.score.load'), score: getAverageScoreLabel(load) },
+              { name: t('ui.score.speech'), score: getAverageScoreLabel(speech) },
+            ],
           ]}
           big
         />

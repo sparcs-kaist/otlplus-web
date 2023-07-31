@@ -271,66 +271,68 @@ class SummarySubSection extends Component {
         </div>
         <Scores
           entries={[
-            {
-              name: t('ui.score.credit'),
-              score: (
-                <span
-                  className={classNames(
-                    isCreditSingleFocused || isCreditMultiFocused ? 'focused' : null,
-                  )}>
-                  {overallCredit}
-                </span>
-              ),
-              onMouseOver: () => this.setFocusOnCredit('Credit'),
-              onMouseOut: () => this.clearFocus(),
-            },
-            {
-              name: t('ui.score.au'),
-              score: (
-                <span
-                  className={classNames(isAuSingleFocused || isAuMultiFocused ? 'focused' : null)}>
-                  {overallAu}
-                </span>
-              ),
-              onMouseOver: () => this.setFocusOnCredit('Credit AU'),
-              onMouseOut: () => this.clearFocus(),
-            },
-          ]}
-        />
-        <Scores
-          entries={[
-            {
-              name: t('ui.score.grade'),
-              score: (
-                <span className={classNames(isGradeMultiFocused ? 'focused' : null)}>
-                  {totalWeight !== 0 ? getAverageScoreLabel(gradeWeightedSum / totalWeight) : '?'}
-                </span>
-              ),
-              onMouseOver: () => this.setFocusOnScore('Grade'),
-              onMouseOut: () => this.clearFocus(),
-            },
-            {
-              name: t('ui.score.load'),
-              score: (
-                <span className={classNames(isLoadMultiFocused ? 'focused' : null)}>
-                  {totalWeight !== 0 ? getAverageScoreLabel(loadWeightedSum / totalWeight) : '?'}
-                </span>
-              ),
-              onMouseOver: () => this.setFocusOnScore('Load'),
-              onMouseOut: () => this.clearFocus(),
-            },
-            {
-              name: t('ui.score.speech'),
-              score: (
-                <span className={classNames(isSpeechMultiFocused ? 'focused' : null)}>
-                  {totalWeight !== 0
-                    ? getAverageScoreLabel(timetableWeightedSum / totalWeight)
-                    : '?'}
-                </span>
-              ),
-              onMouseOver: () => this.setFocusOnScore('Speech'),
-              onMouseOut: () => this.clearFocus(),
-            },
+            [
+              {
+                name: t('ui.score.credit'),
+                score: (
+                  <span
+                    className={classNames(
+                      isCreditSingleFocused || isCreditMultiFocused ? 'focused' : null,
+                    )}>
+                    {overallCredit}
+                  </span>
+                ),
+                onMouseOver: () => this.setFocusOnCredit('Credit'),
+                onMouseOut: () => this.clearFocus(),
+              },
+              {
+                name: t('ui.score.au'),
+                score: (
+                  <span
+                    className={classNames(
+                      isAuSingleFocused || isAuMultiFocused ? 'focused' : null,
+                    )}>
+                    {overallAu}
+                  </span>
+                ),
+                onMouseOver: () => this.setFocusOnCredit('Credit AU'),
+                onMouseOut: () => this.clearFocus(),
+              },
+            ],
+            [
+              {
+                name: t('ui.score.grade'),
+                score: (
+                  <span className={classNames(isGradeMultiFocused ? 'focused' : null)}>
+                    {totalWeight !== 0 ? getAverageScoreLabel(gradeWeightedSum / totalWeight) : '?'}
+                  </span>
+                ),
+                onMouseOver: () => this.setFocusOnScore('Grade'),
+                onMouseOut: () => this.clearFocus(),
+              },
+              {
+                name: t('ui.score.load'),
+                score: (
+                  <span className={classNames(isLoadMultiFocused ? 'focused' : null)}>
+                    {totalWeight !== 0 ? getAverageScoreLabel(loadWeightedSum / totalWeight) : '?'}
+                  </span>
+                ),
+                onMouseOver: () => this.setFocusOnScore('Load'),
+                onMouseOut: () => this.clearFocus(),
+              },
+              {
+                name: t('ui.score.speech'),
+                score: (
+                  <span className={classNames(isSpeechMultiFocused ? 'focused' : null)}>
+                    {totalWeight !== 0
+                      ? getAverageScoreLabel(timetableWeightedSum / totalWeight)
+                      : '?'}
+                  </span>
+                ),
+                onMouseOver: () => this.setFocusOnScore('Speech'),
+                onMouseOut: () => this.clearFocus(),
+              },
+            ],
           ]}
         />
       </div>

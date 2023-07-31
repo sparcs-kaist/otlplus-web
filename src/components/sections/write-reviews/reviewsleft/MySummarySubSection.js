@@ -23,19 +23,21 @@ class MySummarySubSection extends Component {
         <div className={classNames('title')}>{t('ui.title.takenLectures')}</div>
         <Scores
           entries={[
-            {
-              name: t('ui.score.reviewsWritten'),
-              score: (
-                <>
-                  <span>{user ? editableReviews.length : '-'}</span>
-                  <span>{user ? `/${writableTakenLectures.length}` : '/-'}</span>
-                </>
-              ),
-            },
-            {
-              name: t('ui.score.likes'),
-              score: user ? sumBy(editableReviews, (r) => r.like) : '-',
-            },
+            [
+              {
+                name: t('ui.score.reviewsWritten'),
+                score: (
+                  <>
+                    <span>{user ? editableReviews.length : '-'}</span>
+                    <span>{user ? `/${writableTakenLectures.length}` : '/-'}</span>
+                  </>
+                ),
+              },
+              {
+                name: t('ui.score.likes'),
+                score: user ? sumBy(editableReviews, (r) => r.like) : '-',
+              },
+            ],
           ]}
         />
       </div>

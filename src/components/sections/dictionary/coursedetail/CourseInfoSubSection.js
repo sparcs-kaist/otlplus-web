@@ -38,29 +38,31 @@ class CourseInfoSubSection extends Component {
         />
         <Scores
           entries={[
-            {
-              name: t('ui.score.lectureHours'),
-              score: courseFocus.course.num_classes,
-            },
-            {
-              name: t('ui.score.labHours'),
-              score: courseFocus.course.num_labs,
-            },
-            {
-              name: courseFocus.course.credit === 0 ? t('ui.score.au') : t('ui.score.credit'),
-              score:
-                courseFocus.course.credit === 0
-                  ? courseFocus.course.credit_au
-                  : courseFocus.course.credit,
-            },
-          ]}
-          big
-        />
-        <Scores
-          entries={[
-            { name: t('ui.score.grade'), score: getAverageScoreLabel(courseFocus.course.grade) },
-            { name: t('ui.score.load'), score: getAverageScoreLabel(courseFocus.course.load) },
-            { name: t('ui.score.speech'), score: getAverageScoreLabel(courseFocus.course.speech) },
+            [
+              {
+                name: t('ui.score.lectureHours'),
+                score: courseFocus.course.num_classes,
+              },
+              {
+                name: t('ui.score.labHours'),
+                score: courseFocus.course.num_labs,
+              },
+              {
+                name: courseFocus.course.credit === 0 ? t('ui.score.au') : t('ui.score.credit'),
+                score:
+                  courseFocus.course.credit === 0
+                    ? courseFocus.course.credit_au
+                    : courseFocus.course.credit,
+              },
+            ],
+            [
+              { name: t('ui.score.grade'), score: getAverageScoreLabel(courseFocus.course.grade) },
+              { name: t('ui.score.load'), score: getAverageScoreLabel(courseFocus.course.load) },
+              {
+                name: t('ui.score.speech'),
+                score: getAverageScoreLabel(courseFocus.course.speech),
+              },
+            ],
           ]}
           big
         />

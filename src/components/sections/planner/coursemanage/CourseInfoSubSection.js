@@ -35,29 +35,28 @@ class CourseInfoSubSection extends Component {
         />
         <Scores
           entries={[
-            {
-              name: t('ui.score.lectureHours'),
-              score: itemFocus.course.num_classes,
-            },
-            {
-              name: t('ui.score.labHours'),
-              score: itemFocus.course.num_labs,
-            },
-            {
-              name: itemFocus.course.credit === 0 ? t('ui.score.au') : t('ui.score.credit'),
-              score:
-                itemFocus.course.credit === 0
-                  ? itemFocus.course.credit_au
-                  : itemFocus.course.credit,
-            },
-          ]}
-          big
-        />
-        <Scores
-          entries={[
-            { name: t('ui.score.grade'), score: getAverageScoreLabel(itemFocus.course.grade) },
-            { name: t('ui.score.load'), score: getAverageScoreLabel(itemFocus.course.load) },
-            { name: t('ui.score.speech'), score: getAverageScoreLabel(itemFocus.course.speech) },
+            [
+              {
+                name: t('ui.score.lectureHours'),
+                score: itemFocus.course.num_classes,
+              },
+              {
+                name: t('ui.score.labHours'),
+                score: itemFocus.course.num_labs,
+              },
+              {
+                name: itemFocus.course.credit === 0 ? t('ui.score.au') : t('ui.score.credit'),
+                score:
+                  itemFocus.course.credit === 0
+                    ? itemFocus.course.credit_au
+                    : itemFocus.course.credit,
+              },
+            ],
+            [
+              { name: t('ui.score.grade'), score: getAverageScoreLabel(itemFocus.course.grade) },
+              { name: t('ui.score.load'), score: getAverageScoreLabel(itemFocus.course.load) },
+              { name: t('ui.score.speech'), score: getAverageScoreLabel(itemFocus.course.speech) },
+            ],
           ]}
           big
         />
