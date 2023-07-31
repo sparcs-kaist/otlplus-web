@@ -7,7 +7,7 @@ import { range } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
 import Scroller from '../../../Scroller';
-import LectureGroupSimpleBlock from '../../../blocks/LectureGroupSimpleBlock';
+import LectureGroupCountBlock from '../../../blocks/LectureGroupCountBlock';
 
 import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
@@ -64,7 +64,7 @@ class CourseHistorySubSection extends Component {
       }
       return (
         <td key={`${year}-1`}>
-          <LectureGroupSimpleBlock lectures={filteredLectures} />
+          <LectureGroupCountBlock lectures={filteredLectures} />
         </td>
       );
     };
@@ -73,21 +73,12 @@ class CourseHistorySubSection extends Component {
     const endYear = Math.max(...semesterYears, ...lectureYears);
     const targetYears = range(startYear, endYear + 1);
 
-    const specialLectures = itemFocus.lectures.filter(
-      (l) => l[t('js.property.class_title')].length > 3,
-    );
-    const isSpecialLectureCourse = specialLectures.length / itemFocus.lectures.length > 0.3;
-
     return (
       <div className={classNames('subsection', 'subsection--course-history')}>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
         <div ref={this.scrollRef}>
           <Scroller noScrollX={false} noScrollY={true}>
-            <table
-              className={classNames(
-                'history',
-                isSpecialLectureCourse ? 'history--special-lecture' : null,
-              )}>
+            <table className={classNames('history')}>
               <tbody>
                 <tr>
                   <th>{t('ui.semester.spring')}</th>

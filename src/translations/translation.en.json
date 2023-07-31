@@ -332,6 +332,8 @@
       "sthAndNumOtherPeople": "{{something}} and {{count}} others",
       "sthAndNumOthers": "{{something}} and {{count}} others",
       "dragTimetable": "Drag timetable",
+      "sectionCount": "{{count}} section",
+      "sectionCount_plural": "{{count}} sections",
       "notOffered": "Not Offered",
       "taken": "TAKEN",
       "added": "ADDED",
