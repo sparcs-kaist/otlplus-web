@@ -54,7 +54,7 @@ const PlannerCourseBlock = ({
       <div className={classNames('block__completed-text')}>{t('ui.others.added')}</div>
       <div className={classNames('block--planner-course__text')}>
         <div className={classNames('block--planner-course__text__caption')}>
-          {`${course[t('js.property.department_name')]} / ${course[t('js.property.type')]}`}
+          {`${course.department[t('js.property.name')]} / ${course[t('js.property.type')]}`}
         </div>
         <div className={classNames('block--planner-course__text__title')}>
           {course[t('js.property.title')]}
