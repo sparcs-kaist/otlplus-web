@@ -12,14 +12,11 @@ import CloseButton from '../../CloseButton';
 import Attributes from '../../Attributes';
 import SearchFilter from '../../inputs/SearchFilter';
 import Dropdown from '../../inputs/Dropdown';
+import SerialDropdown from '../../inputs/SerialDropdown';
 
 import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
 
-import {
-  getAdditionalTrackName,
-  getGeneralTrackName,
-  getMajorTrackName,
-} from '../../../utils/trackUtils';
+import { getAdditionalTrackName, getYearName } from '../../../utils/trackUtils';
 
 import plannerShape from '../../../shapes/model/planner/PlannerShape';
 import userShape from '../../../shapes/model/session/UserShape';
@@ -38,8 +35,8 @@ class TrackSettingsSection extends Component {
     this.state = {
       selectedStartYear: selectedPlanner.start_year.toString(),
       selectedDuration: selectedPlannerDuration.toString(),
-      selectedGeneralTracks: new Set([selectedPlanner.general_track.id.toString()]),
-      selectedMajorTracks: new Set([selectedPlanner.major_track.id.toString()]),
+      selectedGeneralTrack: selectedPlanner.general_track.id.toString(),
+      selectedMajorTrack: selectedPlanner.major_track.id.toString(),
       selectedMinorTracks: new Set(
         selectedPlanner.additional_tracks
           .filter((at) => at.type === 'MINOR')
@@ -76,18 +73,18 @@ class TrackSettingsSection extends Component {
   };
 
   _getSelectedGeneralTrack = () => {
-    const { selectedGeneralTracks } = this.state;
+    const { selectedGeneralTrack } = this.state;
     const { tracks } = this.props;
 
-    const generalTrackId = parseInt(Array.from(selectedGeneralTracks)[0], 10);
+    const generalTrackId = parseInt(selectedGeneralTrack, 10);
     return tracks.general.find((gt) => gt.id === generalTrackId);
   };
 
   _getSelectedMajorTrack = () => {
-    const { selectedMajorTracks } = this.state;
+    const { selectedMajorTrack } = this.state;
     const { tracks } = this.props;
 
-    const majorTrackId = parseInt(Array.from(selectedMajorTracks)[0], 10);
+    const majorTrackId = parseInt(selectedMajorTrack, 10);
     return tracks.major.find((gt) => gt.id === majorTrackId);
   };
 
@@ -268,8 +265,8 @@ class TrackSettingsSection extends Component {
     const {
       selectedStartYear,
       selectedDuration,
-      selectedGeneralTracks,
-      selectedMajorTracks,
+      selectedGeneralTrack,
+      selectedMajorTrack,
       selectedMinorTracks,
       selectedDoubleTracks,
       selectedAdvancedTracks,
@@ -318,8 +315,8 @@ class TrackSettingsSection extends Component {
               {
                 name: t('ui.attribute.general'),
                 info: (
-                  <SearchFilter
-                    updateCheckedValues={this.getStateSetterOfName('selectedGeneralTracks')}
+                  <SerialDropdown
+                    updateSelectedValue={this.getStateSetterOfName('selectedGeneralTrack')}
                     inputName="general"
                     options={tracks.general
                       .filter((at) => at.end_year >= 2020)
@@ -327,20 +324,22 @@ class TrackSettingsSection extends Component {
                         return at1.start_year - at2.start_year;
                       })
                       .map((gt) => [
-                        gt.id.toString(),
-                        getGeneralTrackName(gt, true),
+                        [gt.is_foreign ? 'FOREIGN' : 'GENERAL', gt.id.toString()],
+                        [
+                          gt.is_foreign ? t('ui.track.foreign') : t('ui.track.general'),
+                          `${getYearName(gt.start_year)}~${getYearName(gt.end_year)}`,
+                        ],
                         !this._checkYearInTrackRange(gt, startYear),
                       ])}
-                    checkedValues={selectedGeneralTracks}
-                    isRadio={true}
+                    selectedValue={selectedGeneralTrack}
                   />
                 ),
               },
               {
                 name: t('ui.attribute.major'),
                 info: (
-                  <SearchFilter
-                    updateCheckedValues={this.getStateSetterOfName('selectedMajorTracks')}
+                  <SerialDropdown
+                    updateSelectedValue={this.getStateSetterOfName('selectedMajorTrack')}
                     inputName="major"
                     options={tracks.major
                       .filter((at) => at.end_year >= 2020)
@@ -360,12 +359,13 @@ class TrackSettingsSection extends Component {
                         return at1.start_year - at2.start_year;
                       })
                       .map((mt) => [
-                        mt.id.toString(),
-                        getMajorTrackName(mt, true),
-                        !this._checkYearInTrackRange(mt, startYear),
+                        [mt.department.id.toString(), mt.id.toString()],
+                        [
+                          mt.department[t('js.property.name')],
+                          `${getYearName(mt.start_year)}~${getYearName(mt.end_year)}`,
+                        ],
                       ])}
-                    checkedValues={new Set(selectedMajorTracks)}
-                    isRadio={true}
+                    selectedValue={selectedMajorTrack}
                   />
                 ),
               },
