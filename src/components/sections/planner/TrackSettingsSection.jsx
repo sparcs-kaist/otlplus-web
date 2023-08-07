@@ -329,7 +329,6 @@ class TrackSettingsSection extends Component {
                           gt.is_foreign ? t('ui.track.foreign') : t('ui.track.general'),
                           getYearRangeName(gt.start_year, gt.end_year),
                         ],
-                        !this._checkYearInTrackRange(gt, startYear),
                       ])}
                     selectedValue={selectedGeneralTrack}
                   />
