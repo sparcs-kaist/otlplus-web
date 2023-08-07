@@ -16,7 +16,7 @@ import SerialDropdown from '../../inputs/SerialDropdown';
 
 import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
 
-import { getAdditionalTrackName, getYearName } from '../../../utils/trackUtils';
+import { getAdditionalTrackName, getYearRangeName } from '../../../utils/trackUtils';
 
 import plannerShape from '../../../shapes/model/planner/PlannerShape';
 import userShape from '../../../shapes/model/session/UserShape';
@@ -327,7 +327,7 @@ class TrackSettingsSection extends Component {
                         [gt.is_foreign ? 'FOREIGN' : 'GENERAL', gt.id.toString()],
                         [
                           gt.is_foreign ? t('ui.track.foreign') : t('ui.track.general'),
-                          `${getYearName(gt.start_year)}~${getYearName(gt.end_year)}`,
+                          getYearRangeName(gt.start_year, gt.end_year),
                         ],
                         !this._checkYearInTrackRange(gt, startYear),
                       ])}
@@ -362,7 +362,7 @@ class TrackSettingsSection extends Component {
                         [mt.department.id.toString(), mt.id.toString()],
                         [
                           mt.department[t('js.property.name')],
-                          `${getYearName(mt.start_year)}~${getYearName(mt.end_year)}`,
+                          getYearRangeName(mt.start_year, mt.end_year),
                         ],
                       ])}
                     selectedValue={selectedMajorTrack}
