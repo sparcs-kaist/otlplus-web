@@ -5,8 +5,8 @@ import { unique } from '../../utils/commonUtils';
 
 // import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-const VALUES_INDEX = 0;
-const LABELS_INDEX = 1;
+export const VALUES_INDEX = 0;
+export const LABELS_INDEX = 1;
 
 class SerialDropdown extends Component {
   _getCurrentSelectedOption = () => {
@@ -45,7 +45,7 @@ class SerialDropdown extends Component {
     const selectedOption = this._getCurrentSelectedOption();
 
     return (
-      <>
+      <span>
         {selectedOption[VALUES_INDEX].map((v1, i1) => (
           <Dropdown
             updateSelectedValue={(value) => {
@@ -68,7 +68,7 @@ class SerialDropdown extends Component {
             selectedValue={v1}
           />
         ))}
-      </>
+      </span>
     );
   }
 }
