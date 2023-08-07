@@ -34,14 +34,13 @@ class MultirowSerialDropdown extends Component {
     return (
       <span>
         {selectedValues.map((v, i) => (
-          <div>
+          // eslint-disable-next-line react/no-array-index-key
+          <div key={`${inputName}:${i}`}>
             <SerialDropdown
               updateSelectedValue={(value) => {
                 this._handleValueSelectedChange(i, value);
               }}
               inputName={`${inputName}:${i}`}
-              // eslint-disable-next-line react/no-array-index-key
-              key={`${inputName}:${i}`}
               options={options}
               selectedValue={v}
             />
