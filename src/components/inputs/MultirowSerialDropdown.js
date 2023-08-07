@@ -7,12 +7,20 @@ import SerialDropdown, { VALUES_INDEX } from './SerialDropdown';
 
 class MultirowSerialDropdown extends Component {
   _addRow = () => {
-    const { updateSelectedValues, selectedValues, options } = this.props;
+    const { updateSelectedValues, selectedValues, options, isUniqueSelectionRequired } = this.props;
 
-    const valuesOfFirstValue = options[0][VALUES_INDEX];
+    const candidateOptions = isUniqueSelectionRequired
+      ? options.filter((o) => {
+          const valuesOfOption = o[VALUES_INDEX];
+          const keyOfOption = valuesOfOption[valuesOfOption.length - 1];
+          return !selectedValues.includes(keyOfOption);
+        })
+      : options;
+    const optionToAdd = candidateOptions[0];
+    const valuesOfOptionToAdd = optionToAdd[VALUES_INDEX];
 
     updateSelectedValues(
-      selectedValues.concat([valuesOfFirstValue[valuesOfFirstValue.length - 1]]),
+      selectedValues.concat([valuesOfOptionToAdd[valuesOfOptionToAdd.length - 1]]),
     );
   };
 
@@ -60,6 +68,7 @@ MultirowSerialDropdown.propTypes = {
   inputName: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))).isRequired,
   selectedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isUniqueSelectionRequired: PropTypes.bool,
 };
 
 export default MultirowSerialDropdown;

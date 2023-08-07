@@ -391,6 +391,7 @@ class TrackSettingsSection extends Component {
                         ],
                       ])}
                     selectedValues={selectedMinorTracks}
+                    isUniqueSelectionRequired
                   />
                 ),
               },
@@ -425,6 +426,7 @@ class TrackSettingsSection extends Component {
                         ],
                       ])}
                     selectedValues={selectedDoubleTracks}
+                    isUniqueSelectionRequired
                   />
                 ),
               },
@@ -459,6 +461,7 @@ class TrackSettingsSection extends Component {
                         ],
                       ])}
                     selectedValues={selectedAdvancedTracks}
+                    isUniqueSelectionRequired
                   />
                 ),
               },
@@ -480,6 +483,7 @@ class TrackSettingsSection extends Component {
                         [getYearRangeName(at.start_year, at.end_year)],
                       ])}
                     selectedValues={selectedInterdisciplinaryTracks}
+                    isUniqueSelectionRequired
                   />
                 ),
               },
