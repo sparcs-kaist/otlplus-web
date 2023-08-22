@@ -1,10 +1,10 @@
 $side-filling: 100px;
 
 $media-landscape: (
-  min-aspect-ratio: calc(4/3),
+  min-aspect-ratio: calc(4 / 3),
 );
 $media-portrait: (
-  max-aspect-ratio: calc(4/3),
+  max-aspect-ratio: calc(4 / 3),
 );
 
 @mixin mixin-media-landscape() {

@@ -20,8 +20,6 @@ body {
   width: 100%;
 }
 
-
-
 input {
   background: transparent;
   border: none;
@@ -633,7 +631,9 @@ a {
     width: initial;
     height: initial;
     z-index: 200;
-    box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
+    box-shadow:
+      $section-box-shadow,
+      0 0 0 1000px rgba(#000, 0.3);
     top: $section-margin-top;
     bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
     left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
@@ -645,7 +645,9 @@ a {
     width: 260px;
     height: 240px;
     z-index: 200;
-    box-shadow: $section-box-shadow, 0 0 0 1000px rgba(#000, 0.3);
+    box-shadow:
+      $section-box-shadow,
+      0 0 0 1000px rgba(#000, 0.3);
     top: 50%;
     left: 50%;
     transform: translate(-50%, calc(-50% - #{$header-height} / 2));
@@ -1709,7 +1711,8 @@ a {
   overflow: hidden;
   font-size: $font-size-small;
   line-height: $line-height-small;
-  transition: margin $transition-duration-short ease-out,
+  transition:
+    margin $transition-duration-short ease-out,
     box-shadow $transition-duration-short ease-out;
   &.tile--highlighted {
     background: $color-tile-background-highlight !important;
@@ -1920,7 +1923,8 @@ a {
   position: relative;
   top: 0;
   overflow: hidden;
-  transition: top $transition-duration-short ease-out,
+  transition:
+    top $transition-duration-short ease-out,
     box-shadow $transition-duration-short ease-out;
   &[href]:not(.block--dimmed):hover,
   &.block--clickable:not(.block--dimmed):hover {
@@ -1960,7 +1964,8 @@ a {
     z-index: 1;
     top: 0;
     right: 0;
-    padding: calc($block-padding-tb + calc(calc($font-size-normal - $font-size-smaller) / 2)) $block-padding-lr
+    padding: calc($block-padding-tb + calc(calc($font-size-normal - $font-size-smaller) / 2))
+      $block-padding-lr
       calc(calc($block-padding-tb - 2px) + calc(calc($font-size-normal - $font-size-smaller) / 2))
       calc($block-padding-lr - 2px);
     background-color: inherit;

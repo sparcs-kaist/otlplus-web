@@ -1,5 +1,5 @@
-@import "../../../sass/abstracts/variables";
-@import "../../../sass/abstracts/mixins";
+@import '../../../sass/abstracts/variables';
+@import '../../../sass/abstracts/mixins';
 
 .campaign-container-desktop {
   $width: 700px;
@@ -14,7 +14,7 @@
   & img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
+    object-fit: cover;
     border-radius: $section-border-radius $section-border-radius 0 0;
   }
 

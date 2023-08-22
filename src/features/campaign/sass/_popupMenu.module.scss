@@ -1,5 +1,5 @@
-@import "../../../sass/abstracts/variables";
-@import "../../../sass/abstracts/mixins";
+@import '../../../sass/abstracts/variables';
+@import '../../../sass/abstracts/mixins';
 
 .popup-menu {
   padding: 5px;
@@ -22,7 +22,6 @@
     background: #22222211;
   }
 }
-
 
 .divider {
   border-right: solid 1px $color-divider-line;

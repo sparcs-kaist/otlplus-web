@@ -1,4 +1,4 @@
-@import "src/sass/abstracts/_mixins";
+@import 'src/sass/abstracts/_mixins';
 
 .desktop-only {
   @include mixin-media-portrait {

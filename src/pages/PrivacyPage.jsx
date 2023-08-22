@@ -5,8 +5,7 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Scroller from '../components/Scroller';
 
-// eslint-disable-next-line import/no-unresolved
-import privacyMarkdown from '../../PRIVACY.md?raw'
+import privacyMarkdown from '../../PRIVACY.md?raw';
 
 const markdownComponents = {
   h1: (props) => <div {...props} className={classNames('title')} />,
