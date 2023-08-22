@@ -21,26 +21,13 @@ import userShape from '../shapes/model/session/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection';
 import CampaignSection from '@/features/campaign/components/main/CampaignSection';
-import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
 
 class MainPage extends Component {
   constructor(props) {
     super(props);
 
-    const STORAGE_KEY = 'otl-banner-key';
-    const CAMPAIGN_KEY = 'CMPGN-2023-07-30-v1';
-
-    let showPopup = false;
-
-    const key = localStorage.getItem(STORAGE_KEY);
-    if (key !== CAMPAIGN_KEY) {
-      localStorage.setItem(STORAGE_KEY, 'null');
-      showPopup = true;
-    }
-
     this.state = {
       feedDays: [],
-      popupOpen: showPopup,
       notices: null,
       isLoading: false,
     };
@@ -186,7 +173,7 @@ class MainPage extends Component {
 
   render() {
     const { t } = this.props;
-    const { feedDays, notices, popupOpen } = this.state;
+    const { feedDays, notices } = this.state;
     const { user, isPortrait } = this.props;
 
     const mapFeedToSection = (feed, date) => {
@@ -293,12 +280,6 @@ class MainPage extends Component {
               )}
             </div>
           </div>
-        </section>
-        <section>
-          <BannerPopup
-            popupOpen={popupOpen}
-            setPopupOpen={(state) => this.setState({ popupOpen: state })}
-          />
         </section>
         <Footer />
       </>

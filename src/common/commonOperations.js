@@ -1,5 +1,5 @@
 import axios from 'axios';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import i18n from 'i18next';
 
 export const performSearchCourses = (option, limit, beforeRequest, afterResponse) => {

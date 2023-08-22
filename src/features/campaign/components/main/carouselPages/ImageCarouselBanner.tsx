@@ -55,15 +55,19 @@ const ImageCarouselBanner: React.FC<IImageCarouselBannerProps> = (props) => {
   }, []);
 
   return (
-    <div className={style.containerExternal}>
+    <div
+      className={style.containerExternal}
+      onClick={() => {
+        window.location.href = url;
+      }}>
       <div className={style.container} id="test">
         <img src={imageUrl} alt="banner" />
       </div>
-      <div className={style.containerLinkCover}>
+      {/* <div className={style.containerLinkCover}>
         <div className={style.containerCta}>
           <p>{cta}</p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

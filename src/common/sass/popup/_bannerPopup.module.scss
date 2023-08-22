@@ -6,9 +6,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: scroll;
+  flex-direction: column;
 }
 
 .popup-box {
-  background-color: $color-section-background;
-  padding: $section-padding;
+
 }

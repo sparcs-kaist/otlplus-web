@@ -30,6 +30,10 @@ import { setSemesters } from './actions/common/semester';
 import { setTracks } from './actions/common/track';
 import { setIsPortrait } from './actions/common/media';
 
+import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
+import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPopupImage';
+import PopupMenu from './features/campaign/components/popup/PopupMenu';
+
 const store = createStore(
   combineReducers({
     common: commonReducer,
@@ -42,6 +46,25 @@ const store = createStore(
 
 class App extends Component {
   portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)');
+
+  STORAGE_KEY = 'otl-banner-key';
+  CAMPAIGN_KEY = 'CMPGN-2023-07-30-v3';
+
+  constructor(props) {
+    super(props);
+
+    let showPopup = false;
+
+    const key = localStorage.getItem(this.STORAGE_KEY);
+    if (key !== this.CAMPAIGN_KEY) {
+      showPopup = true;
+    }
+
+    this.state = {
+      doNotShowAgain: !showPopup,
+      popupOpen: showPopup,
+    };
+  }
 
   componentDidMount() {
     this._fetchUser();
@@ -117,7 +140,19 @@ class App extends Component {
     store.dispatch(setIsPortrait(this.portraitMediaQuery.matches));
   };
 
+  _setDoNotShow = (state) => {
+    if (state === true) {
+      this.setState({ doNotShowAgain: true });
+      localStorage.setItem(this.STORAGE_KEY, this.CAMPAIGN_KEY);
+    } else {
+      this.setState({ doNotShowAgain: false });
+      localStorage.removeItem(this.STORAGE_KEY);
+    }
+  };
+
   render() {
+    const { popupOpen, doNotShowAgain } = this.state;
+
     const parseObject = (object) => {
       if (typeof object === 'object') {
         return Object.entries(object)
@@ -268,6 +303,20 @@ class App extends Component {
             <Redirect from="/" to="/" />
           </Switch>
         </>
+        <section>
+          <BannerPopup
+            popupOpen={popupOpen}
+            setPopupOpen={(state) => this.setState({ popupOpen: state })}>
+            <CampaignPopupImage />
+            <PopupMenu
+              onClose={() => this.setState({ popupOpen: false })}
+              onDoNotShow={() => {
+                this._setDoNotShow(true);
+                this.setState({ popupOpen: false });
+              }}
+            />
+          </BannerPopup>
+        </section>
       </Provider>
     );
   }

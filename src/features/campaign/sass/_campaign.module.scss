@@ -8,4 +8,25 @@
   overflow: hidden;
   margin-bottom: $section-margin-bottom;
   padding: 0;
+
+  & :global(.slick-dots) {
+    transform: translateY(-30px);
+
+    button::before {
+      font-size: 10px;
+      color: $color-highlight;
+    }
+
+    :global(.slick-active) {
+      button::before {
+        color: $color-highlight;
+        opacity: 1;
+      }
+    }
+
+    li {
+      margin: 0;
+    }
+  }
 }
+

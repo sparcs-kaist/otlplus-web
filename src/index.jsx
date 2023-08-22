@@ -2,13 +2,13 @@ import { createBrowserHistory } from 'history';
 
 const history = createBrowserHistory();
 
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
-const trackingId = 'UA-144615112-2';
+const trackingId = '385500624';
 ReactGA.initialize(trackingId);
 history.listen((location) => {
   ReactGA.set({ page: location.pathname });
-  ReactGA.pageview(location.pathname);
+  ReactGA.send({ hitType: 'pageview', page: location.pathname, title: 'Custom Title' });
 });
 
 import i18n from 'i18next';

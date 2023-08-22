@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import axios from 'axios';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
