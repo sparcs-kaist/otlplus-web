@@ -16,6 +16,7 @@ const PlannerCourseBlock = ({
   onMouseOver,
   onMouseOut,
   onClick,
+  addToPlanner,
 }) => {
   const handleMouseOver = onMouseOver
     ? (event) => {
@@ -32,6 +33,10 @@ const PlannerCourseBlock = ({
         onClick(course);
       }
     : null;
+  const handleAddToPlannerClick = (event) => {
+    event.stopPropagation();
+    addToPlanner(course);
+  };
 
   return (
     <div
@@ -47,10 +52,20 @@ const PlannerCourseBlock = ({
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}>
       <div className={classNames('block__completed-text')}>{t('ui.others.added')}</div>
-      <div className={classNames('block--planner-course__title')}>
-        {course[t('js.property.title')]}
+      <div className={classNames('block--planner-course__text')}>
+        <div className={classNames('block--planner-course__text__caption')}>
+          {`${course.department[t('js.property.name')]} / ${course[t('js.property.type')]}`}
+        </div>
+        <div className={classNames('block--planner-course__text__title')}>
+          {course[t('js.property.title')]}
+        </div>
+        <div className={classNames('block--planner-course__text__subtitle')}>{course.old_code}</div>
       </div>
-      <div className={classNames('block--planner-course__subtitle')}>{course.old_code}</div>
+      <button
+        className={classNames('block--planner-course__button')}
+        onClick={handleAddToPlannerClick}>
+        <i className={classNames('icon', 'icon--add-lecture')} />
+      </button>
     </div>
   );
 };
@@ -63,6 +78,7 @@ PlannerCourseBlock.propTypes = {
   onMouseOver: PropTypes.func,
   onMouseOut: PropTypes.func,
   onClick: PropTypes.func,
+  addToPlanner: PropTypes.func,
 };
 
 export default withTranslation()(React.memo(PlannerCourseBlock));

@@ -81,7 +81,7 @@ class CourseSearchSubSection extends Component {
     performSearchCourses(option, LIMIT, beforeRequest, afterResponse);
 
     // ReactGA.event({
-    //   category: 'Dictionary - Search',
+    //   category: 'Planner - Search',
     //   action: 'Searched Course',
     // });
   };

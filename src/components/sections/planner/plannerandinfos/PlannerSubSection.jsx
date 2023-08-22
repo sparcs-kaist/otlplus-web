@@ -9,13 +9,17 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
 
 import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
-import { removeItemFromPlanner, updateCellSize } from '../../../../actions/planner/planner';
+import {
+  addItemToPlanner,
+  removeItemFromPlanner,
+  updateCellSize,
+  updateItemInPlanner,
+} from '../../../../actions/planner/planner';
 
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
-import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 import {
   getCourseOfItem,
@@ -27,6 +31,14 @@ import { getCategoryOfItem, getColorOfItem } from '../../../../utils/itemCategor
 import { isDimmedItem, isFocusedItem, isTableClickedItem } from '../../../../utils/itemFocusUtils';
 import PlannerTile from '../../../tiles/PlannerTile';
 import { getSemesterName } from '../../../../utils/semesterUtils';
+import PlannerOverlay from '../../../PlannerOverlay';
+
+import {
+  performAddArbitraryToPlanner,
+  performAddToPlanner,
+} from '../../../../common/commonOperations';
+import semesterShape from '../../../../shapes/model/subject/SemesterShape';
+import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 
 class PlannerSubSection extends Component {
   componentDidMount() {
@@ -120,6 +132,80 @@ class PlannerSubSection extends Component {
     }
   };
 
+  addCourseToPlanner = (course, year, semester) => {
+    const {
+      user,
+      selectedPlanner,
+      addItemToPlannerDispatch,
+      setItemFocusDispatch,
+      updateItemInPlannerDispatch,
+    } = this.props;
+
+    const beforeRequest = () => {};
+    const afterResponse = (item, duplicateTakenItems) => {
+      addItemToPlannerDispatch(item);
+      setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_FUTURE, true);
+      duplicateTakenItems.forEach((ti) => {
+        if (!user) {
+          const newItem = {
+            ...ti,
+            is_excluded: true,
+          };
+          updateItemInPlannerDispatch(newItem);
+        } else {
+          axios
+            .post(`/api/users/${user.id}/planners/${selectedPlanner.id}/update-item`, {
+              item: ti.id,
+              item_type: ti.item_type,
+              is_excluded: true,
+            })
+            .then((response) => {
+              const newProps = this.props;
+              if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+                return;
+              }
+              updateItemInPlannerDispatch(response.data);
+            })
+            .catch((error) => {});
+        }
+      });
+    };
+    performAddToPlanner(
+      course,
+      year,
+      semester,
+      selectedPlanner,
+      user,
+      '',
+      beforeRequest,
+      afterResponse,
+    );
+  };
+
+  addArbitraryCourseToPlanner = (course, year, semester) => {
+    const { user, selectedPlanner, addItemToPlannerDispatch, setItemFocusDispatch } = this.props;
+
+    const beforeRequest = () => {};
+    const afterResponse = (item) => {
+      const newProps = this.props;
+      if (!newProps.selectedPlanner || newProps.selectedPlanner.id !== selectedPlanner.id) {
+        return;
+      }
+      addItemToPlannerDispatch(item);
+      setItemFocusDispatch(item, course, ItemFocusFrom.TABLE_ARBITRARY, true);
+    };
+    performAddArbitraryToPlanner(
+      course,
+      year,
+      semester,
+      selectedPlanner,
+      user,
+      '',
+      beforeRequest,
+      afterResponse,
+    );
+  };
+
   deleteItemFromPlanner = (item) => {
     const { selectedPlanner, user, removeItemFromPlannerDispatch, clearItemFocusDispatch } =
       this.props;
@@ -158,6 +244,12 @@ class PlannerSubSection extends Component {
     }
   };
 
+  cancelAddCourseToPlanner = () => {
+    const { clearItemFocusDispatch } = this.props;
+
+    clearItemFocusDispatch();
+  };
+
   render() {
     const {
       t,
@@ -165,6 +257,7 @@ class PlannerSubSection extends Component {
       itemFocus,
       cellWidth,
       cellHeight,
+      semesters,
       // isLectureListOpenOnMobile,
     } = this.props;
 
@@ -525,12 +618,75 @@ class PlannerSubSection extends Component {
       ));
     };
 
+    const getOverlay = (year, semester) => {
+      const semesterData = semesters.find((s) => s.year === year && s.semester === semester);
+      // TODO: Add seasonal semester data and utilize them in addition of regular ones
+      return (
+        <PlannerOverlay
+          yearIndex={year - plannerStartYear}
+          semesterIndex={semester <= 2 ? 0 : 1}
+          tableSize={tableSize}
+          cellWidth={cellWidth}
+          cellHeight={cellHeight}
+          isPlannerWithSummer={hasSummerSemester}
+          isPlannerWithWinter={hasWinterSemester}
+          options={[
+            {
+              label: `+ ${t('ui.button.addToSemester', { semester: getSemesterName(semester) })}`,
+              onClick: !itemFocus.course.isArbitrary
+                ? () => this.addCourseToPlanner(itemFocus.course, year, semester)
+                : () => this.addArbitraryCourseToPlanner(itemFocus.course, year, semester),
+              isDisabled:
+                semesterData &&
+                semesterData.courseAddDropPeriodEnd &&
+                new Date(semesterData.courseAddDropPeriodEnd) < Date.now(),
+            },
+            {
+              label: `+ ${t('ui.button.addToSemester', {
+                semester: getSemesterName(semester + 1),
+              })}`,
+              onClick: !itemFocus.course.isArbitrary
+                ? () => this.addCourseToPlanner(itemFocus.course, year, semester + 1)
+                : () => this.addArbitraryCourseToPlanner(itemFocus.course, year, semester + 1),
+              isSmall: true,
+              isDisabled:
+                semesterData &&
+                Date.now() - new Date(semesterData.end) >
+                  1000 * 60 * 60 * 24 * (semester < 3 ? 12 : 5),
+            },
+          ]}
+          key={`overlay:${year}:${semester}`}
+        />
+      );
+    };
+
     return (
       <div className={classNames('subsection', 'subsection--planner')}>
         <div className={classNames('subsection--planner__table')}>
           {getHeadColumn()}
           {plannerYears.map((y) => getYearColumn(y))}
           {plannerYears.map((y) => [1, 3].map((s) => getTiles(y, s, true)))}
+          {itemFocus.from === ItemFocusFrom.ADDING &&
+            plannerYears.map((y) => [1, 3].map((s) => getOverlay(y, s)))}
+          {itemFocus.from === ItemFocusFrom.ADDING && (
+            <PlannerOverlay
+              yearIndex={-1}
+              semesterIndex={-1}
+              tableSize={tableSize}
+              cellWidth={cellWidth}
+              cellHeight={cellHeight}
+              isPlannerWithSummer={hasSummerSemester}
+              isPlannerWithWinter={hasWinterSemester}
+              options={[
+                {
+                  label: t('ui.button.cancel'),
+                  onClick: () => this.cancelAddCourseToPlanner(),
+                  isSmall: true,
+                  isDisabled: false,
+                },
+              ]}
+            />
+          )}
         </div>
       </div>
     );
@@ -544,6 +700,7 @@ const mapStateToProps = (state) => ({
   cellWidth: state.planner.planner.cellWidth,
   cellHeight: state.planner.planner.cellHeight,
   isDragging: state.planner.planner.isDragging,
+  semesters: state.common.semester.semesters,
   // isLectureListOpenOnMobile: state.planner.list.isLectureListOpenOnMobile,
 });
 
@@ -551,8 +708,14 @@ const mapDispatchToProps = (dispatch) => ({
   updateCellSizeDispatch: (width, height) => {
     dispatch(updateCellSize(width, height));
   },
+  addItemToPlannerDispatch: (item) => {
+    dispatch(addItemToPlanner(item));
+  },
   setItemFocusDispatch: (item, course, from, clicked) => {
     dispatch(setItemFocus(item, course, from, clicked));
+  },
+  updateItemInPlannerDispatch: (item) => {
+    dispatch(updateItemInPlanner(item));
   },
   clearItemFocusDispatch: () => {
     dispatch(clearItemFocus());
@@ -569,10 +732,13 @@ PlannerSubSection.propTypes = {
   cellWidth: PropTypes.number.isRequired,
   cellHeight: PropTypes.number.isRequired,
   isDragging: PropTypes.bool.isRequired,
+  semesters: PropTypes.arrayOf(semesterShape),
   // isLectureListOpenOnMobile: PropTypes.bool.isRequired,
 
   updateCellSizeDispatch: PropTypes.func.isRequired,
+  addItemToPlannerDispatch: PropTypes.func.isRequired,
   setItemFocusDispatch: PropTypes.func.isRequired,
+  updateItemInPlannerDispatch: PropTypes.func.isRequired,
   clearItemFocusDispatch: PropTypes.func.isRequired,
   removeItemFromPlannerDispatch: PropTypes.func.isRequired,
 };
