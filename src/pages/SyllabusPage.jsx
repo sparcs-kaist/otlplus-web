@@ -11,6 +11,8 @@ import userShape from '../shapes/model/session/UserShape';
 import Scroller from '../components/Scroller';
 
 import { getSyllabusUrl } from '../utils/lectureUtils';
+import { useLocation } from 'react-router';
+import { parseQueryString } from '@/common/utils/parseQueryString';
 
 class SyllabusPage extends Component {
   constructor(props) {
@@ -40,7 +42,7 @@ class SyllabusPage extends Component {
   _setTimetableLectures = () => {
     const { user } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
-    const { timetable, year, semester } = this.props.location.state;
+    const { timetable, year, semester } = parseQueryString(this.props.location.state);
 
     if (timetable === -1) {
       const lectures = user.my_timetable_lectures.filter(
@@ -81,6 +83,7 @@ class SyllabusPage extends Component {
     const tabs = lectures ? (
       lectures.map((l) => (
         <div
+          key={l.id}
           className={classNames(
             'tabs__elem',
             selectedLecture === l ? 'tabs__elem--selected' : null,
@@ -141,4 +144,13 @@ SyllabusPage.propTypes = {
   user: userShape,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(SyllabusPage));
+const ClassComponent = withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(SyllabusPage),
+);
+
+const SyllabusPageFC = () => {
+  const location = useLocation();
+  return <ClassComponent location={location} />;
+};
+
+export default SyllabusPageFC;

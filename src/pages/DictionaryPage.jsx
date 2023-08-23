@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -20,12 +21,14 @@ import {
 } from '../actions/dictionary/list';
 import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
 import { performSearchCourses } from '../common/commonOperations';
+import { parseQueryString } from '@/common/utils/parseQueryString';
 
 class DictionaryPage extends Component {
   componentDidMount() {
     const { t } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
-    const { startCourseId, startTab, startSearchKeyword } = this.props.location.state || {};
+    const { startCourseId, startTab, startSearchKeyword } =
+      parseQueryString(this.props.location.search) || {};
     const {
       setCourseFocusDispatch,
       setSelectedListCodeDispatch,
@@ -149,4 +152,14 @@ DictionaryPage.propTypes = {
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(DictionaryPage));
+const ClassComponent = withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(DictionaryPage),
+);
+
+const DictionaryPageFC = () => {
+  const location = useLocation();
+
+  return <ClassComponent location={location} />;
+};
+
+export default DictionaryPageFC;

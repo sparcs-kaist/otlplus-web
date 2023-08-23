@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import axios from 'axios';
@@ -33,6 +33,7 @@ import { setIsPortrait } from './actions/common/media';
 import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
 import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPopupImage';
 import PopupMenu from './features/campaign/components/popup/PopupMenu';
+import EventBannerPage from './pages/EventBannerPage';
 
 const store = createStore(
   combineReducers({
@@ -187,127 +188,29 @@ class App extends Component {
       <Provider store={store}>
         <>
           <Header />
-          <Switch>
-            <Route exact path="/" component={MainPage} />
-            <Route
-              exact
-              path="/dictionary"
-              render={(props) =>
-                props.location.search ? (
-                  <Redirect
-                    to={{
-                      ...props.location,
-                      state: {
-                        ...props.location.state,
-                        ...parseQueryString(props.location.search),
-                      },
-                      search: '',
-                    }}
-                  />
-                ) : (
-                  <DictionaryPage {...props} />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/planner"
-              render={(props) =>
-                props.location.search ? (
-                  <Redirect
-                    to={{
-                      ...props.location,
-                      state: {
-                        ...props.location.state,
-                        ...parseQueryString(props.location.search),
-                      },
-                      search: '',
-                    }}
-                  />
-                ) : (
-                  <PlannerPage {...props} />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/timetable"
-              render={(props) =>
-                props.location.search ? (
-                  <Redirect
-                    to={{
-                      ...props.location,
-                      state: {
-                        ...props.location.state,
-                        ...parseQueryString(props.location.search),
-                      },
-                      search: '',
-                    }}
-                  />
-                ) : (
-                  <TimetablePage {...props} />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/timetable/syllabus"
-              render={(props) =>
-                props.location.search ? (
-                  <Redirect
-                    to={{
-                      ...props.location,
-                      state: {
-                        ...props.location.state,
-                        ...parseQueryString(props.location.search),
-                      },
-                      search: '',
-                    }}
-                  />
-                ) : (
-                  <SyllabusPage {...props} />
-                )
-              }
-            />
-            <Route
-              exact
-              path="/write-reviews"
-              render={(props) =>
-                props.location.search ? (
-                  <Redirect
-                    to={{
-                      ...props.location,
-                      state: {
-                        ...props.location.state,
-                        ...parseQueryString(props.location.search),
-                      },
-                      search: '',
-                    }}
-                  />
-                ) : (
-                  <WriteReviewsPage {...props} />
-                )
-              }
-            />
-            <Route exact path="/account" component={AccountPage} />
-            <Route exact path="/credits" component={CreditPage} />
-            <Route exact path="/licenses" component={LicensePage} />
-            <Route exact path="/privacy" component={PrivacyPage} />
+          <Routes>
+            <Route exact path="/dictionary" element={<DictionaryPage />} />
+            <Route exact path="/planner" element={<PlannerPage />} />
+            <Route exact path="/timetable" element={<TimetablePage />} />
+            <Route exact path="/timetable/syllabus" element={<SyllabusPage />} />
+            <Route exact path="/write-reviews" element={<WriteReviewsPage />} />
+            <Route exact path="/account" element={<AccountPage />} />
+            <Route exact path="/eventBanner" element={<EventBannerPage />} />
+            <Route exact path="/credits" element={<CreditPage />} />
+            <Route exact path="/licenses" element={<LicensePage />} />
+            <Route exact path="/privacy" element={<PrivacyPage />} />
             {/* Temporary test page for axiom */}
-            <Route exact path="/test" component={TestPage} />
-            <Route exact path="/error/:message" component={ErrorPage} />
-            <Redirect exact from="/index.html" to="/" />
-            {/* Redirection for old url */}
-            <Redirect exact from="/main" to="/" />
-            {/* TODO: implement 404 page and remove below */}
-            <Redirect from="/" to="/" />
-          </Switch>
+            <Route exact path="/test" element={<TestPage />} />
+            <Route exact path="/error/:message" element={<ErrorPage />} />
+            <Route exact path="/" element={<MainPage />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
         </>
         <section>
           <BannerPopup
             popupOpen={popupOpen}
             setPopupOpen={(state) => this.setState({ popupOpen: state })}>
-            <CampaignPopupImage />
+            <CampaignPopupImage closePopup={() => this.setState({ popupOpen: false })} />
             <PopupMenu
               onClose={() => this.setState({ popupOpen: false })}
               onDoNotShow={() => {

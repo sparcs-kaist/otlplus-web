@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -30,11 +31,12 @@ import ShareSubSection from '../components/sections/timetable/timetableandinfos/
 import semesterShape from '../shapes/model/subject/SemesterShape';
 import { myPseudoTimetableShape } from '../shapes/model/timetable/TimetableShape';
 import userShape from '../shapes/model/session/UserShape';
+import { parseQueryString } from '@/common/utils/parseQueryString';
 
 class TimetablePage extends Component {
   componentDidMount() {
     // eslint-disable-next-line react/destructuring-assignment
-    const { startInMyTable } = this.props.location.state || {};
+    const { startInMyTable } = parseQueryString(this.props.location.search) || {};
     const { user, myTimetable, setSelectedTimetableDispatch } = this.props;
 
     if (startInMyTable && user) {
@@ -184,4 +186,12 @@ TimetablePage.propTypes = {
   setIsTimetableTabsOpenOnMobileDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimetablePage);
+const ClassComponent = connect(mapStateToProps, mapDispatchToProps)(TimetablePage);
+
+const PlannerPageFC = () => {
+  const location = useLocation();
+
+  return <ClassComponent location={location} />;
+};
+
+export default PlannerPageFC;

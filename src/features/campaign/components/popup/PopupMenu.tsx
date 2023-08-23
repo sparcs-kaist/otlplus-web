@@ -12,20 +12,22 @@ const DoNotShowAgain: React.FC<{ onClick: VoidFunction }> = (props) => {
   const { t, i18n } = useTranslation();
   return (
     <button className={classNames(style.button)} onClick={(e) => props.onClick()}>
-      <p>다지 보지 않기</p>
+      <p>{t('ui.bannerPopup.close')}</p>
     </button>
   );
 };
 
 const CloseButton: React.FC<{ onClick: VoidFunction }> = (props) => {
+  const { t, i18n } = useTranslation();
   return (
     <button className={classNames(style.button)} onClick={(e) => props.onClick()}>
-      <p>닫기</p>
+      <p>{t('ui.bannerPopup.doNotShowAgain')}</p>
     </button>
   );
 };
 
 const PopupMenu: React.FC<IPopupMenuProps> = (props) => {
+  const { t, i18n } = useTranslation();
   return (
     <div className={style.popupMenu}>
       <DoNotShowAgain onClick={props.onDoNotShow} />

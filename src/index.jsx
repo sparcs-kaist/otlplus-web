@@ -1,15 +1,11 @@
-import { createBrowserHistory } from 'history';
-
-const history = createBrowserHistory();
-
 import ReactGA from 'react-ga4';
 
 const trackingId = '385500624';
 ReactGA.initialize(trackingId);
-history.listen((location) => {
-  ReactGA.set({ page: location.pathname });
-  ReactGA.send({ hitType: 'pageview', page: location.pathname, title: 'Custom Title' });
-});
+// history.listen((location) => {
+//   ReactGA.set({ page: location.pathname });
+//   ReactGA.send({ hitType: 'pageview', page: location.pathname, title: 'Custom Title' });
+// });
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -100,7 +96,7 @@ axios.interceptors.response.use(
   },
 );
 
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -108,9 +104,9 @@ import App from './App';
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
-  <Router history={history}>
+  <BrowserRouter>
     <App />
-  </Router>,
+  </BrowserRouter>,
 );
 
 import registerServiceWorker from './registerServiceWorker';

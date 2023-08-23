@@ -1,6 +1,7 @@
 import React from 'react';
 
 import style from '../../../sass/_imageCarouselBanner.module.scss';
+import { useNavigate } from 'react-router';
 import { DeviceType, detectDeviceType } from '@/common/utils/detectDeviceType';
 
 type ICta = {
@@ -10,6 +11,7 @@ type ICta = {
 };
 
 interface IImageCarouselBannerProps {
+  language?: string;
   ifAndroid?: ICta;
   ifIOS?: ICta;
   ifMacOS?: ICta;
@@ -21,6 +23,8 @@ const ImageCarouselBanner: React.FC<IImageCarouselBannerProps> = (props) => {
   const [url, setUrl] = React.useState<string>(props.ifDefault.link);
   const [cta, setCta] = React.useState<string>(props.ifDefault.cta);
   const [imageUrl, setImageUrl] = React.useState<string>(props.ifDefault.imageUrl);
+
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     // Call this inside useEffect so that future migrations
@@ -52,13 +56,14 @@ const ImageCarouselBanner: React.FC<IImageCarouselBannerProps> = (props) => {
         setImageUrl(props.ifWindows.imageUrl ?? props.ifDefault.imageUrl);
         break;
     }
-  }, []);
+  }, [props.language]);
 
   return (
     <div
       className={style.containerExternal}
       onClick={() => {
-        window.location.href = url;
+        if (url.startsWith('/')) navigate(url);
+        else window.open(url, '_blank');
       }}>
       <div className={style.container} id="test">
         <img src={imageUrl} alt="banner" />

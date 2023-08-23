@@ -836,6 +836,7 @@ a {
     display: flex;
     flex-direction: column;
   }
+
 }
 
 .subsection {
@@ -1485,6 +1486,26 @@ a {
   &--notice {
     &__content {
       line-height: $line-height-normal + $delta-line-height-longcontent;
+    }
+  }
+
+  &--eventbanner {
+    height: unset;
+  
+    & > img {
+      width: 100%;
+    }
+
+    .button-group {
+      padding: 12px;
+      padding-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      button {
+        color: $color-highlight;
+      }
     }
   }
 

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -129,4 +130,12 @@ PlannerPage.propTypes = {
   resetPlannerDispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlannerPage);
+const ClassComponent = connect(mapStateToProps, mapDispatchToProps)(PlannerPage);
+
+const PlannerPageFC = () => {
+  const location = useLocation();
+
+  return <ClassComponent location={location} />;
+};
+
+export default PlannerPageFC;

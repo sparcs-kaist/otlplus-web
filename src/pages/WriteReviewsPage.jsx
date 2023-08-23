@@ -23,12 +23,14 @@ import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
 
 import reviewsFocusShape from '../shapes/state/write-reviews/ReviewsFocusShape';
 import OtlplusPlaceholder from '../components/OtlplusPlaceholder';
+import { useLocation } from 'react-router';
+import { parseQueryString } from '@/common/utils/parseQueryString';
 
 class WriteReviewsPage extends Component {
   componentDidMount() {
     const { setReviewsFocusDispatch } = this.props;
     // eslint-disable-next-line react/destructuring-assignment
-    const { startList } = this.props.location.state || {};
+    const { startList } = parseQueryString(this.props.location.state) || {};
 
     if (startList) {
       setReviewsFocusDispatch(startList, null);
@@ -150,4 +152,14 @@ WriteReviewsPage.propTypes = {
   resetRankedReviewsDispatch: PropTypes.func.isRequired,
 };
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage));
+const ClassComponent = withTranslation()(
+  connect(mapStateToProps, mapDispatchToProps)(WriteReviewsPage),
+);
+
+const WriteReviewsPageFC = () => {
+  const location = useLocation();
+
+  return <ClassComponent location={location} />;
+};
+
+export default WriteReviewsPageFC;
