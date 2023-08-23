@@ -1,12 +1,3 @@
-import ReactGA from 'react-ga4';
-
-const trackingId = '385500624';
-ReactGA.initialize(trackingId);
-// history.listen((location) => {
-//   ReactGA.set({ page: location.pathname });
-//   ReactGA.send({ hitType: 'pageview', page: location.pathname, title: 'Custom Title' });
-// });
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import Backend from 'i18next-xhr-backend';
@@ -81,11 +72,6 @@ axios.interceptors.response.use(
     response.config.metadata.endTime = new Date();
     response.config.metadata.duration =
       response.config.metadata.endTime - response.config.metadata.startTime;
-    ReactGA.timing({
-      category: response.config.metadata.gaCategory || 'Undefined',
-      variable: response.config.metadata.gaVariable || 'Undefined',
-      value: response.config.metadata.duration,
-    });
     return response;
   },
   (error) => {

@@ -3,6 +3,7 @@ import React from 'react';
 import style from '../../../sass/_imageCarouselBanner.module.scss';
 import { useNavigate } from 'react-router';
 import { DeviceType, detectDeviceType } from '@/common/utils/detectDeviceType';
+import ReactGA from 'react-ga4';
 
 type ICta = {
   link?: string;
@@ -11,6 +12,7 @@ type ICta = {
 };
 
 interface IImageCarouselBannerProps {
+  trackingId: string;
   language?: string;
   ifAndroid?: ICta;
   ifIOS?: ICta;
@@ -62,6 +64,11 @@ const ImageCarouselBanner: React.FC<IImageCarouselBannerProps> = (props) => {
     <div
       className={style.containerExternal}
       onClick={() => {
+        ReactGA.event({
+          category: 'Campaign',
+          action: 'carousel-click',
+          label: props.trackingId,
+        });
         if (url.startsWith('/')) navigate(url);
         else window.open(url, '_blank');
       }}>

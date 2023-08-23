@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import DesktopOnly from '@/common/components/utils/DesktopOnly';
 import MobileOnly from '@/common/components/utils/MobileOnly';
 import { useNavigate } from 'react-router';
+import ReactGA from 'react-ga4';
 
 const ltos = (l: string) => (l === 'ko' ? 'ko' : 'en');
 
@@ -18,6 +19,10 @@ const CampaignPopupImage: React.FC<{ closePopup: VoidFunction }> = (props) => {
   });
 
   const bannerRedirect = () => {
+    ReactGA.event({
+      category: 'Campaign',
+      action: 'click-popup',
+    });
     navigate('/eventBanner');
     props.closePopup();
   };

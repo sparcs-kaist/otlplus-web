@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import axios from 'axios';
@@ -35,6 +35,18 @@ import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPop
 import PopupMenu from './features/campaign/components/popup/PopupMenu';
 import EventBannerPage from './pages/EventBannerPage';
 
+import ReactGA from 'react-ga4';
+
+const trackingId = '385500624';
+ReactGA.initialize([
+  {
+    trackingId,
+    gaOptions: {
+      siteSpeedSampleRate: 100,
+    },
+  },
+]);
+
 const store = createStore(
   combineReducers({
     common: commonReducer,
@@ -49,7 +61,7 @@ class App extends Component {
   portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)');
 
   STORAGE_KEY = 'otl-banner-key';
-  CAMPAIGN_KEY = 'CMPGN-2023-07-30-v3';
+  CAMPAIGN_KEY = 'CMPGN-2023-08-24-v1';
 
   constructor(props) {
     super(props);
@@ -212,8 +224,18 @@ class App extends Component {
             setPopupOpen={(state) => this.setState({ popupOpen: state })}>
             <CampaignPopupImage closePopup={() => this.setState({ popupOpen: false })} />
             <PopupMenu
-              onClose={() => this.setState({ popupOpen: false })}
+              onClose={() => {
+                ReactGA.event({
+                  category: 'Campaign',
+                  action: 'popup-close',
+                });
+                this.setState({ popupOpen: false });
+              }}
               onDoNotShow={() => {
+                ReactGA.event({
+                  category: 'Campaign',
+                  action: 'popup-do-not-show',
+                });
                 this._setDoNotShow(true);
                 this.setState({ popupOpen: false });
               }}
@@ -225,4 +247,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const AppFC = () => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: location.pathname });
+  }, [location]);
+
+  return <App />;
+};
+
+export default AppFC;

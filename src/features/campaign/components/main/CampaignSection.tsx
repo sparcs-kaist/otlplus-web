@@ -19,6 +19,7 @@ const CampaignSection: React.FC = () => {
     <div className={style.fullscreenSection}>
       <Slider dots={true} arrows={false} infinite speed={800} autoplay={true} autoplaySpeed={8000}>
         <ImageCarouselBanner
+          trackingId="apply"
           language={languageUrlPrefix}
           ifDefault={{
             imageUrl: `https://profill.s3.ap-northeast-2.amazonaws.com/banner-image/${languageUrlPrefix}/23f-sparcs-recruiting.png`,
@@ -27,6 +28,7 @@ const CampaignSection: React.FC = () => {
           }}
         />
         <ImageCarouselBanner
+          trackingId="app-launch"
           language={languageUrlPrefix}
           ifDefault={{
             imageUrl: `https://profill.s3.ap-northeast-2.amazonaws.com/banner-image/${languageUrlPrefix}/app-launch.png`,
@@ -41,6 +43,7 @@ const CampaignSection: React.FC = () => {
           }}
         />
         <ImageCarouselBanner
+          trackingId="release-note"
           language={languageUrlPrefix}
           ifDefault={{
             imageUrl: `https://profill.s3.ap-northeast-2.amazonaws.com/banner-image/${languageUrlPrefix}/release-note.png`,
