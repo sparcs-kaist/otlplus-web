@@ -37,7 +37,7 @@ import EventBannerPage from './pages/EventBannerPage';
 
 import ReactGA from 'react-ga4';
 
-const trackingId = '385500624';
+const trackingId = 'G-8NSY19J0T3';
 ReactGA.initialize([
   {
     trackingId,
