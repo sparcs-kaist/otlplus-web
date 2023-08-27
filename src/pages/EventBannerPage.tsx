@@ -5,7 +5,7 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import ReactGA from 'react-ga4';
 
-const ltos = (l: string) => (l === 'ko' ? 'ko' : 'en');
+const ltos = (l: string) => (l === 'en' ? 'en' : 'ko');
 
 const EventBannerPage: React.FC = () => {
   const { t, i18n } = useTranslation();

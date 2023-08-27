@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ImageCarouselBanner from './carouselPages/ImageCarouselBanner';
 import style from '../../sass/_campaign.module.scss';
 
-const ltos = (l: string) => (l === 'ko' ? 'ko' : 'en');
+const ltos = (l: string) => (l === 'en' ? 'en' : 'ko');
 
 const CampaignSection: React.FC = () => {
   const { i18n } = useTranslation();
@@ -24,7 +24,7 @@ const CampaignSection: React.FC = () => {
           ifDefault={{
             imageUrl: `https://profill.s3.ap-northeast-2.amazonaws.com/banner-image/${languageUrlPrefix}/23f-sparcs-recruiting.png`,
             cta: 'DEPRECATED',
-            link: 'https://apply.sparcs.org',
+            link: 'https://sparcsqr.page.link/2023f-apply-notice-otl',
           }}
         />
         <ImageCarouselBanner

@@ -6,7 +6,7 @@ import MobileOnly from '@/common/components/utils/MobileOnly';
 import { useNavigate } from 'react-router';
 import ReactGA from 'react-ga4';
 
-const ltos = (l: string) => (l === 'ko' ? 'ko' : 'en');
+const ltos = (l: string) => (l === 'en' ? 'en' : 'ko');
 
 const CampaignPopupImage: React.FC<{ closePopup: VoidFunction }> = (props) => {
   const { i18n } = useTranslation();
