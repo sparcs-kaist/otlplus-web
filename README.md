@@ -5,13 +5,13 @@
 ## How to run
 
 ```sh
-npm install
+yarn install
 ```
 
 ```sh
-npm start
+yarn dev
 ```
 
 ```sh
-npm run build
+yarn build
 ```

@@ -1,0 +1,17 @@
+@mixin mixin-media-landscape() {
+  @media (min-aspect-ratio: 4/3) {
+    @content;
+  }
+}
+
+@mixin mixin-media-portrait() {
+  @media (max-aspect-ratio: 4/3) {
+    @content;
+  }
+}
+
+@mixin mixin-media-no-hover() {
+  @media (hover: none) {
+    @content;
+  }
+}

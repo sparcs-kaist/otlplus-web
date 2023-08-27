@@ -1,0 +1,31 @@
+@import '../../../sass/abstracts/variables';
+
+.fullscreen-section {
+  position: relative;
+  background-color: $color-section-background;
+  border-radius: $section-border-radius;
+  box-shadow: $section-box-shadow;
+  overflow: hidden;
+  margin-bottom: $section-margin-bottom;
+  padding: 0;
+
+  & :global(.slick-dots) {
+    transform: translateY(-30px);
+
+    button::before {
+      font-size: 10px;
+      color: $color-highlight;
+    }
+
+    :global(.slick-active) {
+      button::before {
+        color: $color-highlight;
+        opacity: 1;
+      }
+    }
+
+    li {
+      margin: 0;
+    }
+  }
+}

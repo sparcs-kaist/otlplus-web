@@ -1,0 +1,28 @@
+@import '../../../sass/abstracts/variables';
+@import '../../../sass/abstracts/mixins';
+
+.popup-menu {
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0 0 $section-border-radius $section-border-radius;
+  background-color: $color-section-background;
+
+  & button {
+    width: 100%;
+    flex-shrink: 1;
+    padding: 10px;
+    text-align: center;
+  }
+}
+
+.button {
+  border-radius: 2px;
+  &:hover {
+    background: #22222211;
+  }
+}
+
+.divider {
+  border-right: solid 1px $color-divider-line;
+}

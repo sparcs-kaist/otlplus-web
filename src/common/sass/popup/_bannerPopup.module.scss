@@ -1,0 +1,14 @@
+@import 'src/sass/abstracts/_variables.scss';
+
+.popup-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  flex-direction: column;
+}
+
+.popup-box {
+}

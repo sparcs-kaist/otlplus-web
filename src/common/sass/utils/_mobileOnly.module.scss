@@ -1,0 +1,7 @@
+@import 'src/sass/abstracts/_mixins';
+
+.mobile-only {
+  @include mixin-media-landscape {
+    display: none;
+  }
+}

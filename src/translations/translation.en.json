@@ -352,6 +352,10 @@
       "credit": "Credit",
       "licences": "Licences",
       "privacy": "Privacy"
+    },
+    "bannerPopup": {
+      "close": "Close",
+      "doNotShowAgain": "Do not show again"
     }
   }
 }

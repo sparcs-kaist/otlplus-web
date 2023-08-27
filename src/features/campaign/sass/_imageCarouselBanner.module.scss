@@ -1,0 +1,84 @@
+@import 'src/sass/abstracts/_variables.scss';
+@import 'src/sass/abstracts/_mixins.scss';
+
+.container-external {
+  width: 100%;
+  height: 50%;
+
+  @include mixin-media-portrait {
+    height: 180px;
+  }
+
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover .container-cta {
+    opacity: 100%;
+    transform: translateY(0);
+  }
+
+  &:hover .container {
+    // filter: brightness(0.98) blur(2px);
+    filter: brightness(0.9);
+    scale: 1.02;
+  }
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  filter: brightness(1) blur(0);
+  transition:
+    filter 0.3s ease-in-out,
+    scale 0.8s ease-in-out;
+  background-color: $color-section-background;
+
+  & > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    @include mixin-media-portrait {
+      object-fit: contain;
+    }
+  }
+}
+
+.container-link-cover {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 100%;
+  transition: height 0.3s ease;
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: $section-padding;
+}
+
+.container-cta {
+  // border: solid 1px $color-highlight;
+  // background-color: $color-section-background-transparent;
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 5px 10px;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  transform: translateY(4px);
+
+  & > p {
+    color: $color-highlight;
+  }
+
+  // &:hover, &:active {
+  //   filter: brightness(0.9);
+  // }
+}

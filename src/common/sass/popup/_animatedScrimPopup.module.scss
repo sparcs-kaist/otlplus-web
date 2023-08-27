@@ -1,0 +1,33 @@
+.container {
+  --opacity: 100%;
+  z-index: 10000;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 0;
+  background-color: rgba(33, 33, 33, 0.4);
+
+  overflow-y: scroll;
+
+  justify-content: center;
+  align-items: center;
+
+  &-should-render {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  &-should-not-render {
+    display: none;
+  }
+}
+
+.container-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
