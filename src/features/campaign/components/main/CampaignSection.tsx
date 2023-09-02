@@ -19,15 +19,6 @@ const CampaignSection: React.FC = () => {
     <div className={style.fullscreenSection}>
       <Slider dots={true} arrows={false} infinite speed={800} autoplay={true} autoplaySpeed={8000}>
         <ImageCarouselBanner
-          trackingId="apply"
-          language={languageUrlPrefix}
-          ifDefault={{
-            imageUrl: `https://profill.s3.ap-northeast-2.amazonaws.com/banner-image/${languageUrlPrefix}/23f-sparcs-recruiting.png`,
-            cta: 'DEPRECATED',
-            link: 'https://sparcsqr.page.link/2023f-apply-notice-otl',
-          }}
-        />
-        <ImageCarouselBanner
           trackingId="app-launch"
           language={languageUrlPrefix}
           ifDefault={{
