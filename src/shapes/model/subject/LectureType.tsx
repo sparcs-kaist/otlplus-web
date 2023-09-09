@@ -1,6 +1,6 @@
-import classtimeType from './ClasstimeShape';
-import examtimeType from './ExamtimeShape';
-import nestedProfessorType from './NestedProfessorShape';
+import classtimeType from './ClasstimeType';
+import examtimeType from './ExamtimeType';
+import nestedProfessorType from './NestedProfessorType';
 
 interface lectureType {
   id: number;
