@@ -1,17 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lectureShape from '../../shapes/model/subject/LectureShape';
+import lectureType from '@/shapes/model/subject/LectureType';
 
-const LectureSimpleBlock = ({ t, lecture, isRaised, isDimmed, hasReview, onClick }) => {
+interface LectureSimpleBlockProps {
+  lecture: lectureType;
+  isRaised: boolean;
+  isDimmed: boolean;
+  hasReview: boolean;
+  onClick?: (lecture: lectureType) => void; ///
+}
+const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
+  lecture,
+  isRaised,
+  isDimmed,
+  hasReview,
+  onClick,
+}) => {
+  const { t } = useTranslation();
+
   const handleClick = onClick
     ? (event) => {
         onClick(lecture);
       }
-    : null;
+    : undefined;
 
   return (
     <div
@@ -33,12 +48,12 @@ const LectureSimpleBlock = ({ t, lecture, isRaised, isDimmed, hasReview, onClick
   );
 };
 
-LectureSimpleBlock.propTypes = {
-  lecture: lectureShape.isRequired,
-  isRaised: PropTypes.bool.isRequired,
-  isDimmed: PropTypes.bool.isRequired,
-  hasReview: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
+// LectureSimpleBlock.propTypes = {
+//   lecture: lectureShape.isRequired,
+//   isRaised: PropTypes.bool.isRequired,
+//   isDimmed: PropTypes.bool.isRequired,
+//   hasReview: PropTypes.bool.isRequired,
+//   onClick: PropTypes.func.isRequired,
+// };
 
-export default withTranslation()(React.memo(LectureSimpleBlock));
+export default React.memo(LectureSimpleBlock);

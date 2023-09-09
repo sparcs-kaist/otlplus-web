@@ -1,14 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
 
-import lectureShape from '../../shapes/model/subject/LectureShape';
+import lectureType from '@/shapes/model/subject/LectureType';
 
-const LectureGroupBlockRow = ({
-  t,
+interface LectureGroupBlockRowProps {
+  lecture: lectureType;
+  isHighlighted: boolean;
+  inTimetable: boolean;
+  isTimetableReadonly: boolean;
+  inCart: boolean;
+  fromCart: boolean;
+  addToCart: (lecture: lectureType) => void;
+  addToTable: (lecture: lectureType) => void;
+  deleteFromCart: (lecture: lectureType) => void;
+  onMouseOver?: (lecture: lectureType) => void;
+  onMouseOut?: (lecture: lectureType) => void;
+  onClick?: (lecture: lectureType) => void;
+}
+
+const LectureGroupBlockRow: React.FC<LectureGroupBlockRowProps> = ({
   lecture,
   isHighlighted,
   inTimetable,
@@ -22,6 +35,7 @@ const LectureGroupBlockRow = ({
   onMouseOut,
   onClick,
 }) => {
+  const { t } = useTranslation();
   const getClass = (lec) => {
     switch (lec.class_title.length) {
       case 1:
@@ -37,17 +51,17 @@ const LectureGroupBlockRow = ({
     ? (event) => {
         onMouseOver(lecture);
       }
-    : null;
+    : undefined;
   const handleMouseOut = onMouseOut
     ? (event) => {
         onMouseOut(lecture);
       }
-    : null;
+    : undefined;
   const handleClick = onClick
     ? (event) => {
         onClick(lecture);
       }
-    : null;
+    : undefined;
   const handleDeleteFromCartClick = (event) => {
     event.stopPropagation();
     deleteFromCart(lecture);
@@ -133,19 +147,4 @@ const LectureGroupBlockRow = ({
   );
 };
 
-LectureGroupBlockRow.propTypes = {
-  lecture: lectureShape.isRequired,
-  isHighlighted: PropTypes.bool.isRequired,
-  inTimetable: PropTypes.bool.isRequired,
-  isTimetableReadonly: PropTypes.bool.isRequired,
-  inCart: PropTypes.bool.isRequired,
-  fromCart: PropTypes.bool.isRequired,
-  addToCart: PropTypes.func.isRequired,
-  addToTable: PropTypes.func.isRequired,
-  deleteFromCart: PropTypes.func.isRequired,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func,
-  onClick: PropTypes.func,
-};
-
-export default withTranslation()(React.memo(LectureGroupBlockRow));
+export default React.memo(LectureGroupBlockRow);
