@@ -48,12 +48,4 @@ const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
   );
 };
 
-// LectureSimpleBlock.propTypes = {
-//   lecture: lectureShape.isRequired,
-//   isRaised: PropTypes.bool.isRequired,
-//   isDimmed: PropTypes.bool.isRequired,
-//   hasReview: PropTypes.bool.isRequired,
-//   onClick: PropTypes.func.isRequired,
-// };
-
 export default React.memo(LectureSimpleBlock);

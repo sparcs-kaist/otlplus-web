@@ -6,6 +6,7 @@ import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils
 
 import lectureType from '@/shapes/model/subject/LectureType';
 
+type lectureVoidFunc = (lecture: lectureType) => void;
 interface LectureGroupBlockRowProps {
   lecture: lectureType;
   isHighlighted: boolean;
@@ -13,12 +14,12 @@ interface LectureGroupBlockRowProps {
   isTimetableReadonly: boolean;
   inCart: boolean;
   fromCart: boolean;
-  addToCart: (lecture: lectureType) => void;
-  addToTable: (lecture: lectureType) => void;
-  deleteFromCart: (lecture: lectureType) => void;
-  onMouseOver?: (lecture: lectureType) => void;
-  onMouseOut?: (lecture: lectureType) => void;
-  onClick?: (lecture: lectureType) => void;
+  addToCart: lectureVoidFunc;
+  addToTable: lectureVoidFunc;
+  deleteFromCart: lectureVoidFunc;
+  onMouseOver?: lectureVoidFunc;
+  onMouseOut?: lectureVoidFunc;
+  onClick?: lectureVoidFunc;
 }
 
 const LectureGroupBlockRow: React.FC<LectureGroupBlockRowProps> = ({
