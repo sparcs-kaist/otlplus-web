@@ -1,16 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr } from '../../utils/lectureUtils';
-import lectureType from '../../shapes/model/subject/LectureType';
+import lecture from '../../shapes/model/subject/lecture';
 
-interface LectureGroupSimpleBlockProps {
-  lectures: lectureType[];
+interface lectureGroupSimpleBlockProps {
+  lectures: lecture[];
 }
 
-const LectureGroupSimpleBlock: React.FC<LectureGroupSimpleBlockProps> = ({ lectures }) => {
+const LectureGroupSimpleBlock: React.FC<lectureGroupSimpleBlockProps> = ({ lectures }) => {
   const { t } = useTranslation();
   const getClass = (lecture) => {
     if (!lecture.class_title) {

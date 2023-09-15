@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
 
-import lectureType from '@/shapes/model/subject/LectureType';
+import lecture from '../../shapes/model/subject/lecture';
 
-type lectureVoidFunc = (lecture: lectureType) => void;
-interface LectureGroupBlockRowProps {
-  lecture: lectureType;
+type lectureVoidFunc = (x: lecture) => void;
+interface lectureGroupBlockRowProps {
+  lecture: lecture;
   isHighlighted: boolean;
   inTimetable: boolean;
   isTimetableReadonly: boolean;
@@ -22,7 +22,7 @@ interface LectureGroupBlockRowProps {
   onClick?: lectureVoidFunc;
 }
 
-const LectureGroupBlockRow: React.FC<LectureGroupBlockRowProps> = ({
+const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
   lecture,
   isHighlighted,
   inTimetable,

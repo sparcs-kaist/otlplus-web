@@ -2,17 +2,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lectureType from '../../shapes/model/subject/LectureType';
+import lecture from '../../shapes/model/subject/lecture';
 
-interface LectureGroupBlockProps {
-  lectureGroup: lectureType[];
+interface lectureGroupBlockProps {
+  lectureGroup: lecture[];
   isRaised: boolean;
   isDimmed: boolean;
   isTaken: boolean;
   children?: React.ReactNode;
 }
 
-const LectureGroupBlock: React.FC<LectureGroupBlockProps> = ({
+const LectureGroupBlock: React.FC<lectureGroupBlockProps> = ({
   lectureGroup,
   isRaised,
   isDimmed,

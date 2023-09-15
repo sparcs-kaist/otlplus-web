@@ -1,19 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lectureType from '@/shapes/model/subject/LectureType';
-
-interface LectureSimpleBlockProps {
-  lecture: lectureType;
+import lecture from '@/shapes/model/subject/lecture';
+interface lectureSimpleBlockProps {
+  lecture: lecture;
   isRaised: boolean;
   isDimmed: boolean;
   hasReview: boolean;
-  onClick?: (lecture: lectureType) => void; ///
+  onClick?: (x: lecture) => void;
 }
-const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
+const LectureSimpleBlock: React.FC<lectureSimpleBlockProps> = ({
   lecture,
   isRaised,
   isDimmed,

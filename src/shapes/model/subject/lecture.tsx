@@ -1,8 +1,8 @@
-import classtimeType from './ClasstimeType';
-import examtimeType from './ExamtimeType';
-import nestedProfessorType from './NestedProfessorType';
+import classtime from './classtime';
+import examtime from './examtime';
+import nestedProfessor from './nestedProfessor';
 
-interface lectureType {
+interface lecture {
   id: number;
   title: string;
   title_en: string;
@@ -30,11 +30,11 @@ interface lectureType {
   class_title: string;
   class_title_en: string;
   review_total_weight: number;
-  professors: nestedProfessorType;
+  professors: nestedProfessor;
   grade: number;
   load: number;
   speech: number;
-  classtimes: classtimeType[];
-  examtimes: examtimeType[];
+  classtimes: classtime[];
+  examtimes: examtime[];
 }
-export default lectureType;
+export default lecture;
