@@ -1,12 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lectureShape from '../../shapes/model/subject/LectureShape';
+import lecture from '../../shapes/model/subject/lecture';
 
-const LectureGroupBlock = ({ t, lectureGroup, isRaised, isDimmed, isTaken, children }) => {
+interface lectureGroupBlockProps {
+  lectureGroup: lecture[];
+  isRaised: boolean;
+  isDimmed: boolean;
+  isTaken: boolean;
+  children?: React.ReactNode;
+}
+
+const LectureGroupBlock: React.FC<lectureGroupBlockProps> = ({
+  lectureGroup,
+  isRaised,
+  isDimmed,
+  isTaken,
+  children,
+}) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={classNames(
@@ -25,11 +39,4 @@ const LectureGroupBlock = ({ t, lectureGroup, isRaised, isDimmed, isTaken, child
   );
 };
 
-LectureGroupBlock.propTypes = {
-  lectureGroup: PropTypes.arrayOf(lectureShape).isRequired,
-  isRaised: PropTypes.bool.isRequired,
-  isDimmed: PropTypes.bool.isRequired,
-  isTaken: PropTypes.bool.isRequired,
-};
-
-export default withTranslation()(React.memo(LectureGroupBlock));
+export default React.memo(LectureGroupBlock);
