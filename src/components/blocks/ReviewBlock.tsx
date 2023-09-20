@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga4';
 
@@ -9,17 +8,29 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr } from '../../utils/lectureUtils';
 import { getSingleScoreLabel } from '../../utils/scoreUtils';
 
-import reviewShape from '../../shapes/model/review/ReviewShape';
-import linkShape from '../../shapes/LinkShape';
+import review from '@/shapes/model/review/review';
+import link from '@/shapes/link';
 
 import { formatNewlineToBr } from '../../utils/commonUtils';
 import { getSemesterName } from '../../utils/semesterUtils';
 import { CONTACT } from '../../common/constants';
 
-const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
+interface ReviewBlockProps {
+  review: review;
+  shouldLimitLines: boolean;
+  linkTo?: link;
+  pageFrom: string;
+}
+
+const ReviewBlock: React.FC<ReviewBlockProps> = ({
+  review,
+  shouldLimitLines,
+  linkTo,
+  pageFrom,
+}) => {
+  const { i18n, t } = useTranslation();
   const [changedLikes, setChangedLikes] = useState(review.like);
   const [changedIsLiked, setChangedIsLiked] = useState(review.userspecific_is_liked);
-
   const onLikeClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -52,8 +63,29 @@ const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
     e.stopPropagation();
     e.preventDefault();
 
-    // eslint-disable-next-line no-alert
-    alert(t('ui.message.reportUnderDevelopment', { contact: CONTACT }));
+    const info = i18n.t('ui.reportMail.body.infoTemplate', {
+      lecture: review.lecture[t('js.property.title')],
+      code: review.lecture.old_code,
+      semester: getSemesterName(review.lecture.semester),
+      prof: getProfessorsShortStr(review.lecture),
+      content: review.content,
+    });
+    const mailSubject = `${t('ui.reportMail.subject')}`;
+
+    const mailBody = [
+      t('ui.reportMail.body.header'),
+      t('ui.reportMail.divider'),
+      t('ui.reportMail.extra_space'),
+      t('ui.reportMail.divider'),
+      t('ui.reportMail.body.footer'),
+      info,
+    ]
+      .map((e) => encodeURI(e).replace(/\n/g, '%0D%0A'))
+      .join('');
+
+    const mailtoLink = `mailto:${CONTACT}?subject=${mailSubject}&body=${mailBody}`;
+
+    window.location.href = mailtoLink;
 
     ReactGA.event({
       category: 'Review',
@@ -121,8 +153,12 @@ const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
             </button>
           )}
           <button
-            className={classNames('text-button', 'text-button--black', 'text-button--review-block')}
-            onClick={onReportClick}>
+            onClick={onReportClick}
+            className={classNames(
+              'text-button',
+              'text-button--black',
+              'text-button--review-block',
+            )}>
             {t('ui.button.report')}
           </button>
         </span>
@@ -131,11 +167,4 @@ const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
   );
 };
 
-ReviewBlock.propTypes = {
-  review: reviewShape.isRequired,
-  shouldLimitLines: PropTypes.bool.isRequired,
-  linkTo: linkShape,
-  pageFrom: PropTypes.string.isRequired,
-};
-
-export default withTranslation()(React.memo(ReviewBlock));
+export default React.memo(ReviewBlock);

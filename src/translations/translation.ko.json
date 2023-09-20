@@ -351,6 +351,16 @@
     "bannerPopup": {
       "close": "닫기",
       "doNotShowAgain": "다시 보지 않기"
+    },
+    "reportMail": {
+      "subject": "[후기 신고]",
+      "body": {
+        "header": "[신고 사유] \n*후기를 신고한 이유를 서술해 주세요. \n",
+        "footer": "[신고할 후기 정보] \n*자동으로 작성된 후기 정보입니다. 원활한 신고를 위해서 수정하지 말아주세요. \n",
+        "infoTemplate": "과목: {{lecture}} ({{code}}) \n학기: {{semester}} \n교수: {{prof}} \n내용: \n{{content}}"
+      },
+      "divider": "--------------------------------------------------------------------------- \n",
+      "extra_space": " \n \n \n \n"
     }
   }
 }

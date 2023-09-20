@@ -358,6 +358,16 @@
     "bannerPopup": {
       "close": "Close",
       "doNotShowAgain": "Do not show again"
+    },
+    "reportMail": {
+      "subject": "[Report Review]",
+      "body": {
+        "header": "[Reason for Reporting] \n*Please describe a reason for reporting \n",
+        "footer": "[Review Information] \n*This information has been filled automatically. Please do NOT edit. \n",
+        "infoTemplate": "Lecture: {{lecture}} ({{code}}) \nSemester: {{semester}} \nProf.: {{prof}} \nContent: \n{{content}}"
+      },
+      "divider": "--------------------------------------------------------------------------- \n",
+      "extra_space": " \n \n \n \n"
     }
   }
 }
