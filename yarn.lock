@@ -4162,10 +4162,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zabo-embed@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/zabo-embed/-/zabo-embed-0.0.2.tgz#19ba0f640d84b4408a2349039f14ddef7c1638db"
-  integrity sha512-FZzN3PhVzjFSToJf8/jW5+DCOHl6QRiSwMJjbmEX0dgDUZya2rz3js8qqWy1qXwAEcasAfwDpZBIIDkm/xazig==
+zabo-embed@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/zabo-embed/-/zabo-embed-0.0.3.tgz#dca3032497ea1260ac81abe26835cca685695507"
+  integrity sha512-Dx7Lfd2pvMSajILCdTVndHP8OsOt+0NKAeKJ7fgOooVpdyup/nJVaClmgl/wz5X1dJufsxYAbfISK0r8fne1vA==
   dependencies:
     "@emotion/react" "^11.11.1"
     "@emotion/styled" "^11.11.0"
