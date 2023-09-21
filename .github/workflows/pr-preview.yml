@@ -27,13 +27,17 @@ jobs:
         with:
           source-dir: ./build/
 
-      - name: Comment on PR
-        uses: actions/github-script@v6
+      - name: Leave a comment after proxy
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '👍 SPARCS GH Pages Preview Proxy (by night): http://pr-${{ github.event.issue.number }}.otl-pr-preview.sparcsandbox.com/index.html'
-            })
+          header: pr-preview-github-proxy
+          message: "\
+            [PR Preview GH Proxy (on bap)]\
+
+            :---:
+
+            :+1: Proxied Github Pages Preview URL to
+            http://pr-${{ github.event.number }}.otl-pr-preview.sparcsandbox.com/index.html
+
+            **Proudly Powered by night@sparcs.org**
+            "
