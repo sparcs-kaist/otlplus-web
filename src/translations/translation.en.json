@@ -202,10 +202,12 @@
       "masShort": "MAS",
       "meShort": "ME",
       "nqeShort": "NQE",
-      "msbShort": "MSB",
+      "btmShort": "BTM",
       "msShort": "MS",
       "phShort": "PH",
       "tsShort": "TS",
+      "ssShort": "SS",
+      "bceShort": "BCE",
       "allShort": "ALL",
       "etcShort": "ETC"
     },

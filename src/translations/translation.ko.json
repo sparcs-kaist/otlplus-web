@@ -202,10 +202,12 @@
       "masShort": "수리",
       "meShort": "기계",
       "nqeShort": "원양",
-      "msbShort": "기경",
+      "btmShort": "기경",
       "msShort": "신소재",
       "phShort": "물리",
       "tsShort": "융인",
+      "ssShort": "반시공",
+      "bceShort": "뇌인지",
       "allShort": "전체",
       "etcShort": "기타"
     },
