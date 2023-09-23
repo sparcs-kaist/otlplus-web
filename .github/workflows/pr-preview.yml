@@ -1,0 +1,43 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install and Build
+        run: |
+          yarn install
+          npm run build
+
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./build/
+
+      - name: Leave a comment after proxy
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: pr-preview-github-proxy
+          message: "\
+            [PR Preview GH Proxy (on bap)]\
+
+            :---:
+
+            :+1: Proxied Github Pages Preview URL to
+            http://pr-${{ github.event.number }}.otl-pr-preview.sparcsandbox.com/index.html
+
+            **Proudly Powered by night@sparcs.org**
+            "
