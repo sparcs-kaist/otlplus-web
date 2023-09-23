@@ -5,6 +5,8 @@ import PropTypes, { bool } from 'prop-types';
 import axios from 'axios';
 import { range } from 'lodash';
 
+import { ZaboEmbed } from 'zabo-embed';
+
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import Footer from '../common/guideline/components/Footer';
@@ -20,7 +22,6 @@ import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/model/session/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection';
-import CampaignSection from '@/features/campaign/components/main/CampaignSection';
 
 class MainPage extends Component {
   constructor(props) {
@@ -231,7 +232,7 @@ class MainPage extends Component {
     const feeds = [
       <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
       <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
-      <CampaignSection key="CAMPAIGN" />,
+      <ZaboEmbed key="ZABO_EMBED" serviceColor="#E54C65" style={{ marginBottom: 12 }} />,
       notices
         ? notices.map((n) => (
             <NoticeSection notice={n} key={`${n.start_date}-${n.end_date}-${n.title}`} />
