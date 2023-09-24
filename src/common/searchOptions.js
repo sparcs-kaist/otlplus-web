@@ -19,7 +19,7 @@ export const getDepartmentOptions = () =>
     ['ALL', i18n.t('ui.department.allShort'), 100],
     ['HSS', i18n.t('ui.department.hssShort'), 200],
     ['CE', i18n.t('ui.department.ceShort'), 500],
-    ['MSB', i18n.t('ui.department.msbShort'), 500],
+    ['BTM', i18n.t('ui.department.btmShort'), 500],
     ['ME', i18n.t('ui.department.meShort'), 500],
     ['PH', i18n.t('ui.department.phShort'), 500],
     ['BiS', i18n.t('ui.department.bisShort'), 500],
@@ -35,6 +35,8 @@ export const getDepartmentOptions = () =>
     ['CBE', i18n.t('ui.department.cbeShort'), 500],
     ['MS', i18n.t('ui.department.msShort'), 500],
     ['TS', i18n.t('ui.department.tsShort'), 500],
+    ['SS', i18n.t('ui.department.ssShort'), 500],
+    ['BCE', i18n.t('ui.department.bceShort'), 500],
     ['ETC', i18n.t('ui.department.etcShort'), 900],
   ]
     .sort((a, b) => {
