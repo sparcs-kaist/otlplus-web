@@ -36,7 +36,7 @@ export const getDepartmentOptions = () =>
     ['MS', i18n.t('ui.department.msShort'), 500],
     ['TS', i18n.t('ui.department.tsShort'), 500],
     ['SS', i18n.t('ui.department.ssShort'), 500],
-    ['BCE', i18n.t('ui.department.bceShort'), 500],
+    ['BCS', i18n.t('ui.department.bcsShort'), 500],
     ['ETC', i18n.t('ui.department.etcShort'), 900],
   ]
     .sort((a, b) => {
