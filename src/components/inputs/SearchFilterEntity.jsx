@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { appBoundClassNames as classNames } from '../common/boundClassNames';
+import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 class SearchFilterEntity extends Component {
   render() {
