@@ -68,14 +68,15 @@ const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
     const footerContent = t('ui.email.footerContent', parmas);
     const body = `${header}\n${divider}\n\n\n${divider}\n${footer}\n${footerContent}`;
 
+    window.location.href = `mailto:${CONTACT}?subject=${encodeURIComponent(subject) || ''} &body=${
+      encodeURIComponent(body) || ''
+    }`;
+
     ReactGA.event({
       category: 'Review',
       action: 'Reported Review',
       label: `Review : ${review.id} / From : Page : ${pageFrom}`,
     });
-    window.location.href = `mailto:${CONTACT}?subject=${encodeURIComponent(subject) || ''} &body=${
-      encodeURIComponent(body) || ''
-    }`;
   };
 
   const RootTag = linkTo ? Link : 'div';
