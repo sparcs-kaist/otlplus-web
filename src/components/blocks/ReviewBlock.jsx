@@ -52,14 +52,30 @@ const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
     e.stopPropagation();
     e.preventDefault();
 
-    // eslint-disable-next-line no-alert
-    alert(t('ui.message.reportUnderDevelopment', { contact: CONTACT }));
+    const parmas = {
+      title: review.lecture.title,
+      code: review.lecture.old_code,
+      year: review.lecture.year,
+      semester: getSemesterName(review.lecture.semester),
+      professor: review.lecture.professors.map((item) => item.name),
+      content: review.content,
+    };
+
+    const subject = t('ui.email.title');
+    const header = t('ui.email.header');
+    const footer = t('ui.email.footer');
+    const divider = t('ui.email.divider');
+    const footerContent = t('ui.email.footerContent', parmas);
+    const body = `${header}\n${divider}\n\n\n${divider}\n${footer}\n${footerContent}`;
 
     ReactGA.event({
       category: 'Review',
       action: 'Reported Review',
       label: `Review : ${review.id} / From : Page : ${pageFrom}`,
     });
+    window.location.href = `mailto:${CONTACT}?subject=${encodeURIComponent(subject) || ''} &body=${
+      encodeURIComponent(body) || ''
+    }`;
   };
 
   const RootTag = linkTo ? Link : 'div';
