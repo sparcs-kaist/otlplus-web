@@ -364,7 +364,7 @@
       "header": "[Reason for Reporting]\n*Please describe a reason for reporting.",
       "footer": "[Review Information]\n*This information has been filled automatically. Please do NOT edit.",
       "divider": "------------------------------------------------------------------",
-      "footerContent": "Lecture: {{title}} ({{code}})\nSemester: {{year}} {{semester}}\nProf.: {{professor}}\nContent:\n{{content}}"
+      "footerContent": "Lecture:  {{title}} ({{code}})\nSemester:  {{year}} {{semester}}\nProf.: {{professor}}\nContent:\n{{content}}"
     }
   }
 }
