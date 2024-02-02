@@ -8,6 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import semesterShape from '../../../shapes/model/subject/SemesterShape';
 
 import { getCurrentSchedule, getSemesterName } from '../../../utils/semesterUtils';
+import { PORTAL } from '@/common/constants';
 
 class AcademicScheduleSection extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class AcademicScheduleSection extends Component {
           {getAcademicScheduleContent()}
           <div className={classNames('buttons')}>
             <a
-              href="https://ssogw6.kaist.ac.kr"
+              href={`${PORTAL}`}
               className={classNames('text-button')}
               target="_blank"
               rel="noopener noreferrer">
