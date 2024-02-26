@@ -12,6 +12,8 @@ export const DUPLICATE_TIMETABLE = BASE_STRING + 'DUPLICATE_TIMETABLE';
 export const ADD_LECTURE_TO_TIMETABLE = BASE_STRING + 'ADD_LECTURE_TO_TIMETABLE';
 export const REMOVE_LECTURE_FROM_TIMETABLE = BASE_STRING + 'REMOVE_LECTURE_FROM_TIMETABLE';
 export const REORDER_TIMETABLE = BASE_STRING + 'REORDER_TIMETABLE';
+export const PIN_TIMETABLE = BASE_STRING + 'PIN_TIMETABLE';
+export const RENAME_TIMETABLE = BASE_STRING + 'RENAME_TIMETABLE';
 export const UPDATE_CELL_SIZE = BASE_STRING + 'UPDATE_CELL_SIZE';
 export const SET_IS_DRAGGING = BASE_STRING + 'SET_IS_DRAGGING';
 export const SET_MOBILE_IS_TIMETABLE_TABS_OPEN = BASE_STRING + 'SET_MOBILE_IS_TIMETABLE_TABS_OPEN';
@@ -91,6 +93,21 @@ export function reorderTimetable(timetable, arrangeOrder) {
     type: REORDER_TIMETABLE,
     timetable: timetable,
     arrangeOrder: arrangeOrder,
+  };
+}
+
+export function pinTimetable(timetable) {
+  return {
+    type: PIN_TIMETABLE,
+    timetable: timetable,
+  };
+}
+
+export function renameTimetable(timetable, name) {
+  return {
+    type: RENAME_TIMETABLE,
+    timetable: timetable,
+    name: name,
   };
 }
 

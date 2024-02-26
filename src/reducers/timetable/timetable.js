@@ -13,6 +13,8 @@ import {
   UPDATE_CELL_SIZE,
   SET_IS_DRAGGING,
   SET_MOBILE_IS_TIMETABLE_TABS_OPEN,
+  PIN_TIMETABLE,
+  RENAME_TIMETABLE,
 } from '../../actions/timetable/timetable';
 
 const MY = -1;
@@ -42,7 +44,7 @@ const timetable = (state = initialState, action) => {
         selectedTimetable:
           state.selectedTimetable && state.selectedTimetable.id === state.myTimetable.id
             ? state.selectedTimetable
-            : action.timetables[0],
+            : action.timetables.find((t) => t.is_pinned === true),
       });
     }
     case CLEAR_TIMETABLES: {
@@ -86,6 +88,8 @@ const timetable = (state = initialState, action) => {
         id: action.id,
         lectures: [],
         arrange_order: newArrangeOrder,
+        name: '',
+        is_pinned: false,
       };
       return Object.assign({}, state, {
         selectedTimetable: newTable,
@@ -109,10 +113,35 @@ const timetable = (state = initialState, action) => {
         id: action.id,
         lectures: action.timetable.lectures.slice(),
         arrange_order: Math.max(...state.timetables.map((t) => t.arrange_order)) + 1,
+        name: '',
+        is_pinned: false,
       };
       return Object.assign({}, state, {
         selectedTimetable: newTable,
         timetables: [...state.timetables, newTable],
+      });
+    }
+    case PIN_TIMETABLE: {
+      let newTables = state.timetables.filter((t) => true);
+
+      Object.keys(newTables).forEach((key) => {
+        newTables[key].is_pinned = action.timetable.id === newTables[key].id ? true : false;
+      });
+
+      return Object.assign({}, state, {
+        timetables: newTables,
+      });
+    }
+    case RENAME_TIMETABLE: {
+      let newTables = state.timetables.filter((t) => true);
+
+      Object.keys(newTables).forEach((key) => {
+        if (action.timetable.id === newTables[key].id) {
+          newTables[key].name = action.name;
+        }
+      });
+      return Object.assign({}, state, {
+        timetables: newTables,
       });
     }
     case ADD_LECTURE_TO_TIMETABLE: {
