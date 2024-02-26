@@ -3814,6 +3814,30 @@ i.icon {
     margin: calc(calc($line-height-normal - 12px) / 2) 0;
     margin-right: 8px;
   }
+
+  &--table-kebab {
+    width: 10px;
+    height: 14px;
+    background-image: url(../static/icons/table-kebab.svg);
+    margin: calc(calc($line-height-small - 14px) / 2) 0;
+    margin-left: 4px;
+
+    *:hover > & {
+      background-image: url(../static/icons/table-kebab-hover.svg);
+    }
+
+    *.disabled > & {
+      background-image: url(../static/icons/table-kebab-disable.svg);
+    }
+  }
+
+  &--push-pin {
+    width: 10px;
+    height: 14px;
+    background-image: url(../static/icons/push_pin.svg);
+    margin-right: 4px;
+  }
+
 }
 
 .top-sticky {
@@ -3865,4 +3889,111 @@ i.icon {
       color: $color-highlight;
     }
   }
+}
+
+.dropdown {
+  
+  
+  &__menu {
+    margin-top: 7px;
+    width: 170px;
+    border-radius: 5px;
+    position: fixed;
+    z-index: 9999999;
+    background-color: white;
+
+    box-shadow:
+
+    1px 2px 9px #b8b8b8
+  }
+
+  &__element-wrapper {
+    width: 170px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    // background-color: white;
+    border-bottom: 0.5px solid #b8b8b8;
+  }
+
+  &__element {
+    width: 170px;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__element-text {
+    flex: 5;
+    padding-left: 15px;
+    text-align: left;
+  }
+
+  &__element-icon {
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.rename {
+  
+  
+  &__menu {
+    margin-top: 7px;
+    width: 170px;
+    border-radius: 5px;
+    position: fixed;
+    z-index: 9999999;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+
+    box-shadow:
+
+    1px 2px 9px #b8b8b8
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  &__input {
+    width: 150px;
+    padding: 7px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    // background-color: white;
+    background-color: #eeeeee;
+    border-radius: 5px;
+  }
+
+  &__button_wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__cancel-button {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #eeeeee;
+    font-weight: 600;
+    color: #000000;
+    margin-right: 5px;
+  }
+
+  &__submit-button {
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #E54C65;
+    font-weight: 600;
+    color: #ffffff;
+    margin-left: 5px;
+  }
+
 }

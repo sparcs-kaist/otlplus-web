@@ -12,6 +12,8 @@ const timetableShape = PropTypes.exact({
   id: PropTypes.number.isRequired,
   lectures: PropTypes.arrayOf(lectureShape).isRequired,
   arrange_order: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  is_pinned: PropTypes.bool.isRequired,
 });
 
 export default timetableShape;

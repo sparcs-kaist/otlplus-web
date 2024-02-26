@@ -40,6 +40,7 @@
     "react-slick": "^0.29.0",
     "redux": "^4.0.0",
     "slick-carousel": "^1.8.1",
+    "yarn": "^1.22.21",
     "zabo-embed": "^0.0.7"
   },
   "devDependencies": {
