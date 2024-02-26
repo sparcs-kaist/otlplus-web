@@ -3837,7 +3837,6 @@ i.icon {
     background-image: url(../static/icons/push_pin.svg);
     margin-right: 4px;
   }
-
 }
 
 .top-sticky {
@@ -3892,8 +3891,6 @@ i.icon {
 }
 
 .dropdown {
-  
-  
   &__menu {
     margin-top: 7px;
     width: 170px;
@@ -3902,9 +3899,7 @@ i.icon {
     z-index: 9999999;
     background-color: white;
 
-    box-shadow:
-
-    1px 2px 9px #b8b8b8
+    box-shadow: 1px 2px 9px #b8b8b8;
   }
 
   &__element-wrapper {
@@ -3937,8 +3932,6 @@ i.icon {
 }
 
 .rename {
-  
-  
   &__menu {
     margin-top: 7px;
     width: 170px;
@@ -3952,9 +3945,7 @@ i.icon {
     justify-content: center;
     padding-bottom: 10px;
 
-    box-shadow:
-
-    1px 2px 9px #b8b8b8
+    box-shadow: 1px 2px 9px #b8b8b8;
   }
 
   &__title {
@@ -3990,10 +3981,9 @@ i.icon {
   &__submit-button {
     border-radius: 5px;
     padding: 5px;
-    background-color: #E54C65;
+    background-color: #e54c65;
     font-weight: 600;
     color: #ffffff;
     margin-left: 5px;
   }
-
 }
