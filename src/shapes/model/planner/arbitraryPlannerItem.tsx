@@ -1,6 +1,6 @@
 import department from '../subject/department';
 
-interface arbitraryPlannerItem {
+export default interface arbitraryPlannerItem {
   id: number;
   item_type: 'ARBITRARY';
   is_excluded: boolean;
@@ -12,5 +12,3 @@ interface arbitraryPlannerItem {
   credit: number;
   credit_au: number;
 }
-
-export default arbitraryPlannerItem;
