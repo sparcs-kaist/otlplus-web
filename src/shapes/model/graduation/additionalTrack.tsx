@@ -12,7 +12,7 @@ interface additionalTrack {
   start_year: number;
   end_year: number;
   type: AdditionalTrackType;
-  department: department;
+  department?: department;
   major_required: number;
   major_elective: number;
 }
