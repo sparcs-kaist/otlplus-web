@@ -8,13 +8,13 @@ interface user {
   student_id: string;
   firstName: string;
   lastName: string;
-  majors: Array<department>;
+  majors: department[];
   department?: department;
-  departments: Array<department>;
-  favorite_departments?: Array<department>;
-  review_writable_lectures: Array<lecture>;
-  my_timetable_lectures: Array<lecture>;
-  reviews: Array<review>;
+  departments: department[];
+  favorite_departments?: department[];
+  review_writable_lectures: lecture[];
+  my_timetable_lectures: lecture[];
+  reviews: review[];
 }
 
 export default user;
