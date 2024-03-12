@@ -11,7 +11,7 @@ import Scroller from '../../../Scroller';
 import LectureSimpleBlock from '../../../blocks/LectureSimpleBlock';
 
 import { setReviewsFocus, clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
-import { ReviewsFocusFrom } from '../../../../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '@/shapes/enum';
 
 import { unique } from '../../../../utils/commonUtils';
 import { getSemesterName } from '../../../../utils/semesterUtils';

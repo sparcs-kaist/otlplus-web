@@ -28,3 +28,12 @@ export const enum LectureFocusFrom {
   TABLE = 'TABLE',
   MULTIPLE = 'MULTIPLE',
 }
+
+export const enum ReviewsFocusFrom {
+  NONE = 'NONE',
+  LECTURE = 'LECTURE',
+  REVIEWS_LATEST = 'LATEST',
+  REVIEWS_MY = 'MY',
+  REVIEWS_LIKED = 'LIKED',
+  REVIEWS_RANKED = 'RANKED',
+}
