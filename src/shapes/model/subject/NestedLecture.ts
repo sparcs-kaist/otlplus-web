@@ -1,5 +1,5 @@
-import NestedProfessor from './NestedProfessor';
-import { SemesterType } from '@/shapes/enum';
+import type NestedProfessor from './NestedProfessor';
+import type { SemesterType } from '@/shapes/enum';
 
 export default interface NestedLecture {
   id: number;

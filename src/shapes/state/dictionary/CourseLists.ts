@@ -1,4 +1,4 @@
-import Course from '@/shapes/model/subject/Course';
+import type Course from '@/shapes/model/subject/Course';
 
 export default interface CourseLists {
   search: {

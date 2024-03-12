@@ -1,4 +1,4 @@
-import Department from './Department';
+import type Department from './Department';
 
 export default interface NestedCourse {
   id: number;

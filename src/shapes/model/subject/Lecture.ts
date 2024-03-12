@@ -1,7 +1,7 @@
-import Classtime from './Classtime';
-import Examtime from './Examtime';
-import NestedProfessor from './NestedProfessor';
-import { SemesterType } from '@/shapes/enum';
+import type Classtime from './Classtime';
+import type Examtime from './Examtime';
+import type NestedProfessor from './NestedProfessor';
+import type { SemesterType } from '@/shapes/enum';
 
 export default interface Lecture {
   id: number;

@@ -1,12 +1,12 @@
-import { ItemFocusFrom } from '@/shapes/enum';
+import type { ItemFocusFrom } from '@/shapes/enum';
 
-import Course from '@/shapes/model/subject/Course';
-import Department from '@/shapes/model/subject/Department';
-import FuturePlannerItem from '@/shapes/model/planner/FuturePlannerItem';
-import ArbitraryPlannerItem from '@/shapes/model/planner/ArbitraryPlannerItem';
-import Lecture from '@/shapes/model/subject/Lecture';
-import Review from '@/shapes/model/review/Review';
-import TakenPlannerItem from '@/shapes/model/planner/TakenPlannerItem';
+import type Course from '@/shapes/model/subject/Course';
+import type Department from '@/shapes/model/subject/Department';
+import type FuturePlannerItem from '@/shapes/model/planner/FuturePlannerItem';
+import type ArbitraryPlannerItem from '@/shapes/model/planner/ArbitraryPlannerItem';
+import type Lecture from '@/shapes/model/subject/Lecture';
+import type Review from '@/shapes/model/review/Review';
+import type TakenPlannerItem from '@/shapes/model/planner/TakenPlannerItem';
 
 export interface ArbitraryPseudoCourse {
   id: number;

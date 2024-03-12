@@ -1,5 +1,5 @@
-import Course from '../subject/Course';
-import { SemesterType } from '@/shapes/enum';
+import type Course from '../subject/Course';
+import type { SemesterType } from '@/shapes/enum';
 
 export default interface FuturePlannerItem {
   id: number;

@@ -1,7 +1,7 @@
-import { ReviewsFocusFrom } from '@/shapes/enum';
+import type { ReviewsFocusFrom } from '@/shapes/enum';
 
-import Lecture from '@/shapes/model/subject/Lecture';
-import Review from '@/shapes/model/review/Review';
+import type Lecture from '@/shapes/model/subject/Lecture';
+import type Review from '@/shapes/model/review/Review';
 
 interface FromNone {
   from: ReviewsFocusFrom.NONE;

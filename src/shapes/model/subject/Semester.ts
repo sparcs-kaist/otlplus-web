@@ -1,4 +1,4 @@
-import { SemesterType } from '@/shapes/enum';
+import type { SemesterType } from '@/shapes/enum';
 
 export default interface Semester {
   year: number;

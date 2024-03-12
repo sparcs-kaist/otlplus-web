@@ -1,4 +1,4 @@
-import NestedCourse from './NestedCourse';
+import type NestedCourse from './NestedCourse';
 
 export default interface Professor {
   name: string;

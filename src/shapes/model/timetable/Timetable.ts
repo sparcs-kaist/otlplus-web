@@ -1,4 +1,4 @@
-import Lecture from '../subject/Lecture';
+import type Lecture from '../subject/Lecture';
 
 export interface MyPseudoTimetable {
   id: number;

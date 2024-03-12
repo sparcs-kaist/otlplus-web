@@ -1,5 +1,5 @@
-import Course from '../subject/Course';
-import Lecture from '../subject/Lecture';
+import type Course from '../subject/Course';
+import type Lecture from '../subject/Lecture';
 
 export default interface TakenPlannerItem {
   id: number;

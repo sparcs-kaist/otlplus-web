@@ -1,9 +1,9 @@
-import TakenPlannerItem from './TakenPlannerItem';
-import FuturePlannerItem from './FuturePlannerItem';
-import ArbitraryPlannerItem from './ArbitraryPlannerItem';
-import GeneralTrack from '../graduation/GeneralTrack';
-import MajorTrack from '../graduation/MajorTrack';
-import AdditionalTrack from '../graduation/AdditionalTrack';
+import type TakenPlannerItem from './TakenPlannerItem';
+import type FuturePlannerItem from './FuturePlannerItem';
+import type ArbitraryPlannerItem from './ArbitraryPlannerItem';
+import type GeneralTrack from '../graduation/GeneralTrack';
+import type MajorTrack from '../graduation/MajorTrack';
+import type AdditionalTrack from '../graduation/AdditionalTrack';
 
 export default interface Planner {
   id: number;

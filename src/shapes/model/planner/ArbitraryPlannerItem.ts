@@ -1,5 +1,5 @@
-import Department from '../subject/Department';
-import { SemesterType } from '@/shapes/enum';
+import type Department from '../subject/Department';
+import type { SemesterType } from '@/shapes/enum';
 
 export default interface ArbitraryPlannerItem {
   id: number;

@@ -1,5 +1,5 @@
-import NestedCourse from '../subject/NestedCourse';
-import NestedLecture from '../subject/NestedLecture';
+import type NestedCourse from '../subject/NestedCourse';
+import type NestedLecture from '../subject/NestedLecture';
 
 export default interface Review {
   id: number;

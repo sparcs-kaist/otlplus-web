@@ -1,4 +1,4 @@
-import Department from '../subject/Department';
+import type Department from '../subject/Department';
 
 export default interface MajorTrack {
   id: number;

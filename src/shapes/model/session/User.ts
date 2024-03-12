@@ -1,6 +1,6 @@
-import Lecture from '../subject/Lecture';
-import Review from '../review/Review';
-import Department from '../subject/Department';
+import type Lecture from '../subject/Lecture';
+import type Review from '../review/Review';
+import type Department from '../subject/Department';
 
 export default interface User {
   id: number;

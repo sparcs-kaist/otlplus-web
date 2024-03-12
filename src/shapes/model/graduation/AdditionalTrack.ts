@@ -1,5 +1,5 @@
-import Department from '../subject/Department';
-import { AdditionalTrackType } from '@/shapes/enum';
+import type Department from '../subject/Department';
+import type { AdditionalTrackType } from '@/shapes/enum';
 
 export default interface AdditionalTrack {
   id: number;
