@@ -1,4 +1,4 @@
-interface generalTrack {
+export default interface GeneralTrack {
   id: number;
   start_year: number;
   end_year: number;
@@ -14,5 +14,3 @@ interface generalTrack {
   humanities: number;
   humanities_doublemajor: number;
 }
-
-export default generalTrack;

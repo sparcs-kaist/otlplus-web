@@ -1,4 +1,4 @@
-interface classtime {
+export default interface Classtime {
   building_code: string;
   classroom: string;
   classroom_en: string;
@@ -9,5 +9,3 @@ interface classtime {
   begin: number;
   end: number;
 }
-
-export default classtime;

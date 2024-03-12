@@ -1,14 +1,12 @@
-import department from '../subject/department';
+import Department from '../subject/Department';
 import { AdditionalTrackType } from '@/shapes/enum';
 
-interface additionalTrack {
+export default interface AdditionalTrack {
   id: number;
   start_year: number;
   end_year: number;
   type: AdditionalTrackType;
-  department?: department;
+  department?: Department;
   major_required: number;
   major_elective: number;
 }
-
-export default additionalTrack;

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
 
-import lecture from '../../shapes/model/subject/lecture';
+import lecture from '../../shapes/model/subject/Lecture';
 
 type lectureVoidFunc = (x: lecture) => void;
 interface lectureGroupBlockRowProps {

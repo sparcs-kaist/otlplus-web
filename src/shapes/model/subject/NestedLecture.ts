@@ -1,8 +1,7 @@
-import classtime from './classtime';
-import examtime from './examtime';
-import nestedProfessor from './nestedProfessor';
+import NestedProfessor from './NestedProfessor';
 import { SemesterType } from '@/shapes/enum';
-interface lecture {
+
+export default interface NestedLecture {
   id: number;
   title: string;
   title_en: string;
@@ -30,11 +29,5 @@ interface lecture {
   class_title: string;
   class_title_en: string;
   review_total_weight: number;
-  professors: nestedProfessor;
-  grade: number;
-  load: number;
-  speech: number;
-  classtimes: classtime[];
-  examtimes: examtime[];
+  professors: NestedProfessor[];
 }
-export default lecture;

@@ -1,14 +1,12 @@
-import nestedCourse from './nestedCourse';
+import NestedCourse from './NestedCourse';
 
-interface professor {
+export default interface Professor {
   name: string;
   name_en: string;
   professor_id: number;
   review_total_weight: number;
-  courses: nestedCourse[];
+  courses: NestedCourse[];
   grade: number;
   load: number;
   speech: number;
 }
-
-export default professor;

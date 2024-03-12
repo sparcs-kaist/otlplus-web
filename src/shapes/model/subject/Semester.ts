@@ -1,5 +1,6 @@
 import { SemesterType } from '@/shapes/enum';
-interface semester {
+
+export default interface Semester {
   year: number;
   semester: SemesterType;
   beginning: string;
@@ -13,5 +14,3 @@ interface semester {
   courseEvaluationDeadline: string;
   gradePosting: string;
 }
-
-export default semester;
