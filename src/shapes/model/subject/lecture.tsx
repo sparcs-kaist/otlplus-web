@@ -1,7 +1,7 @@
 import classtime from './classtime';
 import examtime from './examtime';
 import nestedProfessor from './nestedProfessor';
-
+import { SemesterType } from '@/shapes/enum';
 interface lecture {
   id: number;
   title: string;
@@ -10,7 +10,7 @@ interface lecture {
   old_code: string;
   class_no: string;
   year: number;
-  semester: 1 | 2 | 3 | 4;
+  semester: SemesterType;
   code: string;
   department: number;
   department_code: string;

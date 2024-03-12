@@ -1,11 +1,11 @@
 import department from '../subject/department';
-
+import { SemesterType } from '@/shapes/enum';
 export default interface arbitraryPlannerItem {
   id: number;
   item_type: 'ARBITRARY';
   is_excluded: boolean;
   year: number;
-  semester: 1 | 2 | 3 | 4;
+  semester: SemesterType;
   department?: department;
   type: string;
   type_en: string;

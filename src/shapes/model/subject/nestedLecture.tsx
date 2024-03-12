@@ -1,5 +1,5 @@
 import nestedProfessor from './nestedProfessor';
-
+import { SemesterType } from '@/shapes/enum';
 interface nestedLecture {
   id: number;
   title: string;
@@ -8,7 +8,7 @@ interface nestedLecture {
   old_code: string;
   class_no: string;
   year: number;
-  semester: 1 | 2 | 3 | 4;
+  semester: SemesterType;
   code: string;
   department: number;
   department_code: string;

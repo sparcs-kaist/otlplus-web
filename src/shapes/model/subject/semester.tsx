@@ -1,6 +1,7 @@
+import { SemesterType } from '@/shapes/enum';
 interface semester {
   year: number;
-  semester: 1 | 2 | 3 | 4;
+  semester: SemesterType;
   beginning: string;
   end: string;
 
