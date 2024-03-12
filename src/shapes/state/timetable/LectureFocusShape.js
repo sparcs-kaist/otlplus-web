@@ -4,6 +4,7 @@ import { LectureFocusFrom } from '@/shapes/enum';
 import lectureShape from '../../model/subject/LectureShape';
 import reviewShape from '../../model/review/ReviewShape';
 
+// custom validation function of prop-types
 const emptyArrayShape = (props, propName, componentName) => {
   if (props[propName] instanceof Array && props[propName].length === 0) {
     return undefined;
