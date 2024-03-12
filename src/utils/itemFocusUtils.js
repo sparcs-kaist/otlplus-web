@@ -1,4 +1,4 @@
-import { ItemFocusFrom } from '../reducers/planner/itemFocus';
+import { ItemFocusFrom } from '@/shapes/enum';
 import {
   CategoryFirstIndex,
   getCategoryOfItem,
