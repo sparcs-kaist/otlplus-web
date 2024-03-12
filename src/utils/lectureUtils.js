@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 
-import { LectureFocusFrom } from '../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '@/shapes/enum';
 
 import { getStr as getStrOfExamtime } from './examtimeUtils';
 

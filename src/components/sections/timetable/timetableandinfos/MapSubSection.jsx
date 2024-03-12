@@ -23,7 +23,7 @@ import {
 import mapImage from '../../../../static/images/timetable/kaist_map.jpg';
 import { unique } from '../../../../utils/commonUtils';
 
-import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '@/shapes/enum';
 
 const POSITION_OF_LOCATIONS = new Map([
   ['E2', { left: 60, top: 81 }],

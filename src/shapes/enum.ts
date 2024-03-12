@@ -21,3 +21,10 @@ export const enum ItemFocusFrom {
   TABLE_ARBITRARY = 'TABLE_ARBITRARY',
   CATEGORY = 'CATEGORY',
 }
+
+export const enum LectureFocusFrom {
+  NONE = 'NONE',
+  LIST = 'LIST',
+  TABLE = 'TABLE',
+  MULTIPLE = 'MULTIPLE',
+}
