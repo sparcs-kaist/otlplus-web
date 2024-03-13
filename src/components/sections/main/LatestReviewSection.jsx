@@ -7,7 +7,7 @@ import axios from 'axios';
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
 import ReviewBlock from '../../blocks/ReviewBlock';
-import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '@/shapes/enum';
 
 class LatestReviewSection extends Component {
   constructor(props) {

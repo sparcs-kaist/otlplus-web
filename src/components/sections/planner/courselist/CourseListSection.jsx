@@ -36,7 +36,7 @@ import {
   getLevelOptions,
   getTermOptions,
 } from '../../../../common/searchOptions';
-import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+import { ItemFocusFrom } from '@/shapes/enum';
 
 class CourseListSection extends Component {
   showSearch = () => {

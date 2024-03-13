@@ -7,12 +7,7 @@ import {
   CLEAR_MULTIPLE_FOCUS,
 } from '../../actions/timetable/lectureFocus';
 
-export const LectureFocusFrom = {
-  NONE: 'NONE',
-  LIST: 'LIST',
-  TABLE: 'TABLE',
-  MULTIPLE: 'MULTIPLE',
-};
+import { LectureFocusFrom } from '@/shapes/enum';
 
 const initialState = {
   from: LectureFocusFrom.NONE,

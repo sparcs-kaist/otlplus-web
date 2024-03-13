@@ -13,7 +13,7 @@ import CreditBar from '../../../CreditBar';
 import CourseStatus from '../../../CourseStatus';
 import Scroller from '../../../Scroller';
 
-import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+import { ItemFocusFrom } from '@/shapes/enum';
 
 import { getCreditOfItem, getAuOfItem, getCreditAndAuOfItem } from '../../../../utils/itemUtils';
 import {

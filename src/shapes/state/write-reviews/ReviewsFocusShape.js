@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '@/shapes/enum';
 
 import lectureShape from '../../model/subject/LectureShape';
 import reviewShape from '../../model/review/ReviewShape';

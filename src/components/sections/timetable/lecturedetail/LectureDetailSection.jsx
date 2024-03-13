@@ -20,7 +20,7 @@ import {
   removeLectureFromTimetable,
 } from '../../../../actions/timetable/timetable';
 
-import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '@/shapes/enum';
 import { LectureListCode } from '../../../../reducers/timetable/list';
 
 import userShape from '../../../../shapes/model/session/UserShape';

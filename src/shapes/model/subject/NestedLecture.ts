@@ -1,6 +1,7 @@
-import nestedProfessor from './nestedProfessor';
+import type NestedProfessor from './NestedProfessor';
+import type { SemesterType } from '@/shapes/enum';
 
-interface nestedLecture {
+export default interface NestedLecture {
   id: number;
   title: string;
   title_en: string;
@@ -8,7 +9,7 @@ interface nestedLecture {
   old_code: string;
   class_no: string;
   year: number;
-  semester: 1 | 2 | 3 | 4;
+  semester: SemesterType;
   code: string;
   department: number;
   department_code: string;
@@ -28,7 +29,5 @@ interface nestedLecture {
   class_title: string;
   class_title_en: string;
   review_total_weight: number;
-  professors: nestedProfessor[];
+  professors: NestedProfessor[];
 }
-
-export default nestedLecture;

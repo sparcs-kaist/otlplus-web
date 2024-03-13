@@ -23,7 +23,7 @@ import {
 import { setListLectures, clearSearchListLectures } from '../../../../actions/timetable/list';
 import { clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
 
-import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '@/shapes/enum';
 
 import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
 

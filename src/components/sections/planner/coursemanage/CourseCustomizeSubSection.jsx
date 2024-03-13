@@ -15,7 +15,7 @@ import SearchFilter from '../../../SearchFilter';
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import { getCourseOfItem, getSemesterOfItem } from '../../../../utils/itemUtils';
 
-import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+import { ItemFocusFrom } from '@/shapes/enum';
 import { updateItemInPlanner } from '../../../../actions/planner/planner';
 import { setItemFocus } from '../../../../actions/planner/itemFocus';
 

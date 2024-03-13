@@ -1,13 +1,11 @@
-import department from '../subject/department';
+import type Department from '../subject/Department';
 
-interface majorTrack {
+export default interface MajorTrack {
   id: number;
   start_year: number;
   end_year: number;
-  department: department;
+  department: Department;
   basic_elective_doublemajor: number;
   major_required: number;
   major_elective: number;
 }
-
-export default majorTrack;

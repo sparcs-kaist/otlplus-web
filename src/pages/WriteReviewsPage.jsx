@@ -19,7 +19,7 @@ import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-re
 import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
 import { reset as resetLikedReviews } from '../actions/write-reviews/likedReviews';
 import { reset as resetRankedReviews } from '../actions/write-reviews/rankedReviews';
-import { ReviewsFocusFrom } from '../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '@/shapes/enum';
 
 import reviewsFocusShape from '../shapes/state/write-reviews/ReviewsFocusShape';
 import OtlplusPlaceholder from '../components/OtlplusPlaceholder';

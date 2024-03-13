@@ -18,7 +18,7 @@ import { getOverallLectures, isSingleFocused } from '../../../../utils/lectureUt
 import { getTimeStr } from '../../../../utils/examtimeUtils';
 import { getDayStr } from '../../../../utils/timeUtils';
 
-import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
+import { LectureFocusFrom } from '@/shapes/enum';
 
 class ExamSubSection extends Component {
   constructor(props) {

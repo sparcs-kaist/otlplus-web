@@ -1,9 +1,9 @@
-import department from './department';
+import type Department from './Department';
 
-interface nestedCourse {
+export default interface NestedCourse {
   id: number;
   old_code: string;
-  department: department;
+  department: Department;
   type: string;
   type_en: string;
   title: string;
@@ -15,5 +15,3 @@ interface nestedCourse {
   num_classes: number;
   num_labs: number;
 }
-
-export default nestedCourse;

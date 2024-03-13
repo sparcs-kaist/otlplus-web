@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lecture from '@/shapes/model/subject/lecture';
+import lecture from '@/shapes/model/subject/Lecture';
 interface lectureSimpleBlockProps {
   lecture: lecture;
   isRaised: boolean;

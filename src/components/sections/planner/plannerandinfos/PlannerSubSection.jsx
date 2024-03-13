@@ -16,7 +16,7 @@ import {
   updateItemInPlanner,
 } from '../../../../actions/planner/planner';
 
-import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
+import { ItemFocusFrom } from '@/shapes/enum';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';

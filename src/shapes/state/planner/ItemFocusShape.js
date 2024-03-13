@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import { ItemFocusFrom } from '../../../reducers/planner/itemFocus';
+import { ItemFocusFrom } from '@/shapes/enum';
 import courseShape from '../../model/subject/CourseShape';
 import departmentShape from '../../model/subject/DepartmentShape';
 import futurePlannerItemShape from '../../model/planner/FuturePlannerItemShape';

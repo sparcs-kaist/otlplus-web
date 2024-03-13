@@ -5,14 +5,7 @@ import {
   SET_REVIEWS,
 } from '../../actions/write-reviews/reviewsFocus';
 
-export const ReviewsFocusFrom = {
-  NONE: 'NONE',
-  LECTURE: 'LECTURE',
-  REVIEWS_LATEST: 'LATEST',
-  REVIEWS_MY: 'MY',
-  REVIEWS_LIKED: 'LIKED',
-  REVIEWS_RANKED: 'RANKED',
-};
+import { ReviewsFocusFrom } from '@/shapes/enum';
 
 const initialState = {
   from: ReviewsFocusFrom.NONE,

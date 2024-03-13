@@ -10,7 +10,7 @@ import ReviewBlock from '../../blocks/ReviewBlock';
 
 import { getSemesterName } from '../../../utils/semesterUtils';
 
-import { ReviewsFocusFrom } from '../../../reducers/write-reviews/reviewsFocus';
+import { ReviewsFocusFrom } from '@/shapes/enum';
 
 import reviewShape from '../../../shapes/model/review/ReviewShape';
 import semesterShape from '../../../shapes/model/subject/SemesterShape';

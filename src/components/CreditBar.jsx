@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import { ItemFocusFrom } from '../reducers/planner/itemFocus';
+import { ItemFocusFrom } from '@/shapes/enum';
 
 class CreditBar extends Component {
   render() {
