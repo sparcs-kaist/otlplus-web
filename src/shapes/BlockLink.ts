@@ -5,6 +5,6 @@ interface DetailedLink {
   state?: object;
 }
 
-type Link = string | DetailedLink;
+type BlockLink = string | DetailedLink;
 
-export default Link;
+export default BlockLink;
