@@ -37,3 +37,9 @@ export const enum ReviewsFocusFrom {
   REVIEWS_LIKED = 'LIKED',
   REVIEWS_RANKED = 'RANKED',
 }
+
+export const enum PlannerItemType {
+  TAKEN = 'TAKEN',
+  FUTURE = 'FUTURE',
+  ARBITRARY = 'ARBITRARY',
+}

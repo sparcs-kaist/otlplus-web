@@ -1,9 +1,9 @@
 import type Department from '../subject/Department';
-import type { SemesterType } from '@/shapes/enum';
+import type { SemesterType, PlannerItemType } from '@/shapes/enum';
 
 export default interface ArbitraryPlannerItem {
   id: number;
-  item_type: 'ARBITRARY';
+  item_type: PlannerItemType.ARBITRARY;
   is_excluded: boolean;
   year: number;
   semester: SemesterType;
