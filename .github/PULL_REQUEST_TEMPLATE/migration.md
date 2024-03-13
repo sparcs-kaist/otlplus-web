@@ -1,7 +1,7 @@
 ---
 name: Migration
 about: Migrate to TypeScript and refactor components
-title: 'Migration ...'
+title: 'Migrate ...'
 labels: migrate
 ---
 
