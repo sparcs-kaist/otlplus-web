@@ -2,7 +2,7 @@
 name: Feature
 about: Suggest an idea for this project
 title: '[FEAT]'
-labels: enhancement
+labels: feat
 ---
 
 ## 동기 \*
