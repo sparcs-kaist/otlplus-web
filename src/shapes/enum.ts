@@ -1,4 +1,4 @@
-export enum AdditionalTrackType {
+export const enum AdditionalTrackType {
   DOUBLE,
   MINOR,
   ADVANCED,
