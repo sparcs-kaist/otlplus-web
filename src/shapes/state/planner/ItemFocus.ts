@@ -1,5 +1,4 @@
 import type { ItemFocusFrom } from '@/shapes/enum';
-
 import type Course from '@/shapes/model/subject/Course';
 import type Department from '@/shapes/model/subject/Department';
 import type FuturePlannerItem from '@/shapes/model/planner/FuturePlannerItem';
