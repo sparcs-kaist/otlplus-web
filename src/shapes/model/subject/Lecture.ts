@@ -31,7 +31,7 @@ export default interface Lecture {
   class_title: string;
   class_title_en: string;
   review_total_weight: number;
-  professors: NestedProfessor;
+  professors: NestedProfessor[];
   grade: number;
   load: number;
   speech: number;
