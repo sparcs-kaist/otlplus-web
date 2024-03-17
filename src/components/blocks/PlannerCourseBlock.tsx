@@ -1,13 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import Course from '@/shapes/model/subject/Course';
+import { ArbitraryPseudoCourse } from '@/shapes/state/planner/ItemFocus';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 
-import courseShape from '../../shapes/model/subject/CourseShape';
-import { arbitraryPseudoCourseShape } from '../../shapes/state/planner/ItemFocusShape';
+interface Props {
+  t: (string: string) => string;
+  course: Course | ArbitraryPseudoCourse;
+  isRaised?: boolean;
+  isDimmed?: boolean;
+  isAdded: boolean;
+  onMouseOver?: (course: Course | ArbitraryPseudoCourse) => void;
+  onMouseOut?: (course: Course | ArbitraryPseudoCourse) => void;
+  onClick?: (course: Course | ArbitraryPseudoCourse) => void;
+  addToPlanner: (course: Course | ArbitraryPseudoCourse) => void;
+}
 
-const PlannerCourseBlock = ({
+const PlannerCourseBlock: React.FC<Props> = ({
   t,
   course,
   isRaised,
@@ -18,22 +28,24 @@ const PlannerCourseBlock = ({
   onClick,
   addToPlanner,
 }) => {
+  const translate = useTranslatedString();
+
   const handleMouseOver = onMouseOver
-    ? (event) => {
+    ? () => {
         onMouseOver(course);
       }
-    : null;
+    : undefined;
   const handleMouseOut = onMouseOut
-    ? (event) => {
+    ? () => {
         onMouseOut(course);
       }
-    : null;
+    : undefined;
   const handleClick = onClick
-    ? (event) => {
+    ? () => {
         onClick(course);
       }
-    : null;
-  const handleAddToPlannerClick = (event) => {
+    : undefined;
+  const handleAddToPlannerClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     addToPlanner(course);
   };
@@ -54,10 +66,13 @@ const PlannerCourseBlock = ({
       <div className={classNames('block__completed-text')}>{t('ui.others.added')}</div>
       <div className={classNames('block--planner-course__text')}>
         <div className={classNames('block--planner-course__text__caption')}>
-          {`${course.department[t('js.property.name')]} / ${course[t('js.property.type')]}`}
+          {`${course.department && translate(course.department, 'name')} / ${translate(
+            course,
+            'type',
+          )}`}
         </div>
         <div className={classNames('block--planner-course__text__title')}>
-          {course[t('js.property.title')]}
+          {translate(course, 'title')}
         </div>
         <div className={classNames('block--planner-course__text__subtitle')}>{course.old_code}</div>
       </div>
@@ -68,17 +83,6 @@ const PlannerCourseBlock = ({
       </button>
     </div>
   );
-};
-
-PlannerCourseBlock.propTypes = {
-  course: PropTypes.oneOfType([courseShape, arbitraryPseudoCourseShape]).isRequired,
-  isRaised: PropTypes.bool,
-  isDimmed: PropTypes.bool,
-  isAdded: PropTypes.bool.isRequired,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func,
-  onClick: PropTypes.func,
-  addToPlanner: PropTypes.func,
 };
 
 export default withTranslation()(React.memo(PlannerCourseBlock));
