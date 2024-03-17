@@ -22,10 +22,8 @@ interface Props {
 }
 
 /**
- *
- * Component `CourseBlock` displays a overview of a course in `DictionaryPage`.
+ * Component `CourseBlock` displays an overview of a course within the search results on the `DictionaryPage`.
  * It shows the title, classification, professors, and description of the course.
- *
  */
 const CourseBlock: React.FC<Props> = ({
   t,

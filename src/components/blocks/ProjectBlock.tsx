@@ -14,10 +14,8 @@ interface Props {
 }
 
 /**
- *
- * Component `ProjectBlock` displays an overview of a project in `CreditPage`.
+ * Component `ProjectBlock` displays an overview of a project on the `CreditPage`.
  * It shows the title, subtitle, and period of the project.
- *
  */
 const ProjectBlock: React.FC<Props> = ({ project, isRaised, onClick }) => {
   const handleClick = onClick

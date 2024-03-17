@@ -8,6 +8,10 @@ interface Props {
   course: Course;
 }
 
+/**
+ * Component `CourseSimpleBlock` displays a brief overview of a course within the `CourseRelatedCoursesSubSection` on the `DictionaryPage`.
+ * It shows the title and code of the course.
+ */
 const CourseSimpleBlock: React.FC<Props> = ({ course }) => {
   const translate = useTranslatedString();
 

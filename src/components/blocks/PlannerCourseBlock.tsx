@@ -17,6 +17,10 @@ interface Props {
   addToPlanner: (course: Course | ArbitraryPseudoCourse) => void;
 }
 
+/**
+ * Component `PlannerCourseBlock` displays an overview of a course within the search results on the `PlannerPage`.
+ * It shows the title, classification, and code of the course.
+ */
 const PlannerCourseBlock: React.FC<Props> = ({
   t,
   course,
