@@ -34,7 +34,9 @@ i18n
       formatSeparator: ',',
       format: (value, formatting, lng) => {
         if (value instanceof Date) {
-          return moment(value).locale(lng).format(formatting);
+          return moment(value)
+            .locale(lng ?? 'ko')
+            .format(formatting);
         }
         return value.toString();
       },
@@ -42,6 +44,19 @@ i18n
   });
 
 import axios from 'axios';
+
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    metadata: {
+      gaCategory: string;
+      gaVariable: string;
+      startTime?: Date;
+      endTime?: Date;
+      duration?: number;
+    };
+  }
+}
+
 import Qs from 'qs';
 import { API_URL } from './const';
 
@@ -71,7 +86,7 @@ axios.interceptors.response.use(
   (response) => {
     response.config.metadata.endTime = new Date();
     response.config.metadata.duration =
-      response.config.metadata.endTime - response.config.metadata.startTime;
+      response.config.metadata.endTime.getTime() - response.config.metadata.startTime!.getTime();
     return response;
   },
   (error) => {
@@ -83,11 +98,15 @@ axios.interceptors.response.use(
 );
 
 import { BrowserRouter } from 'react-router-dom';
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
 const container = document.getElementById('root');
+
+if (!container) {
+  throw new Error('There must be root element');
+}
+
 const root = ReactDOM.createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <BrowserRouter>
