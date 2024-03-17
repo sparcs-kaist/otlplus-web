@@ -1,15 +1,30 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-const ProjectBlock = ({ t, project, isRaised, onClick }) => {
+interface Props {
+  project: {
+    index: number;
+    mainTitle: string;
+    subTitle: string;
+    period: string;
+  };
+  onClick?: (project: { index: number }) => void;
+  isRaised: boolean;
+}
+
+/**
+ *
+ * Component `ProjectBlock` displays an overview of a project in `CreditPage`.
+ * It shows the title, subtitle, and period of the project.
+ *
+ */
+const ProjectBlock: React.FC<Props> = ({ project, isRaised, onClick }) => {
   const handleClick = onClick
-    ? (event) => {
+    ? () => {
         onClick(project);
       }
-    : null;
+    : undefined;
 
   return (
     <div
@@ -25,17 +40,6 @@ const ProjectBlock = ({ t, project, isRaised, onClick }) => {
       <div className={classNames('block--project__content')}>{project.period}</div>
     </div>
   );
-};
-
-ProjectBlock.propTypes = {
-  project: PropTypes.shape({
-    index: PropTypes.number.isRequired,
-    mainTitle: PropTypes.string.isRequired,
-    subTitle: PropTypes.string.isRequired,
-    period: PropTypes.string.isRequired,
-  }).isRequired,
-  onClick: PropTypes.func,
-  isRaised: PropTypes.bool.isRequired,
 };
 
 export default withTranslation()(React.memo(ProjectBlock));
