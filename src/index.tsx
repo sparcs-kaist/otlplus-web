@@ -35,7 +35,7 @@ i18n
       format: (value, formatting, lng) => {
         if (value instanceof Date) {
           return moment(value)
-            .locale(lng ?? '')
+            .locale(lng ?? 'ko')
             .format(formatting);
         }
         return value.toString();
