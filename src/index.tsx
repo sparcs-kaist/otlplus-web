@@ -87,7 +87,6 @@ axios.interceptors.response.use(
     response.config.metadata.endTime = new Date();
     response.config.metadata.duration =
       response.config.metadata.endTime.getTime() - response.config.metadata.startTime!.getTime();
-
     return response;
   },
   (error) => {
@@ -99,7 +98,6 @@ axios.interceptors.response.use(
 );
 
 import { BrowserRouter } from 'react-router-dom';
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
