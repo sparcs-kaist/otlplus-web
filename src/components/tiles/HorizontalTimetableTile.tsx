@@ -2,11 +2,11 @@ import React from 'react';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr } from '../../utils/lectureUtils';
 
 import Lecture from '@/shapes/model/subject/Lecture';
 import Classtime from '@/shapes/model/subject/Classtime';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
+import { getProfessorsShortStr } from '@/utils/lectureUtils';
 
 interface Props {
   lecture: Lecture;
