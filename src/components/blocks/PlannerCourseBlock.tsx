@@ -34,21 +34,6 @@ const PlannerCourseBlock: React.FC<Props> = ({
 }) => {
   const translate = useTranslatedString();
 
-  const handleMouseOver = onMouseOver
-    ? () => {
-        onMouseOver(course);
-      }
-    : undefined;
-  const handleMouseOut = onMouseOut
-    ? () => {
-        onMouseOut(course);
-      }
-    : undefined;
-  const handleClick = onClick
-    ? () => {
-        onClick(course);
-      }
-    : undefined;
   const handleAddToPlannerClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     addToPlanner(course);
@@ -64,9 +49,9 @@ const PlannerCourseBlock: React.FC<Props> = ({
         isDimmed ? 'block--dimmed' : null,
         isAdded ? 'block--completed' : null,
       )}
-      onClick={handleClick}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}>
+      onClick={() => onClick?.(course)}
+      onMouseOver={() => onMouseOver?.(course)}
+      onMouseOut={() => onMouseOut?.(course)}>
       <div className={classNames('block__completed-text')}>{t('ui.others.added')}</div>
       <div className={classNames('block--planner-course__text')}>
         <div className={classNames('block--planner-course__text__caption')}>

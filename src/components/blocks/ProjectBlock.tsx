@@ -18,12 +18,6 @@ interface Props {
  * It shows the title, subtitle, and period of the project.
  */
 const ProjectBlock: React.FC<Props> = ({ project, isRaised, onClick }) => {
-  const handleClick = onClick
-    ? () => {
-        onClick(project);
-      }
-    : undefined;
-
   return (
     <div
       className={classNames(
@@ -32,7 +26,7 @@ const ProjectBlock: React.FC<Props> = ({ project, isRaised, onClick }) => {
         onClick ? 'block--clickable' : null,
         isRaised ? 'block--raised' : null,
       )}
-      onClick={handleClick}>
+      onClick={() => onClick?.(project)}>
       <div className={classNames('block--project__title')}>{project.mainTitle}</div>
       <div className={classNames('block--project__title')}>{project.subTitle}</div>
       <div className={classNames('block--project__content')}>{project.period}</div>

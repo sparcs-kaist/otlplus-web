@@ -39,22 +39,6 @@ const CourseBlock: React.FC<Props> = ({
 }) => {
   const translate = useTranslatedString();
 
-  const handleMouseOver = onMouseOver
-    ? () => {
-        onMouseOver(course);
-      }
-    : undefined;
-  const handleMouseOut = onMouseOut
-    ? () => {
-        onMouseOut(course);
-      }
-    : undefined;
-  const handleClick = onClick
-    ? () => {
-        onClick(course);
-      }
-    : undefined;
-
   const RootTag = linkTo ? Link : 'div';
 
   return (
@@ -66,9 +50,9 @@ const CourseBlock: React.FC<Props> = ({
         isRaised ? 'block--raised' : null,
         isDimmed ? 'block--dimmed' : null,
       )}
-      onClick={handleClick}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
+      onClick={() => onClick?.(course)}
+      onMouseOver={() => onMouseOver?.(course)}
+      onMouseOut={() => onMouseOut?.(course)}
       to={linkTo ?? ''}>
       <div className={classNames('block--course__title')}>
         {!shouldShowReadStatus ? null : isRead ? (
