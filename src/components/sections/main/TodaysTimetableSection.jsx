@@ -10,13 +10,13 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../common/constants';
 
 import Scroller from '../../Scroller';
-import HorizontalTimetableTile from '../../tiles/HorizontalTimetableTile';
 
 import userShape from '../../../shapes/model/session/UserShape';
 import semesterShape from '../../../shapes/model/subject/SemesterShape';
 
 import { getOngoingSemester } from '../../../utils/semesterUtils';
 import { getColorNumber } from '../../../utils/lectureUtils';
+import HorizontalTimetableTile from '@/components/tiles/HorizontalTimetableTile';
 
 class TodaysTimetableSection extends Component {
   constructor(props) {
