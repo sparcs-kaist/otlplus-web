@@ -1,6 +1,6 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
 import Course from '@/shapes/model/subject/Course';
 import { ArbitraryPseudoCourse } from '@/shapes/state/planner/ItemFocus';
 import { useTranslatedString } from '@/hooks/useTranslatedString';

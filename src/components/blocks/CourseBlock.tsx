@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsFullStr } from '../../utils/courseUtils';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
+import { getProfessorsFullStr } from '@/utils/courseUtils';
 import Course from '@/shapes/model/subject/Course';
 import BlockLink from '@/shapes/BlockLink';
-import Attributes from '../Attributes';
+import Attributes from '@/components/Attributes';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
 
 interface Props {
