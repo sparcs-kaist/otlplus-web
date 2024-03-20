@@ -18,13 +18,6 @@ interface Props {
   updateOnSubmit: (newReview: Review, isEdit: boolean) => void;
 }
 
-interface ScoreOptionProps {
-  name: string;
-  value: number;
-  checkedValue: number | undefined;
-  onScoreChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
 /**
  * 리뷰 작성 블록입니다. Main Page, Write Review Page, dictionary Page 에서 사용됩니다.
  * @param lecture 리뷰를 작성할 강의
@@ -32,6 +25,7 @@ interface ScoreOptionProps {
  * @param pageFrom 리뷰 블록이 사용되는 페이지
  * @param updateOnSubmit 리뷰 작성/수정하는 axios 요청이 성공한 후 실행할 콜백 (dispatch를 통한 상태 업데이트를 진행함)
  */
+
 const ReviewWriteBlock: React.FC<Props> = ({ lecture, review, pageFrom, updateOnSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [content, setContent] = useState(review ? review.content : '');
@@ -43,17 +37,6 @@ const ReviewWriteBlock: React.FC<Props> = ({ lecture, review, pageFrom, updateOn
 
   const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
-  };
-
-  const onScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === 'grade') {
-      setGrade(Number(value));
-    } else if (name === 'load') {
-      setLoad(Number(value));
-    } else if (name === 'speech') {
-      setSpeech(Number(value));
-    }
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,7 +73,18 @@ const ReviewWriteBlock: React.FC<Props> = ({ lecture, review, pageFrom, updateOn
     load !== review.load ||
     speech !== review.speech;
 
-  const getScoreOptionLabel = ({ name, value, checkedValue, onScoreChange }: ScoreOptionProps) => {
+  const onScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === 'grade') {
+      setGrade(Number(value));
+    } else if (name === 'load') {
+      setLoad(Number(value));
+    } else if (name === 'speech') {
+      setSpeech(Number(value));
+    }
+  };
+
+  const getScoreOptionLabel = (name: string, value: number, checkedValue: number | undefined) => {
     const inputId = `${lecture.id}-${name}-${value}`;
     return (
       <label className={classNames('block--review-write__score__option')} htmlFor={inputId}>
@@ -125,31 +119,31 @@ const ReviewWriteBlock: React.FC<Props> = ({ lecture, review, pageFrom, updateOn
           <span className={classNames('block--review-write__score__name')}>
             {t('ui.score.grade')}
           </span>
-          {getScoreOptionLabel({ name: 'grade', value: 5, checkedValue: grade, onScoreChange })}
-          {getScoreOptionLabel({ name: 'grade', value: 4, checkedValue: grade, onScoreChange })}
-          {getScoreOptionLabel({ name: 'grade', value: 3, checkedValue: grade, onScoreChange })}
-          {getScoreOptionLabel({ name: 'grade', value: 2, checkedValue: grade, onScoreChange })}
-          {getScoreOptionLabel({ name: 'grade', value: 1, checkedValue: grade, onScoreChange })}
+          {getScoreOptionLabel('grade', 5, grade)}
+          {getScoreOptionLabel('grade', 4, grade)}
+          {getScoreOptionLabel('grade', 3, grade)}
+          {getScoreOptionLabel('grade', 2, grade)}
+          {getScoreOptionLabel('grade', 1, grade)}
         </div>
         <div className={classNames('block--review-write__score')}>
           <span className={classNames('block--review-write__score__name')}>
             {t('ui.score.load')}
           </span>
-          {getScoreOptionLabel({ name: 'load', value: 5, checkedValue: load, onScoreChange })}
-          {getScoreOptionLabel({ name: 'load', value: 4, checkedValue: load, onScoreChange })}
-          {getScoreOptionLabel({ name: 'load', value: 3, checkedValue: load, onScoreChange })}
-          {getScoreOptionLabel({ name: 'load', value: 2, checkedValue: load, onScoreChange })}
-          {getScoreOptionLabel({ name: 'load', value: 1, checkedValue: load, onScoreChange })}
+          {getScoreOptionLabel('load', 5, load)}
+          {getScoreOptionLabel('load', 4, load)}
+          {getScoreOptionLabel('load', 3, load)}
+          {getScoreOptionLabel('load', 2, load)}
+          {getScoreOptionLabel('load', 1, load)}
         </div>
         <div className={classNames('block--review-write__score')}>
           <span className={classNames('block--review-write__score__name')}>
             {t('ui.score.speech')}
           </span>
-          {getScoreOptionLabel({ name: 'speech', value: 5, checkedValue: speech, onScoreChange })}
-          {getScoreOptionLabel({ name: 'speech', value: 4, checkedValue: speech, onScoreChange })}
-          {getScoreOptionLabel({ name: 'speech', value: 3, checkedValue: speech, onScoreChange })}
-          {getScoreOptionLabel({ name: 'speech', value: 2, checkedValue: speech, onScoreChange })}
-          {getScoreOptionLabel({ name: 'speech', value: 1, checkedValue: speech, onScoreChange })}
+          {getScoreOptionLabel('speech', 5, speech)}
+          {getScoreOptionLabel('speech', 4, speech)}
+          {getScoreOptionLabel('speech', 3, speech)}
+          {getScoreOptionLabel('speech', 2, speech)}
+          {getScoreOptionLabel('speech', 1, speech)}
         </div>
       </div>
       <div className={classNames('block--review-write__buttons')}>
