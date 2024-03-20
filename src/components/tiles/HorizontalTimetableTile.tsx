@@ -1,11 +1,10 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-
-import Lecture from '@/shapes/model/subject/Lecture';
-import Classtime from '@/shapes/model/subject/Classtime';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
+import Classtime from '@/shapes/model/subject/Classtime';
+import Lecture from '@/shapes/model/subject/Lecture';
 import { getProfessorsShortStr } from '@/utils/lectureUtils';
 
 interface Props {
@@ -34,21 +33,21 @@ const HorizontalTimetableTile: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames('tile', 'tile--horizonatal-timetable', `background-color--${color}`)}
+      className={classNames('tile', 'tile--horizontal-timetable', `background-color--${color}`)}
       style={{
         left: 2 + cellWidth * beginIndex + 2,
         top: 15 + 3,
         width: cellWidth * (endIndex - beginIndex) - 3,
         height: cellHeight - 3 * 2,
       }}>
-      <div className={classNames('tile--horizonatal-timetable__content')}>
-        <p className={classNames('tile--horizonatal-timetable__content__title')}>
+      <div className={classNames('tile--horizontal-timetable__content')}>
+        <p className={classNames('tile--horizontal-timetable__content__title')}>
           {translate(lecture, 'title')}
         </p>
-        <p className={classNames('tile--horizonatal-timetable__content__info')}>
+        <p className={classNames('tile--horizontal-timetable__content__info')}>
           {getProfessorsShortStr(lecture)}
         </p>
-        <p className={classNames('tile--horizonatal-timetable__content__info')}>
+        <p className={classNames('tile--horizontal-timetable__content__info')}>
           {classtime && translate(classtime, 'classroom')}
         </p>
       </div>

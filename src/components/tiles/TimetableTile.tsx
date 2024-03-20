@@ -1,9 +1,8 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../common/constants';
-
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
+import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '@/common/constants';
 import Lecture from '@/shapes/model/subject/Lecture';
 import Classtime from '@/shapes/model/subject/Classtime';
 import { useTranslatedString } from '@/hooks/useTranslatedString';

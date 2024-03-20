@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
 import TakenPlannerItem from '@/shapes/model/planner/TakenPlannerItem';
 import FuturePlannerItem from '@/shapes/model/planner/FuturePlannerItem';
 import ArbitraryPlannerItem from '@/shapes/model/planner/ArbitraryPlannerItem';
@@ -14,6 +14,7 @@ export type ItemType = TakenPlannerItem | FuturePlannerItem | ArbitraryPlannerIt
 interface Props {
   item: ItemType;
   yearIndex: number;
+  //
   semesterIndex: 0 | 1;
   beginIndex: number;
   endIndex: number;

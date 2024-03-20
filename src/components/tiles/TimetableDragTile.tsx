@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
 
 interface Props {
   dayIndex: number;
