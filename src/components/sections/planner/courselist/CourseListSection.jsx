@@ -120,9 +120,9 @@ class CourseListSection extends Component {
           type_en: 'Humanities & Social Elective',
           credit: 3,
           credit_au: 0,
-          title: getTitleOfArbitrary('인문사회선택', 'Humanities & Social Elective', null),
-          title_en: getTitleEnOfArbitrary('인문사회선택', 'Humanities & Social Elective', null),
-          old_code: getOldCodeOfArbitrary('인문사회선택', 'Humanities & Social Elective', null),
+          title: getTitleOfArbitrary('인문사회선택'),
+          title_en: getTitleEnOfArbitrary('Humanities & Social Elective'),
+          old_code: getOldCodeOfArbitrary('Humanities & Social Elective', null),
         },
       ];
     }
@@ -138,9 +138,9 @@ class CourseListSection extends Component {
           type_en: 'Major Required',
           credit: 3,
           credit_au: 0,
-          title: getTitleOfArbitrary('전공필수', 'Major Required', matchingDepartment),
-          title_en: getTitleEnOfArbitrary('전공필수', 'Major Required', matchingDepartment),
-          old_code: getOldCodeOfArbitrary('전공필수', 'Major Required', matchingDepartment),
+          title: getTitleOfArbitrary('전공필수'),
+          title_en: getTitleEnOfArbitrary('Major Required'),
+          old_code: getOldCodeOfArbitrary('Major Required', matchingDepartment),
         },
         {
           id: getIdOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
@@ -150,9 +150,9 @@ class CourseListSection extends Component {
           type_en: 'Major Elective',
           credit: 3,
           credit_au: 0,
-          title: getTitleOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
-          title_en: getTitleEnOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
-          old_code: getOldCodeOfArbitrary('전공선택', 'Major Elective', matchingDepartment),
+          title: getTitleOfArbitrary('전공선택'),
+          title_en: getTitleEnOfArbitrary('Major Elective'),
+          old_code: getOldCodeOfArbitrary('Major Elective', matchingDepartment),
         },
       ];
     }

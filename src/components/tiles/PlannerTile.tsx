@@ -2,12 +2,12 @@ import React from 'react';
 import { withTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '@/common/boundClassNames';
-import TakenPlannerItem from '@/shapes/model/planner/TakenPlannerItem';
-import FuturePlannerItem from '@/shapes/model/planner/FuturePlannerItem';
-import ArbitraryPlannerItem from '@/shapes/model/planner/ArbitraryPlannerItem';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
-import { getCourseOfItem, getSemesterOfItem } from '@/utils/itemUtils';
 import { PlannerItemType } from '@/shapes/enum';
+import ArbitraryPlannerItem from '@/shapes/model/planner/ArbitraryPlannerItem';
+import FuturePlannerItem from '@/shapes/model/planner/FuturePlannerItem';
+import TakenPlannerItem from '@/shapes/model/planner/TakenPlannerItem';
+import { getCourseOfItem, getSemesterOfItem } from '@/utils/itemUtils';
 
 export type ItemType = TakenPlannerItem | FuturePlannerItem | ArbitraryPlannerItem;
 
@@ -61,21 +61,10 @@ const PlannerTile: React.FC<Props> = ({
 }) => {
   const translate = useTranslatedString();
 
-  const handleMouseOver = onMouseOver
-    ? () => {
-        onMouseOver(item);
-      }
-    : undefined;
-  const handleMouseOut = onMouseOut
-    ? () => {
-        onMouseOut(item);
-      }
-    : undefined;
-  const handleClick = onClick
-    ? () => {
-        onClick(item);
-      }
-    : undefined;
+  const handleMouseOver = onMouseOver && (() => onMouseOver(item));
+  const handleMouseOut = onMouseOut && (() => onMouseOut(item));
+  const handleClick = onClick && (() => onClick(item));
+
   const handleDeleteFromTableClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     deleteLecture(item);
@@ -113,13 +102,13 @@ const PlannerTile: React.FC<Props> = ({
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       onClick={handleClick}>
-      {item.item_type !== PlannerItemType.TAKEN ? (
+      {item.item_type !== PlannerItemType.TAKEN && (
         <button
           className={classNames('tile--planner__button')}
           onClick={handleDeleteFromTableClick}>
           <i className={classNames('icon', 'icon--delete-lecture')} />
         </button>
-      ) : null}
+      )}
       <div className={classNames('tile--planner__content')}>
         <p
           className={classNames(

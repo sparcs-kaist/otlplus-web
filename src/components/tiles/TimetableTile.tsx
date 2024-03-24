@@ -58,21 +58,10 @@ const TimetableTile: React.FC<Props> = ({
 }) => {
   const translate = useTranslatedString();
 
-  const handleMouseOver = onMouseOver
-    ? () => {
-        onMouseOver(lecture);
-      }
-    : undefined;
-  const handleMouseOut = onMouseOut
-    ? () => {
-        onMouseOut(lecture);
-      }
-    : undefined;
-  const handleClick = onClick
-    ? () => {
-        onClick(lecture);
-      }
-    : undefined;
+  const handleMouseOver = onMouseOver && (() => onMouseOver(lecture));
+  const handleMouseOut = onMouseOut && (() => onMouseOut(lecture));
+  const handleClick = onClick && (() => onClick(lecture));
+
   const handleDeleteFromTableClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     deleteLecture(lecture);
@@ -140,18 +129,17 @@ const TimetableTile: React.FC<Props> = ({
           {classtime && translate(classtime, 'classroom')}
         </p>
       </div>
-      {occupiedIndices === undefined
-        ? null
-        : occupiedIndices.map((o) => (
-            <div
-              key={`${o[0]}:${o[1]}`}
-              className={classNames('tile--timetable__occupied-area')}
-              style={{
-                top: cellHeight * (o[0] - beginIndex),
-                height: cellHeight * (o[1] - o[0]) - 3,
-              }}
-            />
-          ))}
+      {occupiedIndices &&
+        occupiedIndices.map((o) => (
+          <div
+            key={`${o[0]}:${o[1]}`}
+            className={classNames('tile--timetable__occupied-area')}
+            style={{
+              top: cellHeight * (o[0] - beginIndex),
+              height: cellHeight * (o[1] - o[0]) - 3,
+            }}
+          />
+        ))}
     </div>
   );
 };
