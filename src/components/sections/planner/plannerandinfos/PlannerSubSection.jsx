@@ -29,7 +29,7 @@ import {
 } from '../../../../utils/itemUtils';
 import { getCategoryOfItem, getColorOfItem } from '../../../../utils/itemCategoryUtils';
 import { isDimmedItem, isFocusedItem, isTableClickedItem } from '../../../../utils/itemFocusUtils';
-import PlannerTile from '../../../tiles/PlannerTile';
+import PlannerTile from '@/components/tiles/PlannerTile';
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import PlannerOverlay from '../../../PlannerOverlay';
 

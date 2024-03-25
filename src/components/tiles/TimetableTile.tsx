@@ -1,16 +1,40 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../common/constants';
-import { getProfessorsShortStr } from '../../utils/lectureUtils';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
+import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '@/common/constants';
+import Lecture from '@/shapes/model/subject/Lecture';
+import Classtime from '@/shapes/model/subject/Classtime';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
+import { getProfessorsShortStr } from '@/utils/lectureUtils';
 
-import lectureShape from '../../shapes/model/subject/LectureShape';
-import classtimeShape from '../../shapes/model/subject/ClasstimeShape';
+interface Props {
+  lecture: Lecture;
+  classtime: Classtime;
+  tableIndex: number;
+  dayIndex: number;
+  beginIndex: number;
+  endIndex: number;
+  color: number;
+  cellWidth: number;
+  cellHeight: number;
+  isTimetableReadonly: boolean;
+  isRaised: boolean;
+  isHighlighted: boolean;
+  isDimmed: boolean;
+  isTemp: boolean;
+  isSimple: boolean;
+  onMouseOver?: (lecture: Lecture) => void;
+  onMouseOut?: (lecture: Lecture) => void;
+  onClick?: (lecture: Lecture) => void;
+  deleteLecture: (lecture: Lecture) => void;
+  occupiedIndices?: number[][];
+}
 
-const TimetableTile = ({
-  t,
+/**
+ * 모의시간표의 시간표 타일
+ */
+const TimetableTile: React.FC<Props> = ({
   lecture,
   classtime,
   tableIndex,
@@ -32,22 +56,13 @@ const TimetableTile = ({
   deleteLecture,
   occupiedIndices,
 }) => {
-  const handleMouseOver = onMouseOver
-    ? (event) => {
-        onMouseOver(lecture);
-      }
-    : null;
-  const handleMouseOut = onMouseOut
-    ? (event) => {
-        onMouseOut(lecture);
-      }
-    : null;
-  const handleClick = onClick
-    ? (event) => {
-        onClick(lecture);
-      }
-    : null;
-  const handleDeleteFromTableClick = (event) => {
+  const translate = useTranslatedString();
+
+  const handleMouseOver = onMouseOver && (() => onMouseOver(lecture));
+  const handleMouseOut = onMouseOut && (() => onMouseOut(lecture));
+  const handleClick = onClick && (() => onClick(lecture));
+
+  const handleDeleteFromTableClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     deleteLecture(lecture);
   };
@@ -105,52 +120,28 @@ const TimetableTile = ({
             'tile--timetable__content__title',
             isSimple ? 'mobile-hidden' : null,
           )}>
-          {lecture[t('js.property.title')]}
+          {translate(lecture, 'title')}
         </p>
         <p className={classNames('tile--timetable__content__info', 'mobile-hidden')}>
           {getProfessorsShortStr(lecture)}
         </p>
         <p className={classNames('tile--timetable__content__info', 'mobile-hidden')}>
-          {classtime ? classtime[t('js.property.classroom')] : null}
+          {classtime && translate(classtime, 'classroom')}
         </p>
       </div>
-      {occupiedIndices === undefined
-        ? null
-        : occupiedIndices.map((o) => (
-            <div
-              key={`${o[0]}:${o[1]}`}
-              className={classNames('tile--timetable__occupied-area')}
-              style={{
-                top: cellHeight * (o[0] - beginIndex),
-                height: cellHeight * (o[1] - o[0]) - 3,
-              }}
-            />
-          ))}
+      {occupiedIndices &&
+        occupiedIndices.map((o) => (
+          <div
+            key={`${o[0]}:${o[1]}`}
+            className={classNames('tile--timetable__occupied-area')}
+            style={{
+              top: cellHeight * (o[0] - beginIndex),
+              height: cellHeight * (o[1] - o[0]) - 3,
+            }}
+          />
+        ))}
     </div>
   );
-};
-
-TimetableTile.propTypes = {
-  lecture: lectureShape.isRequired,
-  classtime: classtimeShape,
-  tableIndex: PropTypes.number.isRequired,
-  dayIndex: PropTypes.number.isRequired,
-  beginIndex: PropTypes.number.isRequired,
-  endIndex: PropTypes.number.isRequired,
-  color: PropTypes.number.isRequired,
-  cellWidth: PropTypes.number.isRequired,
-  cellHeight: PropTypes.number.isRequired,
-  isTimetableReadonly: PropTypes.bool.isRequired,
-  isRaised: PropTypes.bool.isRequired,
-  isHighlighted: PropTypes.bool.isRequired,
-  isDimmed: PropTypes.bool.isRequired,
-  isTemp: PropTypes.bool.isRequired,
-  isSimple: PropTypes.bool.isRequired,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func,
-  onClick: PropTypes.func,
-  deleteLecture: PropTypes.func.isRequired,
-  occupiedIndices: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
 };
 
 export default withTranslation()(React.memo(TimetableTile));

@@ -1,16 +1,44 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
+import { PlannerItemType } from '@/shapes/enum';
+import ArbitraryPlannerItem from '@/shapes/model/planner/ArbitraryPlannerItem';
+import FuturePlannerItem from '@/shapes/model/planner/FuturePlannerItem';
+import TakenPlannerItem from '@/shapes/model/planner/TakenPlannerItem';
+import { getCourseOfItem, getSemesterOfItem } from '@/utils/itemUtils';
 
-import takenPlannerItemShape from '../../shapes/model/planner/TakenPlannerItemShape';
-import futurePlannerItemShape from '../../shapes/model/planner/FuturePlannerItemShape';
-import arbitraryPlannerItemShape from '../../shapes/model/planner/ArbitraryPlannerItemShape';
-import { getCourseOfItem, getSemesterOfItem } from '../../utils/itemUtils';
+export type ItemType = TakenPlannerItem | FuturePlannerItem | ArbitraryPlannerItem;
 
-const PlannerTile = ({
-  t,
+interface Props {
+  item: ItemType;
+  yearIndex: number;
+  //
+  semesterIndex: 0 | 1;
+  beginIndex: number;
+  endIndex: number;
+  color: number;
+  tableSize: number;
+  cellWidth: number;
+  cellHeight: number;
+  isPlannerWithSummer: boolean;
+  isPlannerWithWinter: boolean;
+  isDuplicate: boolean;
+  isRaised: boolean;
+  isHighlighted: boolean;
+  isDimmed: boolean;
+  isSimple: boolean;
+  onMouseOver?: (item: ItemType) => void;
+  onMouseOut?: (item: ItemType) => void;
+  onClick?: (item: ItemType) => void;
+  deleteLecture: (item: ItemType) => void;
+}
+
+/**
+ * 졸업플래너의 타일
+ */
+const PlannerTile: React.FC<Props> = ({
   item,
   yearIndex,
   semesterIndex,
@@ -21,7 +49,6 @@ const PlannerTile = ({
   cellWidth,
   cellHeight,
   isPlannerWithSummer,
-  isPlannerWithWinter,
   isDuplicate,
   isRaised,
   isHighlighted,
@@ -32,22 +59,13 @@ const PlannerTile = ({
   onClick,
   deleteLecture,
 }) => {
-  const handleMouseOver = onMouseOver
-    ? (event) => {
-        onMouseOver(item);
-      }
-    : null;
-  const handleMouseOut = onMouseOut
-    ? (event) => {
-        onMouseOut(item);
-      }
-    : null;
-  const handleClick = onClick
-    ? (event) => {
-        onClick(item);
-      }
-    : null;
-  const handleDeleteFromTableClick = (event) => {
+  const translate = useTranslatedString();
+
+  const handleMouseOver = onMouseOver && (() => onMouseOver(item));
+  const handleMouseOut = onMouseOut && (() => onMouseOut(item));
+  const handleClick = onClick && (() => onClick(item));
+
+  const handleDeleteFromTableClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     deleteLecture(item);
   };
@@ -69,7 +87,7 @@ const PlannerTile = ({
         'tile',
         'tile--planner',
         `background-color--${color}`,
-        item.item_type === 'TAKEN' ? null : 'background-color--stripe',
+        item.item_type === PlannerItemType.TAKEN ? null : 'background-color--stripe',
         isRaised ? 'tile--raised' : null,
         isHighlighted ? 'tile--highlighted' : null,
         isDimmed ? 'tile--dimmed' : null,
@@ -84,20 +102,20 @@ const PlannerTile = ({
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
       onClick={handleClick}>
-      {item.item_type !== 'TAKEN' ? (
+      {item.item_type !== PlannerItemType.TAKEN && (
         <button
           className={classNames('tile--planner__button')}
           onClick={handleDeleteFromTableClick}>
           <i className={classNames('icon', 'icon--delete-lecture')} />
         </button>
-      ) : null}
+      )}
       <div className={classNames('tile--planner__content')}>
         <p
           className={classNames(
             'tile--planner__content__title',
             isSimple ? 'mobile-hidden' : null,
           )}>
-          {getCourseOfItem(item)[t('js.property.title')]}
+          {translate(getCourseOfItem(item), 'title')}
         </p>
         {getSemesterOfItem(item) % 2 === 0 && (
           <p
@@ -110,7 +128,7 @@ const PlannerTile = ({
             S
           </p>
         )}
-        {item.item_type === 'ARBITRARY' && (
+        {item.item_type === PlannerItemType.ARBITRARY && (
           <p
             className={classNames(
               'tile--planner__content__label',
@@ -146,33 +164,6 @@ const PlannerTile = ({
       </div>
     </div>
   );
-};
-
-PlannerTile.propTypes = {
-  item: PropTypes.oneOfType([
-    takenPlannerItemShape,
-    futurePlannerItemShape,
-    arbitraryPlannerItemShape,
-  ]).isRequired,
-  yearIndex: PropTypes.number.isRequired,
-  semesterIndex: PropTypes.oneOf([0, 1]).isRequired,
-  beginIndex: PropTypes.number.isRequired,
-  endIndex: PropTypes.number.isRequired,
-  color: PropTypes.number.isRequired,
-  tableSize: PropTypes.number.isRequired,
-  cellWidth: PropTypes.number.isRequired,
-  cellHeight: PropTypes.number.isRequired,
-  isPlannerWithSummer: PropTypes.bool.isRequired,
-  isPlannerWithWinter: PropTypes.bool.isRequired,
-  isDuplicate: PropTypes.bool.isRequired,
-  isRaised: PropTypes.bool.isRequired,
-  isHighlighted: PropTypes.bool.isRequired,
-  isDimmed: PropTypes.bool.isRequired,
-  isSimple: PropTypes.bool.isRequired,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func,
-  onClick: PropTypes.func,
-  deleteLecture: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(React.memo(PlannerTile));

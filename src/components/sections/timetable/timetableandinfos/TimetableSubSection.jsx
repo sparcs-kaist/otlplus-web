@@ -7,7 +7,7 @@ import { range } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../../common/constants';
 
-import TimetableTile from '../../../tiles/TimetableTile';
+import TimetableTile from '@/components/tiles/TimetableTile';
 
 import { setLectureFocus, clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
 import {
@@ -44,7 +44,7 @@ import {
   getColorNumber,
 } from '../../../../utils/lectureUtils';
 import { performDeleteFromTable } from '../../../../common/commonOperations';
-import TimetableDragTile from '../../../tiles/TimetableDragTile';
+import TimetableDragTile from '@/components/tiles/TimetableDragTile';
 
 class TimetableSubSection extends Component {
   constructor(props) {
