@@ -4,17 +4,17 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import ReactGA from 'react-ga4';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr } from '../../utils/lectureUtils';
-import { getSingleScoreLabel } from '../../utils/scoreUtils';
-import { useTranslatedString } from '../../hooks/useTranslatedString';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
+import { getProfessorsShortStr } from '@/utils/lectureUtils';
+import { getSingleScoreLabel } from '@/utils/scoreUtils';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 
 import Review from '@/shapes/model/review/Review';
 import BlockLink from '@/shapes/BlockLink';
 
-import { formatNewlineToBr } from '../../utils/commonUtils';
-import { getSemesterName } from '../../utils/semesterUtils';
-import { CONTACT } from '../../common/constants';
+import { formatNewlineToBr } from '@/utils/commonUtils';
+import { getSemesterName } from '@/utils/semesterUtils';
+import { CONTACT } from '@/common/constants';
 
 interface Props {
   review: Review;

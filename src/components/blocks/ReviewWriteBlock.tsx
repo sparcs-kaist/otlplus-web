@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { getProfessorsShortStr } from '../../utils/lectureUtils';
-import { getSingleScoreLabel } from '../../utils/scoreUtils';
-import { getSemesterName } from '../../utils/semesterUtils';
-import { performSubmitReview } from '../../common/commonOperations';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
+import { getProfessorsShortStr } from '@/utils/lectureUtils';
+import { getSingleScoreLabel } from '@/utils/scoreUtils';
+import { getSemesterName } from '@/utils/semesterUtils';
+import { performSubmitReview } from '@/common/commonOperations';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
 
 import Lecture from '@/shapes/model/subject/Lecture';

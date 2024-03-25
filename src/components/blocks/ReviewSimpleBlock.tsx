@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
-import { isSpecialLecture } from '../../utils/lectureUtils';
-import { getSingleScoreLabel } from '../../utils/scoreUtils';
-import { getSemesterName } from '../../utils/semesterUtils';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
+import { isSpecialLecture } from '@/utils/lectureUtils';
+import { getSingleScoreLabel } from '@/utils/scoreUtils';
+import { getSemesterName } from '@/utils/semesterUtils';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
 
 import Review from '@/shapes/model/review/Review';

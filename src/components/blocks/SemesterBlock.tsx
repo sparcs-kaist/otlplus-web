@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../../common/boundClassNames';
+import { appBoundClassNames as classNames } from '@/common/boundClassNames';
 
 import Semester from '@/shapes/model/subject/Semester';
-import { getSemesterName } from '../../utils/semesterUtils';
+import { getSemesterName } from '@/utils/semesterUtils';
 
 type SemesterType = Semester | 'ALL';
 
