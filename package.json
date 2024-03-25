@@ -9,7 +9,8 @@
     "dev": "vite --host",
     "build": "vite build",
     "scss:ts-generate": "typed-scss-modules src",
-    "test": "echo \"TODO\"",
+    "test": "jest",
+    "coverage": "jest --coverage",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "lint": "eslint ./src",
@@ -43,6 +44,14 @@
     "zabo-embed": "^0.0.7"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@babel/plugin-syntax-jsx": "^7.24.1",
+    "@babel/preset-env": "^7.24.3",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.2",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.4.5",
     "@types/qs": "^6.9.12",
     "@types/react-dom": "^18.2.22",
@@ -57,10 +66,13 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.32.2",
     "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^13.2.2",
     "prettier": "3.0.0",
     "react-error-overlay": "^6.0.9",
     "sass": "^1.64.1",
+    "ts-jest": "^29.1.2",
     "typed-scss-modules": "^7.1.2",
     "typescript": "^5.1.6",
     "vite": "^4.4.7",
@@ -80,10 +92,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "jest": {
-    "transformIgnorePatterns": [
-      "/node_modules/(?!(react-markdown|vfile|unist|unified|bail))/"
-    ]
-  }
+  ]
 }
