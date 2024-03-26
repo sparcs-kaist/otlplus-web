@@ -52,3 +52,10 @@ export const enum CategoryFirstIndex {
   GENERAL_AND_HUMANITY = 3,
   OTHERS = 4,
 }
+
+export const enum CourseListCode {
+  SEARCH = 'SEARCH',
+  BASIC = 'BASIC',
+  HUMANITY = 'HUMANITY',
+  TAKEN = 'TAKEN',
+}

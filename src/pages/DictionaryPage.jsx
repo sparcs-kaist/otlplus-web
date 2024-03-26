@@ -6,7 +6,7 @@ import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
-import { CourseListCode } from '../reducers/dictionary/list';
+import { CourseListCode } from '@/shapes/enum';
 
 import CourseListSection from '../components/sections/dictionary/courselist/CourseListSection';
 import CourseDetailSection from '../components/sections/dictionary/coursedetail/CourseDetailSection';
