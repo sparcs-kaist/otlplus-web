@@ -22,7 +22,7 @@ import { openSearch } from '../../../../actions/timetable/search';
 import { addLectureToTimetable } from '../../../../actions/timetable/timetable';
 
 import { LectureFocusFrom } from '@/shapes/enum';
-import { LectureListCode } from '../../../../reducers/timetable/list';
+import { LectureListCode } from '@/shapes/enum';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import lectureListsShape from '../../../../shapes/state/timetable/LectureListsShape';
