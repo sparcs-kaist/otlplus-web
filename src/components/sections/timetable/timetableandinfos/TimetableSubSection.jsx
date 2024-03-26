@@ -26,7 +26,7 @@ import {
 } from '../../../../actions/timetable/timetable';
 
 import { LectureFocusFrom } from '@/shapes/enum';
-import { LectureListCode } from '../../../../reducers/timetable/list';
+import { LectureListCode } from '@/shapes/enum';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import timetableShape, {

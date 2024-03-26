@@ -59,3 +59,10 @@ export const enum CourseListCode {
   HUMANITY = 'HUMANITY',
   TAKEN = 'TAKEN',
 }
+
+export const enum LectureListCode {
+  SEARCH = 'SEARCH',
+  BASIC = 'BASIC',
+  HUMANITY = 'HUMANITY',
+  CART = 'CARAT',
+}
