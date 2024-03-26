@@ -17,13 +17,13 @@ import { ItemFocusFrom } from '@/shapes/enum';
 
 import { getCreditOfItem, getAuOfItem, getCreditAndAuOfItem } from '../../../../utils/itemUtils';
 import {
-  CategoryFirstIndex,
   getSeparateMajorTracks,
   getCategoryOfItem,
   getCategoryOfType,
   getColorOfCategory,
   isIdenticalCategory,
 } from '../../../../utils/itemCategoryUtils';
+import { CategoryFirstIndex } from '@/shapes/enum';
 
 import { setCategoryFocus, clearCategoryFocus } from '../../../../actions/planner/itemFocus';
 
