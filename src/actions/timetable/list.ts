@@ -1,3 +1,6 @@
+import { LectureListCode } from '@/shapes/enum';
+import Lecture from '@/shapes/model/subject/Lecture';
+
 const BASE_STRING = 'T_L_';
 
 /* eslint-disable prefer-template */
@@ -17,14 +20,14 @@ export function reset() {
   };
 }
 
-export function setSelectedListCode(listCode) {
+export function setSelectedListCode(listCode: LectureListCode) {
   return {
     type: SET_SELECTED_LIST_CODE,
     listCode: listCode,
   };
 }
 
-export function setListLectures(code, lectures) {
+export function setListLectures(code: LectureListCode, lectures: Lecture[]) {
   return {
     type: SET_LIST_LECTURES,
     code: code,
@@ -44,23 +47,33 @@ export function clearSearchListLectures() {
   };
 }
 
-export function addLectureToCart(lecture) {
+export function addLectureToCart(lecture: Lecture) {
   return {
     type: ADD_LECTURE_TO_CART,
     lecture: lecture,
   };
 }
 
-export function deleteLectureFromCart(lecture) {
+export function deleteLectureFromCart(lecture: Lecture) {
   return {
     type: DELETE_LECTURE_FROM_CART,
     lecture: lecture,
   };
 }
 
-export function setIsLectureListOpenOnMobile(isLectureListOpenOnMobile) {
+export function setIsLectureListOpenOnMobile(isLectureListOpenOnMobile: boolean) {
   return {
     type: SET_MOBILE_IS_LECTURE_LIST_OPEN,
     isLectureListOpenOnMobile: isLectureListOpenOnMobile,
   };
 }
+
+export type LectureListAction =
+  | ReturnType<typeof reset>
+  | ReturnType<typeof setSelectedListCode>
+  | ReturnType<typeof setListLectures>
+  | ReturnType<typeof clearAllListsLectures>
+  | ReturnType<typeof clearSearchListLectures>
+  | ReturnType<typeof addLectureToCart>
+  | ReturnType<typeof deleteLectureFromCart>
+  | ReturnType<typeof setIsLectureListOpenOnMobile>;
