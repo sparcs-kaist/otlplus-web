@@ -22,11 +22,7 @@ interface Props {
 const SemesterBlock: React.FC<Props> = ({ semester, isRaised, onClick }) => {
   const { t } = useTranslation();
 
-  const handleClick =
-    onClick &&
-    (() => {
-      onClick(semester);
-    });
+  const handleClick = onClick?.(semester);
 
   const title =
     semester === 'ALL'

@@ -84,7 +84,7 @@ const ReviewBlock: React.FC<Props> = ({ review, shouldLimitLines, linkTo, pageFr
   const contentDisplay = formatNewlineToBr(review.content);
 
   return (
-    <RootTag className={classNames('block', 'block--review')} to={linkTo ? linkTo : ''}>
+    <RootTag className={classNames('block', 'block--review')} to={linkTo ?? ''}>
       <div className={classNames('block--review__title')}>
         <strong>{translate(review.lecture, 'title')}</strong>
         <span>{getProfessorsShortStr(review.lecture)}</span>

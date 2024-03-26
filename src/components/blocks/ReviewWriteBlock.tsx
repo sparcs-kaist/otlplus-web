@@ -84,7 +84,7 @@ const ReviewWriteBlock: React.FC<Props> = ({ lecture, review, pageFrom, updateOn
     }
   };
 
-  const getScoreOptionLabel = (name: string, value: number, checkedValue: number | undefined) => {
+  const getScoreOptionLabel = (name: string, value: number, checkedValue?: number) => {
     const inputId = `${lecture.id}-${name}-${value}`;
     return (
       <label className={classNames('block--review-write__score__option')} htmlFor={inputId}>
