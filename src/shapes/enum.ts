@@ -43,3 +43,12 @@ export const enum PlannerItemType {
   FUTURE = 'FUTURE',
   ARBITRARY = 'ARBITRARY',
 }
+
+export const enum CategoryFirstIndex {
+  TOTAL = -1,
+  BASIC = 0,
+  MAJOR = 1,
+  RESEARCH = 2,
+  GENERAL_AND_HUMANITY = 3,
+  OTHERS = 4,
+}

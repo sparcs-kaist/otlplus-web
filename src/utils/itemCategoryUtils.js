@@ -1,11 +1,4 @@
-export const CategoryFirstIndex = {
-  TOTAL: -1,
-  BASIC: 0,
-  MAJOR: 1,
-  RESEARCH: 2,
-  GENERAL_AND_HUMANITY: 3,
-  OTHERS: 4,
-};
+import { CategoryFirstIndex } from '@/shapes/enum';
 
 export const isIdenticalCategory = (category1, category2) =>
   category1 &&

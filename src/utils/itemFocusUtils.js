@@ -1,10 +1,10 @@
 import { ItemFocusFrom } from '@/shapes/enum';
 import {
-  CategoryFirstIndex,
   getCategoryOfItem,
   getSeparateMajorTracks,
   isIdenticalCategory,
 } from './itemCategoryUtils';
+import { CategoryFirstIndex } from '@/shapes/enum';
 import { getCourseOfItem, getCreditOfItem, getAuOfItem } from './itemUtils';
 
 export const isIdenticalItem = (item1, item2) =>
