@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import lecture from '../../shapes/model/subject/Lecture';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 
 interface lectureGroupBlockProps {
   lectureGroup: lecture[];
@@ -10,6 +11,7 @@ interface lectureGroupBlockProps {
   isDimmed: boolean;
   isTaken: boolean;
   children?: React.ReactNode;
+  haha: lecture;
 }
 
 const LectureGroupBlock: React.FC<lectureGroupBlockProps> = ({
@@ -20,6 +22,7 @@ const LectureGroupBlock: React.FC<lectureGroupBlockProps> = ({
   children,
 }) => {
   const { t } = useTranslation();
+  const translate = useTranslatedString();
 
   return (
     <div
@@ -32,7 +35,8 @@ const LectureGroupBlock: React.FC<lectureGroupBlockProps> = ({
       )}>
       <div className={classNames('block__completed-text')}>{t('ui.others.taken')}</div>
       <div className={classNames('block--lecture-group__title')}>
-        <strong>{lectureGroup[0][t('js.property.common_title')]}</strong> {lectureGroup[0].old_code}
+        <strong>{translate(lectureGroup[0], 'common_title')}</strong>
+        {lectureGroup[0].old_code}
       </div>
       {children}
     </div>

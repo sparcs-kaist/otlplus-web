@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import lecture from '@/shapes/model/subject/Lecture';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 interface lectureSimpleBlockProps {
   lecture: lecture;
   isRaised: boolean;
@@ -21,10 +22,12 @@ const LectureSimpleBlock: React.FC<lectureSimpleBlockProps> = ({
   const { t } = useTranslation();
 
   const handleClick = onClick
-    ? (event) => {
+    ? () => {
         onClick(lecture);
       }
     : undefined;
+
+  const translate = useTranslatedString();
 
   return (
     <div
@@ -39,7 +42,7 @@ const LectureSimpleBlock: React.FC<lectureSimpleBlockProps> = ({
       onClick={handleClick}>
       <div className={classNames('block__completed-text')}>{t('ui.others.written')}</div>
       <div className={classNames('block--lecture-simple__title')}>
-        {lecture[t('js.property.title')]}
+        {translate(lecture, 'title')}
       </div>
       <div className={classNames('block--lecture-simple__subtitle')}>{lecture.old_code}</div>
     </div>
