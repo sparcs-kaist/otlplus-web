@@ -1,7 +1,7 @@
-// const BASE_STRING = 'C_T_';
+const BASE_STRING = 'C_T_';
 
 /* eslint-disable prefer-template */
-export const SET_TRACKS = 'SET_TRACKS' as const;
+export const SET_TRACKS = `${BASE_STRING}SET_TRACKS` as const;
 /* eslint-enable prefer-template */
 
 import GeneralTrack from '@/shapes/model/graduation/GeneralTrack';
