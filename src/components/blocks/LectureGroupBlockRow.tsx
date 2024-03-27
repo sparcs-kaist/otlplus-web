@@ -1,10 +1,9 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
 
 import lecture from '../../shapes/model/subject/Lecture';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
+import React from 'react';
 
 type lectureVoidFunc = (x: lecture) => void;
 interface lectureGroupBlockRowProps {
@@ -36,8 +35,7 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
   onMouseOut,
   onClick,
 }) => {
-  const { t } = useTranslation();
-  const getClass = (lec) => {
+  const getClass = (lec: lecture) => {
     switch (lec.class_title.length) {
       case 1:
         return classNames('block--lecture-group__row-content__texts__main__fixed-1');
@@ -49,29 +47,29 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
   };
 
   const handleMouseOver = onMouseOver
-    ? (event) => {
+    ? () => {
         onMouseOver(lecture);
       }
     : undefined;
   const handleMouseOut = onMouseOut
-    ? (event) => {
+    ? () => {
         onMouseOut(lecture);
       }
     : undefined;
   const handleClick = onClick
-    ? (event) => {
+    ? () => {
         onClick(lecture);
       }
     : undefined;
-  const handleDeleteFromCartClick = (event) => {
+  const handleDeleteFromCartClick = (event: MouseEvent) => {
     event.stopPropagation();
     deleteFromCart(lecture);
   };
-  const handleAddToCartClick = (event) => {
+  const handleAddToCartClick = (event: MouseEvent) => {
     event.stopPropagation();
     addToCart(lecture);
   };
-  const handleAddToTableClick = (event) => {
+  const handleAddToTableClick = (event: MouseEvent) => {
     event.stopPropagation();
     addToTable(lecture);
   };
@@ -79,13 +77,13 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
   const cartButton = fromCart ? (
     <button
       className={classNames('block--lecture-group__row-content__button')}
-      onClick={handleDeleteFromCartClick}>
+      onClick={() => handleDeleteFromCartClick}>
       <i className={classNames('icon', 'icon--delete-cart')} />
     </button>
   ) : !inCart ? (
     <button
       className={classNames('block--lecture-group__row-content__button')}
-      onClick={handleAddToCartClick}>
+      onClick={() => handleAddToCartClick}>
       <i className={classNames('icon', 'icon--add-cart')} />
     </button>
   ) : (
@@ -101,7 +99,7 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
     !inTimetable && !isTimetableReadonly ? (
       <button
         className={classNames('block--lecture-group__row-content__button')}
-        onClick={handleAddToTableClick}>
+        onClick={() => handleAddToTableClick}>
         <i className={classNames('icon', 'icon--add-lecture')} />
       </button>
     ) : (
@@ -113,6 +111,8 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
         <i className={classNames('icon', 'icon--add-lecture')} />
       </button>
     );
+
+  const translate = useTranslatedString();
 
   return (
     <div
@@ -127,12 +127,12 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
       <div className={classNames('block--lecture-group__row-content')}>
         <div className={classNames('block--lecture-group__row-content__texts')}>
           <div className={classNames('block--lecture-group__row-content__texts__sub')}>
-            {lecture[t('js.property.department_name')]}
+            {translate(lecture, 'department_name')}
             {' / '}
-            {lecture[t('js.property.type')]}
+            {translate(lecture, 'type')}
           </div>
           <div className={classNames('block--lecture-group__row-content__texts__main')}>
-            <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>{' '}
+            <strong className={getClass(lecture)}>{translate(lecture, 'class_title')}</strong>{' '}
             <span>{getProfessorsShortStr(lecture)}</span>
           </div>
           <div className={classNames('block--lecture-group__row-content__texts__sub')}>
