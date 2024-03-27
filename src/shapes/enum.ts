@@ -43,3 +43,26 @@ export const enum PlannerItemType {
   FUTURE = 'FUTURE',
   ARBITRARY = 'ARBITRARY',
 }
+
+export const enum CategoryFirstIndex {
+  TOTAL = -1,
+  BASIC = 0,
+  MAJOR = 1,
+  RESEARCH = 2,
+  GENERAL_AND_HUMANITY = 3,
+  OTHERS = 4,
+}
+
+export const enum CourseListCode {
+  SEARCH = 'SEARCH',
+  BASIC = 'BASIC',
+  HUMANITY = 'HUMANITY',
+  TAKEN = 'TAKEN',
+}
+
+export const enum LectureListCode {
+  SEARCH = 'SEARCH',
+  BASIC = 'BASIC',
+  HUMANITY = 'HUMANITY',
+  CART = 'CARAT',
+}

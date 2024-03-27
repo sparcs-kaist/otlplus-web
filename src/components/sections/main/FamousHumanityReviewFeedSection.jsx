@@ -6,7 +6,7 @@ import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import { CourseListCode } from '../../../reducers/dictionary/list';
+import { CourseListCode } from '@/shapes/enum';
 
 import ReviewBlock from '../../blocks/ReviewBlock';
 

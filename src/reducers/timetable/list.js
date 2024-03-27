@@ -11,12 +11,7 @@ import {
 
 import { unique } from '../../utils/commonUtils';
 
-export const LectureListCode = {
-  SEARCH: 'search',
-  BASIC: 'basic',
-  HUMANITY: 'humanity',
-  CART: 'cart',
-};
+import { LectureListCode } from '@/shapes/enum';
 
 const initialState = {
   selectedListCode: LectureListCode.SEARCH,

@@ -6,12 +6,7 @@ import {
   ADD_COURSE_READ,
 } from '../../actions/planner/list';
 
-export const CourseListCode = {
-  SEARCH: 'search',
-  BASIC: 'basic',
-  HUMANITY: 'humanity',
-  TAKEN: 'taken',
-};
+import { CourseListCode } from '@/shapes/enum';
 
 const initialState = {
   selectedListCode: CourseListCode.SEARCH,
