@@ -7,7 +7,7 @@ import ReactGA from 'react-ga4';
 import { debounce } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
-import { CourseListCode } from '../../../../reducers/dictionary/list';
+import { CourseListCode } from '@/shapes/enum';
 
 import Divider from '../../../Divider';
 import SearchFilter from '../../../SearchFilter';

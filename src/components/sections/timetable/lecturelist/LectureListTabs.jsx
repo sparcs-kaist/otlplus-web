@@ -7,7 +7,7 @@ import ReactGA from 'react-ga4';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import { LectureListCode } from '../../../../reducers/timetable/list';
+import { LectureListCode } from '@/shapes/enum';
 
 import {
   setSelectedListCode,
