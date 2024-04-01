@@ -13,31 +13,32 @@ export const enum SemesterType {
 }
 
 export const enum ItemFocusFrom {
-  NONE = 'NONE',
-  LIST = 'LIST',
-  ADDING = 'ADDING',
-  TABLE_TAKEN = 'TABLE_TAKEN',
-  TABLE_FUTURE = 'TABLE_FUTURE',
-  TABLE_ARBITRARY = 'TABLE_ARBITRARY',
-  CATEGORY = 'CATEGORY',
+  NONE,
+  LIST,
+  ADDING,
+  TABLE_TAKEN,
+  TABLE_FUTURE,
+  TABLE_ARBITRARY,
+  CATEGORY,
 }
 
 export const enum LectureFocusFrom {
-  NONE = 'NONE',
-  LIST = 'LIST',
-  TABLE = 'TABLE',
-  MULTIPLE = 'MULTIPLE',
+  NONE,
+  LIST,
+  TABLE,
+  MULTIPLE,
 }
 
 export const enum ReviewsFocusFrom {
-  NONE = 'NONE',
-  LECTURE = 'LECTURE',
-  REVIEWS_LATEST = 'LATEST',
-  REVIEWS_MY = 'MY',
-  REVIEWS_LIKED = 'LIKED',
-  REVIEWS_RANKED = 'RANKED',
+  NONE,
+  LECTURE,
+  REVIEWS_LATEST,
+  REVIEWS_MY,
+  REVIEWS_LIKED,
+  REVIEWS_RANKED,
 }
 
+// string enum for PlannerSubSection.jsx
 export const enum PlannerItemType {
   TAKEN = 'TAKEN',
   FUTURE = 'FUTURE',
@@ -54,15 +55,15 @@ export const enum CategoryFirstIndex {
 }
 
 export const enum CourseListCode {
-  SEARCH = 'SEARCH',
-  BASIC = 'BASIC',
-  HUMANITY = 'HUMANITY',
-  TAKEN = 'TAKEN',
+  SEARCH,
+  BASIC,
+  HUMANITY,
+  TAKEN,
 }
 
 export const enum LectureListCode {
-  SEARCH = 'SEARCH',
-  BASIC = 'BASIC',
-  HUMANITY = 'HUMANITY',
-  CART = 'CARAT',
+  SEARCH,
+  BASIC,
+  HUMANITY,
+  CART,
 }
