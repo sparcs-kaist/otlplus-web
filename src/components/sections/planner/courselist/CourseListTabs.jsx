@@ -7,7 +7,7 @@ import ReactGA from 'react-ga4';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import { CourseListCode } from '../../../../reducers/planner/list';
+import { CourseListCode } from '@/shapes/enum';
 
 import { openSearch, closeSearch } from '../../../../actions/planner/search';
 import { setSelectedListCode, setListCourses } from '../../../../actions/planner/list';

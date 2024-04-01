@@ -13,33 +13,57 @@ export const enum SemesterType {
 }
 
 export const enum ItemFocusFrom {
-  NONE = 'NONE',
-  LIST = 'LIST',
-  ADDING = 'ADDING',
-  TABLE_TAKEN = 'TABLE_TAKEN',
-  TABLE_FUTURE = 'TABLE_FUTURE',
-  TABLE_ARBITRARY = 'TABLE_ARBITRARY',
-  CATEGORY = 'CATEGORY',
+  NONE,
+  LIST,
+  ADDING,
+  TABLE_TAKEN,
+  TABLE_FUTURE,
+  TABLE_ARBITRARY,
+  CATEGORY,
 }
 
 export const enum LectureFocusFrom {
-  NONE = 'NONE',
-  LIST = 'LIST',
-  TABLE = 'TABLE',
-  MULTIPLE = 'MULTIPLE',
+  NONE,
+  LIST,
+  TABLE,
+  MULTIPLE,
 }
 
 export const enum ReviewsFocusFrom {
-  NONE = 'NONE',
-  LECTURE = 'LECTURE',
-  REVIEWS_LATEST = 'LATEST',
-  REVIEWS_MY = 'MY',
-  REVIEWS_LIKED = 'LIKED',
-  REVIEWS_RANKED = 'RANKED',
+  NONE,
+  LECTURE,
+  REVIEWS_LATEST,
+  REVIEWS_MY,
+  REVIEWS_LIKED,
+  REVIEWS_RANKED,
 }
 
+// string enum for PlannerSubSection.jsx
 export const enum PlannerItemType {
   TAKEN = 'TAKEN',
   FUTURE = 'FUTURE',
   ARBITRARY = 'ARBITRARY',
+}
+
+export const enum CategoryFirstIndex {
+  TOTAL = -1,
+  BASIC = 0,
+  MAJOR = 1,
+  RESEARCH = 2,
+  GENERAL_AND_HUMANITY = 3,
+  OTHERS = 4,
+}
+
+export const enum CourseListCode {
+  SEARCH,
+  BASIC,
+  HUMANITY,
+  TAKEN,
+}
+
+export const enum LectureListCode {
+  SEARCH,
+  BASIC,
+  HUMANITY,
+  CART,
 }
