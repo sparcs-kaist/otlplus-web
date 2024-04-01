@@ -72,6 +72,7 @@ export function setLectures(lectures: Lecture[]) {
 }
 
 export type ItemFocusAction =
+  | ReturnType<typeof reset>
   | ReturnType<typeof setItemFocus>
   | ReturnType<typeof clearItemFocus>
   | ReturnType<typeof setCategoryFocus>
