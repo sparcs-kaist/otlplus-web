@@ -5,7 +5,7 @@ const BASE_STRING = 'T_L_';
 
 /* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
-export const SET_SELECTED_LIST_CODE = `${BASE_STRING}SER_SELECTED_LIST_CODE` as const;
+export const SET_SELECTED_LIST_CODE = `${BASE_STRING}SET_SELECTED_LIST_CODE` as const;
 export const SET_LIST_LECTURES = `${BASE_STRING}SET_LIST_LECTURES` as const;
 export const CLEAR_ALL_LISTS_LECTURES = `${BASE_STRING}CLEAR_ALL_LISTS_LECTURES` as const;
 export const CLEAR_SEARCH_LIST_LECTURES = `${BASE_STRING}CLEAR_SEARCH_LIST_LECTURES` as const;
