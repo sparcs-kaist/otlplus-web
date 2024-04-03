@@ -1,9 +1,9 @@
+import React from 'react';
+
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
-
 import lecture from '../../shapes/model/subject/Lecture';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
-import React from 'react';
 
 type lectureVoidFunc = (x: lecture) => void;
 interface lectureGroupBlockRowProps {
@@ -61,15 +61,15 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
         onClick(lecture);
       }
     : undefined;
-  const handleDeleteFromCartClick = (event: MouseEvent) => {
+  const handleDeleteFromCartClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     deleteFromCart(lecture);
   };
-  const handleAddToCartClick = (event: MouseEvent) => {
+  const handleAddToCartClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     addToCart(lecture);
   };
-  const handleAddToTableClick = (event: MouseEvent) => {
+  const handleAddToTableClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     addToTable(lecture);
   };
@@ -77,13 +77,13 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
   const cartButton = fromCart ? (
     <button
       className={classNames('block--lecture-group__row-content__button')}
-      onClick={() => handleDeleteFromCartClick}>
+      onClick={handleDeleteFromCartClick}>
       <i className={classNames('icon', 'icon--delete-cart')} />
     </button>
   ) : !inCart ? (
     <button
       className={classNames('block--lecture-group__row-content__button')}
-      onClick={() => handleAddToCartClick}>
+      onClick={handleAddToCartClick}>
       <i className={classNames('icon', 'icon--add-cart')} />
     </button>
   ) : (
@@ -99,7 +99,7 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
     !inTimetable && !isTimetableReadonly ? (
       <button
         className={classNames('block--lecture-group__row-content__button')}
-        onClick={() => handleAddToTableClick}>
+        onClick={handleAddToTableClick}>
         <i className={classNames('icon', 'icon--add-lecture')} />
       </button>
     ) : (

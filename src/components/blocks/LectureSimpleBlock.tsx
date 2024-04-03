@@ -5,14 +5,14 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
 import lecture from '@/shapes/model/subject/Lecture';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
-interface lectureSimpleBlockProps {
+interface LectureSimpleBlockProps {
   lecture: lecture;
   isRaised: boolean;
   isDimmed: boolean;
   hasReview: boolean;
   onClick?: (x: lecture) => void;
 }
-const LectureSimpleBlock: React.FC<lectureSimpleBlockProps> = ({
+const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
   lecture,
   isRaised,
   isDimmed,

@@ -5,16 +5,15 @@ import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import lecture from '../../shapes/model/subject/Lecture';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
 
-interface lectureGroupBlockProps {
+interface LectureGroupBlockProps {
   lectureGroup: lecture[];
   isRaised: boolean;
   isDimmed: boolean;
   isTaken: boolean;
   children?: React.ReactNode;
-  haha: lecture;
 }
 
-const LectureGroupBlock: React.FC<lectureGroupBlockProps> = ({
+const LectureGroupBlock: React.FC<LectureGroupBlockProps> = ({
   lectureGroup,
   isRaised,
   isDimmed,
