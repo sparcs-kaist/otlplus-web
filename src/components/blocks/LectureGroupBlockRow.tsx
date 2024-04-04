@@ -46,21 +46,6 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
     }
   };
 
-  const handleMouseOver = onMouseOver
-    ? () => {
-        onMouseOver(lecture);
-      }
-    : undefined;
-  const handleMouseOut = onMouseOut
-    ? () => {
-        onMouseOut(lecture);
-      }
-    : undefined;
-  const handleClick = onClick
-    ? () => {
-        onClick(lecture);
-      }
-    : undefined;
   const handleDeleteFromCartClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     deleteFromCart(lecture);
@@ -121,9 +106,9 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
         isHighlighted ? 'block--lecture-group__row--highlighted' : null,
       )}
       data-id={lecture.id}
-      onClick={handleClick}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}>
+      onClick={() => onClick?.(lecture)}
+      onMouseOver={() => onMouseOver?.(lecture)}
+      onMouseOut={() => onMouseOut?.(lecture)}>
       <div className={classNames('block--lecture-group__row-content')}>
         <div className={classNames('block--lecture-group__row-content__texts')}>
           <div className={classNames('block--lecture-group__row-content__texts__sub')}>

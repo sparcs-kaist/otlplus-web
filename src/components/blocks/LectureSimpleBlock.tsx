@@ -21,12 +21,6 @@ const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleClick = onClick
-    ? () => {
-        onClick(lecture);
-      }
-    : undefined;
-
   const translate = useTranslatedString();
 
   return (
@@ -39,7 +33,7 @@ const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
         isDimmed ? 'block--dimmed' : null,
         hasReview ? 'block--completed' : null,
       )}
-      onClick={handleClick}>
+      onClick={() => onClick?.(lecture)}>
       <div className={classNames('block__completed-text')}>{t('ui.others.written')}</div>
       <div className={classNames('block--lecture-simple__title')}>
         {translate(lecture, 'title')}
