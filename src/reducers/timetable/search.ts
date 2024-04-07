@@ -5,9 +5,20 @@ import {
   SET_LAST_SEARCH_OPTION,
   SET_CLASSTIME_OPTIONS,
   CLEAR_CLASSTIME_OPTIONS,
-} from '../../actions/timetable/search';
+  SearchAction,
+} from '@/actions/timetable/search';
+import { Day } from '@/shapes/enum';
+import LectureLastSearchOption from '@/shapes/state/timetable/LectureLastSearchOption';
 
-const initialState = {
+interface SearchState {
+  open: boolean;
+  lastSearchOption: LectureLastSearchOption;
+  classtimeBegin: number | null;
+  classtimeEnd: number | null;
+  classtimeDay: Day | null;
+}
+
+const initialState: SearchState = {
   open: true,
   lastSearchOption: {},
   classtimeBegin: null,
@@ -15,7 +26,7 @@ const initialState = {
   classtimeDay: null,
 };
 
-const search = (state = initialState, action) => {
+const search = (state = initialState, action: SearchAction) => {
   switch (action.type) {
     case RESET: {
       return initialState;

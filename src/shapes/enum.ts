@@ -67,3 +67,13 @@ export const enum LectureListCode {
   HUMANITY,
   CART,
 }
+
+export const enum Day {
+  MON,
+  TUE,
+  WED,
+  THU,
+  FRI,
+  SAT,
+  SUN,
+}
