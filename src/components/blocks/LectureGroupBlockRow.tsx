@@ -1,28 +1,28 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
+import Lecture from '@/shapes/model/subject/Lecture';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 
-import lecture from '../../shapes/model/subject/Lecture';
+type LectureVoidFunc = (x: Lecture) => void;
 
-type lectureVoidFunc = (x: lecture) => void;
-interface lectureGroupBlockRowProps {
-  lecture: lecture;
+interface LectureGroupBlockRowProps {
+  lecture: Lecture;
   isHighlighted: boolean;
   inTimetable: boolean;
   isTimetableReadonly: boolean;
   inCart: boolean;
   fromCart: boolean;
-  addToCart: lectureVoidFunc;
-  addToTable: lectureVoidFunc;
-  deleteFromCart: lectureVoidFunc;
-  onMouseOver?: lectureVoidFunc;
-  onMouseOut?: lectureVoidFunc;
-  onClick?: lectureVoidFunc;
+  addToCart: LectureVoidFunc;
+  addToTable: LectureVoidFunc;
+  deleteFromCart: LectureVoidFunc;
+  onMouseOver?: LectureVoidFunc;
+  onMouseOut?: LectureVoidFunc;
+  onClick?: LectureVoidFunc;
 }
 
-const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
+const LectureGroupBlockRow: React.FC<LectureGroupBlockRowProps> = ({
   lecture,
   isHighlighted,
   inTimetable,
@@ -36,9 +36,8 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
   onMouseOut,
   onClick,
 }) => {
-  const { t } = useTranslation();
-  const getClass = (lec) => {
-    switch (lec.class_title.length) {
+  const getClass = (lecture: Lecture) => {
+    switch (lecture.class_title.length) {
       case 1:
         return classNames('block--lecture-group__row-content__texts__main__fixed-1');
       case 2:
@@ -48,30 +47,15 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
     }
   };
 
-  const handleMouseOver = onMouseOver
-    ? (event) => {
-        onMouseOver(lecture);
-      }
-    : undefined;
-  const handleMouseOut = onMouseOut
-    ? (event) => {
-        onMouseOut(lecture);
-      }
-    : undefined;
-  const handleClick = onClick
-    ? (event) => {
-        onClick(lecture);
-      }
-    : undefined;
-  const handleDeleteFromCartClick = (event) => {
+  const handleDeleteFromCartClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     deleteFromCart(lecture);
   };
-  const handleAddToCartClick = (event) => {
+  const handleAddToCartClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     addToCart(lecture);
   };
-  const handleAddToTableClick = (event) => {
+  const handleAddToTableClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     addToTable(lecture);
   };
@@ -114,6 +98,8 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
       </button>
     );
 
+  const translate = useTranslatedString();
+
   return (
     <div
       className={classNames(
@@ -121,18 +107,18 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
         isHighlighted ? 'block--lecture-group__row--highlighted' : null,
       )}
       data-id={lecture.id}
-      onClick={handleClick}
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}>
+      onClick={() => onClick?.(lecture)}
+      onMouseOver={() => onMouseOver?.(lecture)}
+      onMouseOut={() => onMouseOut?.(lecture)}>
       <div className={classNames('block--lecture-group__row-content')}>
         <div className={classNames('block--lecture-group__row-content__texts')}>
           <div className={classNames('block--lecture-group__row-content__texts__sub')}>
-            {lecture[t('js.property.department_name')]}
+            {translate(lecture, 'department_name')}
             {' / '}
-            {lecture[t('js.property.type')]}
+            {translate(lecture, 'type')}
           </div>
           <div className={classNames('block--lecture-group__row-content__texts__main')}>
-            <strong className={getClass(lecture)}>{lecture[t('js.property.class_title')]}</strong>{' '}
+            <strong className={getClass(lecture)}>{translate(lecture, 'class_title')}</strong>{' '}
             <span>{getProfessorsShortStr(lecture)}</span>
           </div>
           <div className={classNames('block--lecture-group__row-content__texts__sub')}>

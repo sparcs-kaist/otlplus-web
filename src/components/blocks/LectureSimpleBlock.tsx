@@ -3,15 +3,17 @@ import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lecture from '@/shapes/model/subject/Lecture';
-interface lectureSimpleBlockProps {
-  lecture: lecture;
+import Lecture from '@/shapes/model/subject/Lecture';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
+
+interface LectureSimpleBlockProps {
+  lecture: Lecture;
   isRaised: boolean;
   isDimmed: boolean;
   hasReview: boolean;
-  onClick?: (x: lecture) => void;
+  onClick?: (x: Lecture) => void;
 }
-const LectureSimpleBlock: React.FC<lectureSimpleBlockProps> = ({
+const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
   lecture,
   isRaised,
   isDimmed,
@@ -20,11 +22,7 @@ const LectureSimpleBlock: React.FC<lectureSimpleBlockProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const handleClick = onClick
-    ? (event) => {
-        onClick(lecture);
-      }
-    : undefined;
+  const translate = useTranslatedString();
 
   return (
     <div
@@ -36,10 +34,10 @@ const LectureSimpleBlock: React.FC<lectureSimpleBlockProps> = ({
         isDimmed ? 'block--dimmed' : null,
         hasReview ? 'block--completed' : null,
       )}
-      onClick={handleClick}>
+      onClick={() => onClick?.(lecture)}>
       <div className={classNames('block__completed-text')}>{t('ui.others.written')}</div>
       <div className={classNames('block--lecture-simple__title')}>
-        {lecture[t('js.property.title')]}
+        {translate(lecture, 'title')}
       </div>
       <div className={classNames('block--lecture-simple__subtitle')}>{lecture.old_code}</div>
     </div>
