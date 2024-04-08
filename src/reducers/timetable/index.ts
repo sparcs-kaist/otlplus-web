@@ -13,4 +13,5 @@ const CombinedReducer = combineReducers({
   lectureFocus: lectureFocus,
 });
 
+export type TimetableState = ReturnType<typeof CombinedReducer>;
 export default CombinedReducer;
