@@ -1,12 +1,10 @@
 const BASE_STRING = 'D_L_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_SELECTED_LIST_CODE = `${BASE_STRING}SER_SELECTED_LIST_CODE` as const;
 export const SET_LIST_COURSES = `${BASE_STRING}SET_LIST_COURSES` as const;
 export const CLEAR_SEARCH_LIST_COURSES = `${BASE_STRING}CLEAR_SEARCH_LIST_COURSES` as const;
 export const ADD_COURSE_READ = `${BASE_STRING}ADD_COURSE_READ` as const;
-/* eslint-enable prefer-template */
 
 import { CourseListCode } from '@/shapes/enum';
 import Course from '@/shapes/model/subject/Course';

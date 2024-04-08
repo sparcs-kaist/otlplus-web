@@ -4,12 +4,10 @@ import Lecture from '@/shapes/model/subject/Lecture';
 
 const BASE_STRING = 'WR_RF_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_REVIEWS_FOCUS = `${BASE_STRING}SET_REVIEWS_FOCUS` as const;
 export const CLEAR_REVIEWS_FOCUS = `${BASE_STRING}CLEAR_REVIEWS_FOCUS` as const;
 export const SET_REVIEWS = `${BASE_STRING}SET_REVIEWS` as const;
-/* eslint-enable prefer-template */
 
 export function reset() {
   return {

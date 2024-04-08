@@ -3,11 +3,9 @@ import Semester from '@/shapes/model/subject/Semester';
 
 const BASE_STRING = 'WR_RR_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const ADD_SEMESTER_REVIEWS = `${BASE_STRING}ADD_SEMESTER_REVIEWS` as const;
 export const SET_SEMESTER_REVIEW_COUNT = `${BASE_STRING}SET_SEMESTER_REVIEW_COUNT` as const;
-/* eslint-enable prefer-template */
 
 export function reset() {
   return {

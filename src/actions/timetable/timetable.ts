@@ -3,7 +3,6 @@ import Timetable from '@/shapes/model/timetable/Timetable';
 
 const BASE_STRING = 'T_T_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_TIMETABLES = `${BASE_STRING}SET_TIMETABLES` as const;
 export const CLEAR_TIMETABLES = `${BASE_STRING}CLEAR_TIMETABLES` as const;
@@ -19,7 +18,6 @@ export const UPDATE_CELL_SIZE = `${BASE_STRING}UPDATE_CELL_SIZE` as const;
 export const SET_IS_DRAGGING = `${BASE_STRING}SET_IS_DRAGGING` as const;
 export const SET_MOBILE_IS_TIMETABLE_TABS_OPEN =
   `${BASE_STRING}SET_MOBILE_IS_TIMETABLE_TABS_OPEN` as const;
-/* eslint-enable prefer-template */
 
 export function reset() {
   return {

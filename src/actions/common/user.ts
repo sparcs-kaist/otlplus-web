@@ -1,9 +1,7 @@
 const BASE_STRING = 'C_U_';
 
-/* eslint-disable prefer-template */
 export const SET_USER = `${BASE_STRING}SET_USER` as const;
 export const UPDATE_USER_REVIEW = `${BASE_STRING}UPDATE_USER_REVIEW` as const;
-/* eslint-enable prefer-template */
 
 import User from '@/shapes/model/session/User';
 import Review from '@/shapes/model/review/Review';

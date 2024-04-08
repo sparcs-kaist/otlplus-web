@@ -2,11 +2,9 @@ import Review from '@/shapes/model/review/Review';
 
 const BASE_STRING = 'WR_LR_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const ADD_REVIEWS = `${BASE_STRING}ADD_REVIEWS` as const;
 export const UPDATE_REVIEW = `${BASE_STRING}UPDATE_REVIEW` as const;
-/* eslint-enable prefer-template */
 
 export function reset() {
   return {

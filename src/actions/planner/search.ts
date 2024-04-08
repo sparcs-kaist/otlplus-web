@@ -1,11 +1,9 @@
 const BASE_STRING = 'P_S_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const OPEN_SEARCH = `${BASE_STRING}OPEN_SEARCH` as const;
 export const CLOSE_SEARCH = `${BASE_STRING}CLOSE_SEARCH` as const;
 export const SET_LAST_SEARCH_OPTION = `${BASE_STRING}SET_LAST_SEARCH_OPTION` as const;
-/* eslint-enable prefer-template */
 
 import CourseLastSearchOption from '@/shapes/state/dictionary/CourseLastSearchOption';
 

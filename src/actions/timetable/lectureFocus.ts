@@ -4,14 +4,12 @@ import Lecture from '@/shapes/model/subject/Lecture';
 
 const BASE_STRING = 'T_LA_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_LECTURE_FOCUS = `${BASE_STRING}SET_LECTURE_FOCUS` as const;
 export const CLEAR_LECTURE_FOCUS = `${BASE_STRING}CLEAR_LECTURE_FOCUS` as const;
 export const SET_REVIEWS = `${BASE_STRING}SET_REVIEWS` as const;
 export const SET_MULTIPLE_FOCUS = `${BASE_STRING}SET_MULTIPLE_FOCUS` as const;
 export const CLEAR_MULTIPLE_FOCUS = `${BASE_STRING}CLEAR_MULTIPLE_FOCUS` as const;
-/* eslint-enable prefer-template */
 
 interface LectureDetail {
   lecture: Lecture;

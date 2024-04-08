@@ -1,6 +1,5 @@
 const BASE_STRING = 'P_P_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_PLANNERS = `${BASE_STRING}SET_PLANNERS` as const;
 export const CLEAR_PLANNERS = `${BASE_STRING}CLEAR_PLANNERS` as const;
@@ -15,7 +14,6 @@ export const REORDER_PLANNER = `${BASE_STRING}REORDER_PLANNER` as const;
 export const UPDATE_CELL_SIZE = `${BASE_STRING}UPDATE_CELL_SIZE` as const;
 export const SET_IS_TRACK_SETTINGS_SECTION_OPEN =
   `${BASE_STRING}SET_IS_TRACK_SETTINGS_SECTION_OPEN` as const;
-/* eslint-enable prefer-template */
 
 import Planner from '@/shapes/model/planner/Planner';
 import { ItemType } from '@/components/tiles/PlannerTile';

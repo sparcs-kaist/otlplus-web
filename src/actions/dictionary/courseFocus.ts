@@ -1,13 +1,11 @@
 const BASE_STRING = 'D_CA_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_COURSE_FOCUS = `${BASE_STRING}SET_COURSE_FOCUS` as const;
 export const CLEAR_COURSE_FOCUS = `${BASE_STRING}CLEAR_COURSE_FOCUS` as const;
 export const SET_REVIEWS = `${BASE_STRING}SET_REVIEWS` as const;
 export const UPDATE_REVIEW = `${BASE_STRING}UPDATE_REVIEW` as const;
 export const SET_LECTURES = `${BASE_STRING}SET_LECTURES` as const;
-/* eslint-enable prefer-template */
 
 import Course from '@/shapes/model/subject/Course';
 import Review from '@/shapes/model/review/Review';

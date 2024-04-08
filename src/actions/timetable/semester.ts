@@ -2,10 +2,8 @@ import { SemesterType } from '@/shapes/enum';
 
 const BASE_STRING = 'T_SM_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_SEMESTER = `${BASE_STRING}SET_SEMESTER` as const;
-/* eslint-enable prefer-template */
 
 export function reset() {
   return {

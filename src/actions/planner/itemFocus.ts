@@ -1,6 +1,5 @@
 const BASE_STRING = 'I_CA_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_ITEM_FOCUS = `${BASE_STRING}SET_ITEM_FOCUS` as const;
 export const CLEAR_ITEM_FOCUS = `${BASE_STRING}CLEAR_ITEM_FOCUS` as const;
@@ -8,7 +7,6 @@ export const SET_CATEGORY_FOCUS = `${BASE_STRING}SET_CATEGORY_FOCUS` as const;
 export const CLEAR_CATEGORY_FOCUS = `${BASE_STRING}CLEAR_CATEGORY_FOCUS` as const;
 export const SET_REVIEWS = `${BASE_STRING}SET_REVIEWS` as const;
 export const SET_LECTURES = `${BASE_STRING}SET_LECTURES` as const;
-/* eslint-enable prefer-template */
 
 import Review from '@/shapes/model/review/Review';
 import Course from '@/shapes/model/subject/Course';

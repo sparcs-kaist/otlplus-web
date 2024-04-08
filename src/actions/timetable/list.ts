@@ -3,7 +3,6 @@ import Lecture from '@/shapes/model/subject/Lecture';
 
 const BASE_STRING = 'T_L_';
 
-/* eslint-disable prefer-template */
 export const RESET = `${BASE_STRING}RESET` as const;
 export const SET_SELECTED_LIST_CODE = `${BASE_STRING}SET_SELECTED_LIST_CODE` as const;
 export const SET_LIST_LECTURES = `${BASE_STRING}SET_LIST_LECTURES` as const;
@@ -13,7 +12,6 @@ export const ADD_LECTURE_TO_CART = `${BASE_STRING}ADD_LECTURE_TO_CART` as const;
 export const DELETE_LECTURE_FROM_CART = `${BASE_STRING}DELETE_LECTURE_FROM_CART` as const;
 export const SET_MOBILE_IS_LECTURE_LIST_OPEN =
   `${BASE_STRING}SET_MOBILE_IS_LECTURE_LIST_OPEN` as const;
-/* eslint-enable prefer-template */
 
 export function reset() {
   return {
