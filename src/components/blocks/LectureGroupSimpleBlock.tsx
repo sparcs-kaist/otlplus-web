@@ -2,15 +2,15 @@ import React from 'react';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr } from '../../utils/lectureUtils';
-import lecture from '../../shapes/model/subject/Lecture';
+import Lecture from '@/shapes/model/subject/Lecture';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
 
-interface lectureGroupSimpleBlockProps {
-  lectures: lecture[];
+interface LectureGroupSimpleBlockProps {
+  lectures: Lecture[];
 }
 
-const LectureGroupSimpleBlock: React.FC<lectureGroupSimpleBlockProps> = ({ lectures }) => {
-  const getClass = (lecture: lecture) => {
+const LectureGroupSimpleBlock: React.FC<LectureGroupSimpleBlockProps> = ({ lectures }) => {
+  const getClass = (lecture: Lecture) => {
     if (!lecture.class_title) {
       return classNames('');
     }

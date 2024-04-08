@@ -36,6 +36,10 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'prettier'],
   rules: {
+    '@typescript-eslint/naming-convention': [
+      'error',
+      { selector: 'typeLike', format: ['PascalCase'] },
+    ],
     'no-console': 'error',
     'linebreak-style': 'off',
     'import/extensions': 'off',

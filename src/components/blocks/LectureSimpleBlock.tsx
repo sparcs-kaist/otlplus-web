@@ -3,14 +3,15 @@ import { useTranslation } from 'react-i18next';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 
-import lecture from '@/shapes/model/subject/Lecture';
+import Lecture from '@/shapes/model/subject/Lecture';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
+
 interface LectureSimpleBlockProps {
-  lecture: lecture;
+  lecture: Lecture;
   isRaised: boolean;
   isDimmed: boolean;
   hasReview: boolean;
-  onClick?: (x: lecture) => void;
+  onClick?: (x: Lecture) => void;
 }
 const LectureSimpleBlock: React.FC<LectureSimpleBlockProps> = ({
   lecture,

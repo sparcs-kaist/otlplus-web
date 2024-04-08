@@ -2,26 +2,27 @@ import React from 'react';
 
 import { appBoundClassNames as classNames } from '../../common/boundClassNames';
 import { getProfessorsShortStr, getClassroomStr } from '../../utils/lectureUtils';
-import lecture from '../../shapes/model/subject/Lecture';
+import Lecture from '@/shapes/model/subject/Lecture';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
 
-type lectureVoidFunc = (x: lecture) => void;
-interface lectureGroupBlockRowProps {
-  lecture: lecture;
+type LectureVoidFunc = (x: Lecture) => void;
+
+interface LectureGroupBlockRowProps {
+  lecture: Lecture;
   isHighlighted: boolean;
   inTimetable: boolean;
   isTimetableReadonly: boolean;
   inCart: boolean;
   fromCart: boolean;
-  addToCart: lectureVoidFunc;
-  addToTable: lectureVoidFunc;
-  deleteFromCart: lectureVoidFunc;
-  onMouseOver?: lectureVoidFunc;
-  onMouseOut?: lectureVoidFunc;
-  onClick?: lectureVoidFunc;
+  addToCart: LectureVoidFunc;
+  addToTable: LectureVoidFunc;
+  deleteFromCart: LectureVoidFunc;
+  onMouseOver?: LectureVoidFunc;
+  onMouseOut?: LectureVoidFunc;
+  onClick?: LectureVoidFunc;
 }
 
-const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
+const LectureGroupBlockRow: React.FC<LectureGroupBlockRowProps> = ({
   lecture,
   isHighlighted,
   inTimetable,
@@ -35,8 +36,8 @@ const LectureGroupBlockRow: React.FC<lectureGroupBlockRowProps> = ({
   onMouseOut,
   onClick,
 }) => {
-  const getClass = (lec: lecture) => {
-    switch (lec.class_title.length) {
+  const getClass = (lecture: Lecture) => {
+    switch (lecture.class_title.length) {
       case 1:
         return classNames('block--lecture-group__row-content__texts__main__fixed-1');
       case 2:
