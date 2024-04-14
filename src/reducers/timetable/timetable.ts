@@ -54,53 +54,45 @@ const timetable = (state = initialState, action: TimetableAction) => {
      * If the selectedTimetable is not myTimetable, it will be updated to the first timetable of the semester.
      */
     case SET_TIMETABLES: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         timetables: action.timetables,
         selectedTimetable:
           state.selectedTimetable?.id === state.myTimetable.id
             ? state.selectedTimetable
             : action.timetables[0],
-      });
+      };
     }
     /**
      * Clear timetables before fetching new timetables when semester changes.
      */
     case CLEAR_TIMETABLES: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         timetables: null,
         selectedTimetable:
           state.selectedTimetable?.id === state.myTimetable.id
-            ? {
-                ...state.selectedTimetable,
-                lectures: [],
-              }
+            ? { ...state.selectedTimetable, lectures: [] }
             : null,
-      });
+      };
     }
     case SET_MY_TIMETABLE_LECTURES: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         // Update myTimetable with lectures
-        myTimetable: {
-          ...state.myTimetable,
-          lectures: action.lectures,
-        },
+        myTimetable: { ...state.myTimetable, lectures: action.lectures },
         // Update selectedTimetable with lectures if myTimetable is selected
         selectedTimetable:
           state.selectedTimetable?.id === state.myTimetable.id
-            ? {
-                ...state.selectedTimetable,
-                lectures: action.lectures,
-              }
+            ? { ...state.selectedTimetable, lectures: action.lectures }
             : state.selectedTimetable,
-      });
+      };
     }
     /**
      * Set selectedTimetable when the user selects a timetable tab.
      */
     case SET_SELECTED_TIMETABLE: {
-      return Object.assign({}, state, {
-        selectedTimetable: action.timetable,
-      });
+      return { ...state, selectedTimetable: action.timetable };
     }
     case CREATE_TIMETABLE: {
       if (!state.timetables) {
@@ -115,10 +107,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
         lectures: [],
         arrange_order: newArrangeOrder,
       };
-      return Object.assign({}, state, {
-        selectedTimetable: newTable,
-        timetables: [...state.timetables, newTable],
-      });
+      return { ...state, selectedTimetable: newTable, timetables: [...state.timetables, newTable] };
     }
     case DELETE_TIMETABLE: {
       if (!state.timetables) {
@@ -130,10 +119,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
         indexOfTable !== state.timetables.length - 1 // If the deleted timetable is not the last one
           ? newTables[indexOfTable]
           : newTables[indexOfTable - 1];
-      return Object.assign({}, state, {
-        selectedTimetable: newSelectedTimetable,
-        timetables: newTables,
-      });
+      return { ...state, selectedTimetable: newSelectedTimetable, timetables: newTables };
     }
     case DUPLICATE_TIMETABLE: {
       if (!state.timetables) {
@@ -144,10 +130,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
         lectures: action.timetable.lectures,
         arrange_order: Math.max(...state.timetables.map((t) => t.arrange_order)) + 1,
       };
-      return Object.assign({}, state, {
-        selectedTimetable: newTable,
-        timetables: [...state.timetables, newTable],
-      });
+      return { ...state, selectedTimetable: newTable, timetables: [...state.timetables, newTable] };
     }
     case ADD_LECTURE_TO_TIMETABLE: {
       if (!state.timetables || !state.selectedTimetable) {
@@ -158,10 +141,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
         lectures: state.selectedTimetable.lectures.concat([action.lecture]),
       };
       const newTables = state.timetables.map((t) => (t.id === newTable.id ? newTable : t));
-      return Object.assign({}, state, {
-        selectedTimetable: newTable,
-        timetables: newTables,
-      });
+      return { ...state, selectedTimetable: newTable, timetables: newTables };
     }
     case REMOVE_LECTURE_FROM_TIMETABLE: {
       if (!state.timetables || !state.selectedTimetable) {
@@ -172,10 +152,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
         lectures: state.selectedTimetable.lectures.filter((l) => l.id !== action.lecture.id),
       };
       const newTables = state.timetables.map((t) => (t.id === newTable.id ? newTable : t));
-      return Object.assign({}, state, {
-        selectedTimetable: newTable,
-        timetables: newTables,
-      });
+      return { ...state, selectedTimetable: newTable, timetables: newTables };
     }
     case REORDER_TIMETABLE: {
       if (!state.timetables || !state.selectedTimetable || state.selectedTimetable.id === MY) {
@@ -216,20 +193,13 @@ const timetable = (state = initialState, action: TimetableAction) => {
       });
     }
     case UPDATE_CELL_SIZE: {
-      return Object.assign({}, state, {
-        cellWidth: action.width,
-        cellHeight: action.height,
-      });
+      return { ...state, cellWidth: action.width, cellHeight: action.height };
     }
     case SET_IS_DRAGGING: {
-      return Object.assign({}, state, {
-        isDragging: action.isDragging,
-      });
+      return { ...state, isDragging: action.isDragging };
     }
     case SET_MOBILE_IS_TIMETABLE_TABS_OPEN: {
-      return Object.assign({}, state, {
-        isTimetableTabsOpenOnMobile: action.isTimetableTabsOpenOnMobile,
-      });
+      return { ...state, isTimetableTabsOpenOnMobile: action.isTimetableTabsOpenOnMobile };
     }
     default: {
       return state;

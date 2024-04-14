@@ -66,9 +66,7 @@ const list = (state = initialState, action: LectureListAction) => {
       return initialState;
     }
     case SET_SELECTED_LIST_CODE: {
-      return Object.assign({}, state, {
-        selectedListCode: action.listCode,
-      });
+      return { ...state, selectedListCode: action.listCode };
     }
     case SET_LIST_LECTURES: {
       const newState = { ...state };
@@ -121,9 +119,7 @@ const list = (state = initialState, action: LectureListAction) => {
       return newState;
     }
     case SET_MOBILE_IS_LECTURE_LIST_OPEN: {
-      return Object.assign({}, state, {
-        isLectureListOpenOnMobile: action.isLectureListOpenOnMobile,
-      });
+      return { ...state, isLectureListOpenOnMobile: action.isLectureListOpenOnMobile };
     }
     default: {
       return state;

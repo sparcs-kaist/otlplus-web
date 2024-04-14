@@ -9,6 +9,7 @@ import {
 } from '@/actions/timetable/search';
 import { Day } from '@/shapes/enum';
 import LectureLastSearchOption from '@/shapes/state/timetable/LectureLastSearchOption';
+import { stat } from 'fs';
 
 interface SearchState {
   open: boolean;
@@ -32,36 +33,30 @@ const search = (state = initialState, action: SearchAction) => {
       return initialState;
     }
     case OPEN_SEARCH: {
-      return Object.assign({}, state, {
-        open: true,
-      });
+      return { ...state, open: true };
     }
     case CLOSE_SEARCH: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         open: false,
         classtimeBegin: null,
         classtimeEnd: null,
         classtimeDay: null,
-      });
+      };
     }
     case SET_LAST_SEARCH_OPTION: {
-      return Object.assign({}, state, {
-        lastSearchOption: action.lastSearchOption,
-      });
+      return { ...state, lastSearchOption: action.lastSearchOption };
     }
     case SET_CLASSTIME_OPTIONS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         classtimeBegin: action.classtimeBegin,
         classtimeEnd: action.classtimeEnd,
         classtimeDay: action.classtimeDay,
-      });
+      };
     }
     case CLEAR_CLASSTIME_OPTIONS: {
-      return Object.assign({}, state, {
-        classtimeBegin: null,
-        classtimeEnd: null,
-        classtimeDay: null,
-      });
+      return { ...state, classtimeBegin: null, classtimeEnd: null, classtimeDay: null };
     }
     default: {
       return state;

@@ -38,43 +38,36 @@ const lectureFocus = (state = initialState, action: LectureFocusAction) => {
     }
     case SET_LECTURE_FOCUS: {
       const lectureChanged = !state.lecture || state.lecture.id !== action.lecture.id;
-      return Object.assign(
-        {},
-        state,
-        {
-          from: action.from,
-          clicked: action.clicked,
-          lecture: action.lecture,
-        },
-        lectureChanged ? { reviews: null } : {}, // if user clicked the same lecture again, don't clear reviews
-      );
+      return {
+        ...state,
+        from: action.from,
+        clicked: action.clicked,
+        lecture: action.lecture,
+        reviews: lectureChanged ? null : state.reviews,
+      };
     }
     case CLEAR_LECTURE_FOCUS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         from: LectureFocusFrom.NONE,
         clicked: false,
         lecture: null,
         reviews: null,
-      });
+      };
     }
     case SET_REVIEWS: {
-      return Object.assign({}, state, {
-        reviews: action.reviews,
-      });
+      return { ...state, reviews: action.reviews };
     }
     case SET_MULTIPLE_FOCUS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         from: LectureFocusFrom.MULTIPLE,
         multipleTitle: action.multipleTitle,
         multipleDetails: action.multipleDetails,
-      });
+      };
     }
     case CLEAR_MULTIPLE_FOCUS: {
-      return Object.assign({}, state, {
-        from: LectureFocusFrom.NONE,
-        multipleTitle: '',
-        multipleDetails: [],
-      });
+      return { ...state, from: LectureFocusFrom.NONE, multipleTitle: '', multipleDetails: [] };
     }
     default: {
       return state;
