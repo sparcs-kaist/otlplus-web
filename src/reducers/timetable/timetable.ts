@@ -187,10 +187,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
       });
       newTables.sort((t1, t2) => t1.arrange_order - t2.arrange_order);
       const updatedTable = newTables.find((t) => t.id === state.selectedTimetable?.id);
-      return Object.assign({}, state, {
-        timetables: newTables,
-        selectedTimetable: updatedTable,
-      });
+      return { ...state, timetables: newTables, selectedTimetable: updatedTable };
     }
     case UPDATE_CELL_SIZE: {
       return { ...state, cellWidth: action.width, cellHeight: action.height };
