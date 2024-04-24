@@ -362,7 +362,7 @@
     "email": {
       "title": "[Report Review]",
       "header": "[Reason for Reporting]\n*Please describe a reason for reporting.",
-      "footer": "\n[Review Information]\n*This information has been filled automatically. Please do NOT edit.",
+      "footer": "[Review Information]\n*This information has been filled automatically. Please do NOT edit.",
       "divider": "------------------------------------------------------------------",
       "footerContent": "Lecture:  {{title}} ({{code}})\nSemester:  {{year}} {{semester}}\nProf.: {{professor}}\nContent:\n{{content}}"
     }
