@@ -65,7 +65,7 @@ const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
     const header = t('ui.email.header');
     const footer = t('ui.email.footer');
     const divider = t('ui.email.divider');
-    const footerContent = t('ui.email.footerContent', parmas);
+    const footerContent = t('ui.email.footerContent', params);
     const body = `${header}\n${divider}\n\n\n${divider}\n${footer}\n${footerContent}`;
 
     window.location.href = `mailto:${CONTACT}?subject=${encodeURIComponent(subject) || ''} &body=${
