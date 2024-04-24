@@ -52,7 +52,7 @@ const ReviewBlock = ({ t, review, shouldLimitLines, linkTo, pageFrom }) => {
     e.stopPropagation();
     e.preventDefault();
 
-    const parmas = {
+    const params = {
       title: review.lecture.title,
       code: review.lecture.old_code,
       year: review.lecture.year,
