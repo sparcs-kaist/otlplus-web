@@ -127,7 +127,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
       }
       const newTable = {
         id: action.id,
-        lectures: action.timetable.lectures,
+        lectures: { ...action.timetable.lectures },
         arrange_order: Math.max(...state.timetables.map((t) => t.arrange_order)) + 1,
       };
       return { ...state, selectedTimetable: newTable, timetables: [...state.timetables, newTable] };
