@@ -97,6 +97,7 @@ const list = (state = initialState, action: LectureListAction) => {
      */
     case CLEAR_SEARCH_LIST_LECTURES: {
       const newState = { ...state };
+      newState.lists = { ...newState.lists };
       newState.lists[LectureListCode.SEARCH].lectureGroups = null;
       return newState;
     }
@@ -106,6 +107,7 @@ const list = (state = initialState, action: LectureListAction) => {
       const newLectures = [...lectures, action.lecture];
       const newLectureGroups = groupLectures(newLectures);
       const newState = { ...state };
+      newState.lists = { ...newState.lists };
       newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
       return newState;
     }
@@ -115,6 +117,7 @@ const list = (state = initialState, action: LectureListAction) => {
       const newLectures = lectures.filter((l) => l.id !== action.lecture.id);
       const newLectureGroups = groupLectures(newLectures);
       const newState = { ...state };
+      newState.lists = { ...newState.lists };
       newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
       return newState;
     }
