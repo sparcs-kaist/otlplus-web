@@ -77,3 +77,28 @@ export const enum Day {
   SAT,
   SUN,
 }
+
+export enum DepartmentCode {
+  ALL = 'ALL',
+  HSS = 'HSS',
+  CE = 'CE',
+  BTM = 'BTM',
+  ME = 'ME',
+  PH = 'PH',
+  BiS = 'BiS',
+  IE = 'IE',
+  ID = 'ID',
+  BS = 'BS',
+  MAS = 'MAS',
+  NQE = 'NQE',
+  EE = 'EE',
+  CS = 'CS',
+  AE = 'AE',
+  CH = 'CH',
+  CBE = 'CBE',
+  MS = 'MS',
+  TS = 'TS',
+  SS = 'SS',
+  BCS = 'BCS',
+  ETC = 'ETC',
+}
