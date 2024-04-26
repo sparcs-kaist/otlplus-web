@@ -7,17 +7,28 @@ import {
   ADD_LECTURE_TO_CART,
   DELETE_LECTURE_FROM_CART,
   SET_MOBILE_IS_LECTURE_LIST_OPEN,
-} from '../../actions/timetable/list';
-
-import { unique } from '../../utils/commonUtils';
+  LectureListAction,
+} from '@/actions/timetable/list';
+import { unique } from '@/utils/commonUtils';
 
 import { LectureListCode } from '@/shapes/enum';
+import Lecture from '@/shapes/model/subject/Lecture';
 
-const initialState = {
+interface ListState {
+  selectedListCode: LectureListCode;
+  lists: {
+    [key in LectureListCode]: {
+      lectureGroups: Lecture[][] | null; // null when not loaded, empty array when loaded but no lectures
+    };
+  };
+  isLectureListOpenOnMobile: boolean;
+}
+
+const initialState: ListState = {
   selectedListCode: LectureListCode.SEARCH,
   lists: {
     [LectureListCode.SEARCH]: {
-      lectureGroups: [],
+      lectureGroups: [], // show empty array by default for search, instead of null
     },
     [LectureListCode.BASIC]: {
       lectureGroups: null,
@@ -32,62 +43,63 @@ const initialState = {
   isLectureListOpenOnMobile: false,
 };
 
-const list = (state = initialState, action) => {
-  const groupLectures = (lectures) => {
-    if (lectures.length === 0) {
-      return [];
-    }
-
+const list = (state = initialState, action: LectureListAction) => {
+  const groupLectures = (lectures: Lecture[]) => {
     const sortedLectures = lectures.sort((a, b) => {
       if (a.old_code !== b.old_code) {
         return a.old_code > b.old_code ? 10 : -10;
       }
       return a.class_no > b.class_no ? 1 : -1;
     });
-    const courseIds = unique(sortedLectures.map((l) => l.course));
+    const courseIds: number[] = unique(sortedLectures.map((l) => l.course));
     const lectureGroups = courseIds
-      .map((c) => sortedLectures.filter((l) => l.course === c))
-      .filter((c) => c.length > 0);
+      .map((course) => sortedLectures.filter((l) => l.course === course))
+      .filter((lectureGroup) => lectureGroup.length > 0);
     return lectureGroups;
   };
 
-  const ungroupLectureGroups = (lectureGroups) => lectureGroups.flat(1);
+  const ungroupLectureGroups = (lectureGroups: Lecture[][] | null) =>
+    lectureGroups ? lectureGroups.flat(1) : [];
 
   switch (action.type) {
     case RESET: {
       return initialState;
     }
     case SET_SELECTED_LIST_CODE: {
-      return Object.assign({}, state, {
-        selectedListCode: action.listCode,
-      });
+      return { ...state, selectedListCode: action.listCode };
     }
     case SET_LIST_LECTURES: {
       const newState = { ...state };
       newState.lists = { ...newState.lists };
       newState.lists[action.code] = { ...newState.lists[action.code] };
       newState.lists[action.code].lectureGroups = groupLectures(action.lectures);
-      return Object.assign({}, state, newState);
+      return newState;
     }
+    /**
+     * This is used to clear all lectures in all lists.
+     * Only search list becomes empty array, others become null.
+     * @example { SEARCH: [Lecture1, Lecture2, ...], BASIC: [Lecture3, Lecture4, ...], ... } => { SEARCH: [], BASIC: null, ...
+     */
     case CLEAR_ALL_LISTS_LECTURES: {
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      Object.keys(newState.lists).forEach((k) => {
-        newState.lists[k] = { ...newState.lists[k] };
-        if (k === LectureListCode.SEARCH) {
-          newState.lists[k].lectureGroups = [];
-        } else {
-          newState.lists[k].lectureGroups = null;
-        }
+      // keys can be not only LectureListCode but also FavoriteDepartment which set in FavoriteDepartmentsSubSection.
+      const keys = Object.keys(newState.lists) as Array<LectureListCode | string>;
+      keys.forEach((k) => {
+        newState.lists[k as keyof typeof newState.lists].lectureGroups =
+          k === LectureListCode.SEARCH ? [] : null;
       });
-      return Object.assign({}, state, newState);
+      return newState;
     }
+    /**
+     * This is used to make search result null before getting new search result.
+     * @example { SEARCH: [Lecture1, Lecture2, ...], BASIC: [...], ... } => { SEARCH: null, BASIC: [...], ... }
+     */
     case CLEAR_SEARCH_LIST_LECTURES: {
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists[LectureListCode.SEARCH] = { ...newState.lists[LectureListCode.SEARCH] };
       newState.lists[LectureListCode.SEARCH].lectureGroups = null;
-      return Object.assign({}, state, newState);
+      return newState;
     }
     case ADD_LECTURE_TO_CART: {
       const { lectureGroups } = state.lists[LectureListCode.CART];
@@ -96,9 +108,8 @@ const list = (state = initialState, action) => {
       const newLectureGroups = groupLectures(newLectures);
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists[LectureListCode.CART] = { ...newState.lists[LectureListCode.CART] };
       newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
-      return Object.assign({}, state, newState);
+      return newState;
     }
     case DELETE_LECTURE_FROM_CART: {
       const { lectureGroups } = state.lists[LectureListCode.CART];
@@ -107,14 +118,11 @@ const list = (state = initialState, action) => {
       const newLectureGroups = groupLectures(newLectures);
       const newState = { ...state };
       newState.lists = { ...newState.lists };
-      newState.lists[LectureListCode.CART] = { ...newState.lists[LectureListCode.CART] };
       newState.lists[LectureListCode.CART].lectureGroups = newLectureGroups;
-      return Object.assign({}, state, newState);
+      return newState;
     }
     case SET_MOBILE_IS_LECTURE_LIST_OPEN: {
-      return Object.assign({}, state, {
-        isLectureListOpenOnMobile: action.isLectureListOpenOnMobile,
-      });
+      return { ...state, isLectureListOpenOnMobile: action.isLectureListOpenOnMobile };
     }
     default: {
       return state;

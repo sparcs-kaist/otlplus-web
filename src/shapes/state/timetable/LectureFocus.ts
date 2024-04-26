@@ -3,6 +3,11 @@ import type Lecture from '@/shapes/model/subject/Lecture';
 import type Review from '@/shapes/model/review/Review';
 
 type EmtpyArray = [];
+export interface Detail {
+  lecture?: Lecture;
+  name: string;
+  info: string;
+}
 
 interface FromNone {
   from: LectureFocusFrom.NONE;
@@ -28,11 +33,7 @@ interface FromMutliple {
   lecture?: null;
   reviews?: null;
   multipleTitle: '';
-  multipleDetails: {
-    lecture?: Lecture;
-    name: string;
-    info: string;
-  }[];
+  multipleDetails: Detail[];
 }
 
 type LectureFocus = FromNone | FromListOrTable | FromMutliple;
