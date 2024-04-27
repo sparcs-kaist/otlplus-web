@@ -58,7 +58,10 @@ const list = (state = initialState, action: ListAction) => {
         ...state,
         lists: {
           ...state.lists,
-          [action.code]: { courses: action.courses },
+          [action.code]: {
+            ...state.lists[action.code],
+            courses: action.courses,
+          },
         },
       };
     }
@@ -67,9 +70,13 @@ const list = (state = initialState, action: ListAction) => {
         ...state,
         lists: {
           ...state.lists,
-          [CourseListCode.SEARCH]: { courses: null },
+          [CourseListCode.SEARCH]: {
+            ...state.lists[CourseListCode.SEARCH],
+            courses: null,
+          },
         },
       };
+
     // case ADD_COURSE_READ: {
     //   const newState = {
     //     readCourses: [...state.readCourses, action.course],
