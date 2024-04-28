@@ -104,9 +104,6 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case DELETE_PLANNER: {
-      if (!state.selectedPlanner) {
-        return state;
-      }
       const indexOfPlanner = state.planners.findIndex((t) => t.id === action.planner.id);
       const newPlanners = state.planners.filter((t) => t.id !== action.planner.id);
       const newSelectedPlanner =
@@ -185,9 +182,6 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case REORDER_PLANNER: {
-      if (!state.selectedPlanner) {
-        return state;
-      }
       const newPlanners = state.planners.map((t) => {
         if (t.id === action.planner.id) {
           return {
