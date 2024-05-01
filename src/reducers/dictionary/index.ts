@@ -9,4 +9,5 @@ const CombinedReducer = combineReducers({
   search: search,
 });
 
+export type DictionaryState = ReturnType<typeof CombinedReducer>;
 export default CombinedReducer;
