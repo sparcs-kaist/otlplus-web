@@ -46,18 +46,23 @@ const courseFocus = (state = initialState, action: DictionaryAction) => {
     }
     case UPDATE_REVIEW: {
       const originalReviews = state.reviews;
+
+      if (originalReviews == undefined) {
+        return state;
+      }
+
       const { review, isNew } = action;
-      const foundIndex = originalReviews?.findIndex((r) => r.id === review.id) ?? -1;
+      const foundIndex = originalReviews.findIndex((r) => r.id === review.id);
       const newReviews =
         foundIndex !== -1
           ? [
-              ...originalReviews!.slice(0, foundIndex),
+              ...originalReviews.slice(0, foundIndex),
               review,
-              ...originalReviews!.slice(foundIndex + 1, originalReviews!.length),
+              ...originalReviews.slice(foundIndex + 1, originalReviews.length),
             ]
           : isNew
-          ? [review, ...(originalReviews?.slice() ?? [])]
-          : [...(originalReviews?.slice() ?? [])];
+          ? [review, ...originalReviews.slice()]
+          : [...originalReviews.slice()];
       return { ...state, reviews: newReviews };
     }
     case SET_LECTURES: {

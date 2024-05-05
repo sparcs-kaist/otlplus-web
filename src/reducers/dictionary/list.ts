@@ -14,7 +14,7 @@ interface ListState {
   selectedListCode: CourseListCode;
   lists: {
     [key in CourseListCode]: {
-      courses: Course[][] | null;
+      courses: Course[] | null;
     };
   };
   readCourses: Course[];
