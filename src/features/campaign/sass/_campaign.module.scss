@@ -1,8 +1,10 @@
+@use '@/sass/abstracts/color' as color;
+
 @import '../../../sass/abstracts/variables';
 
 .fullscreen-section {
   position: relative;
-  background-color: $color-section-background;
+  background-color: color.$section-background;
   border-radius: $section-border-radius;
   box-shadow: $section-box-shadow;
   overflow: hidden;
@@ -14,12 +16,12 @@
 
     button::before {
       font-size: 10px;
-      color: $color-highlight;
+      color: color.$highlight;
     }
 
     :global(.slick-active) {
       button::before {
-        color: $color-highlight;
+        color: color.$highlight;
         opacity: 1;
       }
     }

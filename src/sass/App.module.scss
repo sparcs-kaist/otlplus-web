@@ -1,3 +1,5 @@
+@use '@/sass/abstracts/color' as color;
+
 @import './abstracts/_variables.scss';
 @import './abstracts/_mixins.scss';
 
@@ -13,8 +15,8 @@ body * {
 body {
   font-size: $font-size-normal;
   line-height: $line-height-normal;
-  background-color: $color-page-background;
-  color: $color-text-normal;
+  background-color: color.$page-background;
+  color: color.$text-normal;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -377,13 +379,13 @@ a {
 .tabs {
   font-size: $font-size-small;
   line-height: $line-height-small;
-  color: $color-text-light;
+  color: color.$text-light;
   overflow: hidden;
 
   & .tabs__elem {
     padding: $tab-padding;
     text-align: center;
-    background-color: $color-tab-background-dark;
+    background-color: color.$tab-background-dark;
     white-space: nowrap;
     display: inline-block;
     @include mixin-media-landscape {
@@ -393,13 +395,13 @@ a {
       touch-action: pan-x pinch-zoom;
     }
     &.tabs__elem--selected {
-      background-color: $color-tab-background;
-      color: $color-text-normal;
+      background-color: color.$tab-background;
+      color: color.$text-normal;
     }
     &:not(.tabs__elem--selected) {
       cursor: pointer;
       &:hover {
-        background-color: $color-tab-background-darker;
+        background-color: color.$tab-background-darker;
       }
     }
     &.tabs__elem--draggable {
@@ -472,16 +474,16 @@ a {
       @include mixin-media-portrait {
         width: 100%;
         padding: $block-padding-tb $block-padding-lr;
-        background-color: $color-block-background;
+        background-color: color.$block-background;
         margin-bottom: $block-margin;
         border-radius: $block-border-radius;
         text-align: left;
         &.tabs__elem--selected {
-          background-color: $color-block-background-dark;
+          background-color: color.$block-background-dark;
         }
         &:not(.tabs__elem--selected) {
           &:hover {
-            background-color: $color-block-background-dark;
+            background-color: color.$block-background-dark;
           }
         }
       }
@@ -505,7 +507,7 @@ a {
       }
 
       & > button {
-        color: $color-text-light;
+        color: color.$text-light;
         @include mixin-media-landscape {
           margin-left: 4px;
         }
@@ -513,7 +515,7 @@ a {
           margin-left: 8px;
         }
         &:hover {
-          color: $color-text-dark;
+          color: color.$text-dark;
         }
 
         & > span {
@@ -546,16 +548,16 @@ a {
       @include mixin-media-portrait {
         width: 100%;
         padding: $block-padding-tb $block-padding-lr;
-        background-color: $color-block-background;
+        background-color: color.$block-background;
         margin-bottom: $block-margin;
         border-radius: $block-border-radius;
         text-align: left;
         &.tabs__elem--selected {
-          background-color: $color-block-background-dark;
+          background-color: color.$block-background-dark;
         }
         &:not(.tabs__elem--selected) {
           &:hover {
-            background-color: $color-block-background-dark;
+            background-color: color.$block-background-dark;
           }
         }
       }
@@ -579,7 +581,7 @@ a {
       }
 
       & > button {
-        color: $color-text-light;
+        color: color.$text-light;
         @include mixin-media-landscape {
           margin-left: 4px;
         }
@@ -587,7 +589,7 @@ a {
           margin-left: 8px;
         }
         &:hover {
-          color: $color-text-dark;
+          color: color.$text-dark;
         }
 
         & > span {
@@ -621,7 +623,7 @@ a {
 .section {
   position: relative;
   padding: $section-padding;
-  background-color: $color-section-background;
+  background-color: color.$section-background;
   border-radius: $section-border-radius;
   box-shadow: $section-box-shadow;
   overflow: hidden;
@@ -971,7 +973,7 @@ a {
           > strong {
             width: 100%;
             text-align: right;
-            color: $color-text-light;
+            color: color.$text-light;
             font-size: $font-size-smallest;
             line-height: $line-height-smallest;
             display: block;
@@ -1004,7 +1006,7 @@ a {
           text-align: center;
           font-size: $font-size-smallest;
           line-height: $line-height-smallest;
-          color: $color-text-light;
+          color: color.$text-light;
           padding-bottom: 6px;
           margin: 0 -20px;
         }
@@ -1012,9 +1014,9 @@ a {
         &__line {
           flex: none;
           height: 1px;
-          border-bottom: 1px solid $color-normal-line;
+          border-bottom: 1px solid color.$normal-line;
           &--bold {
-            border-bottom-color: $color-normal-line-dark;
+            border-bottom-color: color.$normal-line-dark;
           }
           &--dashed {
             border-bottom-style: dashed;
@@ -1068,10 +1070,10 @@ a {
           height: 13px;
           border-radius: 2px;
           padding: 2px 3px;
-          background-color: $color-block-background;
+          background-color: color.$block-background;
           &.highlighted {
-            background-color: $color-block-background-highlight;
-            color: $color-highlight;
+            background-color: color.$block-background-highlight;
+            color: color.$highlight;
           }
 
           & > span:first-child {
@@ -1086,7 +1088,7 @@ a {
             border-radius: 50%;
 
             &.highlighted {
-              background-color: $color-highlight !important;
+              background-color: color.$highlight !important;
             }
           }
         }
@@ -1098,10 +1100,10 @@ a {
           width: 0px;
           height: 0px;
           border-radius: 50%;
-          box-shadow: 0 0 3px 3px change-color($color-block-shadow-dark, $alpha: 0.8);
+          box-shadow: 0 0 3px 3px change-color(color.$block-shadow-dark, $alpha: 0.8);
           transform: scale(1.5, 1);
           &.highlighted {
-            box-shadow: 0 0 3px 3px change-color($color-block-shadow-highlight, $alpha: 0.8);
+            box-shadow: 0 0 3px 3px change-color(color.$block-shadow-highlight, $alpha: 0.8);
           }
         }
 
@@ -1112,9 +1114,9 @@ a {
           margin: -3px -2px 0 -2px;
           border-left: 2px solid transparent;
           border-right: 2px solid transparent;
-          border-top: 3px solid $color-block-background;
+          border-top: 3px solid color.$block-background;
           &.highlighted {
-            border-top-color: $color-block-background-highlight;
+            border-top-color: color.$block-background-highlight;
           }
         }
       }
@@ -1218,7 +1220,7 @@ a {
             }
 
             &.focused {
-              color: $color-highlight;
+              color: color.$highlight;
             }
 
             & > div:first-child {
@@ -1274,7 +1276,7 @@ a {
         }
 
         & .disabled {
-          color: $color-text-disable;
+          color: color.$text-disable;
         }
       }
     }
@@ -1343,7 +1345,7 @@ a {
     }
 
     input::placeholder {
-      color: $color-text-placeholder;
+      color: color.$text-placeholder;
     }
 
     button {
@@ -1374,7 +1376,7 @@ a {
           > span,
           > strong {
             text-align: center;
-            color: $color-text-light;
+            color: color.$text-light;
             font-size: $font-size-smallest;
             line-height: $line-height-smallest;
             display: block;
@@ -1401,9 +1403,9 @@ a {
         &__line {
           flex: none;
           width: 1px;
-          border-left: 1px solid $color-normal-line;
+          border-left: 1px solid color.$normal-line;
           &--bold {
-            border-left-color: $color-normal-line-dark;
+            border-left-color: color.$normal-line-dark;
           }
           &--dashed {
             border-left-style: dashed;
@@ -1430,7 +1432,7 @@ a {
       & > div:first-child {
         width: 5px;
         height: 5px;
-        background-color: $color-highlight;
+        background-color: color.$highlight;
         border-radius: 50%;
       }
 
@@ -1438,7 +1440,7 @@ a {
         width: 1px;
         height: 57px - 5px + 2px;
         margin: 0 2px;
-        background-color: $color-highlight;
+        background-color: color.$highlight;
       }
     }
   }
@@ -1503,7 +1505,7 @@ a {
       justify-content: flex-end;
       gap: 12px;
       button {
-        color: $color-highlight;
+        color: color.$highlight;
       }
     }
   }
@@ -1540,7 +1542,7 @@ a {
         flex-direction: column;
         width: 10px + 8px + 1px;
         padding-right: 8px;
-        border-right: 1px solid $color-normal-line;
+        border-right: 1px solid color.$normal-line;
 
         &__toptitle {
           flex: none;
@@ -1573,7 +1575,7 @@ a {
           > strong {
             width: 100%;
             text-align: right;
-            color: $color-text-light;
+            color: color.$text-light;
             font-size: $font-size-smallest;
             line-height: $line-height-smallest;
             display: block;
@@ -1592,7 +1594,7 @@ a {
         padding: 0 6px;
         margin-right: 0px;
         flex: 1 1 0;
-        border-right: 1px solid $color-normal-line;
+        border-right: 1px solid color.$normal-line;
         &:last-child {
           margin-right: 0;
         }
@@ -1603,7 +1605,7 @@ a {
           flex: none;
           font-size: $font-size-smallest;
           line-height: $line-height-smallest;
-          color: $color-text-lighter;
+          color: color.$text-lighter;
 
           & > span:last-child {
             float: right;
@@ -1638,16 +1640,16 @@ a {
           font-size: $font-size-smaller;
           font-weight: bold;
           line-height: $line-height-smaller;
-          color: $color-text-normal;
+          color: color.$text-normal;
         }
 
         &__line {
           flex: none;
           height: 1px;
           margin: 0 1px;
-          border-bottom: 1px solid $color-normal-line;
+          border-bottom: 1px solid color.$normal-line;
           &--bold {
-            border-bottom-color: $color-normal-line-dark;
+            border-bottom-color: color.$normal-line-dark;
           }
           &--dashed {
             border-bottom-style: dashed;
@@ -1735,15 +1737,15 @@ a {
     margin $transition-duration-short ease-out,
     box-shadow $transition-duration-short ease-out;
   &.tile--highlighted {
-    background: $color-tile-background-highlight !important;
+    background: color.$tile-background-highlight !important;
   }
   &.tile--raised {
     margin-top: -$offset-raise;
     margin-bottom: $offset-raise;
-    box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
+    box-shadow: 0 6px 3px -3px color.$block-shadow-highlight;
   }
   &.tile--temp {
-    background-color: $color-tile-background-highlight;
+    background-color: color.$tile-background-highlight;
     opacity: $opacity-temp;
     z-index: 3;
     cursor: initial;
@@ -1762,7 +1764,7 @@ a {
       position: absolute;
       cursor: pointer;
       padding: 4px;
-      background-color: rgba($color-tile-background-highlight, $opacity-text-overlay);
+      background-color: rgba(color.$tile-background-highlight, $opacity-text-overlay);
       .tile--timetable:not(:hover) &,
       .tile--timetable:not(.tile--highlighted):not(.tile--raised) & {
         display: none;
@@ -1813,7 +1815,7 @@ a {
   }
 
   &--timetable-drag {
-    background-color: rgba($color-tile-background-highlight, $opacity-temp);
+    background-color: rgba(color.$tile-background-highlight, $opacity-temp);
     pointer-events: none;
     z-index: 1;
   }
@@ -1849,7 +1851,7 @@ a {
       position: absolute;
       cursor: pointer;
       padding: 4px;
-      background-color: rgba($color-tile-background-highlight, $opacity-text-overlay);
+      background-color: rgba(color.$tile-background-highlight, $opacity-text-overlay);
       .tile--planner:not(:hover) &,
       .tile--planner:not(.tile--highlighted):not(.tile--raised) & {
         display: none;
@@ -1901,7 +1903,7 @@ a {
 
         .tile--highlighted & {
           background-color: adjust-color(
-            $color-highlight,
+            color.$highlight,
             $saturation: -5%,
             $lightness: -10%
           ) !important;
@@ -1917,7 +1919,7 @@ a {
   padding: $section-padding 0 ($section-padding - 2px) ($section-padding - 2px);
   top: 0;
   right: $section-padding;
-  background-color: rgba($color-section-background, $opacity-text-overlay);
+  background-color: rgba(color.$section-background, $opacity-text-overlay);
   z-index: 90;
   .section--modal & {
     z-index: 290;
@@ -1934,7 +1936,7 @@ a {
 }
 
 .block {
-  background-color: $color-block-background;
+  background-color: color.$block-background;
   border-radius: $block-border-radius;
   font-size: $font-size-normal;
   line-height: $line-height-normal;
@@ -1948,13 +1950,13 @@ a {
     box-shadow $transition-duration-short ease-out;
   &[href]:not(.block--dimmed):hover,
   &.block--clickable:not(.block--dimmed):hover {
-    background-color: $color-block-background-dark;
+    background-color: color.$block-background-dark;
   }
   &.block--raised {
-    background-color: $color-block-background-dark;
+    background-color: color.$block-background-dark;
     position: relative;
     top: -$offset-raise;
-    box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
+    box-shadow: 0 6px 3px -3px color.$block-shadow-dark;
   }
   &.block--dimmed {
     opacity: 0.5;
@@ -1962,11 +1964,11 @@ a {
   }
   &.block--completed {
     &:not(.block--raised) {
-      color: rgba($color-text-normal, 0.45);
+      color: rgba(color.$text-normal, 0.45);
 
       & .block--lecture-group__row-content__texts__sub,
       & .block--planner-course__text__caption {
-        color: rgba($color-text-lighter, 0.45);
+        color: rgba(color.$text-lighter, 0.45);
       }
     }
 
@@ -1977,7 +1979,7 @@ a {
 
   & .block__completed-text {
     display: none;
-    color: darken($color-text-normal, 20%);
+    color: darken(color.$text-normal, 20%);
     font-size: $font-size-smaller;
     line-height: $line-height-smaller;
     position: absolute;
@@ -2004,7 +2006,7 @@ a {
 
     &__title {
       padding-bottom: 6px;
-      border-bottom: 1px solid $color-block-line;
+      border-bottom: 1px solid color.$block-line;
       margin-bottom: 6px;
 
       & > i:first-child {
@@ -2029,7 +2031,7 @@ a {
       &__caption {
         font-size: $font-size-smaller;
         line-height: $line-height-smaller;
-        color: $color-text-lighter;
+        color: color.$text-lighter;
         margin-bottom: 3px;
       }
 
@@ -2093,7 +2095,7 @@ a {
     }
 
     &__content {
-      color: $color-text-light;
+      color: color.$text-light;
       line-height: $line-height-normal + $delta-line-height-longcontent;
       &--limit-5 {
         overflow: hidden;
@@ -2143,7 +2145,7 @@ a {
     }
 
     &__content {
-      color: $color-text-light;
+      color: color.$text-light;
       line-height: $line-height-normal + $delta-line-height-longcontent;
       display: block;
       width: 100%;
@@ -2159,7 +2161,7 @@ a {
       }
 
       &::placeholder {
-        color: $color-text-placeholder;
+        color: color.$text-placeholder;
       }
     }
 
@@ -2234,7 +2236,7 @@ a {
 
   &--lecture-group {
     &.block--raised {
-      background-color: $color-block-background;
+      background-color: color.$block-background;
     }
 
     &__title {
@@ -2252,7 +2254,7 @@ a {
       }
 
       &--highlighted {
-        background-color: $color-block-background-dark;
+        background-color: color.$block-background-dark;
       }
 
       .block--dimmed & {
@@ -2262,7 +2264,7 @@ a {
 
     &__row-content {
       padding: 6px 0;
-      border-top: 1px solid $color-block-line;
+      border-top: 1px solid color.$block-line;
       display: flex;
       flex-direction: row;
       pointer-events: none;
@@ -2294,7 +2296,7 @@ a {
         &__sub {
           font-size: $font-size-smaller;
           line-height: $line-height-smaller;
-          color: $color-text-lighter;
+          color: color.$text-lighter;
           display: none;
           @include mixin-media-no-hover {
             @at-root .block--lecture-group__row--highlighted #{&} {
@@ -2344,7 +2346,7 @@ a {
 
     &__row-content {
       padding: 6px 0;
-      border-top: 1px solid $color-block-line;
+      border-top: 1px solid color.$block-line;
       display: flex;
       flex-direction: row;
       pointer-events: none;
@@ -2380,7 +2382,7 @@ a {
 
   &--review-simple {
     & > div:first-child {
-      color: $color-text-lighter;
+      color: color.$text-lighter;
       font-size: $font-size-smaller;
       line-height: $line-height-smaller;
       margin-bottom: 3px;
@@ -2393,7 +2395,7 @@ a {
     }
 
     & > div:nth-child(2) {
-      color: $color-text-light;
+      color: color.$text-light;
       font-size: $font-size-normal;
       line-height: $line-height-normal + $delta-line-height-longcontent;
       margin-bottom: 4px;
@@ -2510,21 +2512,21 @@ a {
 
     & > *:nth-child(2) {
       margin-left: 6px;
-      color: $color-highlight;
+      color: color.$highlight;
 
       @at-root :hover#{&} {
-        color: $color-highlight-dark;
+        color: color.$highlight-dark;
       }
     }
 
     & > *:nth-child(3) {
       margin-left: 5px;
-      color: $color-text-lighter;
+      color: color.$text-lighter;
       font-size: $font-size-small;
       line-height: $line-height-small;
 
       @at-root :hover#{&} {
-        color: $color-text-light;
+        color: color.$text-light;
       }
     }
   }
@@ -2546,10 +2548,10 @@ a {
         z-index: 2;
         line-height: $line-height-big + 1px * 2;
         margin: -1px 0;
-        color: $color-text-normal;
+        color: color.$text-normal;
 
         &::placeholder {
-          color: $color-text-placeholder;
+          color: color.$text-placeholder;
         }
       }
 
@@ -2558,7 +2560,7 @@ a {
         position: absolute;
         top: 0px;
         z-index: 1;
-        color: $color-text-placeholder;
+        color: color.$text-placeholder;
         height: 100%;
         overflow: hidden;
         display: none;
@@ -2630,18 +2632,18 @@ a {
 
   &,
   &:link {
-    color: $color-highlight;
+    color: color.$highlight;
   }
 
   &:not(&--disabled):hover {
-    color: $color-highlight-dark;
+    color: color.$highlight-dark;
   }
 
   &--black {
-    color: $color-text-light;
+    color: color.$text-light;
 
     &:not(&--disabled):hover {
-      color: $color-text-dark;
+      color: color.$text-dark;
     }
   }
 
@@ -2655,7 +2657,7 @@ a {
 
   &--disabled {
     pointer-events: none;
-    color: $color-text-disable !important;
+    color: color.$text-disable !important;
   }
 
   &--review-write-block {
@@ -2673,7 +2675,7 @@ a {
 .caption {
   font-size: $font-size-smaller;
   line-height: $line-height-smaller;
-  color: $color-text-placeholder;
+  color: color.$text-placeholder;
 }
 
 .main-date {
@@ -2681,10 +2683,10 @@ a {
   height: 300px;
   padding: calc(300px / 2 - 24px) 0;
   background-image: linear-gradient(
-    rgba($color-page-background, 0) 80%,
-    rgba($color-page-background, 1)
+    rgba(color.$page-background, 0) 80%,
+    rgba(color.$page-background, 1)
   );
-  color: rgba($color-highlight, 0.5);
+  color: rgba(color.$highlight, 0.5);
   text-align: center;
   z-index: 50;
 
@@ -2694,7 +2696,7 @@ a {
     line-height: 19px;
     cursor: pointer;
     &:hover {
-      color: rgba($color-highlight-dark, 0.5);
+      color: rgba(color.$highlight-dark, 0.5);
     }
   }
   & > div:nth-child(2) {
@@ -2771,7 +2773,7 @@ a {
       position: sticky;
       z-index: 1;
       left: 0;
-      background-color: $color-section-background;
+      background-color: color.$section-background;
       width: 10px;
       white-space: nowrap;
       padding-right: 10px;
@@ -2779,13 +2781,13 @@ a {
       vertical-align: middle;
       text-align: right;
       line-height: $line-height-small;
-      color: $color-text-normal;
+      color: color.$text-normal;
     }
 
     & > td {
       text-align: center;
       padding: 0 6px;
-      border-left: 1px solid $color-normal-line;
+      border-left: 1px solid color.$normal-line;
       &:first-of-type {
         padding-left: 0;
         border-left: none;
@@ -2799,7 +2801,7 @@ a {
       }
       &.history__cell--unopen {
         vertical-align: middle;
-        color: $color-text-placeholder;
+        color: color.$text-placeholder;
         padding-top: 8px;
         padding-bottom: 8px;
       }
@@ -2932,7 +2934,7 @@ a {
         margin-right: 4px;
 
         &.focused {
-          color: $color-highlight;
+          color: color.$highlight;
         }
       }
     }
@@ -2947,12 +2949,12 @@ a {
         margin-right: $attribute-info-margin-between;
         white-space: nowrap;
         &:hover {
-          color: $color-text-dark;
+          color: color.$text-dark;
         }
         &--dimmed {
-          color: $color-text-lighter;
+          color: color.$text-lighter;
           &:hover {
-            color: $color-text-light;
+            color: color.$text-light;
           }
         }
 
@@ -3053,7 +3055,7 @@ a {
 
       &.focused,
       & > span.focused {
-        color: $color-highlight;
+        color: color.$highlight;
       }
     }
 
@@ -3067,25 +3069,25 @@ a {
 .divider {
   &--desktop-horizontal {
     @include mixin-media-landscape {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--desktop-vertical {
     @include mixin-media-landscape {
-      border-right: 1px solid $color-divider-line;
+      border-right: 1px solid color.$divider-line;
       margin: 0 $section-padding;
     }
   }
   &--mobile-horizontal {
     @include mixin-media-portrait {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--mobile-vertical {
     @include mixin-media-portrait {
-      border-right: 1px solid $color-divider-line;
+      border-right: 1px solid color.$divider-line;
       margin: 0 $section-padding;
     }
   }
@@ -3097,25 +3099,25 @@ a {
 .divider-planner {
   &--desktop-horizontal {
     @include mixin-media-landscape {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--desktop-vertical {
     @include mixin-media-landscape {
-      border-right: 1px solid $color-normal-line;
+      border-right: 1px solid color.$normal-line;
       margin: 0 5px; //TODO
     }
   }
   &--mobile-horizontal {
     @include mixin-media-portrait {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--mobile-vertical {
     @include mixin-media-portrait {
-      border-right: 1px solid $color-divider-line;
+      border-right: 1px solid color.$divider-line;
       margin: 0 $section-padding;
     }
   }
@@ -3133,11 +3135,11 @@ a {
   border-radius: $tile-border-radius;
   z-index: 3;
   overflow: hidden;
-  background-color: rgba($color-block-background-highlight, 0.7);
+  background-color: rgba(color.$block-background-highlight, 0.7);
 
   &__button {
     text-align: center;
-    color: $color-highlight;
+    color: color.$highlight;
     cursor: pointer;
 
     &:not(:last-child) {
@@ -3150,7 +3152,7 @@ a {
     }
 
     &--disabled {
-      color: $color-text-disable;
+      color: color.$text-disable;
       pointer-events: none;
     }
   }
@@ -3183,7 +3185,7 @@ a {
     flex: 0 0 auto;
     max-height: 100%;
     padding: 0 $section-padding;
-    background-color: $color-section-background;
+    background-color: color.$section-background;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -3264,7 +3266,7 @@ a {
 }
 
 .placeholder {
-  color: $color-text-placeholder;
+  color: color.$text-placeholder;
 }
 
 .otlplus-placeholder {
@@ -3274,7 +3276,7 @@ a {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  color: $color-text-placeholder;
+  color: color.$text-placeholder;
   font-size: $font-size-normal;
   line-height: $line-height-normal;
 
@@ -3294,7 +3296,7 @@ a {
     color: inherit;
 
     &:hover {
-      color: $color-text-lighter;
+      color: color.$text-lighter;
     }
   }
 }
@@ -3304,7 +3306,7 @@ a {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  color: $color-text-placeholder;
+  color: color.$text-placeholder;
   font-size: 16px;
   line-height: 17px;
   white-space: nowrap;
@@ -3340,7 +3342,7 @@ a {
     top: 0;
     width: 100%;
     height: 26px;
-    background-color: rgba($color-section-background, 0.8);
+    background-color: rgba(color.$section-background, 0.8);
     text-align: center;
     font-size: 14px;
     line-height: 15px;
@@ -3349,7 +3351,7 @@ a {
 }
 
 button.disabled {
-  color: $color-text-disable !important;
+  color: color.$text-disable !important;
   pointer-events: none;
 }
 
@@ -3820,7 +3822,7 @@ i.icon {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: $color-section-background;
+  background-color: color.$section-background;
 }
 
 .mobile-hidden {
@@ -3862,7 +3864,7 @@ i.icon {
     line-height: $line-height-smallest;
 
     & > span {
-      color: $color-highlight;
+      color: color.$highlight;
     }
   }
 }
