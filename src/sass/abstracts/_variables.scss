@@ -1,17 +1,5 @@
 @use '@/sass/abstracts/color' as color;
-
-$font-size-big: 14px;
-$line-height-big: 15px;
-$font-size-normal: 13px;
-$line-height-normal: 14px;
-$font-size-small: 12px;
-$line-height-small: 13px;
-$font-size-smaller: 11px;
-$line-height-smaller: 12px;
-$font-size-smallest: 10px;
-$line-height-smallest: 11px;
-
-$delta-line-height-longcontent: 4px;
+@use '@/sass/abstracts/font' as font;
 
 $opacity-text-overlay: 0.7;
 
@@ -78,12 +66,12 @@ $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 // TODO: This really should be a function
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-height-desktop-lecture-detail: calc(
-  #{$section-padding} + (#{$line-height-big} + 2px) + (
-      #{$line-height-normal} + #{$delta-line-height-longcontent}
-    ) + (#{$line-height-small} + #{$title-margin-bottom}) + (
-      (#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)
+  #{$section-padding} + (#{font.$line-height-big} + 2px) + (
+      #{font.$line-height-normal} + #{font.$delta-line-height-longcontent}
+    ) + (#{font.$line-height-small} + #{$title-margin-bottom}) + (
+      (#{font.$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)
     ) + (
-      (#{$score-line-height-desktop} + 2px + #{$line-height-smaller}) * 2 +
+      (#{$score-line-height-desktop} + 2px + #{font.$line-height-smaller}) * 2 +
         (#{$score-margin-tb-desktop} * 3)
-    ) + #{$line-height-normal} + #{$section-padding}
+    ) + #{font.$line-height-normal} + #{$section-padding}
 );

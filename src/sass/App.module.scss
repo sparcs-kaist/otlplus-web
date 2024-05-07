@@ -1,4 +1,5 @@
 @use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/font' as font;
 
 @import './abstracts/_variables.scss';
 @import './abstracts/_mixins.scss';
@@ -13,8 +14,8 @@ body * {
 }
 
 body {
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
   background-color: color.$page-background;
   color: color.$text-normal;
   margin: 0;
@@ -377,8 +378,8 @@ a {
 }
 
 .tabs {
-  font-size: $font-size-small;
-  line-height: $line-height-small;
+  font-size: font.$size-small;
+  line-height: font.$line-height-small;
   color: color.$text-light;
   overflow: hidden;
 
@@ -852,7 +853,7 @@ a {
   &--beta-popup {
     &__content {
       flex: 1 1 auto;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
 
       & > div:not(:last-child) {
         margin-bottom: 4px;
@@ -869,7 +870,7 @@ a {
   &--lecture-list {
     &__selector {
       position: absolute;
-      top: calc((100% + #{$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
+      top: calc((100% + #{font.$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
       right: #{$section-padding};
       display: none;
       @include mixin-media-no-hover {
@@ -890,12 +891,13 @@ a {
               (
                   (#{$screen-height} - #{$header-height} - (#{$section-margin-bottom} * 2)) / 2 -
                     (
-                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{$line-height-big} +
+                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{font.$line-height-big} +
                             #{$list-title-margin-bottom})
                     )
                 ) / 2 -
                 (
-                  (#{$line-height-smaller} / 2) + (6px * 2) + 1px + #{$line-height-normal} + #{$block-padding-tb}
+                  (#{font.$line-height-smaller} / 2) + (6px * 2) + 1px + #{font.$line-height-normal} +
+                    #{$block-padding-tb}
                 )
             );
           }
@@ -904,10 +906,10 @@ a {
               (
                   (#{$screen-height} - #{$header-height} - (#{$section-margin-bottom} * 2)) / 2 -
                     (
-                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{$line-height-big} +
+                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{font.$line-height-big} +
                             #{$list-title-margin-bottom})
                     )
-                ) / 2 - (#{calc($line-height-smaller / 2)} + #{$block-padding-tb}) + #{$section-padding}
+                ) / 2 - (#{calc(font.$line-height-smaller / 2)} + #{$block-padding-tb}) + #{$section-padding}
             );
           }
         }
@@ -916,8 +918,8 @@ a {
   }
 
   &--semester {
-    font-size: $font-size-small;
-    line-height: $line-height-small;
+    font-size: font.$size-small;
+    line-height: font.$line-height-small;
     display: flex;
     flex-direction: row;
     &.semester-ko {
@@ -939,8 +941,8 @@ a {
       text-align: center;
       white-space: nowrap;
       @include mixin-media-portrait {
-        font-size: $font-size-big;
-        line-height: $line-height-big;
+        font-size: font.$size-big;
+        line-height: font.$line-height-big;
       }
     }
   }
@@ -962,7 +964,7 @@ a {
 
         &__title {
           flex: none;
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
         }
 
         &__line {
@@ -974,10 +976,10 @@ a {
             width: 100%;
             text-align: right;
             color: color.$text-light;
-            font-size: $font-size-smallest;
-            line-height: $line-height-smallest;
+            font-size: font.$size-smallest;
+            line-height: font.$line-height-smallest;
             display: block;
-            margin-top: calc(calc($line-height-smallest / 2) * -1) + 1px;
+            margin-top: calc(calc(font.$line-height-smallest / 2) * -1) + 1px;
           }
         }
 
@@ -1002,10 +1004,10 @@ a {
 
         &__title {
           flex: none;
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
           text-align: center;
-          font-size: $font-size-smallest;
-          line-height: $line-height-smallest;
+          font-size: font.$size-smallest;
+          line-height: font.$line-height-smallest;
           color: color.$text-light;
           padding-bottom: 6px;
           margin: 0 -20px;
@@ -1065,7 +1067,7 @@ a {
         &__box {
           position: relative;
           z-index: 1;
-          font-size: $font-size-smallest;
+          font-size: font.$size-smallest;
           line-height: 9px;
           height: 13px;
           border-radius: 2px;
@@ -1171,15 +1173,15 @@ a {
     display: flex;
     flex-direction: column;
     min-height: calc(
-      (#{$line-height-normal} + #{$title-margin-bottom}) +
-        (#{$line-height-normal} + 2px + #{$line-height-normal})
+      (#{font.$line-height-normal} + #{$title-margin-bottom}) +
+        (#{font.$line-height-normal} + 2px + #{font.$line-height-normal})
     );
 
     &__title {
       flex: 0 0 auto;
       text-align: center;
-      font-size: $font-size-normal;
-      line-height: $line-height-normal;
+      font-size: font.$size-normal;
+      line-height: font.$line-height-normal;
       margin-bottom: $title-margin-bottom;
     }
 
@@ -1267,7 +1269,7 @@ a {
           }
 
           & span {
-            font-size: $font-size-small;
+            font-size: font.$size-small;
             font-weight: bold;
             @include mixin-media-portrait {
               display: none;
@@ -1330,8 +1332,8 @@ a {
 
   &--main-search {
     display: flex;
-    font-size: $font-size-big;
-    line-height: $line-height-big;
+    font-size: font.$size-big;
+    line-height: font.$line-height-big;
 
     i {
       flex: 0 0 auto;
@@ -1366,7 +1368,7 @@ a {
       &__label {
         display: flex;
         flex-direction: row;
-        height: $line-height-smallest;
+        height: font.$line-height-smallest;
         margin-bottom: 4px;
 
         &__line {
@@ -1377,8 +1379,8 @@ a {
           > strong {
             text-align: center;
             color: color.$text-light;
-            font-size: $font-size-smallest;
-            line-height: $line-height-smallest;
+            font-size: font.$size-smallest;
+            line-height: font.$line-height-smallest;
             display: block;
             margin: 0 -5px;
           }
@@ -1398,7 +1400,7 @@ a {
       &__body {
         display: flex;
         flex-direction: row;
-        height: (3px * 2) + ($tile-padding-tb * 2) + ($line-height-small * 3) + (1px * 2);
+        height: (3px * 2) + ($tile-padding-tb * 2) + (font.$line-height-small * 3) + (1px * 2);
 
         &__line {
           flex: none;
@@ -1486,7 +1488,7 @@ a {
 
   &--notice {
     &__content {
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
     }
   }
 
@@ -1546,25 +1548,25 @@ a {
 
         &__toptitle {
           flex: none;
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
 
           &:has(+ &) {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
           }
         }
 
         &__bottomtitle {
           flex: none;
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
 
           & + & {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
           }
         }
 
         &__year {
           flex: none;
-          height: $line-height-smallest;
+          height: font.$line-height-smallest;
         }
 
         &__line {
@@ -1576,10 +1578,10 @@ a {
             width: 100%;
             text-align: right;
             color: color.$text-light;
-            font-size: $font-size-smallest;
-            line-height: $line-height-smallest;
+            font-size: font.$size-smallest;
+            line-height: font.$line-height-smallest;
             display: block;
-            margin-top: calc(calc($line-height-smallest / 2) * -1) + 1px;
+            margin-top: calc(calc(font.$line-height-smallest / 2) * -1) + 1px;
           }
         }
 
@@ -1603,8 +1605,8 @@ a {
         &__bottomtitle,
         &__year {
           flex: none;
-          font-size: $font-size-smallest;
-          line-height: $line-height-smallest;
+          font-size: font.$size-smallest;
+          line-height: font.$line-height-smallest;
           color: color.$text-lighter;
 
           & > span:last-child {
@@ -1613,33 +1615,33 @@ a {
         }
 
         &__toptitle {
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
           padding-bottom: 6px;
 
           &:has(+ &) {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
             padding-bottom: 4px;
           }
         }
 
         &__bottomtitle {
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
           padding-top: 6px;
 
           & + & {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
             padding-top: 4px;
           }
         }
 
         &__year {
           flex: none;
-          height: $line-height-smallest;
+          height: font.$line-height-smallest;
           padding: 0;
           text-align: center;
-          font-size: $font-size-smaller;
+          font-size: font.$size-smaller;
           font-weight: bold;
-          line-height: $line-height-smaller;
+          line-height: font.$line-height-smaller;
           color: color.$text-normal;
         }
 
@@ -1688,7 +1690,7 @@ a {
     flex-direction: column;
 
     &__content {
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
 
       a {
         text-decoration: underline;
@@ -1731,8 +1733,8 @@ a {
   border-radius: $tile-border-radius;
   z-index: 2;
   overflow: hidden;
-  font-size: $font-size-small;
-  line-height: $line-height-small;
+  font-size: font.$size-small;
+  line-height: font.$line-height-small;
   transition:
     margin $transition-duration-short ease-out,
     box-shadow $transition-duration-short ease-out;
@@ -1885,8 +1887,8 @@ a {
       }
 
       &__label {
-        $size: $line-height-normal;
-        $padding-tb-base: calc(calc($size - $line-height-smallest) / 2);
+        $size: font.$line-height-normal;
+        $padding-tb-base: calc(calc($size - font.$line-height-smallest) / 2);
         $offset-y: 1px;
 
         flex: 0 0 auto;
@@ -1897,8 +1899,8 @@ a {
         text-align: center;
         padding: ($padding-tb-base + $offset-y) 0 ($padding-tb-base - $offset-y) 0;
         font-weight: bold;
-        font-size: $font-size-smallest;
-        line-height: $line-height-smallest;
+        font-size: font.$size-smallest;
+        line-height: font.$line-height-smallest;
         color: #ffffff;
 
         .tile--highlighted & {
@@ -1938,8 +1940,8 @@ a {
 .block {
   background-color: color.$block-background;
   border-radius: $block-border-radius;
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
   display: block;
   padding: $block-padding-tb $block-padding-lr;
   position: relative;
@@ -1980,15 +1982,15 @@ a {
   & .block__completed-text {
     display: none;
     color: darken(color.$text-normal, 20%);
-    font-size: $font-size-smaller;
-    line-height: $line-height-smaller;
+    font-size: font.$size-smaller;
+    line-height: font.$line-height-smaller;
     position: absolute;
     z-index: 1;
     top: 0;
     right: 0;
-    padding: calc($block-padding-tb + calc(calc($font-size-normal - $font-size-smaller) / 2))
+    padding: calc($block-padding-tb + calc(calc(font.$size-normal - font.$size-smaller) / 2))
       $block-padding-lr
-      calc(calc($block-padding-tb - 2px) + calc(calc($font-size-normal - $font-size-smaller) / 2))
+      calc(calc($block-padding-tb - 2px) + calc(calc(font.$size-normal - font.$size-smaller) / 2))
       calc($block-padding-lr - 2px);
     background-color: inherit;
     opacity: $opacity-text-overlay;
@@ -2029,8 +2031,8 @@ a {
       flex: 1 1 auto;
 
       &__caption {
-        font-size: $font-size-smaller;
-        line-height: $line-height-smaller;
+        font-size: font.$size-smaller;
+        line-height: font.$line-height-smaller;
         color: color.$text-lighter;
         margin-bottom: 3px;
       }
@@ -2096,7 +2098,7 @@ a {
 
     &__content {
       color: color.$text-light;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
       &--limit-5 {
         overflow: hidden;
         display: -webkit-box; // Remove after line-clamp officially supported
@@ -2146,10 +2148,10 @@ a {
 
     &__content {
       color: color.$text-light;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
       display: block;
       width: 100%;
-      height: ($line-height-normal + $delta-line-height-longcontent) * 9 + 8px * 2;
+      height: (font.$line-height-normal + font.$delta-line-height-longcontent) * 9 + 8px * 2;
       border: 1px dashed #aaaaaa;
       padding: 8px;
       border-radius: 2px;
@@ -2176,7 +2178,7 @@ a {
 
       &__name {
         margin-right: $attribute-name-margin-right;
-        padding: calc(calc($option-size - $line-height-normal) / 2) 0;
+        padding: calc(calc($option-size - font.$line-height-normal) / 2) 0;
       }
 
       &__option {
@@ -2190,7 +2192,7 @@ a {
         }
 
         & > span {
-          $padding-tb-base: calc(calc($option-size - $line-height-smaller) / 2);
+          $padding-tb-base: calc(calc($option-size - font.$line-height-smaller) / 2);
           $offset-y: 1px;
 
           display: inline-block;
@@ -2201,8 +2203,8 @@ a {
           text-align: center;
           padding: ($padding-tb-base + $offset-y) 0 ($padding-tb-base - $offset-y) 0;
           font-weight: bold;
-          font-size: $font-size-smaller;
-          line-height: $line-height-smaller;
+          font-size: font.$size-smaller;
+          line-height: font.$line-height-smaller;
           color: #ffffff;
         }
 
@@ -2294,8 +2296,8 @@ a {
         }
 
         &__sub {
-          font-size: $font-size-smaller;
-          line-height: $line-height-smaller;
+          font-size: font.$size-smaller;
+          line-height: font.$line-height-smaller;
           color: color.$text-lighter;
           display: none;
           @include mixin-media-no-hover {
@@ -2383,8 +2385,8 @@ a {
   &--review-simple {
     & > div:first-child {
       color: color.$text-lighter;
-      font-size: $font-size-smaller;
-      line-height: $line-height-smaller;
+      font-size: font.$size-smaller;
+      line-height: font.$line-height-smaller;
       margin-bottom: 3px;
 
       & > span {
@@ -2396,11 +2398,11 @@ a {
 
     & > div:nth-child(2) {
       color: color.$text-light;
-      font-size: $font-size-normal;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      font-size: font.$size-normal;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
       margin-bottom: 4px;
       overflow: hidden;
-      max-height: ($line-height-normal + $delta-line-height-longcontent) * 3; // Fallback, Remove after line-clamp officially supported
+      max-height: (font.$line-height-normal + font.$delta-line-height-longcontent) * 3; // Fallback, Remove after line-clamp officially supported
       display: -webkit-box; // Remove after line-clamp officially supported
       -webkit-box-orient: vertical; // Remove after line-clamp officially supported
       -webkit-line-clamp: 3; // Remove after line-clamp officially supported
@@ -2472,8 +2474,8 @@ a {
 
 .title {
   font-weight: bold;
-  font-size: $font-size-big;
-  line-height: $line-height-big;
+  font-size: font.$size-big;
+  line-height: font.$line-height-big;
   text-align: center;
   margin-bottom: $title-margin-bottom;
 
@@ -2491,8 +2493,8 @@ a {
 }
 
 .subtitle {
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
   text-align: center;
   margin-bottom: $title-margin-bottom;
 
@@ -2503,8 +2505,8 @@ a {
 
 .list-title {
   font-weight: initial;
-  font-size: $font-size-big;
-  line-height: $line-height-big;
+  font-size: font.$size-big;
+  line-height: font.$line-height-big;
   margin-bottom: $list-title-margin-bottom;
 
   &--search {
@@ -2522,8 +2524,8 @@ a {
     & > *:nth-child(3) {
       margin-left: 5px;
       color: color.$text-lighter;
-      font-size: $font-size-small;
-      line-height: $line-height-small;
+      font-size: font.$size-small;
+      line-height: font.$line-height-small;
 
       @at-root :hover#{&} {
         color: color.$text-light;
@@ -2537,7 +2539,7 @@ a {
 
     & > *:nth-child(2) {
       flex: auto;
-      height: $line-height-big;
+      height: font.$line-height-big;
       margin-left: 6px;
       position: relative;
 
@@ -2546,7 +2548,7 @@ a {
         position: absolute;
         top: 0px;
         z-index: 2;
-        line-height: $line-height-big + 1px * 2;
+        line-height: font.$line-height-big + 1px * 2;
         margin: -1px 0;
         color: color.$text-normal;
 
@@ -2578,8 +2580,8 @@ a {
 
 .small-title {
   font-weight: bold;
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
   margin-bottom: $title-margin-bottom;
 
   .subsection--lecture-detail & {
@@ -2614,8 +2616,8 @@ a {
     text-align: initial;
 
     & > .text-button {
-      font-size: $font-size-small;
-      line-height: $line-height-small;
+      font-size: font.$size-small;
+      line-height: font.$line-height-small;
 
       &:not(:first-child) {
         margin-left: 6px;
@@ -2673,8 +2675,8 @@ a {
 }
 
 .caption {
-  font-size: $font-size-smaller;
-  line-height: $line-height-smaller;
+  font-size: font.$size-smaller;
+  line-height: font.$line-height-smaller;
   color: color.$text-placeholder;
 }
 
@@ -2762,8 +2764,8 @@ a {
     }
     &:nth-child(2) {
       font-weight: bold;
-      font-size: $font-size-smaller;
-      line-height: $line-height-smaller;
+      font-size: font.$size-smaller;
+      line-height: font.$line-height-smaller;
     }
     &:last-child {
       vertical-align: top;
@@ -2777,10 +2779,10 @@ a {
       width: 10px;
       white-space: nowrap;
       padding-right: 10px;
-      font-size: $font-size-small;
+      font-size: font.$size-small;
       vertical-align: middle;
       text-align: right;
-      line-height: $line-height-small;
+      line-height: font.$line-height-small;
       color: color.$text-normal;
     }
 
@@ -2880,7 +2882,7 @@ a {
 
   &--long-info {
     & > * {
-      line-height: $line-height-normal + 1px * 2;
+      line-height: font.$line-height-normal + 1px * 2;
       margin-top: -1px;
       margin-bottom: -1px;
     }
@@ -3048,8 +3050,8 @@ a {
       }
 
       & > span:not(:first-child) {
-        font-size: $font-size-small;
-        line-height: $line-height-small;
+        font-size: font.$size-small;
+        line-height: font.$line-height-small;
         font-weight: initial;
       }
 
@@ -3060,8 +3062,8 @@ a {
     }
 
     & > div:last-child {
-      font-size: $font-size-smaller;
-      line-height: $line-height-smaller;
+      font-size: font.$size-smaller;
+      line-height: font.$line-height-smaller;
     }
   }
 }
@@ -3147,8 +3149,8 @@ a {
     }
 
     &--small {
-      font-size: $font-size-small;
-      line-height: $line-height-small;
+      font-size: font.$size-small;
+      line-height: font.$line-height-small;
     }
 
     &--disabled {
@@ -3209,19 +3211,19 @@ a {
     @include mixin-media-landscape {
       min-height: calc(
         #{$section-height-desktop-lecture-detail} - (#{$section-padding} + (
-                #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + #{$delta-line-height-longcontent}) + (
-                #{$line-height-small} + #{$title-margin-bottom}
-              ) + (#{$line-height-big} + 8px) + #{$section-padding})
+                #{font.$line-height-big} + 2px
+              ) + (#{font.$line-height-normal} + #{font.$delta-line-height-longcontent}) + (
+                #{font.$line-height-small} + #{$title-margin-bottom}
+              ) + (#{font.$line-height-big} + 8px) + #{$section-padding})
       ) !important;
     }
     @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
-                #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + #{$delta-line-height-longcontent}) + (
-                #{$line-height-small} + #{$title-margin-bottom}
-              ) + (#{$line-height-big} + 8px) + (#{$section-padding} * 2 + 1px) + #{$line-height-normal} +
+                #{font.$line-height-big} + 2px
+              ) + (#{font.$line-height-normal} + #{font.$delta-line-height-longcontent}) + (
+                #{font.$line-height-small} + #{$title-margin-bottom}
+              ) + (#{font.$line-height-big} + 8px) + (#{$section-padding} * 2 + 1px) + #{font.$line-height-normal} +
               #{$section-padding} + (#{$section-margin-bottom} * 2))
       ) !important;
     }
@@ -3229,21 +3231,23 @@ a {
   .subsection--course-reviews & {
     @include mixin-media-landscape {
       min-height: calc(
-        #{$screen-height} - (#{$header-height} + #{$section-padding} + (#{$line-height-big} + 2px) +
-              (#{$line-height-normal} + #{$title-margin-bottom}) +
-              (#{$score-line-height-desktop-big} + 2px + #{$line-height-smaller} + 12px) +
-              (#{$line-height-normal} + #{$title-margin-bottom}) +
-              ((#{$line-height-normal} + #{$attribute-margin-bottom}) * 2) + #{$section-padding} + #{$section-margin-bottom})
+        #{$screen-height} - (#{$header-height} + #{$section-padding} +
+              (#{font.$line-height-big} + 2px) +
+              (#{font.$line-height-normal} + #{$title-margin-bottom}) +
+              (#{$score-line-height-desktop-big} + 2px + #{font.$line-height-smaller} + 12px) +
+              (#{font.$line-height-normal} + #{$title-margin-bottom}) +
+              ((#{font.$line-height-normal} + #{$attribute-margin-bottom}) * 2) + #{$section-padding} +
+              #{$section-margin-bottom})
       ) !important;
     }
     @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
-                #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + #{$title-margin-bottom}) + (
-                #{$score-line-height-mobile} + 2px + #{$line-height-smaller} + 12px
-              ) + (#{$line-height-normal} + #{$title-margin-bottom}) + (
-                (#{$line-height-normal} + #{$attribute-margin-bottom}) * 2
+                #{font.$line-height-big} + 2px
+              ) + (#{font.$line-height-normal} + #{$title-margin-bottom}) + (
+                #{$score-line-height-mobile} + 2px + #{font.$line-height-smaller} + 12px
+              ) + (#{font.$line-height-normal} + #{$title-margin-bottom}) + (
+                (#{font.$line-height-normal} + #{$attribute-margin-bottom}) * 2
               ) + #{$section-padding} + (#{$section-margin-bottom} * 2))
       ) !important;
     }
@@ -3252,13 +3256,13 @@ a {
     @include mixin-media-landscape {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-padding} +
-              (#{$line-height-big} + #{$title-margin-bottom}) + #{$section-padding} + #{$section-margin-bottom})
+              (#{font.$line-height-big} + #{$title-margin-bottom}) + #{$section-padding} + #{$section-margin-bottom})
       ) !important;
     }
     @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
-                #{$line-height-big} + #{$title-margin-bottom}
+                #{font.$line-height-big} + #{$title-margin-bottom}
               ) + #{$section-padding} + (#{$section-margin-bottom} * 2))
       ) !important;
     }
@@ -3277,8 +3281,8 @@ a {
   justify-content: center;
   text-align: center;
   color: color.$text-placeholder;
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
 
   & > div {
     flex: none;
@@ -3406,7 +3410,7 @@ i.icon {
     width: 14px;
     height: 12px;
     background-image: url(../static/icons/lecture_uparrow.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/lecture_uparrow_hover.svg);
@@ -3417,7 +3421,7 @@ i.icon {
     width: 14px;
     height: 12px;
     background-image: url(../static/icons/lecture_downarrow.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/lecture_downarrow_hover.svg);
@@ -3428,7 +3432,7 @@ i.icon {
     width: 12px;
     height: 13px;
     background-image: url(../static/icons/search.svg);
-    margin: calc(calc($line-height-big - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-big - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/search_hover.svg);
@@ -3505,7 +3509,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/add_cart.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/add_cart_hover.svg);
@@ -3520,7 +3524,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/delete_cart.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_cart_hover.svg);
@@ -3531,7 +3535,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/add_lecture.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/add_lecture_hover.svg);
@@ -3547,7 +3551,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/delete_from_table.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_from_table_hover.svg);
@@ -3628,7 +3632,7 @@ i.icon {
     width: 10px;
     height: 11px;
     background-image: url(../static/icons/duplicate_table.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
+    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/duplicate_table_hover.svg);
@@ -3643,7 +3647,7 @@ i.icon {
     width: 10px;
     height: 11px;
     background-image: url(../static/icons/delete_table.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
+    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_table_hover.svg);
@@ -3669,7 +3673,7 @@ i.icon {
     width: 7px;
     height: 11px;
     background-image: url(../static/icons/semester_prev.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
+    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/semester_prev_hover.svg);
@@ -3684,7 +3688,7 @@ i.icon {
     width: 7px;
     height: 11px;
     background-image: url(../static/icons/semester_next.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
+    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/semester_next_hover.svg);
@@ -3699,7 +3703,7 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/checkbox_unselected.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/checkbox_unselected_hover.svg);
@@ -3718,7 +3722,7 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/radio_unselected.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/radio_unselected_hover.svg);
@@ -3749,14 +3753,14 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/status_read.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
   }
 
   &--status-unread {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/status_unread.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
   }
 
   &--close-section {
@@ -3773,7 +3777,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/switch_table.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/switch_table_hover.svg);
@@ -3784,7 +3788,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/show_lectures.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/show_lectures_hover.svg);
@@ -3805,7 +3809,7 @@ i.icon {
     width: 12px;
     height: 12px;
     background-image: url(../static/icons/plus_circled.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
     margin-left: 8px;
   }
 
@@ -3813,7 +3817,7 @@ i.icon {
     width: 12px;
     height: 12px;
     background-image: url(../static/icons/minus_circled.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
     margin-right: 8px;
   }
 }
@@ -3839,7 +3843,9 @@ i.icon {
 
 .credit-bar {
   $bar-height: 6px;
-  $margin-tb-base: calc(calc(calc($line-height-normal - $bar-height) - $line-height-smallest) / 2);
+  $margin-tb-base: calc(
+    calc(calc(font.$line-height-normal - $bar-height) - font.$line-height-smallest) / 2
+  );
 
   position: relative;
   width: 50%;
@@ -3860,8 +3866,8 @@ i.icon {
 
   &__text {
     text-align: right;
-    font-size: $font-size-smallest;
-    line-height: $line-height-smallest;
+    font-size: font.$size-smallest;
+    line-height: font.$line-height-smallest;
 
     & > span {
       color: color.$highlight;
