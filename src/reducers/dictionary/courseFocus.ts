@@ -47,7 +47,7 @@ const courseFocus = (state = initialState, action: DictionaryAction) => {
     case UPDATE_REVIEW: {
       const originalReviews = state.reviews;
 
-      if (originalReviews == undefined) {
+      if (!originalReviews) {
         return state;
       }
 
