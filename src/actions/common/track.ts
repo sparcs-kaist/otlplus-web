@@ -6,7 +6,7 @@ import GeneralTrack from '@/shapes/model/graduation/GeneralTrack';
 import MajorTrack from '@/shapes/model/graduation/MajorTrack';
 import AdditionalTrack from '@/shapes/model/graduation/AdditionalTrack';
 
-interface TracksProps {
+export interface TracksProps {
   general: GeneralTrack[];
   major: MajorTrack[];
   additional: AdditionalTrack[];

@@ -11,4 +11,5 @@ const CombinedReducer = combineReducers({
   media: media,
 });
 
+export type CommonState = ReturnType<typeof CombinedReducer>;
 export default CombinedReducer;
