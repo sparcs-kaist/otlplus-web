@@ -28,7 +28,7 @@ export const reducer = (state = initialState, action: UserAction): UserState => 
               ...originalReviews.slice(foundIndex + 1, originalReviews.length),
             ]
           : [...originalReviews.slice(), review];
-      return { ...state, user: { reviews: newReviews } };
+      return { ...state, user: { ...state.user, reviews: newReviews } };
     }
     default:
       return state;
