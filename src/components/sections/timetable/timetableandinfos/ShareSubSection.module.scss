@@ -1,0 +1,128 @@
+@use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/font' as font;
+@use '@/sass/abstracts/mixins' as *;
+@use '@/sass/abstracts/variables' as *;
+
+.section {
+  grid-area: share;
+}
+
+.share {
+  @include mixin-media-portrait {
+    float: left;
+
+    margin-right: 8px;
+    height: 10px;
+    vertical-align: middle;
+  }
+}
+
+.shareItem {
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
+
+  &:has(+ .divider) {
+    margin-bottom: $section-padding;
+  }
+
+  @include mixin-media-portrait {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  & > * {
+    display: flex;
+    align-items: center;
+
+    & i {
+      @include mixin-media-landscape {
+        margin-right: $attribute-name-margin-right;
+      }
+    }
+
+    & span {
+      font-size: font.$size-small;
+      font-weight: bold;
+
+      @include mixin-media-portrait {
+        display: none;
+      }
+    }
+  }
+}
+
+.disabled {
+  color: color.$text-disable;
+}
+
+.buttonContainer {
+  float: right;
+
+  @include mixin-media-landscape {
+    display: none;
+  }
+}
+
+.icon {
+  display: inline-block;
+
+  background: none no-repeat center center;
+
+  vertical-align: top;
+
+  .share & {
+    width: 19px;
+    height: 19px;
+  }
+
+  .buttonContainer & {
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
+    width: 13px;
+    height: 13px;
+  }
+
+  &ShareImage {
+    background-image: url(@/static/icons/share_image.svg);
+    *:hover > & {
+      background-image: url(@/static/icons/share_image_hover.svg);
+    }
+    .disabled > & {
+      background-image: url(@/static/icons/share_image_disable.svg);
+    }
+  }
+
+  &ShareIcalandar {
+    background-image: url(@/static/icons/share_icalendar.svg);
+    *:hover > & {
+      background-image: url(@/static/icons/share_icalendar_hover.svg);
+    }
+    .disabled > & {
+      background-image: url(@/static/icons/share_icalendar_disable.svg);
+    }
+  }
+
+  &ShareSyllabus {
+    background-image: url(@/static/icons/share_syllabus.svg);
+    *:hover > & {
+      background-image: url(@/static/icons/share_syllabus_hover.svg);
+    }
+    .disabled > & {
+      background-image: url(@/static/icons/share_syllabus_disable.svg);
+    }
+  }
+
+  &SwitchTable {
+    background-image: url(@/static/icons/switch_table.svg);
+    *:hover > & {
+      background-image: url(@/static/icons/switch_table_hover.svg);
+    }
+  }
+
+  &ShowLectures {
+    background-image: url(@/static/icons/show_lectures.svg);
+    *:hover > & {
+      background-image: url(@/static/icons/show_lectures_hover.svg);
+    }
+  }
+}

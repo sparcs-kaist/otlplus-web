@@ -1138,66 +1138,6 @@ a {
     }
   }
 
-  &--share {
-    grid-area: share;
-
-    & > div:first-child {
-      @include mixin-media-portrait {
-        height: 10px;
-        float: left;
-        margin-right: 8px;
-        vertical-align: middle;
-      }
-
-      .subsection--share__item {
-        &:not(:last-child) {
-          margin-bottom: 8px;
-        }
-        &:has(+ .divider) {
-          margin-bottom: $section-padding;
-        }
-        @include mixin-media-portrait {
-          display: inline-block;
-          margin-right: 8px;
-        }
-
-        & > * {
-          display: flex;
-          align-items: center;
-
-          & i {
-            @include mixin-media-landscape {
-              margin-right: $attribute-name-margin-right;
-            }
-          }
-
-          & span {
-            font-size: font.$size-small;
-            font-weight: bold;
-            @include mixin-media-portrait {
-              display: none;
-            }
-          }
-        }
-
-        & .disabled {
-          color: color.$text-disable;
-        }
-      }
-    }
-
-    & > div:nth-child(2) {
-      float: right;
-      @include mixin-media-landscape {
-        display: none;
-      }
-    }
-
-    & > last-child {
-      clear: both;
-    }
-  }
-
   &--my-summary {
     height: initial;
   }
@@ -3475,20 +3415,6 @@ i.icon {
     }
   }
 
-  &--share-image {
-    width: 19px;
-    height: 19px;
-    background-image: url(../static/icons/share_image.svg);
-
-    *:hover > & {
-      background-image: url(../static/icons/share_image_hover.svg);
-    }
-
-    *.disabled > & {
-      background-image: url(../static/icons/share_image_disable.svg);
-    }
-  }
-
   &--share-googlecalendar {
     width: 19px;
     height: 19px;
@@ -3500,34 +3426,6 @@ i.icon {
 
     *.disabled > & {
       background-image: url(../static/icons/share_googlecalendar_disable.svg);
-    }
-  }
-
-  &--share-icalendar {
-    width: 19px;
-    height: 19px;
-    background-image: url(../static/icons/share_icalendar.svg);
-
-    *:hover > & {
-      background-image: url(../static/icons/share_icalendar_hover.svg);
-    }
-
-    *.disabled > & {
-      background-image: url(../static/icons/share_icalendar_disable.svg);
-    }
-  }
-
-  &--share-syllabus {
-    width: 19px;
-    height: 19px;
-    background-image: url(../static/icons/share_syllabus.svg);
-
-    *:hover > & {
-      background-image: url(../static/icons/share_syllabus_hover.svg);
-    }
-
-    *.disabled > & {
-      background-image: url(../static/icons/share_syllabus_disable.svg);
     }
   }
 
@@ -3673,28 +3571,6 @@ i.icon {
 
     *:hover > & {
       background-image: url(../static/icons/close_section_hover.svg);
-    }
-  }
-
-  &--switch-table {
-    width: 13px;
-    height: 13px;
-    background-image: url(../static/icons/switch_table.svg);
-    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/switch_table_hover.svg);
-    }
-  }
-
-  &--show-lectures {
-    width: 13px;
-    height: 13px;
-    background-image: url(../static/icons/show_lectures.svg);
-    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/show_lectures_hover.svg);
     }
   }
 

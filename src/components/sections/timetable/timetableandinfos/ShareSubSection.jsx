@@ -17,6 +17,8 @@ import userShape from '../../../../shapes/model/session/UserShape';
 
 import Divider from '../../../Divider';
 
+import styles from './ShareSubSection.module.scss';
+
 class ShareSubSection extends Component {
   render() {
     const { t, i18n } = this.props;
@@ -35,17 +37,13 @@ class ShareSubSection extends Component {
       : '';
 
     return (
-      <div
-        className={classNames(
-          'subsection--share',
-          isLectureListOpenOnMobile ? 'mobile-hidden' : null,
-        )}>
-        <div>
+      <div className={classNames(styles.section, { 'mobile-hidden': isLectureListOpenOnMobile })}>
+        <div className={styles.share}>
           {user && selectedTimetable && year && semester ? (
             <>
-              <div className={classNames('subsection--share__item')}>
+              <div className={styles.shareItem}>
                 <a href={`/api/share/timetable/image?${apiParameter}`} download>
-                  <i className={classNames('icon', 'icon--share-image')} />
+                  <i className={classNames(styles.icon, styles.iconShareImage)} />
                   <span>{t('ui.button.shareImage')}</span>
                 </a>
               </div>
@@ -56,9 +54,9 @@ class ShareSubSection extends Component {
                 rel="noopener noreferrer">
                 <i className={classNames('icon', 'icon--share-googlecalendar')} />
               </a> */}
-              <div className={classNames('subsection--share__item')}>
+              <div className={styles.shareItem}>
                 <a href={`/api/share/timetable/ical?${apiParameter}`} download>
-                  <i className={classNames('icon', 'icon--share-icalendar')} />
+                  <i className={classNames(styles.icon, styles.iconShareIcalandar)} />
                   <span>{t('ui.button.shareCalendar')}</span>
                 </a>
               </div>
@@ -67,7 +65,7 @@ class ShareSubSection extends Component {
                 orientation={Divider.Orientation.HORIZONTAL}
                 isVisible={{ desktop: true, mobile: false }}
               />
-              <div className={classNames('subsection--share__item')}>
+              <div className={styles.shareItem}>
                 <Link
                   to={{
                     pathname: '/timetable/syllabus',
@@ -79,25 +77,25 @@ class ShareSubSection extends Component {
                   }}
                   target="_blank"
                   rel="noopener noreferrer">
-                  <i className={classNames('icon', 'icon--share-syllabus')} />
+                  <i className={classNames(styles.icon, styles.iconShareSyllabus)} />
                   <span>{t('ui.button.openSyllabus')}</span>
                 </Link>
               </div>
             </>
           ) : (
             <>
-              <div className={classNames('subsection--share__item')}>
-                <span className={classNames('disabled')}>
-                  <i className={classNames('icon', 'icon--share-image')} />
+              <div className={styles.shareItem}>
+                <span className={styles.disabled}>
+                  <i className={classNames(styles.icon, styles.iconShareImage)} />
                   <span>{t('ui.button.shareImage')}</span>
                 </span>
               </div>
-              {/* <span style={{ display: 'none' }} className={classNames('disabled')}>
+              {/* <span style={{ display: 'none' }} className={styles.disabled}>
                 <i className={classNames('icon', 'icon--share-googlecalendar')} />
               </span> */}
-              <div className={classNames('subsection--share__item')}>
-                <span className={classNames('disabled')}>
-                  <i className={classNames('icon', 'icon--share-icalendar')} />
+              <div className={styles.shareItem}>
+                <span className={styles.disabled}>
+                  <i className={classNames(styles.icon, styles.iconShareIcalandar)} />
                   <span>{t('ui.button.shareCalendar')}</span>
                 </span>
               </div>
@@ -106,26 +104,26 @@ class ShareSubSection extends Component {
                 orientation={Divider.Orientation.HORIZONTAL}
                 isVisible={{ desktop: true, mobile: false }}
               />
-              <div className={classNames('subsection--share__item')}>
-                <span className={classNames('disabled')}>
-                  <i className={classNames('icon', 'icon--share-syllabus')} />
+              <div className={styles.shareItem}>
+                <span className={styles.disabled}>
+                  <i className={classNames(styles.icon, styles.iconShareSyllabus)} />
                   <span>{t('ui.button.openSyllabus')}</span>
                 </span>
               </div>
             </>
           )}
         </div>
-        <div>
+        <div className={styles.buttonContainer}>
           <button
             onClick={() => setIsTimetableTabsOpenOnMobileDispatch(true)}
             className={classNames('text-button', 'text-button--black')}>
-            <i className={classNames('icon', 'icon--switch-table')} />
+            <i className={classNames(styles.icon, styles.iconSwitchTable)} />
             <span>{t('ui.button.switchTable')}</span>
           </button>
           <button
             onClick={() => setIsLectureListOpenOnMobileDispatch(true)}
             className={classNames('text-button', 'text-button--black')}>
-            <i className={classNames('icon', 'icon--show-lectures')} />
+            <i className={classNames(styles.icon, styles.iconShowLectures)} />
             <span>{t('ui.button.showLectures')}</span>
           </button>
         </div>
