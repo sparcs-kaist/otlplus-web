@@ -3,7 +3,6 @@ import {
   SET_SELECTED_LIST_CODE,
   SET_LIST_COURSES,
   CLEAR_SEARCH_LIST_COURSES,
-  // ADD_COURSE_READ,
   ListAction,
 } from '../../actions/planner/list';
 
@@ -23,7 +22,6 @@ type CourseDepartmentLists = {
 interface ListState {
   selectedListCode: CourseListCode | DepartmentCode;
   lists: CourseDepartmentLists;
-  // readCourses: Course[];
 }
 
 const initialState: ListState = {
@@ -42,7 +40,6 @@ const initialState: ListState = {
       courses: null,
     },
   },
-  // readCourses: [], // <-- 이부분은 제거해도 괜찮을 것 같음.
 };
 
 const list = (state = initialState, action: ListAction) => {
@@ -77,12 +74,6 @@ const list = (state = initialState, action: ListAction) => {
         },
       };
 
-    // case ADD_COURSE_READ: {
-    //   const newState = {
-    //     readCourses: [...state.readCourses, action.course],
-    //   };
-    //   return Object.assign({}, state, newState);
-    // }
     default: {
       return state;
     }

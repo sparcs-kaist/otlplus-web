@@ -37,7 +37,6 @@ const initialState: PlannerState = {
   isPlannerTabsOpenOnMobile: false,
 };
 
-// default : undefined 에서 Error 를 throw 하도록 수정 (plannerItemType 은 반드시 세개중 하나여야 함.)
 const getListNameOfType = (type: PlannerItemType) => {
   switch (type) {
     case 'TAKEN':
