@@ -776,11 +776,6 @@ a {
     }
   }
 
-  &--semester {
-    grid-area: semester;
-    padding: 6px 8px;
-  }
-
   &--planner-and-infos {
     grid-area: planner-and-infos;
     display: grid;
@@ -913,36 +908,6 @@ a {
             );
           }
         }
-      }
-    }
-  }
-
-  &--semester {
-    font-size: font.$size-small;
-    line-height: font.$line-height-small;
-    display: flex;
-    flex-direction: row;
-    &.semester-ko {
-      width: 78px;
-    }
-    &.semester-en {
-      width: 88px;
-    }
-
-    & > button {
-      flex: 0 0 auto;
-      &.disable {
-        pointer-events: none;
-      }
-    }
-
-    & > span {
-      flex: 1 1 auto;
-      text-align: center;
-      white-space: nowrap;
-      @include mixin-media-portrait {
-        font-size: font.$size-big;
-        line-height: font.$line-height-big;
       }
     }
   }
@@ -3386,36 +3351,6 @@ i.icon {
 
     *:hover > & {
       background-image: url(../static/icons/add_table_hover.svg);
-    }
-  }
-
-  &--semester-prev {
-    width: 7px;
-    height: 11px;
-    background-image: url(../static/icons/semester_prev.svg);
-    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/semester_prev_hover.svg);
-    }
-
-    *.disable > & {
-      background-image: url(../static/icons/semester_prev_disabled.svg);
-    }
-  }
-
-  &--semester-next {
-    width: 7px;
-    height: 11px;
-    background-image: url(../static/icons/semester_next.svg);
-    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/semester_next_hover.svg);
-    }
-
-    *.disable > & {
-      background-image: url(../static/icons/semester_next_disabled.svg);
     }
   }
 

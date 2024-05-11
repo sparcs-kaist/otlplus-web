@@ -12,6 +12,8 @@ import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 
 import { getTimetableSemester, getSemesterName } from '../../../../utils/semesterUtils';
 
+import styles from './SemesterSection.module.scss';
+
 class SemesterSection extends Component {
   componentDidMount() {
     const { semesters } = this.props;
@@ -100,34 +102,27 @@ class SemesterSection extends Component {
       year && semester ? (
         <>
           <button
-            className={classNames(this._isFirstSemester(year, semester) ? 'disable' : null)}
-            onClick={() => this.changeToPreviousSemester()}>
-            <i className={classNames('icon', 'icon--semester-prev')} />
+            className={styles.arrowButton}
+            onClick={this.changeToPreviousSemester}
+            disabled={this._isFirstSemester(year, semester)}>
+            <i className={classNames(styles.icon, styles.iconPrevArrow)} />
           </button>
-          <span>{`${year} ${getSemesterName(semester)}`}</span>
+          <span className={styles.semesterText}>{`${year} ${getSemesterName(semester)}`}</span>
           <button
-            className={classNames(this._isLastSemester(year, semester) ? 'disable' : null)}
-            onClick={() => this.changeToNextSemester()}>
-            <i className={classNames('icon', 'icon--semester-next')} />
+            className={styles.arrowButton}
+            onClick={this.changeToNextSemester}
+            disabled={this._isLastSemester(year, semester)}>
+            <i className={classNames(styles.icon, styles.iconNextArrow)} />
           </button>
         </>
       ) : (
-        <span className={classNames('placeholder')}>{t('ui.placeholder.loading')}</span>
+        <span className="placeholder">{t('ui.placeholder.loading')}</span>
       );
 
     return (
       <div
-        className={classNames(
-          'section',
-          'section--semester',
-          isPortrait && 'section--transparent',
-        )}>
-        <div
-          className={classNames(
-            'subsection',
-            'subsection--semester',
-            t('jsx.className.semesterByLang'),
-          )}>
+        className={classNames('section', styles.semester, { 'section--transparent': isPortrait })}>
+        <div className={classNames(styles.subsection, t('jsx.className.semesterByLang'))}>
           {sectionContent}
         </div>
       </div>

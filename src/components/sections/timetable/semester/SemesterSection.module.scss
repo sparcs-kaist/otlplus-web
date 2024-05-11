@@ -1,0 +1,77 @@
+@use '@/sass/abstracts/font' as font;
+@use '@/sass/abstracts/mixins' as *;
+
+.semester {
+  grid-area: semester;
+
+  padding: 6px 8px;
+}
+
+.subsection {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+  height: 100%;
+
+  font-size: font.$size-small;
+  line-height: font.$line-height-small;
+}
+:global(.semester-ko) {
+  width: 78px;
+}
+:global(.semester-en) {
+  width: 88px;
+}
+
+.arrowButton {
+  flex: 0 0 auto;
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+.semesterText {
+  flex: 1 1 auto;
+
+  text-align: center;
+  white-space: nowrap;
+
+  @include mixin-media-portrait {
+    font-size: font.$size-big;
+    line-height: font.$line-height-big;
+  }
+}
+
+.icon {
+  display: inline-block;
+
+  margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
+  width: 7px;
+  height: 11px;
+
+  background: none no-repeat center center;
+
+  vertical-align: top;
+
+  &PrevArrow {
+    background-image: url(@/static/icons/semester_prev.svg);
+    *:hover > & {
+      background-image: url(@/static/icons/semester_prev_hover.svg);
+    }
+    *:disabled > & {
+      background-image: url(@/static/icons/semester_prev_disabled.svg);
+    }
+  }
+
+  &NextArrow {
+    background-image: url(@/static/icons/semester_next.svg);
+    *:hover > & {
+      background-image: url(@/static/icons/semester_next_hover.svg);
+    }
+    *:disabled > & {
+      background-image: url(@/static/icons/semester_next_disabled.svg);
+    }
+  }
+}
