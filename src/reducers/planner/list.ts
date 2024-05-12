@@ -73,7 +73,6 @@ const list = (state = initialState, action: ListAction) => {
           },
         },
       };
-
     default: {
       return state;
     }

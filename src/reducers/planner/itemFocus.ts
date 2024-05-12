@@ -56,14 +56,14 @@ const itemFocus = (state: ItemFocus = initialState, action: ItemFocusAction) => 
     }
     case SET_ITEM_FOCUS: {
       const courseChanged = !state.course || state.course.id !== action.course.id;
-      const changed_item = courseChanged ? { reviews: null, lectures: null } : {};
+      const changedItem = courseChanged ? { reviews: null, lectures: null } : {};
       return {
         ...state,
         from: action.from,
         clicked: action.clicked,
         item: action.item,
         course: action.course,
-        changed_item,
+        changedItem,
       };
     }
     case CLEAR_ITEM_FOCUS: {
