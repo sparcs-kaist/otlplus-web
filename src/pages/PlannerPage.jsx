@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -24,6 +24,8 @@ import SummarySubSection from '../components/sections/planner/plannerandinfos/Su
 import TrackSettingsSection from '../components/sections/planner/TrackSettingsSection';
 import BetaPopup from '../components/BetaPopup';
 
+import styles from './PlannerPage.module.scss';
+
 class PlannerPage extends Component {
   componentWillUnmount() {
     const {
@@ -43,36 +45,35 @@ class PlannerPage extends Component {
     const { isTrackSettingsSectionOpen, selectedPlanner } = this.props;
 
     return (
-      <>
-        <section className={classNames('content', 'content--no-scroll')}>
-          <div className={classNames('page-grid', 'page-grid--planner')}>
-            <PlannerTabs />
-            <CourseListTabs />
-            <div className={classNames('section', 'section--planner-and-infos')}>
-              <PlannerSubSection />
-              <Divider
-                orientation={{
-                  desktop: Divider.Orientation.VERTICAL,
-                  mobile: Divider.Orientation.HORIZONTAL,
-                }}
-                isVisible={{
-                  desktop: true,
-                  mobile: false,
-                }}
-                gridArea="divider-main"
-              />
-              <TrackSubSection />
-              <Divider
-                orientation={Divider.Orientation.HORIZONTAL}
-                isVisible={{
-                  desktop: true,
-                  mobile: false,
-                }}
-                gridArea="divider-sub-1"
-              />
-              <SummarySubSection />
-              {/* TODO: Implement ShareSubSection */}
-              {/* <Divider
+      <section className={classNames('content', 'content--no-scroll')}>
+        <div className={styles.grid}>
+          <PlannerTabs />
+          <CourseListTabs />
+          <div className={classNames('section', styles.planner)}>
+            <PlannerSubSection />
+            <Divider
+              orientation={{
+                desktop: Divider.Orientation.VERTICAL,
+                mobile: Divider.Orientation.HORIZONTAL,
+              }}
+              isVisible={{
+                desktop: true,
+                mobile: false,
+              }}
+              gridArea="divider-main"
+            />
+            <TrackSubSection />
+            <Divider
+              orientation={Divider.Orientation.HORIZONTAL}
+              isVisible={{
+                desktop: true,
+                mobile: false,
+              }}
+              gridArea="divider-sub-1"
+            />
+            <SummarySubSection />
+            {/* TODO: Implement ShareSubSection */}
+            {/* <Divider
                 orientation={Divider.Orientation.HORIZONTAL}
                 isVisible={{
                   desktop: true,
@@ -81,21 +82,20 @@ class PlannerPage extends Component {
                 gridArea="divider-sub-2"
               />
               <ShareSubSection /> */}
-            </div>
-            <CourseListSection />
-            <CourseManageSection />
-            {isTrackSettingsSectionOpen && selectedPlanner && <TrackSettingsSection />}
           </div>
-          <BetaPopup
-            title="졸업플래너 베타 서비스 안내"
-            content={[
-              '졸업플레너 서비스는 현재 베타 상태입니다.',
-              '일부 학점 계산이 정확하지 않거나 기능 사용이 불편할 수 있으며, 이는 정식 출시 때 개선될 예정입니다.',
-            ]}
-            link="https://sparcs.page.link/otl-feedback"
-          />
-        </section>
-      </>
+          <CourseListSection />
+          <CourseManageSection />
+          {isTrackSettingsSectionOpen && selectedPlanner && <TrackSettingsSection />}
+        </div>
+        <BetaPopup
+          title="졸업플래너 베타 서비스 안내"
+          content={[
+            '졸업플레너 서비스는 현재 베타 상태입니다.',
+            '일부 학점 계산이 정확하지 않거나 기능 사용이 불편할 수 있으며, 이는 정식 출시 때 개선될 예정입니다.',
+          ]}
+          link="https://sparcs.page.link/otl-feedback"
+        />
+      </section>
     );
   }
 }

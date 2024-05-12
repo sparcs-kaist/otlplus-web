@@ -1,0 +1,61 @@
+@use '@/sass/abstracts/mixins' as *;
+@use '@/sass/abstracts/variables' as *;
+
+.grid {
+  display: grid;
+
+  height: 100%;
+  padding: 0 $section-margin-lr $section-margin-bottom;
+
+  @include mixin-media-landscape {
+    grid-template-columns:
+      $tabs-width-vertical
+      $section-width-desktop-1v3-left
+      $section-margin-lr
+      1fr;
+    grid-template-rows:
+      $tabs-height-horizontal
+      2fr
+      $section-margin-bottom
+      0.9fr
+      80px;
+    grid-template-areas:
+      '.                  planner-tabs        planner-tabs        planner-tabs'
+      '.                  planner-and-infos   planner-and-infos   planner-and-infos'
+      '.                  .                   .                   .'
+      'course-list-tabs   course-list         .                   course-manage'
+      'course-list-tabs   course-list         .                   course-manage';
+
+    margin-left: -$tabs-width-vertical;
+  }
+  @include mixin-media-portrait {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 'planner-and-infos';
+  }
+}
+
+.planner {
+  display: grid;
+  grid-area: planner-and-infos;
+
+  @include mixin-media-landscape {
+    grid-template-columns: 1fr min-content calc(
+        #{$section-width-desktop-1v3-left} - (#{$section-padding} * 2)
+      );
+    grid-template-rows: min-content min-content 1fr min-content min-content;
+    grid-template-areas:
+      'planner  divider-main    track'
+      'planner  divider-main    divider-sub-1'
+      'planner  divider-main    planner-summary'
+      'planner  divider-main    divider-sub-2'
+      'planner  divider-main    planner-share';
+
+    border-top-left-radius: 0;
+  }
+  @include mixin-media-portrait {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 'planner';
+  }
+}
