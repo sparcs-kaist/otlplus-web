@@ -2414,30 +2414,6 @@ a {
   }
 }
 
-.visitor,
-.academic-schedule {
-  & > div:nth-child(1) {
-    font-size: 20px;
-    line-height: 20px;
-    margin-bottom: 6px;
-    text-align: center;
-  }
-
-  & > div:nth-child(2) {
-    margin-bottom: 10px;
-    text-align: center;
-
-    strong {
-      margin-right: 8px;
-    }
-
-    span,
-    strong {
-      display: inline-block;
-    }
-  }
-}
-
 .attribute {
   display: flex;
   flex-direction: row;
