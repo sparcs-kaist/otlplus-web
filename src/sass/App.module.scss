@@ -2438,39 +2438,6 @@ a {
   }
 }
 
-.course-status {
-  &:not(:last-child) {
-    margin-bottom: $attribute-margin-bottom + 2px;
-  }
-
-  &--name {
-    font-weight: bold;
-    margin-bottom: $attribute-margin-bottom;
-  }
-
-  &--info {
-    align-self: center;
-    width: calc(100% - 8px);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-left: 8px;
-    &:not(:last-child) {
-      margin-bottom: $attribute-margin-bottom;
-    }
-
-    &--name {
-      align-self: center;
-    }
-
-    &--controller {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-}
-
 .attribute {
   display: flex;
   flex-direction: row;
@@ -3308,22 +3275,6 @@ i.icon {
     *.rate__star--selected > & {
       background-image: url(../static/icons/star_selected.svg);
     }
-  }
-
-  &--planner-plus {
-    width: 12px;
-    height: 12px;
-    background-image: url(../static/icons/plus_circled.svg);
-    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
-    margin-left: 8px;
-  }
-
-  &--planner-minus {
-    width: 12px;
-    height: 12px;
-    background-image: url(../static/icons/minus_circled.svg);
-    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
-    margin-right: 8px;
   }
 }
 
