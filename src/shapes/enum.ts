@@ -81,7 +81,7 @@ export const enum Day {
 /** Redux state 중에서 서버에서 course 또는 lecture를 fetch 해서 저장하는 
  * planner.list , timetable.list , dictionary.list 에서
  아래 enum 을 optional key 로 사용합니다.*/
-export enum DepartmentCode {
+export const enum DepartmentCode {
   ALL = 'ALL',
   HSS = 'HSS',
   CE = 'CE',
