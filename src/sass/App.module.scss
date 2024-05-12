@@ -2459,75 +2459,6 @@ a {
   }
 }
 
-.history {
-  & > tbody > tr {
-    &:first-child {
-      vertical-align: bottom;
-    }
-    &:nth-child(2) {
-      font-weight: bold;
-      font-size: font.$size-smaller;
-      line-height: font.$line-height-smaller;
-    }
-    &:last-child {
-      vertical-align: top;
-    }
-
-    & > th {
-      position: sticky;
-      z-index: 1;
-      left: 0;
-      background-color: color.$section-background;
-      width: 10px;
-      white-space: nowrap;
-      padding-right: 10px;
-      font-size: font.$size-small;
-      vertical-align: middle;
-      text-align: right;
-      line-height: font.$line-height-small;
-      color: color.$text-normal;
-    }
-
-    & > td {
-      text-align: center;
-      padding: 0 6px;
-      border-left: 1px solid color.$normal-line;
-      &:first-of-type {
-        padding-left: 0;
-        border-left: none;
-      }
-      &:last-of-type {
-        padding-right: 0;
-      }
-      &.history__cell--year-label {
-        padding-top: 6px;
-        padding-bottom: 6px;
-      }
-      &.history__cell--unopen {
-        vertical-align: middle;
-        color: color.$text-placeholder;
-        padding-top: 8px;
-        padding-bottom: 8px;
-      }
-
-      & > * {
-        @include mixin-media-landscape {
-          width: calc(64px + 7vh);
-          @at-root .history--special-lecture#{&} {
-            width: calc(108px + 7vh);
-          }
-        }
-        @include mixin-media-portrait {
-          width: calc(64px + 19vw - 30px);
-          @at-root .history--special-lecture#{&} {
-            width: calc(108px + 19vw - 30px);
-          }
-        }
-      }
-    }
-  }
-}
-
 .course-status {
   &:not(:last-child) {
     margin-bottom: $attribute-margin-bottom + 2px;
@@ -3020,10 +2951,6 @@ a {
   line-height: 17px;
   text-align: center;
   color: color.$text-placeholder;
-
-  &--history {
-    min-height: 110px;
-  }
 
   .subsection--course-list &,
   .subsection--lecture-list &,
