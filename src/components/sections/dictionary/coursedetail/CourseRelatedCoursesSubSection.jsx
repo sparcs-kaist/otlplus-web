@@ -9,6 +9,8 @@ import CourseSimpleBlock from '../../../blocks/CourseSimpleBlock';
 
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
 
+import styles from './CourseRelatedCoursesSubSection.module.scss';
+
 class CourseRelatedCoursesSubSection extends Component {
   render() {
     const { t } = this.props;
@@ -21,8 +23,8 @@ class CourseRelatedCoursesSubSection extends Component {
     const getBlocksOrPlaceholder = (courses) => {
       if (!courses.length) {
         return (
-          <div className={classNames('list-placeholder')}>
-            <div>{t('ui.placeholder.unknown')}</div>
+          <div className={classNames('list-placeholder', styles.placeholder)}>
+            {t('ui.placeholder.unknown')}
           </div>
         );
       }
@@ -30,26 +32,26 @@ class CourseRelatedCoursesSubSection extends Component {
     };
 
     return (
-      <div className={classNames('subsection', 'subsection--course-related-courses')}>
+      <section>
         <div className={classNames('small-title')}>{t('ui.title.relatedCourses')}</div>
         <div>
           <Scroller noScrollX={false} noScrollY={true}>
-            <div className={classNames('related-courses')}>
+            <div className={styles.courses}>
               <div>{getBlocksOrPlaceholder(courseFocus.course.related_courses_prior)}</div>
               <div>
-                <i className={classNames('icon', 'icon--related-arrow')} />
+                <i className={styles.arrowIcon} />
               </div>
               <div>
                 <CourseSimpleBlock course={courseFocus.course} />
               </div>
               <div>
-                <i className={classNames('icon', 'icon--related-arrow')} />
+                <i className={styles.arrowIcon} />
               </div>
               <div>{getBlocksOrPlaceholder(courseFocus.course.related_courses_posterior)}</div>
             </div>
           </Scroller>
         </div>
-      </div>
+      </section>
     );
   }
 }

@@ -2459,31 +2459,6 @@ a {
   }
 }
 
-.related-courses {
-  display: flex;
-  flex-direction: row;
-
-  & > div:nth-child(1),
-  & > div:nth-child(3),
-  & > div:nth-child(5) {
-    flex: 1 1 auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: $block-margin;
-
-    > .block {
-      flex: 1 0 0;
-    }
-  }
-
-  & > div:nth-child(2),
-  & > div:nth-child(4) {
-    flex: 0 0 auto;
-    margin: auto 10px;
-  }
-}
-
 .history {
   & > tbody > tr {
     &:first-child {
@@ -3036,18 +3011,15 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
-  color: color.$text-placeholder;
-  font-size: 16px;
-  line-height: 17px;
-  white-space: nowrap;
+
   min-height: 17px + $section-padding * 2;
 
-  .related-courses & {
-    min-height: 100%;
-    font-size: 14px;
-    line-height: 15px;
-  }
+  white-space: nowrap;
+
+  font-size: 16px;
+  line-height: 17px;
+  text-align: center;
+  color: color.$text-placeholder;
 
   &--history {
     min-height: 110px;
@@ -3396,12 +3368,6 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/lecture_selector.svg);
-  }
-
-  &--related-arrow {
-    width: 9px;
-    height: 16px;
-    background-image: url(../static/icons/related_arrow.svg);
   }
 
   &--status-read {
