@@ -318,63 +318,6 @@ a {
       grid-template-areas: 'write-reviews-left';
     }
   }
-
-  &--main {
-    overflow: hidden;
-    padding-top: $section-margin-top;
-    @include mixin-media-landscape {
-      min-height: calc(
-        #{$screen-height} - (#{$main-image-height-desktop} + #{$footer-height-desktop} + #{$section-margin-top})
-      );
-    }
-    @include mixin-media-portrait {
-      min-height: calc(
-        #{$screen-height} - (#{$main-image-height-mobile} + #{$footer-height-mobile} + #{$section-margin-top})
-      );
-    }
-
-    @include mixin-media-landscape {
-      grid-template-columns:
-        1fr
-        $section-margin-lr
-        1fr
-        $section-margin-lr
-        1fr;
-      grid-template-rows:
-        max-content
-        min-content;
-      grid-template-areas:
-        'feeds-column-1 .           feeds-column-2  .           feeds-column-3'
-        'main-date      main-date   main-date       main-date   main-date';
-    }
-    @include mixin-media-portrait {
-      grid-template-columns: 1fr;
-      grid-template-rows:
-        max-content
-        min-content;
-      grid-template-areas:
-        'feeds-column-1'
-        'main-date';
-    }
-  }
-}
-
-.main-image {
-  background: url(../static/images/main/background_photo.jpg) center 0;
-  background-size: 100% auto;
-  @include mixin-media-landscape {
-    height: $main-image-height-desktop;
-    padding-top: calc(calc($main-image-height-desktop / 2) - 9px);
-    min-width: calc(
-      #{$content-width-desktop} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) +
-            env(safe-area-inset-right))
-    );
-  }
-  @include mixin-media-portrait {
-    height: $main-image-height-mobile;
-    padding-top: calc(calc($main-image-height-mobile / 2) - 9px);
-    min-width: 100%;
-  }
 }
 
 .tabs {
@@ -663,11 +606,6 @@ a {
 
   &--feed {
     margin-bottom: $section-margin-bottom;
-
-    &--placeholder {
-      opacity: 0.5;
-      height: 270px;
-    }
   }
 
   &--course-list {
@@ -2384,34 +2322,6 @@ a {
   font-size: font.$size-smaller;
   line-height: font.$line-height-smaller;
   color: color.$text-placeholder;
-}
-
-.main-date {
-  grid-area: main-date;
-  height: 300px;
-  padding: calc(300px / 2 - 24px) 0;
-  background-image: linear-gradient(
-    rgba(color.$page-background, 0) 80%,
-    rgba(color.$page-background, 1)
-  );
-  color: rgba(color.$highlight, 0.5);
-  text-align: center;
-  z-index: 50;
-
-  & > span:first-child,
-  & > a:first-child {
-    font-size: 18px;
-    line-height: 19px;
-    cursor: pointer;
-    &:hover {
-      color: rgba(color.$highlight-dark, 0.5);
-    }
-  }
-  & > div:nth-child(2) {
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 14px;
-  }
 }
 
 .attribute {
