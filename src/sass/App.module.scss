@@ -3366,37 +3366,3 @@ i.icon {
     display: none !important;
   }
 }
-
-.credit-bar {
-  $bar-height: 6px;
-  $margin-tb-base: calc(
-    calc(calc(font.$line-height-normal - $bar-height) - font.$line-height-smallest) / 2
-  );
-
-  position: relative;
-  width: 50%;
-  margin: calc($margin-tb-base - 4px) 0 calc($margin-tb-base + 4px) 0;
-
-  &__body {
-    height: $bar-height;
-    border-radius: calc($bar-height / 2);
-    overflow: hidden;
-    background-color: #eeeeee;
-    display: flex;
-    flex-direction: row;
-
-    &__bar {
-      height: 100%;
-    }
-  }
-
-  &__text {
-    text-align: right;
-    font-size: font.$size-smallest;
-    line-height: font.$line-height-smallest;
-
-    & > span {
-      color: color.$highlight;
-    }
-  }
-}
