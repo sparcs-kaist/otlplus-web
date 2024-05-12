@@ -673,14 +673,6 @@ a {
     }
   }
 
-  &--course-manage {
-    @include mixin-media-landscape {
-      grid-area: course-manage;
-      display: flex;
-      flex-direction: row;
-    }
-  }
-
   &--track-settings {
     display: flex;
     flex-direction: column;
@@ -1104,11 +1096,6 @@ a {
 
   &--campaign {
     color: red;
-  }
-
-  &--course-manage-left {
-    flex-basis: 1px;
-    flex-grow: 1;
   }
 
   &--course-manage-right {
