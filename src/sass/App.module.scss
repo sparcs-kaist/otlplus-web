@@ -643,19 +643,6 @@ a {
     right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
   }
 
-  &--popup {
-    position: absolute;
-    width: 260px;
-    height: 240px;
-    z-index: 200;
-    box-shadow:
-      $section-box-shadow,
-      0 0 0 1000px rgba(#000, 0.3);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, calc(-50% - #{$header-height} / 2));
-  }
-
   &--transparent {
     padding: initial !important;
     background-color: initial;
@@ -843,17 +830,6 @@ a {
   &--flex {
     display: flex;
     flex-direction: column;
-  }
-
-  &--beta-popup {
-    &__content {
-      flex: 1 1 auto;
-      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
-
-      & > div:not(:last-child) {
-        margin-bottom: 4px;
-      }
-    }
   }
 
   &--lecture-detail {
@@ -1643,13 +1619,17 @@ a {
 }
 
 .close-button-wrap {
-  display: block;
   position: absolute;
-  padding: $section-padding 0 ($section-padding - 2px) ($section-padding - 2px);
+  z-index: 90;
   top: 0;
   right: $section-padding;
+
+  display: block;
+
+  padding: $section-padding 0 ($section-padding - 2px) ($section-padding - 2px);
+
   background-color: rgba(color.$section-background, $opacity-text-overlay);
-  z-index: 90;
+
   .section--modal & {
     z-index: 290;
   }
@@ -1657,8 +1637,7 @@ a {
   @include mixin-media-landscape {
     display: none;
 
-    .section--modal &,
-    .section--popup & {
+    .section--modal & {
       display: initial;
     }
   }
