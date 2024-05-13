@@ -11,4 +11,5 @@ const CombinedReducer = combineReducers({
   search: search,
 });
 
+export type PlannerState = ReturnType<typeof CombinedReducer>;
 export default CombinedReducer;

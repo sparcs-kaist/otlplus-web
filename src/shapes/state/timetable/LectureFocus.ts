@@ -28,7 +28,7 @@ interface FromListOrTable {
 }
 
 interface FromMutliple {
-  from: LectureFocusFrom.TABLE;
+  from: LectureFocusFrom.MULTIPLE;
   clicked: false;
   lecture?: null;
   reviews?: null;

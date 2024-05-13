@@ -3,35 +3,42 @@ import {
   OPEN_SEARCH,
   CLOSE_SEARCH,
   SET_LAST_SEARCH_OPTION,
-} from '../../actions/planner/search';
+  SearchAction,
+} from '@/actions/planner/search';
+import LectureLastSearchOption from '@/shapes/state/timetable/LectureLastSearchOption';
 
-const initialState = {
+interface SearchState {
+  open: boolean;
+  lastSearchOption: LectureLastSearchOption;
+}
+
+const initialState: SearchState = {
   open: true,
   lastSearchOption: {},
 };
 
-const search = (state = initialState, action) => {
+const search = (state = initialState, action: SearchAction) => {
   switch (action.type) {
     case RESET: {
       return initialState;
     }
     case OPEN_SEARCH: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         open: true,
-      });
+      };
     }
     case CLOSE_SEARCH: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         open: false,
-        start: null,
-        end: null,
-        day: null,
-      });
+      };
     }
     case SET_LAST_SEARCH_OPTION: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         lastSearchOption: action.lastSearchOption,
-      });
+      };
     }
     default: {
       return state;
