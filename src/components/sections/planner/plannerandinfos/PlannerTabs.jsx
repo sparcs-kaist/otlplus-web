@@ -59,7 +59,7 @@ class PlannerTabs extends Component {
     const { user, setPlannersDispatch } = this.props;
 
     if (!user) {
-      // setPlannersDispatch([]);
+       setPlannersDispatch([]);
       this._performCreatePlanner();
       return;
     }
