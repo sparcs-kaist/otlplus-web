@@ -28,7 +28,7 @@ interface PlannerState {
 }
 
 const initialState: PlannerState = {
-  planners: [],
+  planners: null,
   selectedPlanner: null,
   cellWidth: 200,
   cellHeight: 50,
