@@ -26,13 +26,7 @@ const search = (state = initialState, action: CourseAction) => {
       return { ...state, open: true };
     }
     case CLOSE_SEARCH: {
-      return {
-        ...state,
-        open: false,
-        start: null,
-        end: null,
-        day: null,
-      };
+      return { ...state, open: false };
     }
     case SET_LAST_SEARCH_OPTION: {
       return { ...state, lastSearchOption: action.lastSearchOption };
