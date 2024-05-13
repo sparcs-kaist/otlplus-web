@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import { appBoundClassNames as classNames } from '../common/boundClassNames';
+import styles from './CourseStatus.module.scss';
 
 class CourseStatus extends Component {
   render() {
@@ -10,18 +10,17 @@ class CourseStatus extends Component {
 
     return (
       <div>
-        {entries.map((e) => (
-          <div className={classNames('course-status')} key={e.name}>
-            <div className={classNames('course-status--name')}>{e.name}</div>
+        {entries.map(({ name, info }) => (
+          <div className={styles.courseTypes} key={name}>
+            <div className={styles.title}>{name}</div>
             <div>
-              {e.info.map((k) => (
+              {info.map((k) => (
                 <div
-                  className={classNames('course-status--info')}
+                  className={styles.info}
                   onMouseOver={k.onMouseOver}
                   onMouseOut={k.onMouseOut}
                   key={k.name}>
-                  <div className={classNames('course-status--info--name')}>{k.name}</div>
-                  <div />
+                  <span className={styles.infoName}>{k.name}</span>
                   {k.controller}
                 </div>
               ))}

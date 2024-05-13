@@ -1,0 +1,122 @@
+@use 'abstracts/color' as color;
+@use 'abstracts/font' as font;
+
+body * {
+  appearance: none;
+
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+
+  font-family: sans-serif;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+
+  background-color: color.$page-background;
+
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
+  color: color.$text-normal;
+}
+
+:global(#root) > * {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+
+  &:last-child {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+input {
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+
+  &[type='checkbox'] {
+    width: 0;
+    height: 0;
+  }
+}
+
+textarea {
+  resize: none;
+
+  border: none;
+  outline: none;
+
+  background-color: transparent;
+
+  font-size: inherit;
+}
+
+button {
+  border: none;
+  outline: none;
+
+  background-color: transparent;
+  cursor: pointer;
+
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  text-align: initial;
+  color: inherit;
+}
+
+label {
+  cursor: pointer;
+
+  font-weight: initial;
+}
+
+ul {
+  list-style: none;
+}
+
+a,
+a:hover,
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+table {
+  border-spacing: 0;
+  table-layout: auto;
+}
+
+th {
+  font-weight: initial;
+}
+
+iframe {
+  border: none;
+}
+
+button,
+label,
+a {
+  position: relative;
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    top: -2px;
+    bottom: -2px;
+    left: -2px;
+    right: -2px;
+
+    display: block;
+  }
+}

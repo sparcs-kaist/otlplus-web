@@ -1,0 +1,119 @@
+@use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/font' as font;
+@use '@/sass/abstracts/mixins' as *;
+
+.timetable {
+  position: relative;
+
+  grid-area: timetable;
+
+  width: 100%;
+  height: 100%;
+}
+
+.table {
+  display: flex;
+  flex-direction: row;
+
+  height: 100%;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+
+  margin-right: 7px;
+  width: 10px;
+}
+
+.labelGap {
+  flex: auto;
+}
+
+.labelTitle {
+  flex: none;
+
+  height: font.$line-height-smallest + 6px;
+}
+
+.labelLine {
+  flex: none;
+
+  height: 1px;
+
+  & > span,
+  & > strong {
+    display: block;
+
+    margin-top: calc(calc(font.$line-height-smallest / 2) * -1) + 1px;
+    width: 100%;
+
+    font-size: font.$size-smallest;
+    line-height: font.$line-height-smallest;
+    text-align: right;
+    color: color.$text-light;
+  }
+}
+
+.labelCell {
+  flex: auto;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+
+  margin-right: 3px;
+  padding: 0 1px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.bodyGap {
+  flex: auto;
+}
+
+.bodyTitle {
+  flex: none;
+
+  margin: 0 -20px;
+  height: font.$line-height-smallest + 6px;
+  padding-bottom: 6px;
+
+  font-size: font.$size-smallest;
+  line-height: font.$line-height-smallest;
+  text-align: center;
+  color: color.$text-light;
+}
+
+.bodyCell {
+  flex: auto;
+
+  &Drag {
+    touch-action: pan-x pinch-zoom;
+  }
+}
+
+.bodyLine {
+  flex: none;
+
+  border-bottom: 1px solid color.$normal-line;
+  height: 1px;
+
+  &Bold {
+    border-bottom-color: color.$normal-line-dark;
+  }
+
+  &Dashed {
+    border-bottom-style: dashed;
+  }
+
+  &MobileNoline {
+    @include mixin-media-portrait {
+      border-bottom: none;
+    }
+  }
+}

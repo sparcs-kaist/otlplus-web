@@ -1,0 +1,29 @@
+.controller {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.icon {
+  display: inline-block;
+
+  margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
+  width: 12px;
+  height: 12px;
+
+  background: none no-repeat center center;
+
+  vertical-align: top;
+
+  &PlannerPlus {
+    margin-left: 8px;
+
+    background-image: url(@/static/icons/plus_circled.svg);
+  }
+
+  &PlannerMinus {
+    margin-right: 8px;
+
+    background-image: url(@/static/icons/minus_circled.svg);
+  }
+}

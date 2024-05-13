@@ -1,0 +1,14 @@
+@use '@/sass/abstracts/mixins' as *;
+
+.courseManage {
+  @include mixin-media-landscape {
+    display: flex;
+    flex-direction: row;
+
+    grid-area: course-manage;
+  }
+}
+
+.courseManageLeft {
+  flex: 1 0 1px;
+}

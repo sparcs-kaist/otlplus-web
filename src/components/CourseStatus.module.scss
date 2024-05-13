@@ -1,0 +1,28 @@
+@use '@/sass/abstracts/variables' as *;
+
+.courseTypes:not(:last-child) {
+  margin-bottom: $attribute-margin-bottom + 2px;
+}
+
+.title {
+  margin-bottom: $attribute-margin-bottom;
+
+  font-weight: bold;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin-left: 8px;
+  width: calc(100% - 8px);
+
+  &:not(:last-child) {
+    margin-bottom: $attribute-margin-bottom;
+  }
+}
+
+.infoName {
+  align-self: center;
+}

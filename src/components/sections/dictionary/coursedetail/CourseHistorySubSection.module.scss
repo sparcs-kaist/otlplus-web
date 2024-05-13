@@ -1,0 +1,85 @@
+@use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/font' as font;
+@use '@/sass/abstracts/mixins' as *;
+
+.history {
+  th {
+    position: sticky;
+    z-index: 1;
+    left: 0;
+
+    width: 10px;
+    padding-right: 10px;
+
+    background-color: color.$section-background;
+
+    font-size: font.$size-small;
+    line-height: font.$line-height-small;
+    text-align: right;
+    vertical-align: middle;
+    white-space: nowrap;
+    color: color.$text-normal;
+  }
+
+  td {
+    border-left: 1px solid color.$normal-line;
+    padding: 0 6px;
+
+    text-align: center;
+
+    &:first-of-type {
+      border-left: none;
+      padding-left: 0;
+    }
+    &:last-of-type {
+      padding-right: 0;
+    }
+
+    & > * {
+      @include mixin-media-landscape {
+        width: calc(64px + 7vh);
+      }
+      @include mixin-media-portrait {
+        width: calc(64px + 19vw - 30px);
+      }
+    }
+  }
+}
+
+.specialLecture td > * {
+  @include mixin-media-landscape {
+    width: calc(108px + 7vh);
+  }
+  @include mixin-media-portrait {
+    width: calc(108px + 19vw - 30px);
+  }
+}
+
+.springSemesters {
+  vertical-align: bottom;
+}
+.fallSemesters {
+  vertical-align: top;
+}
+
+.years {
+  font-size: font.$size-smaller;
+  line-height: font.$line-height-smaller;
+  font-weight: bold;
+
+  & > td {
+    padding: 6px;
+  }
+}
+
+.placeholder {
+  min-height: 110px;
+}
+
+.unopened {
+  padding-top: 8px;
+  padding-bottom: 8px;
+
+  vertical-align: middle;
+  color: color.$text-placeholder;
+}

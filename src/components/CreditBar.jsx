@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 import { ItemFocusFrom } from '../reducers/planner/itemFocus';
 
+import styles from './CreditBar.module.scss';
+
 class CreditBar extends Component {
   render() {
     const {
@@ -55,31 +57,22 @@ class CreditBar extends Component {
     ];
 
     return (
-      <div className={classNames('credit-bar')}>
-        <div className={classNames('credit-bar__text')}>{text}</div>
-        <div className={classNames('credit-bar__body')}>
+      <div className={styles.credit}>
+        <div className={styles.text}>{text}</div>
+        <div className={styles.progressBar}>
           <div
             className={classNames(
-              'credit-bar__body__bar',
-              'credit-bar__body__bar--taken',
               `background-color--${isCategoryFocused ? 19 : colorIndex}`,
               'background-color--dark',
             )}
             style={{ width: `${widths[0]}%` }}
           />
           <div
-            className={classNames(
-              'credit-bar__body__bar',
-              'credit-bar__body__bar--focused',
-              'background-color--19',
-              'background-color--dark',
-            )}
+            className={classNames('background-color--19', 'background-color--dark')}
             style={{ width: `${widths[1]}%` }}
           />
           <div
             className={classNames(
-              'credit-bar__body__bar',
-              'credit-bar__body__bar--planned',
               `background-color--${isCategoryFocused ? 19 : colorIndex}`,
               'background-color--dark',
               'background-color--stripe',
@@ -88,8 +81,6 @@ class CreditBar extends Component {
           />
           <div
             className={classNames(
-              'credit-bar__body__bar',
-              'credit-bar__body__bar--focused',
               'background-color--19',
               'background-color--dark',
               'background-color--stripe',

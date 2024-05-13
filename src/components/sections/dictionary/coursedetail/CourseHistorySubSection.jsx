@@ -12,6 +12,8 @@ import LectureGroupSimpleBlock from '../../../blocks/LectureGroupSimpleBlock';
 import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
 
+import styles from './CourseHistorySubSection.module.scss';
+
 class CourseHistorySubSection extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +42,7 @@ class CourseHistorySubSection extends Component {
         <>
           <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
           <div ref={this.scrollRef}>
-            <div className={classNames('list-placeholder', 'list-placeholder--history')}>
+            <div className={classNames('list-placeholder', styles.placeholder)}>
               <div>{t('ui.placeholder.loading')}</div>
             </div>
           </div>
@@ -58,13 +60,13 @@ class CourseHistorySubSection extends Component {
       );
       if (filteredLectures.length === 0) {
         return (
-          <td className={classNames('history__cell--unopen')} key={`${year}-1`}>
+          <td className={styles.unopened} key={year}>
             <div>{t('ui.others.notOffered')}</div>
           </td>
         );
       }
       return (
-        <td key={`${year}-1`}>
+        <td key={year}>
           <LectureGroupSimpleBlock lectures={filteredLectures} />
         </td>
       );
@@ -80,30 +82,26 @@ class CourseHistorySubSection extends Component {
     const isSpecialLectureCourse = specialLectures.length / courseFocus.lectures.length > 0.3;
 
     return (
-      <div className={classNames('subsection', 'subsection--course-history')}>
+      <section className={classNames('subsection')}>
         <div className={classNames('small-title')}>{t('ui.title.courseHistory')}</div>
         <div ref={this.scrollRef}>
           <Scroller noScrollX={false} noScrollY={true}>
             <table
-              className={classNames(
-                'history',
-                isSpecialLectureCourse ? 'history--special-lecture' : null,
-              )}>
+              className={classNames(styles.history, {
+                [styles.specialLecture]: isSpecialLectureCourse,
+              })}>
               <tbody>
-                <tr>
+                <tr className={styles.springSemesters}>
                   <th>{t('ui.semester.spring')}</th>
                   {targetYears.map((y) => getBlockOrPlaceholder(y, 1))}
                 </tr>
-                <tr>
-                  {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
+                <tr className={styles.years}>
                   <th />
-                  {targetYears.map((y) => (
-                    <td className={classNames('history__cell--year-label')} key={`${y}-l`}>
-                      {y}
-                    </td>
+                  {targetYears.map((year) => (
+                    <td key={year}>{year}</td>
                   ))}
                 </tr>
-                <tr>
+                <tr className={styles.fallSemesters}>
                   <th>{t('ui.semester.fall')}</th>
                   {targetYears.map((y) => getBlockOrPlaceholder(y, 3))}
                 </tr>
@@ -111,7 +109,7 @@ class CourseHistorySubSection extends Component {
             </table>
           </Scroller>
         </div>
-      </div>
+      </section>
     );
   }
 }

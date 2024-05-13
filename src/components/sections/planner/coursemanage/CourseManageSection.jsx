@@ -22,6 +22,8 @@ import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import { ItemFocusFrom } from '../../../../reducers/planner/itemFocus';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 
+import styles from './CourseManageSection.module.scss';
+
 class CourseManageSection extends Component {
   constructor(props) {
     super(props);
@@ -126,7 +128,7 @@ class CourseManageSection extends Component {
 
     const sectionContent = itemFocus.course ? (
       <>
-        <div className={classNames('subsection', 'subsection--course-manage-left')}>
+        <div className={classNames('subsection', styles.courseManageLeft)}>
           <div className={classNames('subsection', 'subsection--flex')}>
             <CloseButton onClick={this.unfix} />
             <div className={classNames('detail-title-area')}>
@@ -134,11 +136,9 @@ class CourseManageSection extends Component {
               <div className={classNames('subtitle')}>{itemFocus.course.old_code}</div>
               <div className={classNames('buttons')}>
                 <Link
-                  className={classNames(
-                    'text-button',
-                    'text-button--right',
-                    itemFocus.course.isArbitrary ? 'text-button--disabled' : '',
-                  )}
+                  className={classNames('text-button', 'text-button--right', {
+                    'text-button--disabled': itemFocus.course.isArbitrary,
+                  })}
                   to={{
                     pathname: '/dictionary',
                     search: qs.stringify({ startCourseId: itemFocus.course.id }),
@@ -176,7 +176,7 @@ class CourseManageSection extends Component {
       <OtlplusPlaceholder />
     );
     return (
-      <div className={classNames('section', 'section--course-manage', 'mobile-hidden')}>
+      <div className={classNames('section', styles.courseManage, 'mobile-hidden')}>
         {sectionContent}
       </div>
     );

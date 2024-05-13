@@ -1,45 +1,5 @@
-$color-page-background: #f9f0f0;
-$color-section-background: #ffffff;
-$color-section-background-transparent: #ffffffdd;
-$color-tab-background: $color-section-background;
-$color-tab-background-dark: #e2e2e2;
-$color-tab-background-darker: #d8d8d8;
-$color-block-background: #eeeeee;
-$color-block-background-dark: #dddddd;
-$color-block-background-highlight: #f9f0f0;
-$color-tile-background-highlight: #e0546f;
-
-$color-text-dark: #000000;
-$color-text-normal: #333333;
-$color-text-light: #555555;
-$color-text-lighter: #888888;
-$color-text-placeholder: #aaaaaa;
-$color-text-disable: #aaaaaa;
-
-$color-highlight: #e54c65;
-$color-highlight-dark: #963246;
-
-$color-section-shadow: rgba(#ed8c9c, 0.5);
-$color-block-shadow-dark: rgba(#333333, 0.5);
-$color-block-shadow-highlight: rgba(#431014, 0.5);
-
-$color-divider-line: #edd1dc;
-$color-block-line: #c9c9c9;
-$color-normal-line: #e8e8e8;
-$color-normal-line-dark: #c9c9c9;
-
-$font-size-big: 14px;
-$line-height-big: 15px;
-$font-size-normal: 13px;
-$line-height-normal: 14px;
-$font-size-small: 12px;
-$line-height-small: 13px;
-$font-size-smaller: 11px;
-$line-height-smaller: 12px;
-$font-size-smallest: 10px;
-$line-height-smallest: 11px;
-
-$delta-line-height-longcontent: 4px;
+@use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/font' as font;
 
 $opacity-text-overlay: 0.7;
 
@@ -66,7 +26,7 @@ $section-margin-bottom: 12px;
 $section-margin-lr: 12px;
 $section-padding: 12px;
 $section-border-radius: 6px;
-$section-box-shadow: 0 6px 3px -3px $color-section-shadow;
+$section-box-shadow: 0 6px 3px -3px color.$section-shadow;
 
 $tab-padding: 8px;
 $tab-margin: 6px;
@@ -106,12 +66,12 @@ $score-line-height-mobile: calc(#{$score-font-size-mobile} - 2px);
 // TODO: This really should be a function
 $section-width-desktop-1v3-left: calc(15vh + 126px);
 $section-height-desktop-lecture-detail: calc(
-  #{$section-padding} + (#{$line-height-big} + 2px) + (
-      #{$line-height-normal} + #{$delta-line-height-longcontent}
-    ) + (#{$line-height-small} + #{$title-margin-bottom}) + (
-      (#{$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)
+  #{$section-padding} + (#{font.$line-height-big} + 2px) + (
+      #{font.$line-height-normal} + #{font.$delta-line-height-longcontent}
+    ) + (#{font.$line-height-small} + #{$title-margin-bottom}) + (
+      (#{font.$line-height-normal} * 6) + (#{$attribute-margin-bottom} * 5)
     ) + (
-      (#{$score-line-height-desktop} + 2px + #{$line-height-smaller}) * 2 +
+      (#{$score-line-height-desktop} + 2px + #{font.$line-height-smaller}) * 2 +
         (#{$score-margin-tb-desktop} * 3)
-    ) + #{$line-height-normal} + #{$section-padding}
+    ) + #{font.$line-height-normal} + #{$section-padding}
 );

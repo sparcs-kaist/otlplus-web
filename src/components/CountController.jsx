@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component } from 'react';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
-import { appBoundClassNames as classNames } from '../common/boundClassNames';
+import classNames from 'classnames';
+import styles from './CountController.module.scss';
 
 class CountController extends Component {
   render() {
     const { count, updateCount } = this.props;
 
     return (
-      <div className={classNames('course-status--info--controller')}>
+      <div className={styles.controller}>
         <i
-          className={classNames('icon', 'icon--planner-minus')}
+          className={classNames(styles.icon, styles.iconPlannerMinus)}
           onClick={() => {
             if (count > 0) {
               updateCount(count - 1);
@@ -20,7 +21,7 @@ class CountController extends Component {
         />
         <div>{count}</div>
         <i
-          className={classNames('icon', 'icon--planner-plus')}
+          className={classNames(styles.icon, styles.iconPlannerPlus)}
           onClick={() => {
             updateCount(count + 1);
           }}

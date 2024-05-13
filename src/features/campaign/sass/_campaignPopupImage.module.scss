@@ -1,3 +1,5 @@
+@use '@/sass/abstracts/color' as color;
+
 @import '../../../sass/abstracts/variables';
 @import '../../../sass/abstracts/mixins';
 
@@ -6,7 +8,7 @@
   $aspect-ratio: calc(1920 / 1080);
   width: $width;
   height: calc($width / $aspect-ratio);
-  background-color: $color-section-background;
+  background-color: color.$section-background;
   border-radius: $section-border-radius $section-border-radius 0 0;
 
   transition: filter 0.1s ease-in-out;
@@ -29,7 +31,7 @@
   $aspect-ratio: calc(1080 / 1397);
   width: calc($height * $aspect-ratio);
   height: $height;
-  background-color: $color-section-background;
+  background-color: color.$section-background;
   border-radius: $section-border-radius $section-border-radius 0 0;
 
   transition: filter 0.1s ease-in-out;

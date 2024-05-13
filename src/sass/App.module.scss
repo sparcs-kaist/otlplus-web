@@ -1,112 +1,10 @@
+@use 'global';
+
+@use 'abstracts/color' as color;
+@use 'abstracts/font' as font;
+
 @import './abstracts/_variables.scss';
 @import './abstracts/_mixins.scss';
-
-body * {
-  font-family: sans-serif;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  flex: none;
-  appearance: none;
-}
-
-body {
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
-  background-color: $color-page-background;
-  color: $color-text-normal;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-input {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-
-  &[type='checkbox'] {
-    width: 0;
-    height: 0;
-  }
-}
-
-textarea {
-  background-color: transparent;
-  border: none;
-  resize: none;
-  outline: none;
-  font-size: inherit;
-}
-
-button {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  text-align: initial;
-}
-
-label {
-  cursor: pointer;
-  font-weight: initial;
-}
-
-ul {
-  list-style: none;
-}
-
-a,
-a:hover,
-a:link {
-  color: inherit;
-  text-decoration: none;
-}
-
-table {
-  border-spacing: 0;
-  table-layout: auto;
-}
-
-th {
-  font-weight: initial;
-}
-
-iframe {
-  border: none;
-}
-
-:global(#root) > * {
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  &:last-child {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-button,
-label,
-a {
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    display: block;
-    //background-color: rgba(#f00, 0.7); // Hitbox checker
-    top: -2px;
-    bottom: -2px;
-    left: -2px;
-    right: -2px;
-  }
-}
 
 :global(.ScrollbarsCustom-Wrapper) {
   position: relative !important;
@@ -250,34 +148,6 @@ a {
     }
   }
 
-  &--planner {
-    @include mixin-media-landscape {
-      margin-left: -$tabs-width-vertical;
-      grid-template-columns:
-        $tabs-width-vertical
-        $section-width-desktop-1v3-left
-        $section-margin-lr
-        1fr;
-      grid-template-rows:
-        $tabs-height-horizontal
-        2fr
-        $section-margin-bottom
-        0.9fr
-        80px;
-      grid-template-areas:
-        '.                  planner-tabs        planner-tabs        planner-tabs'
-        '.                  planner-and-infos   planner-and-infos   planner-and-infos'
-        '.                  .                   .                   .'
-        'course-list-tabs   course-list         .                   course-manage'
-        'course-list-tabs   course-list         .                   course-manage';
-    }
-    @include mixin-media-portrait {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr;
-      grid-template-areas: 'planner-and-infos';
-    }
-  }
-
   &--syllabus {
     @include mixin-media-landscape {
       width: calc(900px + #{$section-padding} * 2);
@@ -315,75 +185,18 @@ a {
       grid-template-areas: 'write-reviews-left';
     }
   }
-
-  &--main {
-    overflow: hidden;
-    padding-top: $section-margin-top;
-    @include mixin-media-landscape {
-      min-height: calc(
-        #{$screen-height} - (#{$main-image-height-desktop} + #{$footer-height-desktop} + #{$section-margin-top})
-      );
-    }
-    @include mixin-media-portrait {
-      min-height: calc(
-        #{$screen-height} - (#{$main-image-height-mobile} + #{$footer-height-mobile} + #{$section-margin-top})
-      );
-    }
-
-    @include mixin-media-landscape {
-      grid-template-columns:
-        1fr
-        $section-margin-lr
-        1fr
-        $section-margin-lr
-        1fr;
-      grid-template-rows:
-        max-content
-        min-content;
-      grid-template-areas:
-        'feeds-column-1 .           feeds-column-2  .           feeds-column-3'
-        'main-date      main-date   main-date       main-date   main-date';
-    }
-    @include mixin-media-portrait {
-      grid-template-columns: 1fr;
-      grid-template-rows:
-        max-content
-        min-content;
-      grid-template-areas:
-        'feeds-column-1'
-        'main-date';
-    }
-  }
-}
-
-.main-image {
-  background: url(../static/images/main/background_photo.jpg) center 0;
-  background-size: 100% auto;
-  @include mixin-media-landscape {
-    height: $main-image-height-desktop;
-    padding-top: calc(calc($main-image-height-desktop / 2) - 9px);
-    min-width: calc(
-      #{$content-width-desktop} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) +
-            env(safe-area-inset-right))
-    );
-  }
-  @include mixin-media-portrait {
-    height: $main-image-height-mobile;
-    padding-top: calc(calc($main-image-height-mobile / 2) - 9px);
-    min-width: 100%;
-  }
 }
 
 .tabs {
-  font-size: $font-size-small;
-  line-height: $line-height-small;
-  color: $color-text-light;
+  font-size: font.$size-small;
+  line-height: font.$line-height-small;
+  color: color.$text-light;
   overflow: hidden;
 
   & .tabs__elem {
     padding: $tab-padding;
     text-align: center;
-    background-color: $color-tab-background-dark;
+    background-color: color.$tab-background-dark;
     white-space: nowrap;
     display: inline-block;
     @include mixin-media-landscape {
@@ -393,13 +206,13 @@ a {
       touch-action: pan-x pinch-zoom;
     }
     &.tabs__elem--selected {
-      background-color: $color-tab-background;
-      color: $color-text-normal;
+      background-color: color.$tab-background;
+      color: color.$text-normal;
     }
     &:not(.tabs__elem--selected) {
       cursor: pointer;
       &:hover {
-        background-color: $color-tab-background-darker;
+        background-color: color.$tab-background-darker;
       }
     }
     &.tabs__elem--draggable {
@@ -472,16 +285,16 @@ a {
       @include mixin-media-portrait {
         width: 100%;
         padding: $block-padding-tb $block-padding-lr;
-        background-color: $color-block-background;
+        background-color: color.$block-background;
         margin-bottom: $block-margin;
         border-radius: $block-border-radius;
         text-align: left;
         &.tabs__elem--selected {
-          background-color: $color-block-background-dark;
+          background-color: color.$block-background-dark;
         }
         &:not(.tabs__elem--selected) {
           &:hover {
-            background-color: $color-block-background-dark;
+            background-color: color.$block-background-dark;
           }
         }
       }
@@ -505,7 +318,7 @@ a {
       }
 
       & > button {
-        color: $color-text-light;
+        color: color.$text-light;
         @include mixin-media-landscape {
           margin-left: 4px;
         }
@@ -513,7 +326,7 @@ a {
           margin-left: 8px;
         }
         &:hover {
-          color: $color-text-dark;
+          color: color.$text-dark;
         }
 
         & > span {
@@ -546,16 +359,16 @@ a {
       @include mixin-media-portrait {
         width: 100%;
         padding: $block-padding-tb $block-padding-lr;
-        background-color: $color-block-background;
+        background-color: color.$block-background;
         margin-bottom: $block-margin;
         border-radius: $block-border-radius;
         text-align: left;
         &.tabs__elem--selected {
-          background-color: $color-block-background-dark;
+          background-color: color.$block-background-dark;
         }
         &:not(.tabs__elem--selected) {
           &:hover {
-            background-color: $color-block-background-dark;
+            background-color: color.$block-background-dark;
           }
         }
       }
@@ -579,7 +392,7 @@ a {
       }
 
       & > button {
-        color: $color-text-light;
+        color: color.$text-light;
         @include mixin-media-landscape {
           margin-left: 4px;
         }
@@ -587,7 +400,7 @@ a {
           margin-left: 8px;
         }
         &:hover {
-          color: $color-text-dark;
+          color: color.$text-dark;
         }
 
         & > span {
@@ -621,7 +434,7 @@ a {
 .section {
   position: relative;
   padding: $section-padding;
-  background-color: $color-section-background;
+  background-color: color.$section-background;
   border-radius: $section-border-radius;
   box-shadow: $section-box-shadow;
   overflow: hidden;
@@ -638,19 +451,6 @@ a {
     bottom: calc(#{$section-margin-bottom} * 2 + env(safe-area-inset-bottom));
     left: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-left));
     right: calc(#{$section-margin-lr} * 2 + env(safe-area-inset-right));
-  }
-
-  &--popup {
-    position: absolute;
-    width: 260px;
-    height: 240px;
-    z-index: 200;
-    box-shadow:
-      $section-box-shadow,
-      0 0 0 1000px rgba(#000, 0.3);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, calc(-50% - #{$header-height} / 2));
   }
 
   &--transparent {
@@ -673,11 +473,6 @@ a {
 
   &--feed {
     margin-bottom: $section-margin-bottom;
-
-    &--placeholder {
-      opacity: 0.5;
-      height: 270px;
-    }
   }
 
   &--course-list {
@@ -773,42 +568,6 @@ a {
     }
   }
 
-  &--semester {
-    grid-area: semester;
-    padding: 6px 8px;
-  }
-
-  &--planner-and-infos {
-    grid-area: planner-and-infos;
-    display: grid;
-    @include mixin-media-landscape {
-      border-top-left-radius: 0;
-      grid-template-columns: 1fr min-content calc(
-          #{$section-width-desktop-1v3-left} - (#{$section-padding} * 2)
-        );
-      grid-template-rows: min-content min-content 1fr min-content min-content;
-      grid-template-areas:
-        'planner  divider-main    track'
-        'planner  divider-main    divider-sub-1'
-        'planner  divider-main    planner-summary'
-        'planner  divider-main    divider-sub-2'
-        'planner  divider-main    planner-share';
-    }
-    @include mixin-media-portrait {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr;
-      grid-template-areas: 'planner';
-    }
-  }
-
-  &--course-manage {
-    @include mixin-media-landscape {
-      grid-area: course-manage;
-      display: flex;
-      flex-direction: row;
-    }
-  }
-
   &--track-settings {
     display: flex;
     flex-direction: column;
@@ -847,17 +606,6 @@ a {
     flex-direction: column;
   }
 
-  &--beta-popup {
-    &__content {
-      flex: 1 1 auto;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
-
-      & > div:not(:last-child) {
-        margin-bottom: 4px;
-      }
-    }
-  }
-
   &--lecture-detail {
     &__mobile-buttons {
       text-align: right;
@@ -867,7 +615,7 @@ a {
   &--lecture-list {
     &__selector {
       position: absolute;
-      top: calc((100% + #{$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
+      top: calc((100% + #{font.$line-height-big} + #{$list-title-margin-bottom} - 12px) / 2);
       right: #{$section-padding};
       display: none;
       @include mixin-media-no-hover {
@@ -888,12 +636,13 @@ a {
               (
                   (#{$screen-height} - #{$header-height} - (#{$section-margin-bottom} * 2)) / 2 -
                     (
-                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{$line-height-big} +
+                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{font.$line-height-big} +
                             #{$list-title-margin-bottom})
                     )
                 ) / 2 -
                 (
-                  (#{$line-height-smaller} / 2) + (6px * 2) + 1px + #{$line-height-normal} + #{$block-padding-tb}
+                  (#{font.$line-height-smaller} / 2) + (6px * 2) + 1px + #{font.$line-height-normal} +
+                    #{$block-padding-tb}
                 )
             );
           }
@@ -902,219 +651,11 @@ a {
               (
                   (#{$screen-height} - #{$header-height} - (#{$section-margin-bottom} * 2)) / 2 -
                     (
-                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{$line-height-big} +
+                      #{$tabs-height-horizontal} + (#{$section-padding} * 2) + (#{font.$line-height-big} +
                             #{$list-title-margin-bottom})
                     )
-                ) / 2 - (#{calc($line-height-smaller / 2)} + #{$block-padding-tb}) + #{$section-padding}
+                ) / 2 - (#{calc(font.$line-height-smaller / 2)} + #{$block-padding-tb}) + #{$section-padding}
             );
-          }
-        }
-      }
-    }
-  }
-
-  &--semester {
-    font-size: $font-size-small;
-    line-height: $line-height-small;
-    display: flex;
-    flex-direction: row;
-    &.semester-ko {
-      width: 78px;
-    }
-    &.semester-en {
-      width: 88px;
-    }
-
-    & > button {
-      flex: 0 0 auto;
-      &.disable {
-        pointer-events: none;
-      }
-    }
-
-    & > span {
-      flex: 1 1 auto;
-      text-align: center;
-      white-space: nowrap;
-      @include mixin-media-portrait {
-        font-size: $font-size-big;
-        line-height: $line-height-big;
-      }
-    }
-  }
-
-  &--timetable {
-    grid-area: timetable;
-    position: relative;
-
-    &__table {
-      display: flex;
-      flex-direction: row;
-      height: 100%;
-
-      &__label {
-        display: flex;
-        flex-direction: column;
-        width: 10px;
-        margin-right: 7px;
-
-        &__title {
-          flex: none;
-          height: $line-height-smallest + 6px;
-        }
-
-        &__line {
-          flex: none;
-          height: 1px;
-
-          > span,
-          > strong {
-            width: 100%;
-            text-align: right;
-            color: $color-text-light;
-            font-size: $font-size-smallest;
-            line-height: $line-height-smallest;
-            display: block;
-            margin-top: calc(calc($line-height-smallest / 2) * -1) + 1px;
-          }
-        }
-
-        &__cell {
-          flex: auto;
-        }
-
-        &__gap {
-          flex: auto;
-        }
-      }
-
-      &__body {
-        display: flex;
-        flex-direction: column;
-        padding: 0 1px;
-        margin-right: 3px;
-        flex: 1 1 0;
-        &:last-child {
-          margin-right: 0;
-        }
-
-        &__title {
-          flex: none;
-          height: $line-height-smallest + 6px;
-          text-align: center;
-          font-size: $font-size-smallest;
-          line-height: $line-height-smallest;
-          color: $color-text-light;
-          padding-bottom: 6px;
-          margin: 0 -20px;
-        }
-
-        &__line {
-          flex: none;
-          height: 1px;
-          border-bottom: 1px solid $color-normal-line;
-          &--bold {
-            border-bottom-color: $color-normal-line-dark;
-          }
-          &--dashed {
-            border-bottom-style: dashed;
-          }
-          &--mobile-noline {
-            @include mixin-media-portrait {
-              border-bottom: none;
-            }
-          }
-        }
-
-        &__cell {
-          flex: auto;
-          &--drag {
-            touch-action: pan-x pinch-zoom;
-          }
-        }
-
-        &__gap {
-          flex: auto;
-        }
-      }
-    }
-  }
-
-  &--map {
-    grid-area: map;
-    height: initial;
-
-    & > div {
-      position: relative;
-
-      & > img {
-        width: 100%;
-      }
-
-      .subsection--map__pin {
-        position: absolute;
-        margin-left: -5px;
-        margin-top: -16px;
-        margin-right: -100px;
-        &:hover {
-          z-index: 101 !important;
-        }
-
-        &__box {
-          position: relative;
-          z-index: 1;
-          font-size: $font-size-smallest;
-          line-height: 9px;
-          height: 13px;
-          border-radius: 2px;
-          padding: 2px 3px;
-          background-color: $color-block-background;
-          &.highlighted {
-            background-color: $color-block-background-highlight;
-            color: $color-highlight;
-          }
-
-          & > span:first-child {
-            margin-right: 1px;
-          }
-
-          & > span:not(:first-child) {
-            display: inline-block;
-            width: 9px;
-            height: 9px;
-            margin-left: 1px;
-            border-radius: 50%;
-
-            &.highlighted {
-              background-color: $color-highlight !important;
-            }
-          }
-        }
-
-        &__arrow-shadow {
-          position: absolute;
-          bottom: -3px;
-          left: 5px;
-          width: 0px;
-          height: 0px;
-          border-radius: 50%;
-          box-shadow: 0 0 3px 3px change-color($color-block-shadow-dark, $alpha: 0.8);
-          transform: scale(1.5, 1);
-          &.highlighted {
-            box-shadow: 0 0 3px 3px change-color($color-block-shadow-highlight, $alpha: 0.8);
-          }
-        }
-
-        &__arrow {
-          position: absolute;
-          bottom: -3px;
-          left: 5px;
-          margin: -3px -2px 0 -2px;
-          border-left: 2px solid transparent;
-          border-right: 2px solid transparent;
-          border-top: 3px solid $color-block-background;
-          &.highlighted {
-            border-top-color: $color-block-background-highlight;
           }
         }
       }
@@ -1169,15 +710,15 @@ a {
     display: flex;
     flex-direction: column;
     min-height: calc(
-      (#{$line-height-normal} + #{$title-margin-bottom}) +
-        (#{$line-height-normal} + 2px + #{$line-height-normal})
+      (#{font.$line-height-normal} + #{$title-margin-bottom}) +
+        (#{font.$line-height-normal} + 2px + #{font.$line-height-normal})
     );
 
     &__title {
       flex: 0 0 auto;
       text-align: center;
-      font-size: $font-size-normal;
-      line-height: $line-height-normal;
+      font-size: font.$size-normal;
+      line-height: font.$line-height-normal;
       margin-bottom: $title-margin-bottom;
     }
 
@@ -1218,7 +759,7 @@ a {
             }
 
             &.focused {
-              color: $color-highlight;
+              color: color.$highlight;
             }
 
             & > div:first-child {
@@ -1228,66 +769,6 @@ a {
           }
         }
       }
-    }
-  }
-
-  &--share {
-    grid-area: share;
-
-    & > div:first-child {
-      @include mixin-media-portrait {
-        height: 10px;
-        float: left;
-        margin-right: 8px;
-        vertical-align: middle;
-      }
-
-      .subsection--share__item {
-        &:not(:last-child) {
-          margin-bottom: 8px;
-        }
-        &:has(+ .divider) {
-          margin-bottom: $section-padding;
-        }
-        @include mixin-media-portrait {
-          display: inline-block;
-          margin-right: 8px;
-        }
-
-        & > * {
-          display: flex;
-          align-items: center;
-
-          & i {
-            @include mixin-media-landscape {
-              margin-right: $attribute-name-margin-right;
-            }
-          }
-
-          & span {
-            font-size: $font-size-small;
-            font-weight: bold;
-            @include mixin-media-portrait {
-              display: none;
-            }
-          }
-        }
-
-        & .disabled {
-          color: $color-text-disable;
-        }
-      }
-    }
-
-    & > div:nth-child(2) {
-      float: right;
-      @include mixin-media-landscape {
-        display: none;
-      }
-    }
-
-    & > last-child {
-      clear: both;
     }
   }
 
@@ -1328,8 +809,8 @@ a {
 
   &--main-search {
     display: flex;
-    font-size: $font-size-big;
-    line-height: $line-height-big;
+    font-size: font.$size-big;
+    line-height: font.$line-height-big;
 
     i {
       flex: 0 0 auto;
@@ -1343,7 +824,7 @@ a {
     }
 
     input::placeholder {
-      color: $color-text-placeholder;
+      color: color.$text-placeholder;
     }
 
     button {
@@ -1364,7 +845,7 @@ a {
       &__label {
         display: flex;
         flex-direction: row;
-        height: $line-height-smallest;
+        height: font.$line-height-smallest;
         margin-bottom: 4px;
 
         &__line {
@@ -1374,9 +855,9 @@ a {
           > span,
           > strong {
             text-align: center;
-            color: $color-text-light;
-            font-size: $font-size-smallest;
-            line-height: $line-height-smallest;
+            color: color.$text-light;
+            font-size: font.$size-smallest;
+            line-height: font.$line-height-smallest;
             display: block;
             margin: 0 -5px;
           }
@@ -1396,14 +877,14 @@ a {
       &__body {
         display: flex;
         flex-direction: row;
-        height: (3px * 2) + ($tile-padding-tb * 2) + ($line-height-small * 3) + (1px * 2);
+        height: (3px * 2) + ($tile-padding-tb * 2) + (font.$line-height-small * 3) + (1px * 2);
 
         &__line {
           flex: none;
           width: 1px;
-          border-left: 1px solid $color-normal-line;
+          border-left: 1px solid color.$normal-line;
           &--bold {
-            border-left-color: $color-normal-line-dark;
+            border-left-color: color.$normal-line-dark;
           }
           &--dashed {
             border-left-style: dashed;
@@ -1430,7 +911,7 @@ a {
       & > div:first-child {
         width: 5px;
         height: 5px;
-        background-color: $color-highlight;
+        background-color: color.$highlight;
         border-radius: 50%;
       }
 
@@ -1438,7 +919,7 @@ a {
         width: 1px;
         height: 57px - 5px + 2px;
         margin: 0 2px;
-        background-color: $color-highlight;
+        background-color: color.$highlight;
       }
     }
   }
@@ -1484,7 +965,7 @@ a {
 
   &--notice {
     &__content {
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
     }
   }
 
@@ -1503,18 +984,13 @@ a {
       justify-content: flex-end;
       gap: 12px;
       button {
-        color: $color-highlight;
+        color: color.$highlight;
       }
     }
   }
 
   &--campaign {
     color: red;
-  }
-
-  &--course-manage-left {
-    flex-basis: 1px;
-    flex-grow: 1;
   }
 
   &--course-manage-right {
@@ -1540,29 +1016,29 @@ a {
         flex-direction: column;
         width: 10px + 8px + 1px;
         padding-right: 8px;
-        border-right: 1px solid $color-normal-line;
+        border-right: 1px solid color.$normal-line;
 
         &__toptitle {
           flex: none;
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
 
           &:has(+ &) {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
           }
         }
 
         &__bottomtitle {
           flex: none;
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
 
           & + & {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
           }
         }
 
         &__year {
           flex: none;
-          height: $line-height-smallest;
+          height: font.$line-height-smallest;
         }
 
         &__line {
@@ -1573,11 +1049,11 @@ a {
           > strong {
             width: 100%;
             text-align: right;
-            color: $color-text-light;
-            font-size: $font-size-smallest;
-            line-height: $line-height-smallest;
+            color: color.$text-light;
+            font-size: font.$size-smallest;
+            line-height: font.$line-height-smallest;
             display: block;
-            margin-top: calc(calc($line-height-smallest / 2) * -1) + 1px;
+            margin-top: calc(calc(font.$line-height-smallest / 2) * -1) + 1px;
           }
         }
 
@@ -1592,7 +1068,7 @@ a {
         padding: 0 6px;
         margin-right: 0px;
         flex: 1 1 0;
-        border-right: 1px solid $color-normal-line;
+        border-right: 1px solid color.$normal-line;
         &:last-child {
           margin-right: 0;
         }
@@ -1601,9 +1077,9 @@ a {
         &__bottomtitle,
         &__year {
           flex: none;
-          font-size: $font-size-smallest;
-          line-height: $line-height-smallest;
-          color: $color-text-lighter;
+          font-size: font.$size-smallest;
+          line-height: font.$line-height-smallest;
+          color: color.$text-lighter;
 
           & > span:last-child {
             float: right;
@@ -1611,43 +1087,43 @@ a {
         }
 
         &__toptitle {
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
           padding-bottom: 6px;
 
           &:has(+ &) {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
             padding-bottom: 4px;
           }
         }
 
         &__bottomtitle {
-          height: $line-height-smallest + 6px;
+          height: font.$line-height-smallest + 6px;
           padding-top: 6px;
 
           & + & {
-            height: $line-height-smallest + 4px;
+            height: font.$line-height-smallest + 4px;
             padding-top: 4px;
           }
         }
 
         &__year {
           flex: none;
-          height: $line-height-smallest;
+          height: font.$line-height-smallest;
           padding: 0;
           text-align: center;
-          font-size: $font-size-smaller;
+          font-size: font.$size-smaller;
           font-weight: bold;
-          line-height: $line-height-smaller;
-          color: $color-text-normal;
+          line-height: font.$line-height-smaller;
+          color: color.$text-normal;
         }
 
         &__line {
           flex: none;
           height: 1px;
           margin: 0 1px;
-          border-bottom: 1px solid $color-normal-line;
+          border-bottom: 1px solid color.$normal-line;
           &--bold {
-            border-bottom-color: $color-normal-line-dark;
+            border-bottom-color: color.$normal-line-dark;
           }
           &--dashed {
             border-bottom-style: dashed;
@@ -1686,7 +1162,7 @@ a {
     flex-direction: column;
 
     &__content {
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
 
       a {
         text-decoration: underline;
@@ -1729,21 +1205,21 @@ a {
   border-radius: $tile-border-radius;
   z-index: 2;
   overflow: hidden;
-  font-size: $font-size-small;
-  line-height: $line-height-small;
+  font-size: font.$size-small;
+  line-height: font.$line-height-small;
   transition:
     margin $transition-duration-short ease-out,
     box-shadow $transition-duration-short ease-out;
   &.tile--highlighted {
-    background: $color-tile-background-highlight !important;
+    background: color.$tile-background-highlight !important;
   }
   &.tile--raised {
     margin-top: -$offset-raise;
     margin-bottom: $offset-raise;
-    box-shadow: 0 6px 3px -3px $color-block-shadow-highlight;
+    box-shadow: 0 6px 3px -3px color.$block-shadow-highlight;
   }
   &.tile--temp {
-    background-color: $color-tile-background-highlight;
+    background-color: color.$tile-background-highlight;
     opacity: $opacity-temp;
     z-index: 3;
     cursor: initial;
@@ -1762,7 +1238,7 @@ a {
       position: absolute;
       cursor: pointer;
       padding: 4px;
-      background-color: rgba($color-tile-background-highlight, $opacity-text-overlay);
+      background-color: rgba(color.$tile-background-highlight, $opacity-text-overlay);
       .tile--timetable:not(:hover) &,
       .tile--timetable:not(.tile--highlighted):not(.tile--raised) & {
         display: none;
@@ -1813,7 +1289,7 @@ a {
   }
 
   &--timetable-drag {
-    background-color: rgba($color-tile-background-highlight, $opacity-temp);
+    background-color: rgba(color.$tile-background-highlight, $opacity-temp);
     pointer-events: none;
     z-index: 1;
   }
@@ -1849,7 +1325,7 @@ a {
       position: absolute;
       cursor: pointer;
       padding: 4px;
-      background-color: rgba($color-tile-background-highlight, $opacity-text-overlay);
+      background-color: rgba(color.$tile-background-highlight, $opacity-text-overlay);
       .tile--planner:not(:hover) &,
       .tile--planner:not(.tile--highlighted):not(.tile--raised) & {
         display: none;
@@ -1883,8 +1359,8 @@ a {
       }
 
       &__label {
-        $size: $line-height-normal;
-        $padding-tb-base: calc(calc($size - $line-height-smallest) / 2);
+        $size: font.$line-height-normal;
+        $padding-tb-base: calc(calc($size - font.$line-height-smallest) / 2);
         $offset-y: 1px;
 
         flex: 0 0 auto;
@@ -1895,13 +1371,13 @@ a {
         text-align: center;
         padding: ($padding-tb-base + $offset-y) 0 ($padding-tb-base - $offset-y) 0;
         font-weight: bold;
-        font-size: $font-size-smallest;
-        line-height: $line-height-smallest;
+        font-size: font.$size-smallest;
+        line-height: font.$line-height-smallest;
         color: #ffffff;
 
         .tile--highlighted & {
           background-color: adjust-color(
-            $color-highlight,
+            color.$highlight,
             $saturation: -5%,
             $lightness: -10%
           ) !important;
@@ -1912,13 +1388,17 @@ a {
 }
 
 .close-button-wrap {
-  display: block;
   position: absolute;
-  padding: $section-padding 0 ($section-padding - 2px) ($section-padding - 2px);
+  z-index: 90;
   top: 0;
   right: $section-padding;
-  background-color: rgba($color-section-background, $opacity-text-overlay);
-  z-index: 90;
+
+  display: block;
+
+  padding: $section-padding 0 ($section-padding - 2px) ($section-padding - 2px);
+
+  background-color: rgba(color.$section-background, $opacity-text-overlay);
+
   .section--modal & {
     z-index: 290;
   }
@@ -1926,18 +1406,17 @@ a {
   @include mixin-media-landscape {
     display: none;
 
-    .section--modal &,
-    .section--popup & {
+    .section--modal & {
       display: initial;
     }
   }
 }
 
 .block {
-  background-color: $color-block-background;
+  background-color: color.$block-background;
   border-radius: $block-border-radius;
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
   display: block;
   padding: $block-padding-tb $block-padding-lr;
   position: relative;
@@ -1948,13 +1427,13 @@ a {
     box-shadow $transition-duration-short ease-out;
   &[href]:not(.block--dimmed):hover,
   &.block--clickable:not(.block--dimmed):hover {
-    background-color: $color-block-background-dark;
+    background-color: color.$block-background-dark;
   }
   &.block--raised {
-    background-color: $color-block-background-dark;
+    background-color: color.$block-background-dark;
     position: relative;
     top: -$offset-raise;
-    box-shadow: 0 6px 3px -3px $color-block-shadow-dark;
+    box-shadow: 0 6px 3px -3px color.$block-shadow-dark;
   }
   &.block--dimmed {
     opacity: 0.5;
@@ -1962,11 +1441,11 @@ a {
   }
   &.block--completed {
     &:not(.block--raised) {
-      color: rgba($color-text-normal, 0.45);
+      color: rgba(color.$text-normal, 0.45);
 
       & .block--lecture-group__row-content__texts__sub,
       & .block--planner-course__text__caption {
-        color: rgba($color-text-lighter, 0.45);
+        color: rgba(color.$text-lighter, 0.45);
       }
     }
 
@@ -1977,16 +1456,16 @@ a {
 
   & .block__completed-text {
     display: none;
-    color: darken($color-text-normal, 20%);
-    font-size: $font-size-smaller;
-    line-height: $line-height-smaller;
+    color: darken(color.$text-normal, 20%);
+    font-size: font.$size-smaller;
+    line-height: font.$line-height-smaller;
     position: absolute;
     z-index: 1;
     top: 0;
     right: 0;
-    padding: calc($block-padding-tb + calc(calc($font-size-normal - $font-size-smaller) / 2))
+    padding: calc($block-padding-tb + calc(calc(font.$size-normal - font.$size-smaller) / 2))
       $block-padding-lr
-      calc(calc($block-padding-tb - 2px) + calc(calc($font-size-normal - $font-size-smaller) / 2))
+      calc(calc($block-padding-tb - 2px) + calc(calc(font.$size-normal - font.$size-smaller) / 2))
       calc($block-padding-lr - 2px);
     background-color: inherit;
     opacity: $opacity-text-overlay;
@@ -2004,7 +1483,7 @@ a {
 
     &__title {
       padding-bottom: 6px;
-      border-bottom: 1px solid $color-block-line;
+      border-bottom: 1px solid color.$block-line;
       margin-bottom: 6px;
 
       & > i:first-child {
@@ -2027,9 +1506,9 @@ a {
       flex: 1 1 auto;
 
       &__caption {
-        font-size: $font-size-smaller;
-        line-height: $line-height-smaller;
-        color: $color-text-lighter;
+        font-size: font.$size-smaller;
+        line-height: font.$line-height-smaller;
+        color: color.$text-lighter;
         margin-bottom: 3px;
       }
 
@@ -2093,8 +1572,8 @@ a {
     }
 
     &__content {
-      color: $color-text-light;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      color: color.$text-light;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
       &--limit-5 {
         overflow: hidden;
         display: -webkit-box; // Remove after line-clamp officially supported
@@ -2143,11 +1622,11 @@ a {
     }
 
     &__content {
-      color: $color-text-light;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      color: color.$text-light;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
       display: block;
       width: 100%;
-      height: ($line-height-normal + $delta-line-height-longcontent) * 9 + 8px * 2;
+      height: (font.$line-height-normal + font.$delta-line-height-longcontent) * 9 + 8px * 2;
       border: 1px dashed #aaaaaa;
       padding: 8px;
       border-radius: 2px;
@@ -2159,7 +1638,7 @@ a {
       }
 
       &::placeholder {
-        color: $color-text-placeholder;
+        color: color.$text-placeholder;
       }
     }
 
@@ -2174,7 +1653,7 @@ a {
 
       &__name {
         margin-right: $attribute-name-margin-right;
-        padding: calc(calc($option-size - $line-height-normal) / 2) 0;
+        padding: calc(calc($option-size - font.$line-height-normal) / 2) 0;
       }
 
       &__option {
@@ -2188,7 +1667,7 @@ a {
         }
 
         & > span {
-          $padding-tb-base: calc(calc($option-size - $line-height-smaller) / 2);
+          $padding-tb-base: calc(calc($option-size - font.$line-height-smaller) / 2);
           $offset-y: 1px;
 
           display: inline-block;
@@ -2199,8 +1678,8 @@ a {
           text-align: center;
           padding: ($padding-tb-base + $offset-y) 0 ($padding-tb-base - $offset-y) 0;
           font-weight: bold;
-          font-size: $font-size-smaller;
-          line-height: $line-height-smaller;
+          font-size: font.$size-smaller;
+          line-height: font.$line-height-smaller;
           color: #ffffff;
         }
 
@@ -2234,7 +1713,7 @@ a {
 
   &--lecture-group {
     &.block--raised {
-      background-color: $color-block-background;
+      background-color: color.$block-background;
     }
 
     &__title {
@@ -2252,7 +1731,7 @@ a {
       }
 
       &--highlighted {
-        background-color: $color-block-background-dark;
+        background-color: color.$block-background-dark;
       }
 
       .block--dimmed & {
@@ -2262,7 +1741,7 @@ a {
 
     &__row-content {
       padding: 6px 0;
-      border-top: 1px solid $color-block-line;
+      border-top: 1px solid color.$block-line;
       display: flex;
       flex-direction: row;
       pointer-events: none;
@@ -2292,9 +1771,9 @@ a {
         }
 
         &__sub {
-          font-size: $font-size-smaller;
-          line-height: $line-height-smaller;
-          color: $color-text-lighter;
+          font-size: font.$size-smaller;
+          line-height: font.$line-height-smaller;
+          color: color.$text-lighter;
           display: none;
           @include mixin-media-no-hover {
             @at-root .block--lecture-group__row--highlighted #{&} {
@@ -2344,7 +1823,7 @@ a {
 
     &__row-content {
       padding: 6px 0;
-      border-top: 1px solid $color-block-line;
+      border-top: 1px solid color.$block-line;
       display: flex;
       flex-direction: row;
       pointer-events: none;
@@ -2380,9 +1859,9 @@ a {
 
   &--review-simple {
     & > div:first-child {
-      color: $color-text-lighter;
-      font-size: $font-size-smaller;
-      line-height: $line-height-smaller;
+      color: color.$text-lighter;
+      font-size: font.$size-smaller;
+      line-height: font.$line-height-smaller;
       margin-bottom: 3px;
 
       & > span {
@@ -2393,12 +1872,12 @@ a {
     }
 
     & > div:nth-child(2) {
-      color: $color-text-light;
-      font-size: $font-size-normal;
-      line-height: $line-height-normal + $delta-line-height-longcontent;
+      color: color.$text-light;
+      font-size: font.$size-normal;
+      line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
       margin-bottom: 4px;
       overflow: hidden;
-      max-height: ($line-height-normal + $delta-line-height-longcontent) * 3; // Fallback, Remove after line-clamp officially supported
+      max-height: (font.$line-height-normal + font.$delta-line-height-longcontent) * 3; // Fallback, Remove after line-clamp officially supported
       display: -webkit-box; // Remove after line-clamp officially supported
       -webkit-box-orient: vertical; // Remove after line-clamp officially supported
       -webkit-line-clamp: 3; // Remove after line-clamp officially supported
@@ -2470,8 +1949,8 @@ a {
 
 .title {
   font-weight: bold;
-  font-size: $font-size-big;
-  line-height: $line-height-big;
+  font-size: font.$size-big;
+  line-height: font.$line-height-big;
   text-align: center;
   margin-bottom: $title-margin-bottom;
 
@@ -2489,8 +1968,8 @@ a {
 }
 
 .subtitle {
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
   text-align: center;
   margin-bottom: $title-margin-bottom;
 
@@ -2501,8 +1980,8 @@ a {
 
 .list-title {
   font-weight: initial;
-  font-size: $font-size-big;
-  line-height: $line-height-big;
+  font-size: font.$size-big;
+  line-height: font.$line-height-big;
   margin-bottom: $list-title-margin-bottom;
 
   &--search {
@@ -2510,21 +1989,21 @@ a {
 
     & > *:nth-child(2) {
       margin-left: 6px;
-      color: $color-highlight;
+      color: color.$highlight;
 
       @at-root :hover#{&} {
-        color: $color-highlight-dark;
+        color: color.$highlight-dark;
       }
     }
 
     & > *:nth-child(3) {
       margin-left: 5px;
-      color: $color-text-lighter;
-      font-size: $font-size-small;
-      line-height: $line-height-small;
+      color: color.$text-lighter;
+      font-size: font.$size-small;
+      line-height: font.$line-height-small;
 
       @at-root :hover#{&} {
-        color: $color-text-light;
+        color: color.$text-light;
       }
     }
   }
@@ -2535,7 +2014,7 @@ a {
 
     & > *:nth-child(2) {
       flex: auto;
-      height: $line-height-big;
+      height: font.$line-height-big;
       margin-left: 6px;
       position: relative;
 
@@ -2544,12 +2023,12 @@ a {
         position: absolute;
         top: 0px;
         z-index: 2;
-        line-height: $line-height-big + 1px * 2;
+        line-height: font.$line-height-big + 1px * 2;
         margin: -1px 0;
-        color: $color-text-normal;
+        color: color.$text-normal;
 
         &::placeholder {
-          color: $color-text-placeholder;
+          color: color.$text-placeholder;
         }
       }
 
@@ -2558,7 +2037,7 @@ a {
         position: absolute;
         top: 0px;
         z-index: 1;
-        color: $color-text-placeholder;
+        color: color.$text-placeholder;
         height: 100%;
         overflow: hidden;
         display: none;
@@ -2576,8 +2055,8 @@ a {
 
 .small-title {
   font-weight: bold;
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
   margin-bottom: $title-margin-bottom;
 
   .subsection--lecture-detail & {
@@ -2612,8 +2091,8 @@ a {
     text-align: initial;
 
     & > .text-button {
-      font-size: $font-size-small;
-      line-height: $line-height-small;
+      font-size: font.$size-small;
+      line-height: font.$line-height-small;
 
       &:not(:first-child) {
         margin-left: 6px;
@@ -2630,18 +2109,18 @@ a {
 
   &,
   &:link {
-    color: $color-highlight;
+    color: color.$highlight;
   }
 
   &:not(&--disabled):hover {
-    color: $color-highlight-dark;
+    color: color.$highlight-dark;
   }
 
   &--black {
-    color: $color-text-light;
+    color: color.$text-light;
 
     &:not(&--disabled):hover {
-      color: $color-text-dark;
+      color: color.$text-dark;
     }
   }
 
@@ -2655,7 +2134,7 @@ a {
 
   &--disabled {
     pointer-events: none;
-    color: $color-text-disable !important;
+    color: color.$text-disable !important;
   }
 
   &--review-write-block {
@@ -2671,188 +2150,9 @@ a {
 }
 
 .caption {
-  font-size: $font-size-smaller;
-  line-height: $line-height-smaller;
-  color: $color-text-placeholder;
-}
-
-.main-date {
-  grid-area: main-date;
-  height: 300px;
-  padding: calc(300px / 2 - 24px) 0;
-  background-image: linear-gradient(
-    rgba($color-page-background, 0) 80%,
-    rgba($color-page-background, 1)
-  );
-  color: rgba($color-highlight, 0.5);
-  text-align: center;
-  z-index: 50;
-
-  & > span:first-child,
-  & > a:first-child {
-    font-size: 18px;
-    line-height: 19px;
-    cursor: pointer;
-    &:hover {
-      color: rgba($color-highlight-dark, 0.5);
-    }
-  }
-  & > div:nth-child(2) {
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 14px;
-  }
-}
-
-.visitor,
-.academic-schedule {
-  & > div:nth-child(1) {
-    font-size: 20px;
-    line-height: 20px;
-    margin-bottom: 6px;
-    text-align: center;
-  }
-
-  & > div:nth-child(2) {
-    margin-bottom: 10px;
-    text-align: center;
-
-    strong {
-      margin-right: 8px;
-    }
-
-    span,
-    strong {
-      display: inline-block;
-    }
-  }
-}
-
-.related-courses {
-  display: flex;
-  flex-direction: row;
-
-  & > div:nth-child(1),
-  & > div:nth-child(3),
-  & > div:nth-child(5) {
-    flex: 1 1 auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: $block-margin;
-
-    > .block {
-      flex: 1 0 0;
-    }
-  }
-
-  & > div:nth-child(2),
-  & > div:nth-child(4) {
-    flex: 0 0 auto;
-    margin: auto 10px;
-  }
-}
-
-.history {
-  & > tbody > tr {
-    &:first-child {
-      vertical-align: bottom;
-    }
-    &:nth-child(2) {
-      font-weight: bold;
-      font-size: $font-size-smaller;
-      line-height: $line-height-smaller;
-    }
-    &:last-child {
-      vertical-align: top;
-    }
-
-    & > th {
-      position: sticky;
-      z-index: 1;
-      left: 0;
-      background-color: $color-section-background;
-      width: 10px;
-      white-space: nowrap;
-      padding-right: 10px;
-      font-size: $font-size-small;
-      vertical-align: middle;
-      text-align: right;
-      line-height: $line-height-small;
-      color: $color-text-normal;
-    }
-
-    & > td {
-      text-align: center;
-      padding: 0 6px;
-      border-left: 1px solid $color-normal-line;
-      &:first-of-type {
-        padding-left: 0;
-        border-left: none;
-      }
-      &:last-of-type {
-        padding-right: 0;
-      }
-      &.history__cell--year-label {
-        padding-top: 6px;
-        padding-bottom: 6px;
-      }
-      &.history__cell--unopen {
-        vertical-align: middle;
-        color: $color-text-placeholder;
-        padding-top: 8px;
-        padding-bottom: 8px;
-      }
-
-      & > * {
-        @include mixin-media-landscape {
-          width: calc(64px + 7vh);
-          @at-root .history--special-lecture#{&} {
-            width: calc(108px + 7vh);
-          }
-        }
-        @include mixin-media-portrait {
-          width: calc(64px + 19vw - 30px);
-          @at-root .history--special-lecture#{&} {
-            width: calc(108px + 19vw - 30px);
-          }
-        }
-      }
-    }
-  }
-}
-
-.course-status {
-  &:not(:last-child) {
-    margin-bottom: $attribute-margin-bottom + 2px;
-  }
-
-  &--name {
-    font-weight: bold;
-    margin-bottom: $attribute-margin-bottom;
-  }
-
-  &--info {
-    align-self: center;
-    width: calc(100% - 8px);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-left: 8px;
-    &:not(:last-child) {
-      margin-bottom: $attribute-margin-bottom;
-    }
-
-    &--name {
-      align-self: center;
-    }
-
-    &--controller {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
+  font-size: font.$size-smaller;
+  line-height: font.$line-height-smaller;
+  color: color.$text-placeholder;
 }
 
 .attribute {
@@ -2878,7 +2178,7 @@ a {
 
   &--long-info {
     & > * {
-      line-height: $line-height-normal + 1px * 2;
+      line-height: font.$line-height-normal + 1px * 2;
       margin-top: -1px;
       margin-bottom: -1px;
     }
@@ -2932,7 +2232,7 @@ a {
         margin-right: 4px;
 
         &.focused {
-          color: $color-highlight;
+          color: color.$highlight;
         }
       }
     }
@@ -2947,12 +2247,12 @@ a {
         margin-right: $attribute-info-margin-between;
         white-space: nowrap;
         &:hover {
-          color: $color-text-dark;
+          color: color.$text-dark;
         }
         &--dimmed {
-          color: $color-text-lighter;
+          color: color.$text-lighter;
           &:hover {
-            color: $color-text-light;
+            color: color.$text-light;
           }
         }
 
@@ -3046,20 +2346,20 @@ a {
       }
 
       & > span:not(:first-child) {
-        font-size: $font-size-small;
-        line-height: $line-height-small;
+        font-size: font.$size-small;
+        line-height: font.$line-height-small;
         font-weight: initial;
       }
 
       &.focused,
       & > span.focused {
-        color: $color-highlight;
+        color: color.$highlight;
       }
     }
 
     & > div:last-child {
-      font-size: $font-size-smaller;
-      line-height: $line-height-smaller;
+      font-size: font.$size-smaller;
+      line-height: font.$line-height-smaller;
     }
   }
 }
@@ -3067,25 +2367,25 @@ a {
 .divider {
   &--desktop-horizontal {
     @include mixin-media-landscape {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--desktop-vertical {
     @include mixin-media-landscape {
-      border-right: 1px solid $color-divider-line;
+      border-right: 1px solid color.$divider-line;
       margin: 0 $section-padding;
     }
   }
   &--mobile-horizontal {
     @include mixin-media-portrait {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--mobile-vertical {
     @include mixin-media-portrait {
-      border-right: 1px solid $color-divider-line;
+      border-right: 1px solid color.$divider-line;
       margin: 0 $section-padding;
     }
   }
@@ -3097,25 +2397,25 @@ a {
 .divider-planner {
   &--desktop-horizontal {
     @include mixin-media-landscape {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--desktop-vertical {
     @include mixin-media-landscape {
-      border-right: 1px solid $color-normal-line;
+      border-right: 1px solid color.$normal-line;
       margin: 0 5px; //TODO
     }
   }
   &--mobile-horizontal {
     @include mixin-media-portrait {
-      border-bottom: 1px solid $color-divider-line;
+      border-bottom: 1px solid color.$divider-line;
       margin: $section-padding 0;
     }
   }
   &--mobile-vertical {
     @include mixin-media-portrait {
-      border-right: 1px solid $color-divider-line;
+      border-right: 1px solid color.$divider-line;
       margin: 0 $section-padding;
     }
   }
@@ -3133,11 +2433,11 @@ a {
   border-radius: $tile-border-radius;
   z-index: 3;
   overflow: hidden;
-  background-color: rgba($color-block-background-highlight, 0.7);
+  background-color: rgba(color.$block-background-highlight, 0.7);
 
   &__button {
     text-align: center;
-    color: $color-highlight;
+    color: color.$highlight;
     cursor: pointer;
 
     &:not(:last-child) {
@@ -3145,12 +2445,12 @@ a {
     }
 
     &--small {
-      font-size: $font-size-small;
-      line-height: $line-height-small;
+      font-size: font.$size-small;
+      line-height: font.$line-height-small;
     }
 
     &--disabled {
-      color: $color-text-disable;
+      color: color.$text-disable;
       pointer-events: none;
     }
   }
@@ -3183,7 +2483,7 @@ a {
     flex: 0 0 auto;
     max-height: 100%;
     padding: 0 $section-padding;
-    background-color: $color-section-background;
+    background-color: color.$section-background;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -3207,19 +2507,19 @@ a {
     @include mixin-media-landscape {
       min-height: calc(
         #{$section-height-desktop-lecture-detail} - (#{$section-padding} + (
-                #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + #{$delta-line-height-longcontent}) + (
-                #{$line-height-small} + #{$title-margin-bottom}
-              ) + (#{$line-height-big} + 8px) + #{$section-padding})
+                #{font.$line-height-big} + 2px
+              ) + (#{font.$line-height-normal} + #{font.$delta-line-height-longcontent}) + (
+                #{font.$line-height-small} + #{$title-margin-bottom}
+              ) + (#{font.$line-height-big} + 8px) + #{$section-padding})
       ) !important;
     }
     @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
-                #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + #{$delta-line-height-longcontent}) + (
-                #{$line-height-small} + #{$title-margin-bottom}
-              ) + (#{$line-height-big} + 8px) + (#{$section-padding} * 2 + 1px) + #{$line-height-normal} +
+                #{font.$line-height-big} + 2px
+              ) + (#{font.$line-height-normal} + #{font.$delta-line-height-longcontent}) + (
+                #{font.$line-height-small} + #{$title-margin-bottom}
+              ) + (#{font.$line-height-big} + 8px) + (#{$section-padding} * 2 + 1px) + #{font.$line-height-normal} +
               #{$section-padding} + (#{$section-margin-bottom} * 2))
       ) !important;
     }
@@ -3227,21 +2527,23 @@ a {
   .subsection--course-reviews & {
     @include mixin-media-landscape {
       min-height: calc(
-        #{$screen-height} - (#{$header-height} + #{$section-padding} + (#{$line-height-big} + 2px) +
-              (#{$line-height-normal} + #{$title-margin-bottom}) +
-              (#{$score-line-height-desktop-big} + 2px + #{$line-height-smaller} + 12px) +
-              (#{$line-height-normal} + #{$title-margin-bottom}) +
-              ((#{$line-height-normal} + #{$attribute-margin-bottom}) * 2) + #{$section-padding} + #{$section-margin-bottom})
+        #{$screen-height} - (#{$header-height} + #{$section-padding} +
+              (#{font.$line-height-big} + 2px) +
+              (#{font.$line-height-normal} + #{$title-margin-bottom}) +
+              (#{$score-line-height-desktop-big} + 2px + #{font.$line-height-smaller} + 12px) +
+              (#{font.$line-height-normal} + #{$title-margin-bottom}) +
+              ((#{font.$line-height-normal} + #{$attribute-margin-bottom}) * 2) + #{$section-padding} +
+              #{$section-margin-bottom})
       ) !important;
     }
     @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
-                #{$line-height-big} + 2px
-              ) + (#{$line-height-normal} + #{$title-margin-bottom}) + (
-                #{$score-line-height-mobile} + 2px + #{$line-height-smaller} + 12px
-              ) + (#{$line-height-normal} + #{$title-margin-bottom}) + (
-                (#{$line-height-normal} + #{$attribute-margin-bottom}) * 2
+                #{font.$line-height-big} + 2px
+              ) + (#{font.$line-height-normal} + #{$title-margin-bottom}) + (
+                #{$score-line-height-mobile} + 2px + #{font.$line-height-smaller} + 12px
+              ) + (#{font.$line-height-normal} + #{$title-margin-bottom}) + (
+                (#{font.$line-height-normal} + #{$attribute-margin-bottom}) * 2
               ) + #{$section-padding} + (#{$section-margin-bottom} * 2))
       ) !important;
     }
@@ -3250,13 +2552,13 @@ a {
     @include mixin-media-landscape {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-padding} +
-              (#{$line-height-big} + #{$title-margin-bottom}) + #{$section-padding} + #{$section-margin-bottom})
+              (#{font.$line-height-big} + #{$title-margin-bottom}) + #{$section-padding} + #{$section-margin-bottom})
       ) !important;
     }
     @include mixin-media-portrait {
       min-height: calc(
         #{$screen-height} - (#{$header-height} + #{$section-margin-top} + #{$section-padding} + (
-                #{$line-height-big} + #{$title-margin-bottom}
+                #{font.$line-height-big} + #{$title-margin-bottom}
               ) + #{$section-padding} + (#{$section-margin-bottom} * 2))
       ) !important;
     }
@@ -3264,7 +2566,7 @@ a {
 }
 
 .placeholder {
-  color: $color-text-placeholder;
+  color: color.$text-placeholder;
 }
 
 .otlplus-placeholder {
@@ -3274,9 +2576,9 @@ a {
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  color: $color-text-placeholder;
-  font-size: $font-size-normal;
-  line-height: $line-height-normal;
+  color: color.$text-placeholder;
+  font-size: font.$size-normal;
+  line-height: font.$line-height-normal;
 
   & > div {
     flex: none;
@@ -3294,7 +2596,7 @@ a {
     color: inherit;
 
     &:hover {
-      color: $color-text-lighter;
+      color: color.$text-lighter;
     }
   }
 }
@@ -3303,22 +2605,15 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
-  color: $color-text-placeholder;
-  font-size: 16px;
-  line-height: 17px;
-  white-space: nowrap;
+
   min-height: 17px + $section-padding * 2;
 
-  .related-courses & {
-    min-height: 100%;
-    font-size: 14px;
-    line-height: 15px;
-  }
+  white-space: nowrap;
 
-  &--history {
-    min-height: 110px;
-  }
+  font-size: 16px;
+  line-height: 17px;
+  text-align: center;
+  color: color.$text-placeholder;
 
   .subsection--course-list &,
   .subsection--lecture-list &,
@@ -3340,7 +2635,7 @@ a {
     top: 0;
     width: 100%;
     height: 26px;
-    background-color: rgba($color-section-background, 0.8);
+    background-color: rgba(color.$section-background, 0.8);
     text-align: center;
     font-size: 14px;
     line-height: 15px;
@@ -3349,7 +2644,7 @@ a {
 }
 
 button.disabled {
-  color: $color-text-disable !important;
+  color: color.$text-disable !important;
   pointer-events: none;
 }
 
@@ -3404,7 +2699,7 @@ i.icon {
     width: 14px;
     height: 12px;
     background-image: url(../static/icons/lecture_uparrow.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/lecture_uparrow_hover.svg);
@@ -3415,7 +2710,7 @@ i.icon {
     width: 14px;
     height: 12px;
     background-image: url(../static/icons/lecture_downarrow.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/lecture_downarrow_hover.svg);
@@ -3426,7 +2721,7 @@ i.icon {
     width: 12px;
     height: 13px;
     background-image: url(../static/icons/search.svg);
-    margin: calc(calc($line-height-big - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-big - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/search_hover.svg);
@@ -3503,7 +2798,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/add_cart.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/add_cart_hover.svg);
@@ -3518,7 +2813,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/delete_cart.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_cart_hover.svg);
@@ -3529,7 +2824,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/add_lecture.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/add_lecture_hover.svg);
@@ -3545,7 +2840,7 @@ i.icon {
     width: 13px;
     height: 13px;
     background-image: url(../static/icons/delete_from_table.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 13px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_from_table_hover.svg);
@@ -3566,20 +2861,6 @@ i.icon {
     }
   }
 
-  &--share-image {
-    width: 19px;
-    height: 19px;
-    background-image: url(../static/icons/share_image.svg);
-
-    *:hover > & {
-      background-image: url(../static/icons/share_image_hover.svg);
-    }
-
-    *.disabled > & {
-      background-image: url(../static/icons/share_image_disable.svg);
-    }
-  }
-
   &--share-googlecalendar {
     width: 19px;
     height: 19px;
@@ -3594,39 +2875,11 @@ i.icon {
     }
   }
 
-  &--share-icalendar {
-    width: 19px;
-    height: 19px;
-    background-image: url(../static/icons/share_icalendar.svg);
-
-    *:hover > & {
-      background-image: url(../static/icons/share_icalendar_hover.svg);
-    }
-
-    *.disabled > & {
-      background-image: url(../static/icons/share_icalendar_disable.svg);
-    }
-  }
-
-  &--share-syllabus {
-    width: 19px;
-    height: 19px;
-    background-image: url(../static/icons/share_syllabus.svg);
-
-    *:hover > & {
-      background-image: url(../static/icons/share_syllabus_hover.svg);
-    }
-
-    *.disabled > & {
-      background-image: url(../static/icons/share_syllabus_disable.svg);
-    }
-  }
-
   &--duplicate-table {
     width: 10px;
     height: 11px;
     background-image: url(../static/icons/duplicate_table.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
+    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/duplicate_table_hover.svg);
@@ -3641,7 +2894,7 @@ i.icon {
     width: 10px;
     height: 11px;
     background-image: url(../static/icons/delete_table.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
+    margin: calc(calc(font.$line-height-small - 11px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/delete_table_hover.svg);
@@ -3663,41 +2916,11 @@ i.icon {
     }
   }
 
-  &--semester-prev {
-    width: 7px;
-    height: 11px;
-    background-image: url(../static/icons/semester_prev.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/semester_prev_hover.svg);
-    }
-
-    *.disable > & {
-      background-image: url(../static/icons/semester_prev_disabled.svg);
-    }
-  }
-
-  &--semester-next {
-    width: 7px;
-    height: 11px;
-    background-image: url(../static/icons/semester_next.svg);
-    margin: calc(calc($line-height-small - 11px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/semester_next_hover.svg);
-    }
-
-    *.disable > & {
-      background-image: url(../static/icons/semester_next_disabled.svg);
-    }
-  }
-
   &--checkbox {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/checkbox_unselected.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/checkbox_unselected_hover.svg);
@@ -3716,7 +2939,7 @@ i.icon {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/radio_unselected.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
 
     *:hover > & {
       background-image: url(../static/icons/radio_unselected_hover.svg);
@@ -3737,24 +2960,18 @@ i.icon {
     background-image: url(../static/icons/lecture_selector.svg);
   }
 
-  &--related-arrow {
-    width: 9px;
-    height: 16px;
-    background-image: url(../static/icons/related_arrow.svg);
-  }
-
   &--status-read {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/status_read.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
   }
 
   &--status-unread {
     width: 10px;
     height: 12px;
     background-image: url(../static/icons/status_unread.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin: calc(calc(font.$line-height-normal - 12px) / 2) 0;
   }
 
   &--close-section {
@@ -3767,28 +2984,6 @@ i.icon {
     }
   }
 
-  &--switch-table {
-    width: 13px;
-    height: 13px;
-    background-image: url(../static/icons/switch_table.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/switch_table_hover.svg);
-    }
-  }
-
-  &--show-lectures {
-    width: 13px;
-    height: 13px;
-    background-image: url(../static/icons/show_lectures.svg);
-    margin: calc(calc($line-height-normal - 13px) / 2) 0;
-
-    *:hover > & {
-      background-image: url(../static/icons/show_lectures_hover.svg);
-    }
-  }
-
   &--star {
     width: 26px;
     height: 26px;
@@ -3798,29 +2993,13 @@ i.icon {
       background-image: url(../static/icons/star_selected.svg);
     }
   }
-
-  &--planner-plus {
-    width: 12px;
-    height: 12px;
-    background-image: url(../static/icons/plus_circled.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
-    margin-left: 8px;
-  }
-
-  &--planner-minus {
-    width: 12px;
-    height: 12px;
-    background-image: url(../static/icons/minus_circled.svg);
-    margin: calc(calc($line-height-normal - 12px) / 2) 0;
-    margin-right: 8px;
-  }
 }
 
 .top-sticky {
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: $color-section-background;
+  background-color: color.$section-background;
 }
 
 .mobile-hidden {
@@ -3832,37 +3011,5 @@ i.icon {
 .desktop-hidden {
   @include mixin-media-landscape {
     display: none !important;
-  }
-}
-
-.credit-bar {
-  $bar-height: 6px;
-  $margin-tb-base: calc(calc(calc($line-height-normal - $bar-height) - $line-height-smallest) / 2);
-
-  position: relative;
-  width: 50%;
-  margin: calc($margin-tb-base - 4px) 0 calc($margin-tb-base + 4px) 0;
-
-  &__body {
-    height: $bar-height;
-    border-radius: calc($bar-height / 2);
-    overflow: hidden;
-    background-color: #eeeeee;
-    display: flex;
-    flex-direction: row;
-
-    &__bar {
-      height: 100%;
-    }
-  }
-
-  &__text {
-    text-align: right;
-    font-size: $font-size-smallest;
-    line-height: $line-height-smallest;
-
-    & > span {
-      color: $color-highlight;
-    }
   }
 }

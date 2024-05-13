@@ -1,0 +1,37 @@
+@use '@/sass/abstracts/font' as font;
+@use '@/sass/abstracts/mixins' as *;
+@use '@/sass/abstracts/variables' as *;
+
+.popup {
+  position: absolute;
+  z-index: 200;
+  top: 50%;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  transform: translate(-50%, calc(-50% - #{$header-height} / 2));
+
+  box-shadow:
+    $section-box-shadow,
+    0 0 0 1000px rgb(0 0 0 / 0.3);
+  width: 260px;
+  height: 240px;
+}
+
+.contents {
+  flex: auto;
+
+  line-height: font.$line-height-normal + font.$delta-line-height-longcontent;
+
+  & > p:not(:last-child) {
+    margin-bottom: 4px;
+  }
+}
+
+.closeButton {
+  @include mixin-media-landscape {
+    display: initial;
+  }
+}
