@@ -18,7 +18,7 @@ import Planner from '@/shapes/model/planner/Planner';
 import { PlannerItemType } from '@/shapes/enum';
 
 interface PlannerState {
-  planners: Planner[];
+  planners: Planner[] | null;
   selectedPlanner: Planner | null;
   cellWidth: number;
   cellHeight: number;
