@@ -96,6 +96,9 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case CREATE_PLANNER: {
+      if (!state.planners) {
+        return state;
+      }
       return {
         ...state,
         selectedPlanner: action.newPlanner,
@@ -103,6 +106,9 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case DELETE_PLANNER: {
+      if (!state.planners) {
+        return state;
+      }
       const indexOfPlanner = state.planners.findIndex((t) => t.id === action.planner.id);
       const newPlanners = state.planners.filter((t) => t.id !== action.planner.id);
       const newSelectedPlanner =
@@ -116,7 +122,7 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case UPDATE_PLANNER: {
-      if (!state.selectedPlanner) {
+      if (!state.selectedPlanner || !state.planners) {
         return state;
       }
       return {
@@ -131,7 +137,7 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case ADD_ITEM_TO_PLANNER: {
-      if (!state.selectedPlanner) {
+      if (!state.selectedPlanner || !state.planners) {
         return state;
       }
       const listName = getListNameOfType(action.item.item_type);
@@ -147,7 +153,7 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case UPDATE_ITEM_IN_PLANNER: {
-      if (!state.selectedPlanner) {
+      if (!state.selectedPlanner || !state.planners) {
         return state;
       }
       const listName = getListNameOfType(action.item.item_type);
@@ -165,7 +171,7 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case REMOVE_ITEM_FROM_PLANNER: {
-      if (!state.selectedPlanner) {
+      if (!state.selectedPlanner || !state.planners) {
         return state;
       }
       const listName = getListNameOfType(action.item.item_type);
@@ -181,6 +187,9 @@ const planner = (state = initialState, action: PlannerAction) => {
       };
     }
     case REORDER_PLANNER: {
+      if (!state.planners) {
+        return state;
+      }
       const newPlanners = state.planners.map((t) => {
         if (t.id === action.planner.id) {
           return {
