@@ -1,7 +1,7 @@
-import { SET_TRACKS, TrackAction, TracksProps } from '../../actions/common/track';
+import { SET_TRACKS, TrackAction, Tracks } from '../../actions/common/track';
 
 interface TrackState {
-  tracks: TracksProps | null;
+  tracks: Tracks | null;
 }
 
 const initialState: TrackState = {

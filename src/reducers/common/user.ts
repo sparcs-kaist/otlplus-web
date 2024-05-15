@@ -2,11 +2,11 @@ import User from '@/shapes/model/session/User';
 import { SET_USER, UPDATE_USER_REVIEW, UserAction } from '../../actions/common/user';
 
 interface UserState {
-  user?: User;
+  user: User | null;
 }
 
 const initialState: UserState = {
-  user: undefined,
+  user: null,
 };
 
 export const reducer = (state = initialState, action: UserAction): UserState => {
@@ -14,10 +14,10 @@ export const reducer = (state = initialState, action: UserAction): UserState => 
     case SET_USER:
       return { ...state, user: action.user };
     case UPDATE_USER_REVIEW: {
-      if (state.user === undefined) {
+      if (!state.user) {
         return state;
       }
-      const originalReviews = state.user?.reviews || [];
+      const originalReviews = state.user.reviews;
       const { review } = action;
       const foundIndex = originalReviews.findIndex((r) => r.id === review.id);
       const newReviews =
