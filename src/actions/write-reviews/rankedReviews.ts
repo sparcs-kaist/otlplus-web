@@ -13,7 +13,7 @@ export function reset() {
   };
 }
 
-export function addSemesterReviews(semester: Semester, reviews: Review[]) {
+export function addSemesterReviews(semester: string, reviews: Review[]) {
   return {
     type: ADD_SEMESTER_REVIEWS,
     semester: semester,
@@ -21,7 +21,7 @@ export function addSemesterReviews(semester: Semester, reviews: Review[]) {
   };
 }
 
-export function setSemesterReviewCount(semester: Semester, count: number) {
+export function setSemesterReviewCount(semester: string, count: number) {
   return {
     type: SET_SEMESTER_REVIEW_COUNT,
     semester: semester,
