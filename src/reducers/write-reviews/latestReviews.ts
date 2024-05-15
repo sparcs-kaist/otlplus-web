@@ -1,21 +1,35 @@
-import { RESET, ADD_REVIEWS, UPDATE_REVIEW } from '../../actions/write-reviews/latestReviews';
+import {
+  RESET,
+  ADD_REVIEWS,
+  UPDATE_REVIEW,
+  LatestReviewsAction,
+} from '@/actions/write-reviews/latestReviews';
+import Review from '@/shapes/model/review/Review';
 
-const initialState = {
+interface LatestReviewsState {
+  reviews: Review[] | null;
+}
+
+const initialState: LatestReviewsState = {
   reviews: null,
 };
 
-const latestReviews = (state = initialState, action) => {
+const latestReviews = (state = initialState, action: LatestReviewsAction) => {
   switch (action.type) {
     case RESET: {
       return initialState;
     }
     case ADD_REVIEWS: {
       const newReviews = [...(state.reviews !== null ? state.reviews : []), ...action.reviews];
-      return Object.assign({}, state, {
+      return {
+        ...state,
         reviews: newReviews,
-      });
+      };
     }
     case UPDATE_REVIEW: {
+      if (!state.reviews) {
+        return state;
+      }
       const originalReviews = state.reviews;
       const { review, isNew } = action;
       const foundIndex = originalReviews.findIndex((r) => r.id === review.id);
@@ -29,9 +43,10 @@ const latestReviews = (state = initialState, action) => {
           : isNew
           ? [review, ...originalReviews.slice()]
           : [...originalReviews.slice()];
-      return Object.assign({}, state, {
+      return {
+        ...state,
         reviews: newReviews,
-      });
+      };
     }
     default: {
       return state;
