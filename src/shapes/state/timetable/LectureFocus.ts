@@ -4,7 +4,7 @@ import type Review from '@/shapes/model/review/Review';
 
 type EmtpyArray = [];
 export interface Detail {
-  lecture?: Lecture;
+  lecture: Lecture;
   name: string;
   info: string;
 }

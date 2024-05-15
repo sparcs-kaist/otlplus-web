@@ -1,6 +1,7 @@
 import { LectureFocusFrom } from '@/shapes/enum';
 import Review from '@/shapes/model/review/Review';
 import Lecture from '@/shapes/model/subject/Lecture';
+import { Detail } from '@/shapes/state/timetable/LectureFocus';
 
 const BASE_STRING = 'T_LA_';
 
@@ -10,12 +11,6 @@ export const CLEAR_LECTURE_FOCUS = `${BASE_STRING}CLEAR_LECTURE_FOCUS` as const;
 export const SET_REVIEWS = `${BASE_STRING}SET_REVIEWS` as const;
 export const SET_MULTIPLE_FOCUS = `${BASE_STRING}SET_MULTIPLE_FOCUS` as const;
 export const CLEAR_MULTIPLE_FOCUS = `${BASE_STRING}CLEAR_MULTIPLE_FOCUS` as const;
-
-interface LectureDetail {
-  lecture: Lecture;
-  name: string;
-  info: string;
-}
 
 export function reset() {
   return {
@@ -45,7 +40,7 @@ export function setReviews(reviews: Review[]) {
   };
 }
 
-export function setMultipleFocus(multipleTitle: string, multipleDetails: LectureDetail[]) {
+export function setMultipleFocus(multipleTitle: string, multipleDetails: Detail[]) {
   return {
     type: SET_MULTIPLE_FOCUS,
     multipleTitle: multipleTitle,
