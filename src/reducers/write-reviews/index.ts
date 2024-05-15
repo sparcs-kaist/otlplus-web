@@ -11,4 +11,5 @@ const CombinedReducer = combineReducers({
   rankedReviews: rankedReviews,
 });
 
+export type WriteReviewsState = ReturnType<typeof CombinedReducer>;
 export default CombinedReducer;
