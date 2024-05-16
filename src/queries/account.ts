@@ -1,3 +1,5 @@
+import User from '@/shapes/model/session/User';
+import Department from '@/shapes/model/subject/Department';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -7,7 +9,7 @@ export const useSessionInfo = () => {
     staleTime: Infinity,
     queryFn: async () => {
       return (
-        await axios.get('/session/info', {
+        await axios.get<User>('/session/info', {
           metadata: {
             gaCategory: 'User',
             gaVariable: 'GET / Instance',
@@ -23,7 +25,7 @@ export const useDepartmentOptions = () => {
     queryKey: ['departmentOptions'],
     staleTime: Infinity,
     queryFn: async () => {
-      return (await axios.get('/session/department-options')).data;
+      return (await axios.get<Department[][]>('/session/department-options')).data;
     },
   });
 };
