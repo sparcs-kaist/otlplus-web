@@ -9,7 +9,7 @@ const initialState: SemesterState = {
   semesters: null,
 };
 
-export const reducer = (state = initialState, action: SemesterAction): SemesterState => {
+const semester = (state = initialState, action: SemesterAction): SemesterState => {
   switch (action.type) {
     case SET_SEMESTERS:
       return { ...state, semesters: action.semesters };
@@ -18,4 +18,4 @@ export const reducer = (state = initialState, action: SemesterAction): SemesterS
   }
 };
 
-export default reducer;
+export default semester;
