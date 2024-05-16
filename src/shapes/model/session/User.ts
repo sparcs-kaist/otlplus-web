@@ -11,7 +11,7 @@ export default interface User {
   majors: Department[];
   department?: Department;
   departments: Department[];
-  favorite_departments?: Department[];
+  favorite_departments: Department[];
   review_writable_lectures: Lecture[];
   my_timetable_lectures: Lecture[];
   reviews: Review[];
