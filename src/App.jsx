@@ -37,6 +37,9 @@ import EventBannerPage from './pages/EventBannerPage';
 
 import ReactGA from 'react-ga4';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
 const trackingId = 'G-8NSY19J0T3';
 ReactGA.initialize([
   {
@@ -168,6 +171,7 @@ class App extends Component {
 
   render() {
     const { popupOpen, doNotShowAgain } = this.state;
+    const queryClient = new QueryClient();
 
     const parseObject = (object) => {
       if (typeof object === 'object') {
@@ -200,52 +204,55 @@ class App extends Component {
     };
 
     return (
-      <Provider store={store}>
-        <>
-          <Header />
-          <Routes>
-            <Route exact path="/dictionary" element={<DictionaryPage />} />
-            <Route exact path="/planner" element={<PlannerPage />} />
-            <Route exact path="/timetable" element={<TimetablePage />} />
-            <Route exact path="/timetable/syllabus" element={<SyllabusPage />} />
-            <Route exact path="/write-reviews" element={<WriteReviewsPage />} />
-            <Route exact path="/account" element={<AccountPage />} />
-            <Route exact path="/eventBanner" element={<EventBannerPage />} />
-            <Route exact path="/credits" element={<CreditPage />} />
-            <Route exact path="/licenses" element={<LicensePage />} />
-            <Route exact path="/privacy" element={<PrivacyPage />} />
-            {/* Temporary test page for axiom */}
-            <Route exact path="/test" element={<TestPage />} />
-            <Route exact path="/error/:message" element={<ErrorPage />} />
-            <Route exact path="/" element={<MainPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </>
-        <section>
-          <BannerPopup
-            popupOpen={popupOpen}
-            setPopupOpen={(state) => this.setState({ popupOpen: state })}>
-            <CampaignPopupImage closePopup={() => this.setState({ popupOpen: false })} />
-            <PopupMenu
-              onClose={() => {
-                ReactGA.event({
-                  category: 'Campaign',
-                  action: 'popup-close',
-                });
-                this.setState({ popupOpen: false });
-              }}
-              onDoNotShow={() => {
-                ReactGA.event({
-                  category: 'Campaign',
-                  action: 'popup-do-not-show',
-                });
-                this._setDoNotShow(true);
-                this.setState({ popupOpen: false });
-              }}
-            />
-          </BannerPopup>
-        </section>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <>
+            <Header />
+            <Routes>
+              <Route exact path="/dictionary" element={<DictionaryPage />} />
+              <Route exact path="/planner" element={<PlannerPage />} />
+              <Route exact path="/timetable" element={<TimetablePage />} />
+              <Route exact path="/timetable/syllabus" element={<SyllabusPage />} />
+              <Route exact path="/write-reviews" element={<WriteReviewsPage />} />
+              <Route exact path="/account" element={<AccountPage />} />
+              <Route exact path="/eventBanner" element={<EventBannerPage />} />
+              <Route exact path="/credits" element={<CreditPage />} />
+              <Route exact path="/licenses" element={<LicensePage />} />
+              <Route exact path="/privacy" element={<PrivacyPage />} />
+              {/* Temporary test page for axiom */}
+              <Route exact path="/test" element={<TestPage />} />
+              <Route exact path="/error/:message" element={<ErrorPage />} />
+              <Route exact path="/" element={<MainPage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </>
+          <section>
+            <BannerPopup
+              popupOpen={popupOpen}
+              setPopupOpen={(state) => this.setState({ popupOpen: state })}>
+              <CampaignPopupImage closePopup={() => this.setState({ popupOpen: false })} />
+              <PopupMenu
+                onClose={() => {
+                  ReactGA.event({
+                    category: 'Campaign',
+                    action: 'popup-close',
+                  });
+                  this.setState({ popupOpen: false });
+                }}
+                onDoNotShow={() => {
+                  ReactGA.event({
+                    category: 'Campaign',
+                    action: 'popup-do-not-show',
+                  });
+                  this._setDoNotShow(true);
+                  this.setState({ popupOpen: false });
+                }}
+              />
+            </BannerPopup>
+          </section>
+        </Provider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     );
   }
 }
