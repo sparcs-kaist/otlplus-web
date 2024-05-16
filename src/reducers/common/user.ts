@@ -9,7 +9,7 @@ const initialState: UserState = {
   user: null,
 };
 
-export const reducer = (state = initialState, action: UserAction): UserState => {
+const user = (state = initialState, action: UserAction): UserState => {
   switch (action.type) {
     case SET_USER:
       return { ...state, user: action.user };
@@ -35,4 +35,4 @@ export const reducer = (state = initialState, action: UserAction): UserState => 
   }
 };
 
-export default reducer;
+export default user;

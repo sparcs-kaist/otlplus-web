@@ -8,7 +8,7 @@ const initialState: MediaState = {
   isPortrait: false,
 };
 
-export const reducer = (state = initialState, action: MediaAction): MediaState => {
+const media = (state = initialState, action: MediaAction): MediaState => {
   switch (action.type) {
     case SET_IS_PORTRAIT:
       return { ...state, isPortrait: action.isPortrait };
@@ -17,4 +17,4 @@ export const reducer = (state = initialState, action: MediaAction): MediaState =
   }
 };
 
-export default reducer;
+export default media;

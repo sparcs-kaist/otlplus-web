@@ -8,7 +8,7 @@ const initialState: TrackState = {
   tracks: null,
 };
 
-export const reducer = (state = initialState, action: TrackAction): TrackState => {
+const track = (state = initialState, action: TrackAction): TrackState => {
   switch (action.type) {
     case SET_TRACKS:
       return { ...state, tracks: action.tracks };
@@ -17,4 +17,4 @@ export const reducer = (state = initialState, action: TrackAction): TrackState =
   }
 };
 
-export default reducer;
+export default track;
