@@ -23,7 +23,7 @@ const initialState: CourseFocusState = {
   lectures: null,
 };
 
-const courseFocus = (state = initialState, action: DictionaryAction) => {
+const courseFocus = (state = initialState, action: DictionaryAction): CourseFocusState => {
   switch (action.type) {
     case RESET: {
       return initialState;

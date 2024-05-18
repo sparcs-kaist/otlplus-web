@@ -70,7 +70,7 @@ const getListNameOfType = (type: PlannerItemType) => {
   SET_IS_TRACK_SETTINGS_SECTION_OPEN 
       planner 관련 정보를 수정하는 팝업창이 열려있는지 여부를 변경하는 action 
 */
-const planner = (state = initialState, action: PlannerAction) => {
+const planner = (state = initialState, action: PlannerAction): PlannerState => {
   switch (action.type) {
     case RESET: {
       return initialState;
@@ -218,7 +218,7 @@ const planner = (state = initialState, action: PlannerAction) => {
         return t;
       });
       newPlanners.sort((t1, t2) => t1.arrange_order - t2.arrange_order);
-      const updatedPlanner = newPlanners.find((t) => t.id === state.selectedPlanner?.id);
+      const updatedPlanner = newPlanners.find((t) => t.id === state.selectedPlanner?.id) || null;
       return {
         ...state,
         planners: newPlanners,

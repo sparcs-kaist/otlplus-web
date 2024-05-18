@@ -43,7 +43,7 @@ const initialState: ListState = {
   isLectureListOpenOnMobile: false,
 };
 
-const list = (state = initialState, action: LectureListAction) => {
+const list = (state = initialState, action: LectureListAction): ListState => {
   const groupLectures = (lectures: Lecture[]) => {
     const sortedLectures = lectures.sort((a, b) => {
       if (a.old_code !== b.old_code) {

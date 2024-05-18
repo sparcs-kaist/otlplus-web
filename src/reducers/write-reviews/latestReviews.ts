@@ -14,7 +14,7 @@ const initialState: LatestReviewsState = {
   reviews: null,
 };
 
-const latestReviews = (state = initialState, action: LatestReviewsAction) => {
+const latestReviews = (state = initialState, action: LatestReviewsAction): LatestReviewsState => {
   switch (action.type) {
     case RESET: {
       return initialState;

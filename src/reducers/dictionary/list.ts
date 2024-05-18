@@ -39,7 +39,7 @@ const initialState: ListState = {
   readCourses: [],
 };
 
-const list = (state = initialState, action: DictionaryAction) => {
+const list = (state = initialState, action: DictionaryAction): ListState => {
   switch (action.type) {
     case RESET: {
       return initialState;

@@ -8,7 +8,7 @@ const initialState: LikedReviewsState = {
   reviews: null,
 };
 
-const likedReviews = (state = initialState, action: LikedReviewsAction) => {
+const likedReviews = (state = initialState, action: LikedReviewsAction): LikedReviewsState => {
   switch (action.type) {
     case RESET: {
       return initialState;

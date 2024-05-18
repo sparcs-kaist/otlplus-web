@@ -11,7 +11,7 @@ const initialState: SemesterState = {
   semester: null,
 };
 
-const semester = (state = initialState, action: SemesterAction) => {
+const semester = (state = initialState, action: SemesterAction): SemesterState => {
   switch (action.type) {
     case RESET: {
       return initialState;

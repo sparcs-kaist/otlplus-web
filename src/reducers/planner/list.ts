@@ -42,7 +42,7 @@ const initialState: ListState = {
   },
 };
 
-const list = (state = initialState, action: ListAction) => {
+const list = (state = initialState, action: ListAction): ListState => {
   switch (action.type) {
     case RESET: {
       return initialState;

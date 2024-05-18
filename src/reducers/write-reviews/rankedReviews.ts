@@ -20,7 +20,7 @@ const initialState: RankedReviewState = {
   reviewCountBySemester: {},
 };
 
-const latestReviews = (state = initialState, action: RankedReviewsAction) => {
+const latestReviews = (state = initialState, action: RankedReviewsAction): RankedReviewState => {
   switch (action.type) {
     case RESET: {
       return initialState;

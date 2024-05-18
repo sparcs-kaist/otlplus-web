@@ -17,7 +17,7 @@ const initialState: SearchState = {
   lastSearchOption: {},
 };
 
-const search = (state = initialState, action: SearchAction) => {
+const search = (state = initialState, action: SearchAction): SearchState => {
   switch (action.type) {
     case RESET: {
       return initialState;

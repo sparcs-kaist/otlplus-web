@@ -22,7 +22,7 @@ const initialState: ReviewsFocusState = {
   reviews: null,
 };
 
-const reviewsFocus = (state = initialState, action: ReviewsFocusAction) => {
+const reviewsFocus = (state = initialState, action: ReviewsFocusAction): ReviewsFocusState => {
   switch (action.type) {
     case RESET: {
       return initialState;

@@ -9,7 +9,6 @@ import {
 } from '@/actions/timetable/search';
 import { Day } from '@/shapes/enum';
 import LectureLastSearchOption from '@/shapes/state/timetable/LectureLastSearchOption';
-import { stat } from 'fs';
 
 interface SearchState {
   open: boolean;
@@ -27,7 +26,7 @@ const initialState: SearchState = {
   classtimeDay: null,
 };
 
-const search = (state = initialState, action: SearchAction) => {
+const search = (state = initialState, action: SearchAction): SearchState => {
   switch (action.type) {
     case RESET: {
       return initialState;

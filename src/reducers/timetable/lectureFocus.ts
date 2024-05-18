@@ -31,7 +31,7 @@ const initialState: LectureFocusState = {
   multipleDetails: [],
 };
 
-const lectureFocus = (state = initialState, action: LectureFocusAction) => {
+const lectureFocus = (state = initialState, action: LectureFocusAction): LectureFocusState => {
   switch (action.type) {
     case RESET: {
       return initialState;
