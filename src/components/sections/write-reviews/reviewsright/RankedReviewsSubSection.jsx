@@ -13,11 +13,11 @@ import CloseButton from '../../../CloseButton';
 import ReviewBlock from '../../../blocks/ReviewBlock';
 import SemesterBlock from '../../../blocks/SemesterBlock';
 
-import { clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
+import { clearReviewsFocus } from '../../../../redux/actions/write-reviews/reviewsFocus';
 import {
   addSemesterReviews,
   setSemesterReviewCount,
-} from '../../../../actions/write-reviews/rankedReviews';
+} from '../../../../redux/actions/write-reviews/rankedReviews';
 
 import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
 import { getSemesterName } from '../../../../utils/semesterUtils';

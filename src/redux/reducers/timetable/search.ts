@@ -6,7 +6,7 @@ import {
   SET_CLASSTIME_OPTIONS,
   CLEAR_CLASSTIME_OPTIONS,
   SearchAction,
-} from '@/actions/timetable/search';
+} from '@/redux/actions/timetable/search';
 import { Day } from '@/shapes/enum';
 import LectureLastSearchOption from '@/shapes/state/timetable/LectureLastSearchOption';
 

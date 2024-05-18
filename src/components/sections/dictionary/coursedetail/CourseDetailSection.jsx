@@ -18,8 +18,8 @@ import {
   clearCourseFocus,
   setLectures,
   setReviews,
-} from '../../../../actions/dictionary/courseFocus';
-import { addCourseRead } from '../../../../actions/dictionary/list';
+} from '../../../../redux/actions/dictionary/courseFocus';
+import { addCourseRead } from '../../../../redux/actions/dictionary/list';
 
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
 import userShape from '../../../../shapes/model/session/UserShape';

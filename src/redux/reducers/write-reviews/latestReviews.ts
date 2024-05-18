@@ -3,7 +3,7 @@ import {
   ADD_REVIEWS,
   UPDATE_REVIEW,
   LatestReviewsAction,
-} from '@/actions/write-reviews/latestReviews';
+} from '@/redux/actions/write-reviews/latestReviews';
 import Review from '@/shapes/model/review/Review';
 
 interface LatestReviewsState {

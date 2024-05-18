@@ -4,7 +4,7 @@ import {
   CLEAR_REVIEWS_FOCUS,
   SET_REVIEWS,
   ReviewsFocusAction,
-} from '@/actions/write-reviews/reviewsFocus';
+} from '@/redux/actions/write-reviews/reviewsFocus';
 
 import { ReviewsFocusFrom } from '@/shapes/enum';
 import Review from '@/shapes/model/review/Review';

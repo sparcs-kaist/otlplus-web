@@ -4,7 +4,7 @@ import {
   CLOSE_SEARCH,
   SET_LAST_SEARCH_OPTION,
   SearchAction,
-} from '@/actions/planner/search';
+} from '@/redux/actions/planner/search';
 import LectureLastSearchOption from '@/shapes/state/timetable/LectureLastSearchOption';
 
 interface SearchState {

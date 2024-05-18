@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import SearchFilter from '../../SearchFilter';
 
-import { setUser } from '../../../actions/common/user';
+import { setUser } from '../../../redux/actions/common/user';
 
 import userShape from '../../../shapes/model/session/UserShape';
 

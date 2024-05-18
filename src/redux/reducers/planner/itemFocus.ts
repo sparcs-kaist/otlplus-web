@@ -7,7 +7,7 @@ import {
   SET_REVIEWS,
   SET_LECTURES,
   ItemFocusAction,
-} from '@/actions/planner/itemFocus';
+} from '@/redux/actions/planner/itemFocus';
 import { ItemFocusFrom } from '@/shapes/enum';
 import ItemFocus, {
   AddingItem,

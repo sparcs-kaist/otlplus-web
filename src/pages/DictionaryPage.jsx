@@ -12,14 +12,14 @@ import CourseListSection from '../components/sections/dictionary/courselist/Cour
 import CourseDetailSection from '../components/sections/dictionary/coursedetail/CourseDetailSection';
 import CourseListTabs from '../components/sections/dictionary/courselist/CourseListTabs';
 
-import { reset as resetCourseFocus, setCourseFocus } from '../actions/dictionary/courseFocus';
+import { reset as resetCourseFocus, setCourseFocus } from '../redux/actions/dictionary/courseFocus';
 import {
   reset as resetList,
   setSelectedListCode,
   setListCourses,
   clearSearchListCourses,
-} from '../actions/dictionary/list';
-import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
+} from '../redux/actions/dictionary/list';
+import { reset as resetSearch, closeSearch } from '../redux/actions/dictionary/search';
 import { performSearchCourses } from '../common/commonOperations';
 import { parseQueryString } from '@/common/utils/parseQueryString';
 

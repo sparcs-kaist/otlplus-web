@@ -13,9 +13,9 @@ import Divider from '../../../Divider';
 import SearchFilter from '../../../SearchFilter';
 import Scroller from '../../../Scroller';
 
-import { closeSearch, setLastSearchOption } from '../../../../actions/dictionary/search';
-import { setListCourses, clearSearchListCourses } from '../../../../actions/dictionary/list';
-import { clearCourseFocus } from '../../../../actions/dictionary/courseFocus';
+import { closeSearch, setLastSearchOption } from '../../../../redux/actions/dictionary/search';
+import { setListCourses, clearSearchListCourses } from '../../../../redux/actions/dictionary/list';
+import { clearCourseFocus } from '../../../../redux/actions/dictionary/courseFocus';
 
 import {
   getTypeOptions,

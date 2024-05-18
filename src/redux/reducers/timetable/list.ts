@@ -8,7 +8,7 @@ import {
   DELETE_LECTURE_FROM_CART,
   SET_MOBILE_IS_LECTURE_LIST_OPEN,
   LectureListAction,
-} from '@/actions/timetable/list';
+} from '@/redux/actions/timetable/list';
 import { unique } from '@/utils/commonUtils';
 
 import { LectureListCode } from '@/shapes/enum';

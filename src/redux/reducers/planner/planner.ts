@@ -13,7 +13,7 @@ import {
   UPDATE_CELL_SIZE,
   SET_IS_TRACK_SETTINGS_SECTION_OPEN,
   PlannerAction,
-} from '@/actions/planner/planner';
+} from '@/redux/actions/planner/planner';
 import Planner from '@/shapes/model/planner/Planner';
 import { PlannerItemType } from '@/shapes/enum';
 

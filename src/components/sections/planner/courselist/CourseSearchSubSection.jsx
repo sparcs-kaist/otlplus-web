@@ -12,9 +12,9 @@ import Divider from '../../../Divider';
 import SearchFilter from '../../../SearchFilter';
 import Scroller from '../../../Scroller';
 
-import { closeSearch, setLastSearchOption } from '../../../../actions/planner/search';
-import { setListCourses, clearSearchListCourses } from '../../../../actions/planner/list';
-import { clearItemFocus } from '../../../../actions/planner/itemFocus';
+import { closeSearch, setLastSearchOption } from '../../../../redux/actions/planner/search';
+import { setListCourses, clearSearchListCourses } from '../../../../redux/actions/planner/list';
+import { clearItemFocus } from '../../../../redux/actions/planner/itemFocus';
 
 import {
   getTypeOptions,

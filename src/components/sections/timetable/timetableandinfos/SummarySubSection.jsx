@@ -7,7 +7,10 @@ import { sumBy } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { getAverageScoreLabel } from '../../../../utils/scoreUtils';
 
-import { clearMultipleFocus, setMultipleFocus } from '../../../../actions/timetable/lectureFocus';
+import {
+  clearMultipleFocus,
+  setMultipleFocus,
+} from '../../../../redux/actions/timetable/lectureFocus';
 
 import { LectureFocusFrom } from '@/shapes/enum';
 

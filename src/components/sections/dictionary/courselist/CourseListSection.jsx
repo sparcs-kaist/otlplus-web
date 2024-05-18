@@ -13,8 +13,8 @@ import CourseSearchSubSection from './CourseSearchSubSection';
 import CourseBlock from '../../../blocks/CourseBlock';
 
 import { isFocused, isDimmedCourse } from '../../../../utils/courseUtils';
-import { setCourseFocus, clearCourseFocus } from '../../../../actions/dictionary/courseFocus';
-import { openSearch } from '../../../../actions/dictionary/search';
+import { setCourseFocus, clearCourseFocus } from '../../../../redux/actions/dictionary/courseFocus';
+import { openSearch } from '../../../../redux/actions/dictionary/search';
 
 import courseShape from '../../../../shapes/model/subject/CourseShape';
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';

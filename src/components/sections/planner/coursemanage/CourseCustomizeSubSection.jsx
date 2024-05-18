@@ -16,8 +16,8 @@ import { getSemesterName } from '../../../../utils/semesterUtils';
 import { getCourseOfItem, getSemesterOfItem } from '../../../../utils/itemUtils';
 
 import { ItemFocusFrom } from '@/shapes/enum';
-import { updateItemInPlanner } from '../../../../actions/planner/planner';
-import { setItemFocus } from '../../../../actions/planner/itemFocus';
+import { updateItemInPlanner } from '../../../../redux/actions/planner/planner';
+import { setItemFocus } from '../../../../redux/actions/planner/itemFocus';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';

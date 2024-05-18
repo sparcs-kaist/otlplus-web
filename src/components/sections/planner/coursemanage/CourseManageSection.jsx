@@ -16,7 +16,11 @@ import CourseCustomizeSubSection from './CourseCustomizeSubSection';
 import CourseInfoSubSection from './CourseInfoSubSection';
 import CourseReviewsSubSection from './CourseReviewsSubSection';
 
-import { clearItemFocus, setLectures, setReviews } from '../../../../actions/planner/itemFocus';
+import {
+  clearItemFocus,
+  setLectures,
+  setReviews,
+} from '../../../../redux/actions/planner/itemFocus';
 
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import { ItemFocusFrom } from '@/shapes/enum';

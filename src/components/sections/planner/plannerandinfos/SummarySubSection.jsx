@@ -25,7 +25,7 @@ import {
 } from '../../../../utils/itemCategoryUtils';
 import { CategoryFirstIndex } from '@/shapes/enum';
 
-import { setCategoryFocus, clearCategoryFocus } from '../../../../actions/planner/itemFocus';
+import { setCategoryFocus, clearCategoryFocus } from '../../../../redux/actions/planner/itemFocus';
 
 class SummarySubSection extends Component {
   setFocusOnCategory = (category) => {

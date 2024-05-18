@@ -11,7 +11,10 @@ import Scroller from '../../Scroller';
 import CloseButton from '../../CloseButton';
 import SearchFilter from '../../SearchFilter';
 
-import { setIsTrackSettingsSectionOpen, updatePlanner } from '../../../actions/planner/planner';
+import {
+  setIsTrackSettingsSectionOpen,
+  updatePlanner,
+} from '../../../redux/actions/planner/planner';
 
 import {
   getAdditionalTrackName,

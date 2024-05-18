@@ -1,4 +1,4 @@
-import { LikedReviewsAction, RESET, SET_REVIEWS } from '@/actions/write-reviews/likedReviews';
+import { LikedReviewsAction, RESET, SET_REVIEWS } from '@/redux/actions/write-reviews/likedReviews';
 import Review from '@/shapes/model/review/Review';
 interface LikedReviewsState {
   reviews: Review[] | null;

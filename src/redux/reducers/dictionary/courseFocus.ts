@@ -7,7 +7,7 @@ import {
   UPDATE_REVIEW,
   SET_LECTURES,
   DictionaryAction,
-} from '@/actions/dictionary/courseFocus';
+} from '@/redux/actions/dictionary/courseFocus';
 import Lecture from '@/shapes/model/subject/Lecture';
 import Review from '@/shapes/model/review/Review';
 

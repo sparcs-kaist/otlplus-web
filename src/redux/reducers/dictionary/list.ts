@@ -5,7 +5,7 @@ import {
   CLEAR_SEARCH_LIST_COURSES,
   ADD_COURSE_READ,
   DictionaryAction,
-} from '@/actions/dictionary/list';
+} from '@/redux/actions/dictionary/list';
 
 import { CourseListCode } from '@/shapes/enum';
 import Course from '@/shapes/model/subject/Course';

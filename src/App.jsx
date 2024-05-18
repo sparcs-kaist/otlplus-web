@@ -19,16 +19,16 @@ import PrivacyPage from './pages/PrivacyPage';
 import TestPage from './pages/TestPage';
 import ErrorPage from './pages/ErrorPage';
 
-import dictionaryReducer from './reducers/dictionary/index';
-import timetableReducer from './reducers/timetable/index';
-import writeReviewsReducer from './reducers/write-reviews/index';
-import commonReducer from './reducers/common/index';
-import plannerReducer from './reducers/planner/index';
+import dictionaryReducer from './redux/reducers/dictionary/index';
+import timetableReducer from './redux/reducers/timetable/index';
+import writeReviewsReducer from './redux/reducers/write-reviews/index';
+import commonReducer from './redux/reducers/common/index';
+import plannerReducer from './redux/reducers/planner/index';
 
-import { setUser } from './actions/common/user';
-import { setSemesters } from './actions/common/semester';
-import { setTracks } from './actions/common/track';
-import { setIsPortrait } from './actions/common/media';
+import { setUser } from './redux/actions/common/user';
+import { setSemesters } from './redux/actions/common/semester';
+import { setTracks } from './redux/actions/common/track';
+import { setIsPortrait } from './redux/actions/common/media';
 
 import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
 import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPopupImage';

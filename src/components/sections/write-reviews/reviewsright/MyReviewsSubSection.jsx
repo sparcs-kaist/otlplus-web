@@ -10,7 +10,7 @@ import Scroller from '../../../Scroller';
 import CloseButton from '../../../CloseButton';
 import ReviewBlock from '../../../blocks/ReviewBlock';
 
-import { clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
+import { clearReviewsFocus } from '../../../../redux/actions/write-reviews/reviewsFocus';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';

@@ -12,8 +12,8 @@ import Scroller from '../../../Scroller';
 import CloseButton from '../../../CloseButton';
 import ReviewBlock from '../../../blocks/ReviewBlock';
 
-import { addReviews } from '../../../../actions/write-reviews/latestReviews';
-import { clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
+import { addReviews } from '../../../../redux/actions/write-reviews/latestReviews';
+import { clearReviewsFocus } from '../../../../redux/actions/write-reviews/reviewsFocus';
 
 import reviewShape from '../../../../shapes/model/review/ReviewShape';
 import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
