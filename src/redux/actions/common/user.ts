@@ -6,7 +6,7 @@ export const UPDATE_USER_REVIEW = `${BASE_STRING}UPDATE_USER_REVIEW` as const;
 import User from '@/shapes/model/session/User';
 import Review from '@/shapes/model/review/Review';
 
-export function setUser(user: User) {
+export function setUser(user: User | null) {
   return {
     type: SET_USER,
     user: user,
