@@ -1,16 +1,27 @@
-import React, { ReactElement } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
+import { ReactElement, ReactNode } from 'react';
+import { render } from '@testing-library/react';
 import Course from '@/shapes/model/subject/Course';
 import { SemesterType } from '@/shapes/enum';
 import Lecture from '@/shapes/model/subject/Lecture';
 import Classtime from '@/shapes/model/subject/Classtime';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import User from '@/shapes/model/session/User';
 
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return children;
+const queryClientWrapper = ({ children }: { children: ReactNode }) => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 };
 
-const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
-  render(ui, { wrapper: AllTheProviders, ...options });
+const customRender = (ui: ReactElement) => render(ui);
+
+export const renderWithQueryClient = (ui: ReactElement) =>
+  render(ui, { wrapper: queryClientWrapper });
 
 export * from '@testing-library/react';
 export { customRender as render };
@@ -83,4 +94,18 @@ export const sampleClasstime: Classtime = {
   day: 0,
   begin: 0,
   end: 0,
+};
+
+export const sampleUser: User = {
+  id: 0,
+  email: '',
+  student_id: '20210378',
+  firstName: '',
+  lastName: '',
+  majors: [],
+  departments: [],
+  favorite_departments: [],
+  review_writable_lectures: [],
+  my_timetable_lectures: [],
+  reviews: [],
 };
