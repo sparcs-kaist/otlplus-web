@@ -29,7 +29,10 @@ const AcademicInfoSubSection = () => {
       />
       <div className={classNames('caption')}>
         {t('ui.message.academicInfoCaptionHead')}
-        <a href={`mailto:${CONTACT}`} className={classNames('text-button')}>
+        <a
+          href={`mailto:${CONTACT}`}
+          className={classNames('text-button')}
+          data-testid="contact-mail">
           {CONTACT}
         </a>
         {t('ui.message.academicInfoCaptionTail')}
