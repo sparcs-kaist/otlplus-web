@@ -8,15 +8,13 @@ import {
   useSessionInfo,
   useUpdateFavoriteDepartments,
 } from '@/queries/account';
-import { useTranslatedString } from '@/hooks/useTranslatedString';
 
 const FavoriteDepartmentsSubSection = () => {
   const [selectedDepartments, setSelectedDepartments] = useState<Set<string>>(new Set([]));
 
   const { t } = useTranslation();
-  const translate = useTranslatedString();
   const { data: user } = useSessionInfo();
-  const { data: allDepartmentOptions } = useDepartmentOptions();
+  const { data: departmentOptions } = useDepartmentOptions();
   const { mutate: updateFavoriteDepartments } = useUpdateFavoriteDepartments();
 
   useEffect(() => {
@@ -34,13 +32,9 @@ const FavoriteDepartmentsSubSection = () => {
     });
   };
 
-  if (!user || !allDepartmentOptions) {
+  if (!user || !departmentOptions) {
     return null;
   }
-
-  const departmentOptions = allDepartmentOptions
-    .flat(1)
-    .map((d) => [String(d.id), `${translate(d, 'name')} (${d.code})`]);
 
   const hasChange =
     new Set(user.favorite_departments.map((d) => d.id.toString())).size !==

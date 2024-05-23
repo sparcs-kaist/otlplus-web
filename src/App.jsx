@@ -63,6 +63,8 @@ const store = createStore(
     : null,
 );
 
+const queryClient = new QueryClient();
+
 class App extends Component {
   portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)');
 
@@ -171,7 +173,6 @@ class App extends Component {
 
   render() {
     const { popupOpen, doNotShowAgain } = this.state;
-    const queryClient = new QueryClient();
 
     const parseObject = (object) => {
       if (typeof object === 'object') {

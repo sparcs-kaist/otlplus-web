@@ -1,3 +1,4 @@
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 import User from '@/shapes/model/session/User';
 import Department from '@/shapes/model/subject/Department';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -21,11 +22,14 @@ export const useSessionInfo = () => {
 };
 
 export const useDepartmentOptions = () => {
+  const translate = useTranslatedString();
   return useQuery({
     queryKey: ['departmentOptions'],
     staleTime: Infinity,
     queryFn: async () => {
-      return (await axios.get<Department[][]>('/session/department-options')).data;
+      return (await axios.get<Department[][]>('/session/department-options')).data
+        .flat(1)
+        .map((d) => [String(d.id), `${translate(d, 'name')} (${d.code})`]);
     },
   });
 };
