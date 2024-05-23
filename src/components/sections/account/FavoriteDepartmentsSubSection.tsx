@@ -32,7 +32,6 @@ const FavoriteDepartmentsSubSection = () => {
     updateFavoriteDepartments({
       selectedDepartments: Array.from(selectedDepartments).filter((d) => d !== 'ALL'),
     });
-    setSelectedDepartments(selectedDepartments);
   };
 
   if (!user || !allDepartmentOptions) {
