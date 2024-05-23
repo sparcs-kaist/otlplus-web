@@ -27,9 +27,7 @@ const FavoriteDepartmentsSubSection = () => {
     e.preventDefault();
     e.stopPropagation();
 
-    updateFavoriteDepartments({
-      selectedDepartments: Array.from(selectedDepartments).filter((d) => d !== 'ALL'),
-    });
+    updateFavoriteDepartments({ selectedDepartments });
   };
 
   if (!user || !departmentOptions) {
