@@ -37,7 +37,7 @@ export const useDepartmentOptions = () => {
 export const useUpdateFavoriteDepartments = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ selectedDepartments }: { selectedDepartments: string[] }) => {
+    mutationFn: ({ selectedDepartments }: { selectedDepartments: Set<string> }) => {
       return axios.post('/session/favorite-departments', {
         fav_department: Array.from(selectedDepartments).filter((d) => d !== 'ALL'),
       });
