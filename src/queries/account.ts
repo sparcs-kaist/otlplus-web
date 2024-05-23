@@ -1,3 +1,4 @@
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 import User from '@/shapes/model/session/User';
 import Department from '@/shapes/model/subject/Department';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
