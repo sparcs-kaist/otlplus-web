@@ -36,12 +36,10 @@ const FavoriteDepartmentsSubSection = () => {
     return null;
   }
 
+  // TODO: Change comparison logic
   const hasChange =
-    new Set(user.favorite_departments.map((d) => d.id.toString())).size !==
-      selectedDepartments.size ||
-    [...new Set(user.favorite_departments.map((d) => d.id.toString()))].some(
-      (d) => !selectedDepartments.has(d),
-    );
+    user.favorite_departments.length !== selectedDepartments.size ||
+    user.favorite_departments.some(({ id }) => !selectedDepartments.has(id.toString()));
 
   return (
     <div className={classNames('subsection', 'subsection--favorite-department')}>
