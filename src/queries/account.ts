@@ -4,9 +4,14 @@ import Department from '@/shapes/model/subject/Department';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
+const QUERY_KEYS = {
+  SESSION_INFO: 'sessionInfo',
+  DEPARTMENT_OPTIONS: 'departmentOptions',
+} as const;
+
 export const useSessionInfo = () => {
   return useQuery({
-    queryKey: ['sessionInfo'],
+    queryKey: [QUERY_KEYS.SESSION_INFO],
     staleTime: Infinity,
     queryFn: async () => {
       return (
@@ -24,7 +29,7 @@ export const useSessionInfo = () => {
 export const useDepartmentOptions = () => {
   const translate = useTranslatedString();
   return useQuery({
-    queryKey: ['departmentOptions'],
+    queryKey: [QUERY_KEYS.DEPARTMENT_OPTIONS],
     staleTime: Infinity,
     queryFn: async () => {
       return (await axios.get<Department[][]>('/session/department-options')).data
@@ -43,8 +48,8 @@ export const useUpdateFavoriteDepartments = () => {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['departmentOptions'] });
-      queryClient.invalidateQueries({ queryKey: ['sessionInfo'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.DEPARTMENT_OPTIONS] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.SESSION_INFO] });
     },
   });
 };
