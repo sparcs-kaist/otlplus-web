@@ -1,14 +1,19 @@
 import { SemesterType } from '@/shapes/enum';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSessionInfo } from './account';
 import Lecture from '@/shapes/model/subject/Lecture';
+
+// TODO: TIMETABLE_QUERY_KEY 적용 + invalidateQueries variables 지정
+const QUERY_KEYS = {
+  TIMETABLES: 'timetables',
+} as const;
 
 export const useTimetables = ({ year, semester }: { year: number; semester: SemesterType }) => {
   const { data: user } = useSessionInfo();
 
   return useQuery({
-    queryKey: ['timetables', { userId: user?.id, year, semester }],
+    queryKey: [QUERY_KEYS.TIMETABLES, { userID: user?.id, year, semester }],
     enabled: !!user,
     staleTime: Infinity,
     queryFn: async () => {
@@ -30,6 +35,7 @@ export const useTimetables = ({ year, semester }: { year: number; semester: Seme
 };
 
 export const useCreateTimetable = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       userID,
@@ -55,10 +61,16 @@ export const useCreateTimetable = () => {
         },
       );
     },
+    onSuccess: (_, { userID, year, semester }) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.TIMETABLES, { userID, year, semester }],
+      });
+    },
   });
 };
 
 export const useDuplicateTimetable = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       userID,
@@ -86,10 +98,16 @@ export const useDuplicateTimetable = () => {
         },
       );
     },
+    onSuccess: (_, { userID, year, semester }) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.TIMETABLES, { userID, year, semester }],
+      });
+    },
   });
 };
 
 export const useReorderTimetable = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
       userID,
@@ -113,10 +131,14 @@ export const useReorderTimetable = () => {
         },
       );
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TIMETABLES] });
+    },
   });
 };
 
 export const useDeleteTimetable = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ userID, timetableID }: { userID: number; timetableID: number }) => {
       return axios.delete(`/api/users/${userID}/timetables/${timetableID}`, {
@@ -125,6 +147,9 @@ export const useDeleteTimetable = () => {
           gaVariable: 'DELETE / Instance',
         },
       });
+    },
+    onSuccess: (_, { userID }) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TIMETABLES, { userID }] });
     },
   });
 };

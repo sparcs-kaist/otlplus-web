@@ -1,7 +1,7 @@
 import { useTranslatedString } from '@/hooks/useTranslatedString';
 import User from '@/shapes/model/session/User';
 import Department from '@/shapes/model/subject/Department';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const QUERY_KEYS = {
@@ -10,18 +10,22 @@ const QUERY_KEYS = {
 } as const;
 
 export const useSessionInfo = () => {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: [QUERY_KEYS.SESSION_INFO],
     staleTime: Infinity,
     queryFn: async () => {
-      return (
-        await axios.get<User>('/session/info', {
-          metadata: {
-            gaCategory: 'User',
-            gaVariable: 'GET / Instance',
-          },
-        })
-      ).data;
+      try {
+        return (
+          await axios.get<User>('/session/info', {
+            metadata: {
+              gaCategory: 'User',
+              gaVariable: 'GET / Instance',
+            },
+          })
+        ).data;
+      } catch (e) {
+        return null; // 로그인 안 한 경우
+      }
     },
   });
 };
