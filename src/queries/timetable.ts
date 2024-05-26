@@ -14,7 +14,7 @@ export const useTimetables = ({ year, semester }: { year: number; semester: Seme
 
   return useQuery({
     queryKey: [QUERY_KEYS.TIMETABLES, { userID: user?.id, year, semester }],
-    enabled: !!user,
+    enabled: !!(user && year && semester),
     staleTime: Infinity,
     queryFn: async () => {
       return (
@@ -132,6 +132,10 @@ export const useReorderTimetable = () => {
       );
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TIMETABLES] });
+    },
+    onError: () => {
+      alert('Failed to reorder timetable. Please try again.');
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.TIMETABLES] });
     },
   });

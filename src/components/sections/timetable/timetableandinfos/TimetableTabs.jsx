@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 // import axios from 'axios';
 import ReactGA from 'react-ga4';
+import { motion, Reorder } from 'framer-motion';
 
 import { appBoundClassNames as classNames } from '@/common/boundClassNames';
 
 import {
-  setTimetables,
   setMyTimetableLectures,
   setSelectedTimetable,
-  // reorderTimetable,
   setIsTimetableTabsOpenOnMobile,
 } from '@/redux/actions/timetable/timetable';
 import { useSessionInfo } from '@/queries/account';
@@ -22,7 +21,7 @@ import {
   useTimetables,
 } from '@/queries/timetable';
 
-const TimetableTabs = () => {
+const TimetableIDs = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -41,6 +40,38 @@ const TimetableTabs = () => {
   const { mutate: deleteTimetable } = useDeleteTimetable();
   const { mutate: reorderTimetable } = useReorderTimetable();
 
+  /**
+   * `timetableIDs` exists to keep track of the order of timetables.
+   * It is used to optimize the update depend on the creation, reordering, and deletion of timetables.
+   * With this, we can avoid waiting for the server response to update the order of timetables.
+   * If the API call fails, the order of timetables will be updated by query invalidation of react-query.
+   */
+  const [timetableIDs, setTimetableIDs] = useState([]);
+
+  const dragRef = useRef();
+  const isNewTimetableGenerated = useRef(false);
+
+  useEffect(() => {
+    if (user) {
+      setMyTimetable();
+    }
+  }, [year, semester, user]);
+
+  useEffect(() => {
+    if (timetables) {
+      if (!selectedTimetable) {
+        dispatch(setSelectedTimetable(timetables[0]));
+      }
+
+      if (isNewTimetableGenerated.current) {
+        dispatch(setSelectedTimetable(timetables[timetables.length - 1]));
+        isNewTimetableGenerated.current = false;
+      }
+
+      setTimetableIDs(timetables.map((tt) => tt.id));
+    }
+  }, [timetables]);
+
   const createRandomTimetableId = () => {
     return Math.floor(Math.random() * 100000000);
   };
@@ -51,25 +82,6 @@ const TimetableTabs = () => {
     );
     dispatch(setMyTimetableLectures(lectures));
   };
-
-  useEffect(() => {
-    if (user) {
-      setMyTimetable();
-    }
-  }, [year, semester, user]);
-
-  useEffect(() => {
-    if (timetables) {
-      dispatch(setTimetables(timetables));
-    }
-    if (selectedTimetable) {
-      dispatch(setSelectedTimetable(timetables[timetables.length - 1]));
-    }
-  }, [timetables]);
-
-  // if (!user || !timetables || !year || !semester) {
-  //   return null;
-  // }
 
   const changeTab = (timetable) => {
     dispatch(setSelectedTimetable(timetable));
@@ -86,12 +98,18 @@ const TimetableTabs = () => {
       // TODO: 로그인 한 사용자가 없으면 state로 관리
       dispatch(createTimetable(createRandomTimetableId()));
     } else {
-      createTimetable({
-        userID: user?.id,
-        year,
-        semester,
-      });
+      createTimetable(
+        {
+          userID: user?.id,
+          year,
+          semester,
+        },
+        {
+          onSuccess: () => (isNewTimetableGenerated.current = true),
+        },
+      );
     }
+
     ReactGA.event({
       category: 'Timetable - Timetable',
       action: 'Created Timetable',
@@ -104,12 +122,17 @@ const TimetableTabs = () => {
     if (!user) {
       dispatch(duplicateTimetable(createRandomTimetableId(), timetable));
     } else {
-      duplicateTimetable({
-        userID: user.id,
-        year: year,
-        semester: semester,
-        lecturesInOriginalTimetable: timetable.lectures,
-      });
+      duplicateTimetable(
+        {
+          userID: user.id,
+          year: year,
+          semester: semester,
+          lecturesInOriginalTimetable: timetable.lectures,
+        },
+        {
+          onSuccess: () => (isNewTimetableGenerated.current = true),
+        },
+      );
     }
 
     ReactGA.event({
@@ -134,6 +157,11 @@ const TimetableTabs = () => {
     if (!user) {
       dispatch(deleteTimetable(timetable));
     } else {
+      const index = timetables.findIndex((t) => t.id === timetable.id);
+      const newIndex = index === timetables.length - 1 ? index - 1 : index + 1;
+      dispatch(setSelectedTimetable(timetables[newIndex]));
+
+      setTimetableIDs((curr) => curr.filter((id) => id !== timetable.id));
       deleteTimetable({ userID: user.id, timetableID: timetable.id });
     }
 
@@ -147,67 +175,99 @@ const TimetableTabs = () => {
     return selectedTimetable && timetable.id === selectedTimetable.id;
   };
 
-  const myTimetableTab = user ? (
-    <div
-      className={classNames('tabs__elem', isSelected(myTimetable) ? 'tabs__elem--selected' : null)}
-      key={myTimetable.id}
-      onClick={() => changeTab(myTimetable)}>
-      <span>{`${t('ui.others.myTable')}`}</span>
-      <button onClick={(event) => duplicateTable(event, myTimetable)}>
-        <i className={classNames('icon', 'icon--duplicate-table')} />
-        <span>{t('ui.button.duplicateTable')}</span>
-      </button>
-      <button className={classNames('disabled')}>
-        <i className={classNames('icon', 'icon--delete-table')} />
-        <span>{t('ui.button.deleteTable')}</span>
-      </button>
-    </div>
-  ) : null;
+  const handleReorder = (newOrder) => {
+    const draggedItem = newOrder.find((item, index) => item !== timetableIDs[index]);
+    const newArrangeOrder = newOrder.findIndex((elem) => elem === draggedItem);
+    if (newArrangeOrder === -1) {
+      return;
+    }
 
-  const normalTimetableTabs =
-    timetables && timetables.length ? (
-      timetables.map((tt, i) => (
+    setTimetableIDs(newOrder);
+    reorderTimetable({
+      userID: user.id,
+      draggingTimetableID: draggedItem,
+      newArrangeOrder: newArrangeOrder,
+    });
+  };
+
+  if (!timetables) {
+    return null;
+  }
+
+  return (
+    <div className={classNames('tabs', 'tabs--timetable')} style={{ display: 'flex' }}>
+      {user && (
         <div
           className={classNames(
             'tabs__elem',
-            'tabs__elem--draggable',
-            isSelected(tt) ? 'tabs__elem--selected' : null,
+            isSelected(myTimetable) ? 'tabs__elem--selected' : null,
           )}
-          key={tt.id}
-          onClick={() => changeTab(tt)}
-          data-id={tt.id}>
-          <span>{`${t('ui.others.table')} ${i + 1}`}</span>
-          <button onClick={(event) => duplicateTable(event, tt)}>
+          key={myTimetable.id}
+          onClick={() => changeTab(myTimetable)}>
+          <span>{`${t('ui.others.myTable')}`}</span>
+          <button onClick={(event) => duplicateTable(event, myTimetable)}>
             <i className={classNames('icon', 'icon--duplicate-table')} />
             <span>{t('ui.button.duplicateTable')}</span>
           </button>
-          <button onClick={(event) => deleteTable(event, tt)}>
+          <button className={classNames('disabled')}>
             <i className={classNames('icon', 'icon--delete-table')} />
             <span>{t('ui.button.deleteTable')}</span>
           </button>
         </div>
-      ))
-    ) : (
-      <div className={classNames('tabs__elem')} style={{ pointerEvents: 'none' }}>
-        <span>{t('ui.placeholder.loading')}</span>
-      </div>
-    );
-  const addTabButton =
-    timetables && timetables.length ? (
-      <div
-        className={classNames('tabs__elem', 'tabs__elem--add-button')}
-        onClick={() => createTable()}>
-        <i className={classNames('icon', 'icon--add-table')} />
-      </div>
-    ) : null;
-
-  return (
-    <div className={classNames('tabs', 'tabs--timetable')}>
-      {myTimetableTab}
-      {normalTimetableTabs}
-      {addTabButton}
+      )}
+      {
+        // TODO: checking if scrolling is possible with a mouse
+        <motion.div
+          style={{ display: 'flex', overflowX: 'scroll', flex: 1, maxWidth: 'fit-content' }}>
+          <Reorder.Group
+            layoutScroll
+            axis="x"
+            ref={dragRef}
+            values={timetableIDs}
+            onReorder={handleReorder}>
+            {timetables &&
+              timetables.length &&
+              timetableIDs.map((tid, i) => {
+                const timetable = timetables.find((t) => t.id === tid) ?? timetables[0];
+                return (
+                  <Reorder.Item
+                    whileDrag={{ cursor: 'grabbing', opacity: 0.7, position: 'relative' }} // instead of applying css tabs__elem--dragging
+                    dragConstraints={dragRef}
+                    dragElastic={0}
+                    transition={{ duration: 0 }}
+                    key={tid}
+                    value={tid}
+                    className={classNames(
+                      'tabs__elem',
+                      'tabs__elem--draggable',
+                      isSelected(timetable) ? 'tabs__elem--selected' : null,
+                    )}
+                    onClick={() => changeTab(timetable)}
+                    data-id={tid}>
+                    <span>{`${t('ui.others.table')} ${i + 1}`}</span>
+                    <button onClick={(event) => duplicateTable(event, timetable)}>
+                      <i className={classNames('icon', 'icon--duplicate-table')} />
+                      <span>{t('ui.button.duplicateTable')}</span>
+                    </button>
+                    <button onClick={(event) => deleteTable(event, timetable)}>
+                      <i className={classNames('icon', 'icon--delete-table')} />
+                      <span>{t('ui.button.deleteTable')}</span>
+                    </button>
+                  </Reorder.Item>
+                );
+              })}
+          </Reorder.Group>
+        </motion.div>
+      }
+      {timetables && timetables.length && (
+        <div
+          className={classNames('tabs__elem', 'tabs__elem--add-button')}
+          onClick={() => createTable()}>
+          <i className={classNames('icon', 'icon--add-table')} />
+        </div>
+      )}
     </div>
   );
 };
 
-export default TimetableTabs;
+export default TimetableIDs;
