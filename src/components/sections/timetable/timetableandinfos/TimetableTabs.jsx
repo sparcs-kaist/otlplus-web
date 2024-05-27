@@ -1,12 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-// import axios from 'axios';
 import ReactGA from 'react-ga4';
 import { motion, Reorder } from 'framer-motion';
 
 import { appBoundClassNames as classNames } from '@/common/boundClassNames';
-
 import {
   setMyTimetableLectures,
   setSelectedTimetable,
@@ -21,7 +19,9 @@ import {
   useTimetables,
 } from '@/queries/timetable';
 
-const TimetableIDs = () => {
+import styles from './TimetableTabs.module.scss';
+
+const TimetableTabsInner = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -195,70 +195,71 @@ const TimetableIDs = () => {
   }
 
   return (
-    <div className={classNames('tabs', 'tabs--timetable')} style={{ display: 'flex' }}>
-      {user && (
-        <div
-          className={classNames(
-            'tabs__elem',
-            isSelected(myTimetable) ? 'tabs__elem--selected' : null,
-          )}
-          key={myTimetable.id}
-          onClick={() => changeTab(myTimetable)}>
-          <span>{`${t('ui.others.myTable')}`}</span>
-          <button onClick={(event) => duplicateTable(event, myTimetable)}>
-            <i className={classNames('icon', 'icon--duplicate-table')} />
-            <span>{t('ui.button.duplicateTable')}</span>
-          </button>
-          <button className={classNames('disabled')}>
-            <i className={classNames('icon', 'icon--delete-table')} />
-            <span>{t('ui.button.deleteTable')}</span>
-          </button>
-        </div>
-      )}
-      {
-        // TODO: checking if scrolling is possible with a mouse
-        <motion.div
-          style={{ display: 'flex', overflowX: 'scroll', flex: 1, maxWidth: 'fit-content' }}>
-          <Reorder.Group
-            layoutScroll
-            axis="x"
-            ref={dragRef}
-            values={timetableIDs}
-            onReorder={handleReorder}>
-            {timetables &&
-              timetables.length &&
-              timetableIDs.map((tid, i) => {
-                const timetable = timetables.find((t) => t.id === tid) ?? timetables[0];
-                return (
-                  <Reorder.Item
-                    whileDrag={{ cursor: 'grabbing', opacity: 0.7, position: 'relative' }} // instead of applying css tabs__elem--dragging
-                    dragConstraints={dragRef}
-                    dragElastic={0}
-                    transition={{ duration: 0 }}
-                    key={tid}
-                    value={tid}
-                    className={classNames(
-                      'tabs__elem',
-                      'tabs__elem--draggable',
-                      isSelected(timetable) ? 'tabs__elem--selected' : null,
-                    )}
-                    onClick={() => changeTab(timetable)}
-                    data-id={tid}>
-                    <span>{`${t('ui.others.table')} ${i + 1}`}</span>
-                    <button onClick={(event) => duplicateTable(event, timetable)}>
-                      <i className={classNames('icon', 'icon--duplicate-table')} />
-                      <span>{t('ui.button.duplicateTable')}</span>
-                    </button>
-                    <button onClick={(event) => deleteTable(event, timetable)}>
-                      <i className={classNames('icon', 'icon--delete-table')} />
-                      <span>{t('ui.button.deleteTable')}</span>
-                    </button>
-                  </Reorder.Item>
-                );
-              })}
-          </Reorder.Group>
-        </motion.div>
-      }
+    <>
+      {/* TODO: check if scrolling is possible with a mouse */}
+      <motion.div className={classNames(styles.tabs__wrapper)}>
+        {user && (
+          <div
+            className={classNames(
+              'tabs__elem',
+              isSelected(myTimetable) ? 'tabs__elem--selected' : null,
+            )}
+            key={myTimetable.id}
+            onClick={() => changeTab(myTimetable)}>
+            <span>{`${t('ui.others.myTable')}`}</span>
+            <button onClick={(event) => duplicateTable(event, myTimetable)}>
+              <i className={classNames('icon', 'icon--duplicate-table')} />
+              <span>{t('ui.button.duplicateTable')}</span>
+            </button>
+            <button className={classNames('disabled')}>
+              <i className={classNames('icon', 'icon--delete-table')} />
+              <span>{t('ui.button.deleteTable')}</span>
+            </button>
+          </div>
+        )}
+        <Reorder.Group
+          layoutScroll
+          axis={!isPortrait ? 'x' : 'y'}
+          ref={dragRef}
+          values={timetableIDs}
+          onReorder={handleReorder}>
+          {timetables &&
+            timetables.length &&
+            timetableIDs.map((tid, i) => {
+              const timetable = timetables.find((t) => t.id === tid) ?? timetables[0];
+              return (
+                <Reorder.Item
+                  whileDrag={{
+                    cursor: 'grabbing',
+                    opacity: 0.7,
+                    position: 'relative',
+                  }} // instead of applying css tabs__elem--dragging
+                  dragConstraints={dragRef}
+                  dragElastic={0}
+                  transition={{ duration: 0 }}
+                  key={tid}
+                  value={tid}
+                  className={classNames(
+                    'tabs__elem',
+                    'tabs__elem--draggable',
+                    isSelected(timetable) ? 'tabs__elem--selected' : null,
+                  )}
+                  onClick={() => changeTab(timetable)}
+                  data-id={tid}>
+                  <span>{`${t('ui.others.table')} ${i + 1}`}</span>
+                  <button onClick={(event) => duplicateTable(event, timetable)}>
+                    <i className={classNames('icon', 'icon--duplicate-table')} />
+                    <span>{t('ui.button.duplicateTable')}</span>
+                  </button>
+                  <button onClick={(event) => deleteTable(event, timetable)}>
+                    <i className={classNames('icon', 'icon--delete-table')} />
+                    <span>{t('ui.button.deleteTable')}</span>
+                  </button>
+                </Reorder.Item>
+              );
+            })}
+        </Reorder.Group>
+      </motion.div>
       {timetables && timetables.length && (
         <div
           className={classNames('tabs__elem', 'tabs__elem--add-button')}
@@ -266,8 +267,24 @@ const TimetableIDs = () => {
           <i className={classNames('icon', 'icon--add-table')} />
         </div>
       )}
+    </>
+  );
+};
+
+const LoadingTab = () => {
+  const { t } = useTranslation();
+  return (
+    <div className={classNames('tabs__elem')} style={{ pointerEvents: 'none' }}>
+      <span>{t('ui.placeholder.loading')}</span>
     </div>
   );
 };
 
-export default TimetableIDs;
+const TimetableTabs = () => (
+  <div className={classNames('tabs', 'tabs--timetable')}>
+    <Suspense fallback={<LoadingTab />}>
+      <TimetableTabsInner />
+    </Suspense>
+  </div>
+);
+export default TimetableTabs;

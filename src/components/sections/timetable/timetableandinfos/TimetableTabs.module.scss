@@ -1,0 +1,14 @@
+@import '@/sass/abstracts/_mixins.scss';
+
+.tabs__wrapper {
+  display: flex;
+  cursor: grabbing;
+  @include mixin-media-landscape {
+    overflow-x: scroll;
+    flex: 1;
+    max-width: fit-content;
+  }
+  @include mixin-media-portrait {
+    flex-direction: column;
+  }
+}

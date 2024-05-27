@@ -459,21 +459,29 @@ a {
 
   &--timetable {
     grid-area: timetable-tabs;
+    display: flex;
+    @include mixin-media-portrait {
+      flex-direction: column;
+      overflow-y: scroll;
+      max-height: fit-content;
+    }
 
     & .tabs__elem {
       display: inline-block;
       vertical-align: top;
-      // margin-right: $tab-margin;
       border-radius: $tab-border-radius $tab-border-radius 0 0;
       padding: $tab-padding ($tab-padding + 2px);
       display: inline-flex;
       flex-direction: row;
       justify-content: center;
-      &:not(:last-child) {
-        margin-right: $tab-margin;
+      @include mixin-media-landscape {
+        &:not(:last-child) {
+          margin-right: $tab-margin;
+        }
       }
       @include mixin-media-portrait {
         width: 100%;
+        display: flex;
         padding: $block-padding-tb $block-padding-lr;
         background-color: $color-block-background;
         margin-bottom: $block-margin;
@@ -497,8 +505,10 @@ a {
       }
       &--add-button {
         padding: $tab-padding;
-        margin-left: $tab-margin;
         line-height: 0;
+        @include mixin-media-landscape {
+          margin-left: $tab-margin;
+        }
         @include mixin-media-portrait {
           margin-bottom: 0;
         }
