@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactGA from 'react-ga4';
 import { useDispatch } from 'react-redux';
 import { useLocation, Outlet } from 'react-router-dom';
@@ -14,9 +14,7 @@ import { setIsPortrait, setSemesters, setTracks, setUser } from '@/redux/actions
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const [popupOpen, setPopupOpen] = React.useState(
-    localStorage.getItem(STORAGE_KEY) !== CAMPAIGN_KEY,
-  );
+  const [popupOpen, setPopupOpen] = useState(localStorage.getItem(STORAGE_KEY) !== CAMPAIGN_KEY);
   const portraitMediaQuery = window.matchMedia('(max-aspect-ratio: 4/3)');
 
   useEffect(() => {
@@ -107,7 +105,7 @@ const App: React.FC = () => {
       <Header />
       <Outlet />
       <section>
-        <BannerPopup popupOpen={popupOpen} setPopupOpen={(state) => setPopupOpen(state)}>
+        <BannerPopup popupOpen={popupOpen} setPopupOpen={setPopupOpen}>
           <CampaignPopupImage closePopup={() => setPopupOpen(false)} />
           <PopupMenu
             onClose={() => {
