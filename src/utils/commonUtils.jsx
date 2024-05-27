@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const unique = (array, compareFunction = undefined) => {
+export const unique = (array, compareFunction) => {
   if (!compareFunction) {
     return Array.from(new Set(array));
   }

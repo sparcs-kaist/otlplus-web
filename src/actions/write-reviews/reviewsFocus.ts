@@ -15,7 +15,7 @@ export function reset() {
   };
 }
 
-export function setReviewsFocus(from: ReviewsFocusFrom, lecture: Lecture) {
+export function setReviewsFocus(from: ReviewsFocusFrom, lecture: Lecture | null) {
   return {
     type: SET_REVIEWS_FOCUS,
     from: from,

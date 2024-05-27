@@ -1,34 +1,34 @@
-import React, { Component } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
 import axios from 'axios';
 import qs from 'qs';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { combineReducers, createStore } from 'redux';
 
 import Header from './common/guideline/components/Header';
-import DictionaryPage from './pages/DictionaryPage';
-import PlannerPage from './pages/PlannerPage';
-import TimetablePage from './pages/TimetablePage';
-import WriteReviewsPage from './pages/WriteReviewsPage';
-import SyllabusPage from './pages/SyllabusPage';
-import MainPage from './pages/MainPage';
 import AccountPage from './pages/AccountPage';
 import CreditPage from './pages/CreditPage';
-import LicensePage from './pages/LicensePage';
-import PrivacyPage from './pages/PrivacyPage';
-import TestPage from './pages/TestPage';
+import DictionaryPage from './pages/DictionaryPage';
 import ErrorPage from './pages/ErrorPage';
+import LicensePage from './pages/LicensePage';
+import MainPage from './pages/MainPage';
+import PlannerPage from './pages/PlannerPage';
+import PrivacyPage from './pages/PrivacyPage';
+import SyllabusPage from './pages/SyllabusPage';
+import TestPage from './pages/TestPage';
+import TimetablePage from './pages/TimetablePage';
+import WriteReviewsPage from './pages/WriteReviewsPage';
 
+import commonReducer from './reducers/common/index';
 import dictionaryReducer from './reducers/dictionary/index';
+import plannerReducer from './reducers/planner/index';
 import timetableReducer from './reducers/timetable/index';
 import writeReviewsReducer from './reducers/write-reviews/index';
-import commonReducer from './reducers/common/index';
-import plannerReducer from './reducers/planner/index';
 
-import { setUser } from './actions/common/user';
+import { setIsPortrait } from './actions/common/media';
 import { setSemesters } from './actions/common/semester';
 import { setTracks } from './actions/common/track';
-import { setIsPortrait } from './actions/common/media';
+import { setUser } from './actions/common/user';
 
 import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
 import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPopupImage';
@@ -50,14 +50,16 @@ ReactGA.initialize([
   },
 ]);
 
+export const rootReducer = combineReducers({
+  common: commonReducer,
+  dictionary: dictionaryReducer,
+  timetable: timetableReducer,
+  writeReviews: writeReviewsReducer,
+  planner: plannerReducer,
+});
+
 const store = createStore(
-  combineReducers({
-    common: commonReducer,
-    dictionary: dictionaryReducer,
-    timetable: timetableReducer,
-    writeReviews: writeReviewsReducer,
-    planner: plannerReducer,
-  }),
+  rootReducer,
   process.env.NODE_ENV === 'development'
     ? window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     : null,
