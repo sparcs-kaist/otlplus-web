@@ -13,12 +13,12 @@ import Scroller from '../../../Scroller';
 import CloseButton from '../../../CloseButton';
 import ReviewSimpleBlock from '../../../blocks/ReviewSimpleBlock';
 
-import { clearLectureFocus, setReviews } from '../../../../actions/timetable/lectureFocus';
-import { addLectureToCart, deleteLectureFromCart } from '../../../../actions/timetable/list';
+import { clearLectureFocus, setReviews } from '../../../../redux/actions/timetable/lectureFocus';
+import { addLectureToCart, deleteLectureFromCart } from '../../../../redux/actions/timetable/list';
 import {
   addLectureToTimetable,
   removeLectureFromTimetable,
-} from '../../../../actions/timetable/timetable';
+} from '../../../../redux/actions/timetable/timetable';
 
 import { LectureFocusFrom } from '@/shapes/enum';
 import { LectureListCode } from '@/shapes/enum';

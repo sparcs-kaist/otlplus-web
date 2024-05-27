@@ -8,13 +8,13 @@ import { range, sortBy, sum, sumBy } from 'lodash';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import { PLANNER_DEFAULT_CREDIT } from '../../../../common/constants';
 
-import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
+import { setItemFocus, clearItemFocus } from '../../../../redux/actions/planner/itemFocus';
 import {
   addItemToPlanner,
   removeItemFromPlanner,
   updateCellSize,
   updateItemInPlanner,
-} from '../../../../actions/planner/planner';
+} from '../../../../redux/actions/planner/planner';
 
 import { ItemFocusFrom } from '@/shapes/enum';
 

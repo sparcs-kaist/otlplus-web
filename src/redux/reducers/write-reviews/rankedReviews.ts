@@ -3,7 +3,7 @@ import {
   ADD_SEMESTER_REVIEWS,
   SET_SEMESTER_REVIEW_COUNT,
   RankedReviewsAction,
-} from '@/actions/write-reviews/rankedReviews';
+} from '@/redux/actions/write-reviews/rankedReviews';
 import Review from '@/shapes/model/review/Review';
 
 interface RankedReviewState {
@@ -20,7 +20,7 @@ const initialState: RankedReviewState = {
   reviewCountBySemester: {},
 };
 
-const latestReviews = (state = initialState, action: RankedReviewsAction) => {
+const latestReviews = (state = initialState, action: RankedReviewsAction): RankedReviewState => {
   switch (action.type) {
     case RESET: {
       return initialState;

@@ -7,7 +7,10 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import Scroller from '../../../Scroller';
 
-import { clearMultipleFocus, setMultipleFocus } from '../../../../actions/timetable/lectureFocus';
+import {
+  clearMultipleFocus,
+  setMultipleFocus,
+} from '../../../../redux/actions/timetable/lectureFocus';
 
 import lectureFocusShape from '../../../../shapes/state/timetable/LectureFocusShape';
 import timetableShape, {

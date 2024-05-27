@@ -10,7 +10,10 @@ import Divider from '../../../Divider';
 import Scroller from '../../../Scroller';
 import LectureSimpleBlock from '../../../blocks/LectureSimpleBlock';
 
-import { setReviewsFocus, clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
+import {
+  setReviewsFocus,
+  clearReviewsFocus,
+} from '../../../../redux/actions/write-reviews/reviewsFocus';
 import { ReviewsFocusFrom } from '@/shapes/enum';
 
 import { unique } from '../../../../utils/commonUtils';

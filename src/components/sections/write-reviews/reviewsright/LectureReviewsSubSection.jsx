@@ -13,9 +13,12 @@ import Divider from '../../../Divider';
 import ReviewWriteBlock from '../../../blocks/ReviewWriteBlock';
 import ReviewBlock from '../../../blocks/ReviewBlock';
 
-import { setReviews, clearReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
-import { updateUserReview } from '../../../../actions/common/user';
-import { updateReview as UpdateLatestReview } from '../../../../actions/write-reviews/latestReviews';
+import {
+  setReviews,
+  clearReviewsFocus,
+} from '../../../../redux/actions/write-reviews/reviewsFocus';
+import { updateUserReview } from '../../../../redux/actions/common/user';
+import { updateReview as UpdateLatestReview } from '../../../../redux/actions/write-reviews/latestReviews';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';

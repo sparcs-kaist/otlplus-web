@@ -15,10 +15,13 @@ import MyReviewsSubSection from '../components/sections/write-reviews/reviewsrig
 import LikedReviewsSubSection from '../components/sections/write-reviews/reviewsright/LikedReviewsSubSection';
 import RankedReviewsSubSection from '../components/sections/write-reviews/reviewsright/RankedReviewsSubSection';
 
-import { reset as resetReviewsFocus, setReviewsFocus } from '../actions/write-reviews/reviewsFocus';
-import { reset as resetLatestReviews } from '../actions/write-reviews/latestReviews';
-import { reset as resetLikedReviews } from '../actions/write-reviews/likedReviews';
-import { reset as resetRankedReviews } from '../actions/write-reviews/rankedReviews';
+import {
+  reset as resetReviewsFocus,
+  setReviewsFocus,
+} from '../redux/actions/write-reviews/reviewsFocus';
+import { reset as resetLatestReviews } from '../redux/actions/write-reviews/latestReviews';
+import { reset as resetLikedReviews } from '../redux/actions/write-reviews/likedReviews';
+import { reset as resetRankedReviews } from '../redux/actions/write-reviews/rankedReviews';
 import { ReviewsFocusFrom } from '@/shapes/enum';
 
 import reviewsFocusShape from '../shapes/state/write-reviews/ReviewsFocusShape';

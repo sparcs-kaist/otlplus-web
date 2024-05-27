@@ -9,21 +9,24 @@ import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../../common/con
 
 import TimetableTile from '@/components/tiles/TimetableTile';
 
-import { setLectureFocus, clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
+import {
+  setLectureFocus,
+  clearLectureFocus,
+} from '../../../../redux/actions/timetable/lectureFocus';
 import {
   setSelectedListCode,
   setIsLectureListOpenOnMobile,
-} from '../../../../actions/timetable/list';
+} from '../../../../redux/actions/timetable/list';
 import {
   setClasstimeOptions,
   clearClasstimeOptions,
   openSearch,
-} from '../../../../actions/timetable/search';
+} from '../../../../redux/actions/timetable/search';
 import {
   setIsDragging,
   updateCellSize,
   removeLectureFromTimetable,
-} from '../../../../actions/timetable/timetable';
+} from '../../../../redux/actions/timetable/timetable';
 
 import { LectureFocusFrom } from '@/shapes/enum';
 import { LectureListCode } from '@/shapes/enum';

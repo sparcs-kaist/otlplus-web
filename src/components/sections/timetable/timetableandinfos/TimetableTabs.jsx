@@ -17,7 +17,7 @@ import {
   duplicateTimetable,
   reorderTimetable,
   setIsTimetableTabsOpenOnMobile,
-} from '../../../../actions/timetable/timetable';
+} from '../../../../redux/actions/timetable/timetable';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import timetableShape, {

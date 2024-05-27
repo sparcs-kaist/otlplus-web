@@ -10,8 +10,8 @@ import ReviewBlock from '../../../blocks/ReviewBlock';
 import ReviewWriteBlock from '../../../blocks/ReviewWriteBlock';
 import SearchFilter from '../../../SearchFilter';
 
-import { updateReview } from '../../../../actions/dictionary/courseFocus';
-import { updateUserReview } from '../../../../actions/common/user';
+import { updateReview } from '../../../../redux/actions/dictionary/courseFocus';
+import { updateUserReview } from '../../../../redux/actions/common/user';
 
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
 import userShape from '../../../../shapes/model/session/UserShape';

@@ -20,7 +20,7 @@ export interface ArbitraryPseudoCourse {
   old_code: string;
 }
 
-interface NoneItem {
+export interface NoneItem {
   from: ItemFocusFrom.NONE;
   clicked: false;
   item?: null;
@@ -30,37 +30,37 @@ interface NoneItem {
   lectures?: null;
 }
 
-interface ListItem {
+export interface ListItem {
   from: ItemFocusFrom.LIST;
   clicked: boolean;
   item?: null;
   course?: Course | ArbitraryPseudoCourse;
   category?: null;
-  reviews?: Review;
-  lectures?: Lecture;
+  reviews?: Review[];
+  lectures?: Lecture[];
 }
 
-interface AddingItem {
+export interface AddingItem {
   from: ItemFocusFrom.ADDING;
   clicked: true;
   item?: null;
   course?: Course | ArbitraryPseudoCourse;
   category?: null;
-  reviews?: Review;
-  lectures?: Lecture;
+  reviews?: Review[];
+  lectures?: Lecture[];
 }
 
-interface TableItem {
+export interface TableItem {
   from: ItemFocusFrom.TABLE_TAKEN | ItemFocusFrom.TABLE_FUTURE | ItemFocusFrom.TABLE_ARBITRARY;
   clicked: boolean;
   item?: TakenPlannerItem | FuturePlannerItem | ArbitraryPlannerItem;
   course?: Course | ArbitraryPseudoCourse;
   category?: null;
-  reviews?: Review;
-  lecture?: Lecture;
+  reviews?: Review[];
+  lecture?: Lecture[];
 }
 
-interface CategoryItem {
+export interface CategoryItem {
   from: ItemFocusFrom.CATEGORY;
   clicked: boolean;
   item?: null;

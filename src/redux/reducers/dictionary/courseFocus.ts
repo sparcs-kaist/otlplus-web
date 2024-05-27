@@ -7,7 +7,7 @@ import {
   UPDATE_REVIEW,
   SET_LECTURES,
   DictionaryAction,
-} from '@/actions/dictionary/courseFocus';
+} from '@/redux/actions/dictionary/courseFocus';
 import Lecture from '@/shapes/model/subject/Lecture';
 import Review from '@/shapes/model/review/Review';
 
@@ -23,7 +23,7 @@ const initialState: CourseFocusState = {
   lectures: null,
 };
 
-const courseFocus = (state = initialState, action: DictionaryAction) => {
+const courseFocus = (state = initialState, action: DictionaryAction): CourseFocusState => {
   switch (action.type) {
     case RESET: {
       return initialState;

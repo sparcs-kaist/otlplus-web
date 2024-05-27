@@ -6,7 +6,7 @@ import ReactGA from 'react-ga4';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import { setReviewsFocus } from '../../../../actions/write-reviews/reviewsFocus';
+import { setReviewsFocus } from '../../../../redux/actions/write-reviews/reviewsFocus';
 import { ReviewsFocusFrom } from '@/shapes/enum';
 
 import userShape from '../../../../shapes/model/session/UserShape';

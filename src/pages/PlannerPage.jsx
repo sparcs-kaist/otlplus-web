@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import { reset as resetCourseFocus } from '../actions/planner/itemFocus';
-import { reset as resetList } from '../actions/planner/list';
-import { reset as resetSearch } from '../actions/planner/search';
-import { reset as resetPlanner } from '../actions/planner/planner';
+import { reset as resetCourseFocus } from '../redux/actions/planner/itemFocus';
+import { reset as resetList } from '../redux/actions/planner/list';
+import { reset as resetSearch } from '../redux/actions/planner/search';
+import { reset as resetPlanner } from '../redux/actions/planner/planner';
 
 import plannerShape from '../shapes/model/planner/PlannerShape';
 

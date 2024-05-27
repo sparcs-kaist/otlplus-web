@@ -44,7 +44,7 @@ const initialState: TimetableState = {
   isTimetableTabsOpenOnMobile: false,
 };
 
-const timetable = (state = initialState, action: TimetableAction) => {
+const timetable = (state = initialState, action: TimetableAction): TimetableState => {
   switch (action.type) {
     case RESET: {
       return initialState;
@@ -186,7 +186,7 @@ const timetable = (state = initialState, action: TimetableAction) => {
         return t;
       });
       newTables.sort((t1, t2) => t1.arrange_order - t2.arrange_order);
-      const updatedTable = newTables.find((t) => t.id === state.selectedTimetable?.id);
+      const updatedTable = newTables.find((t) => t.id === state.selectedTimetable?.id) || null;
       return { ...state, timetables: newTables, selectedTimetable: updatedTable };
     }
     case UPDATE_CELL_SIZE: {

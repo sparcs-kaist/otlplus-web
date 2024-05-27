@@ -1,4 +1,4 @@
-import { RESET, SET_SEMESTER, SemesterAction } from '@/actions/timetable/semester';
+import { RESET, SET_SEMESTER, SemesterAction } from '@/redux/actions/timetable/semester';
 import { SemesterType } from '@/shapes/enum';
 
 interface SemesterState {
@@ -11,7 +11,7 @@ const initialState: SemesterState = {
   semester: null,
 };
 
-const semester = (state = initialState, action: SemesterAction) => {
+const semester = (state = initialState, action: SemesterAction): SemesterState => {
   switch (action.type) {
     case RESET: {
       return initialState;

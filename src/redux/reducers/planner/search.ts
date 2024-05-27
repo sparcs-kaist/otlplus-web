@@ -4,7 +4,7 @@ import {
   CLOSE_SEARCH,
   SET_LAST_SEARCH_OPTION,
   SearchAction,
-} from '@/actions/planner/search';
+} from '@/redux/actions/planner/search';
 import LectureLastSearchOption from '@/shapes/state/timetable/LectureLastSearchOption';
 
 interface SearchState {
@@ -17,7 +17,7 @@ const initialState: SearchState = {
   lastSearchOption: {},
 };
 
-const search = (state = initialState, action: SearchAction) => {
+const search = (state = initialState, action: SearchAction): SearchState => {
   switch (action.type) {
     case RESET: {
       return initialState;

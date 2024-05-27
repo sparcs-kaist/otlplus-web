@@ -12,14 +12,17 @@ import CloseButton from '../../../CloseButton';
 import LectureSearchSubSection from './LectureSearchSubSection';
 import LectureGroupBlock from '../../../blocks/LectureGroupBlock';
 
-import { setLectureFocus, clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
+import {
+  setLectureFocus,
+  clearLectureFocus,
+} from '../../../../redux/actions/timetable/lectureFocus';
 import {
   addLectureToCart,
   deleteLectureFromCart,
   setIsLectureListOpenOnMobile,
-} from '../../../../actions/timetable/list';
-import { openSearch } from '../../../../actions/timetable/search';
-import { addLectureToTimetable } from '../../../../actions/timetable/timetable';
+} from '../../../../redux/actions/timetable/list';
+import { openSearch } from '../../../../redux/actions/timetable/search';
+import { addLectureToTimetable } from '../../../../redux/actions/timetable/timetable';
 
 import { LectureFocusFrom } from '@/shapes/enum';
 import { LectureListCode } from '@/shapes/enum';

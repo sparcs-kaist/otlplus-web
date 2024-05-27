@@ -15,7 +15,7 @@ import {
   createPlanner,
   deletePlanner,
   reorderPlanner,
-} from '../../../../actions/planner/planner';
+} from '../../../../redux/actions/planner/planner';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';

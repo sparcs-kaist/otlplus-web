@@ -19,9 +19,9 @@ import {
   closeSearch,
   clearClasstimeOptions,
   setLastSearchOption,
-} from '../../../../actions/timetable/search';
-import { setListLectures, clearSearchListLectures } from '../../../../actions/timetable/list';
-import { clearLectureFocus } from '../../../../actions/timetable/lectureFocus';
+} from '../../../../redux/actions/timetable/search';
+import { setListLectures, clearSearchListLectures } from '../../../../redux/actions/timetable/list';
+import { clearLectureFocus } from '../../../../redux/actions/timetable/lectureFocus';
 
 import { LectureFocusFrom } from '@/shapes/enum';
 

@@ -8,7 +8,7 @@ import {
   DELETE_LECTURE_FROM_CART,
   SET_MOBILE_IS_LECTURE_LIST_OPEN,
   LectureListAction,
-} from '@/actions/timetable/list';
+} from '@/redux/actions/timetable/list';
 import { unique } from '@/utils/commonUtils';
 
 import { LectureListCode } from '@/shapes/enum';
@@ -43,7 +43,7 @@ const initialState: ListState = {
   isLectureListOpenOnMobile: false,
 };
 
-const list = (state = initialState, action: LectureListAction) => {
+const list = (state = initialState, action: LectureListAction): ListState => {
   const groupLectures = (lectures: Lecture[]) => {
     const sortedLectures = lectures.sort((a, b) => {
       if (a.old_code !== b.old_code) {

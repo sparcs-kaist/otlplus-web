@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 import Attributes from '../../../Attributes';
 
-import { setIsTrackSettingsSectionOpen } from '../../../../actions/planner/planner';
+import { setIsTrackSettingsSectionOpen } from '../../../../redux/actions/planner/planner';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
 import {
   getAdditionalTrackName,

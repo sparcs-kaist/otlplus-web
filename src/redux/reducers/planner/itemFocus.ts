@@ -7,11 +7,17 @@ import {
   SET_REVIEWS,
   SET_LECTURES,
   ItemFocusAction,
-} from '@/actions/planner/itemFocus';
+} from '@/redux/actions/planner/itemFocus';
 import { ItemFocusFrom } from '@/shapes/enum';
-import ItemFocus from '@/shapes/state/planner/ItemFocus';
+import ItemFocus, {
+  AddingItem,
+  CategoryItem,
+  ListItem,
+  NoneItem,
+  TableItem,
+} from '@/shapes/state/planner/ItemFocus';
 
-const initialState: ItemFocus = {
+const initialState = {
   from: ItemFocusFrom.NONE,
   clicked: false,
   item: null,
@@ -19,7 +25,7 @@ const initialState: ItemFocus = {
   category: null,
   reviews: null,
   lectures: null,
-};
+} as ItemFocus;
 
 /*
   모든 ItemFocus 는 아래 5가지 중 하나의 타입을 가짐
@@ -49,7 +55,7 @@ const initialState: ItemFocus = {
         0, 1 중 하나. 0이면 필수 과목, 1이면 선택 과목. 
       (ex. [0, 1, 0] => 기초 1번째 필수 과목)
 */
-const itemFocus = (state: ItemFocus = initialState, action: ItemFocusAction) => {
+const itemFocus = (state = initialState, action: ItemFocusAction): ItemFocus => {
   switch (action.type) {
     case RESET: {
       return initialState;
@@ -63,8 +69,8 @@ const itemFocus = (state: ItemFocus = initialState, action: ItemFocusAction) => 
         clicked: action.clicked,
         item: action.item,
         course: action.course,
-        changedItem,
-      };
+        ...changedItem,
+      } as ListItem | AddingItem | TableItem;
     }
     case CLEAR_ITEM_FOCUS: {
       return {
@@ -75,33 +81,33 @@ const itemFocus = (state: ItemFocus = initialState, action: ItemFocusAction) => 
         course: null,
         reviews: null,
         lectures: null,
-      };
+      } as NoneItem;
     }
     case SET_CATEGORY_FOCUS: {
       return {
         ...state,
         from: ItemFocusFrom.CATEGORY,
         category: action.category,
-      };
+      } as CategoryItem;
     }
     case CLEAR_CATEGORY_FOCUS: {
       return {
         ...state,
         from: ItemFocusFrom.NONE,
         category: null,
-      };
+      } as NoneItem;
     }
     case SET_REVIEWS: {
       return {
         ...state,
         reviews: action.reviews,
-      };
+      } as ListItem | AddingItem | TableItem;
     }
     case SET_LECTURES: {
       return {
         ...state,
         lectures: action.lectures,
-      };
+      } as ListItem | AddingItem | TableItem;
     }
     default: {
       return state;

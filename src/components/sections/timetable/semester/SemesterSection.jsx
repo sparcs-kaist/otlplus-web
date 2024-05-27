@@ -6,7 +6,7 @@ import ReactGA from 'react-ga4';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import { setSemester } from '../../../../actions/timetable/semester';
+import { setSemester } from '../../../../redux/actions/timetable/semester';
 
 import semesterShape from '../../../../shapes/model/subject/SemesterShape';
 

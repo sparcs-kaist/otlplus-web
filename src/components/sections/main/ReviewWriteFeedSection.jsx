@@ -8,7 +8,7 @@ import { appBoundClassNames as classNames } from '../../../common/boundClassName
 
 import ReviewWriteBlock from '../../blocks/ReviewWriteBlock';
 
-import { updateUserReview } from '../../../actions/common/user';
+import { updateUserReview } from '../../../redux/actions/common/user';
 
 import lectureShape from '../../../shapes/model/subject/LectureShape';
 import reviewShape from '../../../shapes/model/review/ReviewShape';

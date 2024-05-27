@@ -9,8 +9,8 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import { CourseListCode } from '@/shapes/enum';
 
-import { openSearch, closeSearch } from '../../../../actions/planner/search';
-import { setSelectedListCode, setListCourses } from '../../../../actions/planner/list';
+import { openSearch, closeSearch } from '../../../../redux/actions/planner/search';
+import { setSelectedListCode, setListCourses } from '../../../../redux/actions/planner/list';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import courseListsShape from '../../../../shapes/state/dictionary/CourseListsShape';

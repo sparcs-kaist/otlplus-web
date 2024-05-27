@@ -7,8 +7,8 @@ import qs from 'qs';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
-import { setIsLectureListOpenOnMobile } from '../../../../actions/timetable/list';
-import { setIsTimetableTabsOpenOnMobile } from '../../../../actions/timetable/timetable';
+import { setIsLectureListOpenOnMobile } from '../../../../redux/actions/timetable/list';
+import { setIsTimetableTabsOpenOnMobile } from '../../../../redux/actions/timetable/timetable';
 
 import timetableShape, {
   myPseudoTimetableShape,

@@ -3,7 +3,7 @@ import {
   ADD_REVIEWS,
   UPDATE_REVIEW,
   LatestReviewsAction,
-} from '@/actions/write-reviews/latestReviews';
+} from '@/redux/actions/write-reviews/latestReviews';
 import Review from '@/shapes/model/review/Review';
 
 interface LatestReviewsState {
@@ -14,7 +14,7 @@ const initialState: LatestReviewsState = {
   reviews: null,
 };
 
-const latestReviews = (state = initialState, action: LatestReviewsAction) => {
+const latestReviews = (state = initialState, action: LatestReviewsAction): LatestReviewsState => {
   switch (action.type) {
     case RESET: {
       return initialState;

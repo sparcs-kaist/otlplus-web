@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
-import { reset as resetLectureFocus } from '../actions/timetable/lectureFocus';
-import { reset as resetList } from '../actions/timetable/list';
-import { reset as resetSearch } from '../actions/timetable/search';
-import { reset as resetSemester } from '../actions/timetable/semester';
+import { reset as resetLectureFocus } from '../redux/actions/timetable/lectureFocus';
+import { reset as resetList } from '../redux/actions/timetable/list';
+import { reset as resetSearch } from '../redux/actions/timetable/search';
+import { reset as resetSemester } from '../redux/actions/timetable/semester';
 import {
   reset as resetTimetable,
   setSelectedTimetable,
   setIsTimetableTabsOpenOnMobile,
-} from '../actions/timetable/timetable';
+} from '../redux/actions/timetable/timetable';
 
 import CloseButton from '../components/CloseButton';
 import Divider from '../components/Divider';

@@ -20,8 +20,8 @@ import {
   isAddedCourse,
 } from '../../../../utils/itemUtils';
 import { isDimmedListCourse, isClickedListCourse } from '../../../../utils/itemFocusUtils';
-import { setItemFocus, clearItemFocus } from '../../../../actions/planner/itemFocus';
-import { openSearch } from '../../../../actions/planner/search';
+import { setItemFocus, clearItemFocus } from '../../../../redux/actions/planner/itemFocus';
+import { openSearch } from '../../../../redux/actions/planner/search';
 
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import courseListsShape from '../../../../shapes/state/dictionary/CourseListsShape';

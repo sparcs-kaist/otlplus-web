@@ -4,7 +4,7 @@ import {
   CLEAR_REVIEWS_FOCUS,
   SET_REVIEWS,
   ReviewsFocusAction,
-} from '@/actions/write-reviews/reviewsFocus';
+} from '@/redux/actions/write-reviews/reviewsFocus';
 
 import { ReviewsFocusFrom } from '@/shapes/enum';
 import Review from '@/shapes/model/review/Review';
@@ -22,7 +22,7 @@ const initialState: ReviewsFocusState = {
   reviews: null,
 };
 
-const reviewsFocus = (state = initialState, action: ReviewsFocusAction) => {
+const reviewsFocus = (state = initialState, action: ReviewsFocusAction): ReviewsFocusState => {
   switch (action.type) {
     case RESET: {
       return initialState;

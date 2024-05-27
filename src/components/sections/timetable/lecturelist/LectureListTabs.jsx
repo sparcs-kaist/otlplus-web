@@ -13,8 +13,12 @@ import {
   setSelectedListCode,
   setListLectures,
   clearAllListsLectures,
-} from '../../../../actions/timetable/list';
-import { openSearch, closeSearch, setLastSearchOption } from '../../../../actions/timetable/search';
+} from '../../../../redux/actions/timetable/list';
+import {
+  openSearch,
+  closeSearch,
+  setLastSearchOption,
+} from '../../../../redux/actions/timetable/search';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import lectureListsShape from '../../../../shapes/state/timetable/LectureListsShape';
