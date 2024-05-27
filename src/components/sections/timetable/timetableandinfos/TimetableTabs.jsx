@@ -50,6 +50,7 @@ const TimetableTabsInner = () => {
 
   const dragRef = useRef();
   const isNewTimetableGenerated = useRef(false);
+  const isJustReordered = useRef(false);
 
   useEffect(() => {
     if (user) {
@@ -234,6 +235,12 @@ const TimetableTabsInner = () => {
                     opacity: 0.7,
                     position: 'relative',
                   }} // instead of applying css tabs__elem--dragging
+                  onDragStart={() => {
+                    isJustReordered.current = true;
+                  }}
+                  onDragEnd={() => {
+                    isJustReordered.current = false;
+                  }}
                   dragConstraints={dragRef}
                   dragElastic={0}
                   transition={{ duration: 0 }}
@@ -244,7 +251,14 @@ const TimetableTabsInner = () => {
                     'tabs__elem--draggable',
                     isSelected(timetable) ? 'tabs__elem--selected' : null,
                   )}
-                  onClick={() => changeTab(timetable)}
+                  onClick={() => {
+                    // FIXME: This is a workaround for the issue where the Reorder component cannot prevent the onClick event from triggering after dragging a later element forward to a former element.
+                    if (isJustReordered.current) {
+                      isJustReordered.current = false;
+                      return;
+                    }
+                    changeTab(timetable);
+                  }}
                   data-id={tid}>
                   <span>{`${t('ui.others.table')} ${i + 1}`}</span>
                   <button onClick={(event) => duplicateTable(event, timetable)}>
