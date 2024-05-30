@@ -30,7 +30,7 @@ const FavoriteDepartmentsSubSection = () => {
     updateFavoriteDepartments({ selectedDepartments });
   };
 
-  if (!user || !departmentOptions) {
+  if (!user) {
     return null;
   }
 
@@ -42,7 +42,7 @@ const FavoriteDepartmentsSubSection = () => {
   return (
     <div className={classNames('subsection', 'subsection--favorite-department')}>
       <div className={classNames('title')}>{t('ui.title.settings')}</div>
-      {departmentOptions.length !== 0 && (
+      {departmentOptions ? (
         <form onSubmit={handleSubmit}>
           <SearchFilter
             updateCheckedValues={(checkedValues: Set<string>) =>
@@ -62,6 +62,8 @@ const FavoriteDepartmentsSubSection = () => {
             </button>
           </div>
         </form>
+      ) : (
+        <span>{t('ui.placeholder.loading')}</span>
       )}
     </div>
   );
