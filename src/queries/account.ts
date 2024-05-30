@@ -1,4 +1,3 @@
-import { useTranslatedString } from '@/hooks/useTranslatedString';
 import User from '@/shapes/model/session/User';
 import Department from '@/shapes/model/subject/Department';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -27,14 +26,12 @@ export const useSessionInfo = () => {
 };
 
 export const useDepartmentOptions = () => {
-  const translate = useTranslatedString();
+  // const translate = useTranslatedString();
   return useQuery({
     queryKey: [QUERY_KEYS.DEPARTMENT_OPTIONS],
     staleTime: Infinity,
     queryFn: async () => {
-      return (await axios.get<Department[][]>('/session/department-options')).data
-        .flat(1)
-        .map((d) => [String(d.id), `${translate(d, 'name')} (${d.code})`]);
+      return (await axios.get<Department[][]>('/session/department-options')).data.flat(1);
     },
   });
 };

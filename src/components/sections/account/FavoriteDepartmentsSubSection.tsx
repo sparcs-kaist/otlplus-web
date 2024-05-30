@@ -8,11 +8,13 @@ import {
   useSessionInfo,
   useUpdateFavoriteDepartments,
 } from '@/queries/account';
+import { useTranslatedString } from '@/hooks/useTranslatedString';
 
 const FavoriteDepartmentsSubSection = () => {
   const [selectedDepartments, setSelectedDepartments] = useState<Set<string>>(new Set([]));
 
   const { t } = useTranslation();
+  const translate = useTranslatedString();
   const { data: user } = useSessionInfo();
   const { data: departmentOptions } = useDepartmentOptions();
   const { mutate: updateFavoriteDepartments } = useUpdateFavoriteDepartments();
@@ -50,7 +52,10 @@ const FavoriteDepartmentsSubSection = () => {
             }
             inputName="department"
             titleName={t('ui.search.favoriteDepartment')}
-            options={departmentOptions}
+            options={departmentOptions.map((d) => [
+              String(d.id),
+              `${translate(d, 'name')} (${d.code})`,
+            ])}
             checkedValues={selectedDepartments}
           />
           <div className={classNames('buttons')}>
