@@ -10,6 +10,8 @@ import { initReactI18next } from 'react-i18next';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { compose, legacy_createStore as createStore } from 'redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import App from '@/App';
 import { API_URL, TRACKING_ID } from '@/const';
@@ -126,8 +128,9 @@ ReactGA.initialize([
 ]);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 const reduxStore = createStore(rootReducer, composeEnhancers());
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -157,7 +160,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <ReduxProvider store={reduxStore}>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   </ReduxProvider>,
 );
 

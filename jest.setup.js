@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import axios from 'axios';
 
 // eslint-disable-next-line no-undef
 jest.mock('react-i18next', () => ({
@@ -17,3 +18,5 @@ jest.mock('react-i18next', () => ({
     return Component;
   },
 }));
+
+axios.defaults.baseURL = 'http://localhost';
