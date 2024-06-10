@@ -1,14 +1,30 @@
 @import '@/sass/abstracts/_mixins.scss';
 
-.tabs__wrapper {
+.tabsWrapper {
   display: flex;
   cursor: grabbing;
+  flex: 1;
   @include mixin-media-landscape {
-    overflow-x: scroll;
-    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
     max-width: fit-content;
+    scrollbar-width: thin;
   }
   @include mixin-media-portrait {
     flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: fit-content;
+  }
+}
+
+.tabs {
+  @include mixin-media-landscape {
+    display: grid;
+    flex: 1;
+  }
+
+  & > li {
+    overflow: hidden;
   }
 }

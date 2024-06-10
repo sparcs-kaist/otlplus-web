@@ -20,6 +20,7 @@ import {
 } from '@/queries/timetable';
 
 import styles from './TimetableTabs.module.scss';
+import TimetableTab from './TimetableTab';
 
 const TimetableTabsInner = () => {
   const { t } = useTranslation();
@@ -48,7 +49,6 @@ const TimetableTabsInner = () => {
    */
   const [timetableIDs, setTimetableIDs] = useState([]);
 
-  const dragRef = useRef();
   const isNewTimetableGenerated = useRef(false);
   const isJustReordered = useRef(false);
 
@@ -197,8 +197,7 @@ const TimetableTabsInner = () => {
 
   return (
     <>
-      {/* TODO: check if scrolling is possible with a mouse */}
-      <motion.div className={classNames(styles.tabs__wrapper)}>
+      <motion.div className={classNames(styles.tabsWrapper)}>
         {user && (
           <div
             className={classNames(
@@ -216,12 +215,18 @@ const TimetableTabsInner = () => {
               <i className={classNames('icon', 'icon--delete-table')} />
               <span>{t('ui.button.deleteTable')}</span>
             </button>
+            <button className={classNames('disabled')}>
+              <i className={classNames('icon', 'icon--drag-table')} />
+            </button>
           </div>
         )}
         <Reorder.Group
+          className={classNames(styles.tabs)}
+          style={{
+            gridTemplateColumns: !isPortrait && `repeat(${timetables.length}, auto)`,
+          }}
           layoutScroll
           axis={!isPortrait ? 'x' : 'y'}
-          ref={dragRef}
           values={timetableIDs}
           onReorder={handleReorder}>
           {timetables &&
@@ -229,47 +234,17 @@ const TimetableTabsInner = () => {
             timetableIDs.map((tid, i) => {
               const timetable = timetables.find((t) => t.id === tid) ?? timetables[0];
               return (
-                <Reorder.Item
-                  whileDrag={{
-                    cursor: 'grabbing',
-                    opacity: 0.7,
-                    position: 'relative',
-                  }} // instead of applying css tabs__elem--dragging
-                  onDragStart={() => {
-                    isJustReordered.current = true;
-                  }}
-                  onDragEnd={() => {
-                    isJustReordered.current = false;
-                  }}
-                  dragConstraints={dragRef}
-                  dragElastic={0}
-                  transition={{ duration: 0 }}
+                <TimetableTab
                   key={tid}
-                  value={tid}
-                  className={classNames(
-                    'tabs__elem',
-                    'tabs__elem--draggable',
-                    isSelected(timetable) ? 'tabs__elem--selected' : null,
-                  )}
-                  onClick={() => {
-                    // FIXME: This is a workaround for the issue where the Reorder component cannot prevent the onClick event from triggering after dragging a later element forward to a former element.
-                    if (isJustReordered.current) {
-                      isJustReordered.current = false;
-                      return;
-                    }
-                    changeTab(timetable);
-                  }}
-                  data-id={tid}>
-                  <span>{`${t('ui.others.table')} ${i + 1}`}</span>
-                  <button onClick={(event) => duplicateTable(event, timetable)}>
-                    <i className={classNames('icon', 'icon--duplicate-table')} />
-                    <span>{t('ui.button.duplicateTable')}</span>
-                  </button>
-                  <button onClick={(event) => deleteTable(event, timetable)}>
-                    <i className={classNames('icon', 'icon--delete-table')} />
-                    <span>{t('ui.button.deleteTable')}</span>
-                  </button>
-                </Reorder.Item>
+                  timetable={timetable}
+                  tid={tid}
+                  index={i}
+                  isSelected={isSelected(timetable)}
+                  isJustReordered={isJustReordered}
+                  changeTab={changeTab}
+                  duplicateTable={duplicateTable}
+                  deleteTable={deleteTable}
+                />
               );
             })}
         </Reorder.Group>

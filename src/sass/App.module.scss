@@ -395,6 +395,7 @@ a {
     &.tabs__elem--selected {
       background-color: $color-tab-background;
       color: $color-text-normal;
+      overflow: initial;
     }
     &:not(.tabs__elem--selected) {
       cursor: pointer;
@@ -462,8 +463,8 @@ a {
     display: flex;
     @include mixin-media-portrait {
       flex-direction: column;
-      overflow-y: scroll;
-      max-height: fit-content;
+      height: fit-content;
+      max-height: 100%;
     }
 
     & .tabs__elem {
@@ -3663,6 +3664,21 @@ i.icon {
 
     *.disabled > & {
       background-image: url(../static/icons/delete_table_disable.svg);
+    }
+  }
+
+  &--drag-table {
+    width: 10px;
+    height: 11px;
+    background-image: url(../static/icons/drag_table.svg);
+    margin: calc(calc($line-height-small - 11px) / 2) 0;
+
+    *:hover > & {
+      background-image: url(../static/icons/drag_table_hover.svg);
+    }
+
+    *.disabled > & {
+      background-image: url(../static/icons/drag_table_disabled.svg);
     }
   }
 
