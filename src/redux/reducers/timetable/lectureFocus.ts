@@ -1,4 +1,3 @@
-import Review from '@/shapes/model/review/Review';
 import {
   RESET,
   SET_LECTURE_FOCUS,
@@ -10,19 +9,13 @@ import {
 } from '../../actions/timetable/lectureFocus';
 
 import { LectureFocusFrom } from '@/shapes/enum';
-import Lecture from '@/shapes/model/subject/Lecture';
-import { Detail } from '@/shapes/state/timetable/LectureFocus';
+import LectureFocus, {
+  FromNone,
+  FromListOrTable,
+  FromMutliple,
+} from '@/shapes/state/timetable/LectureFocus';
 
-interface LectureFocusState {
-  from: LectureFocusFrom;
-  clicked: boolean;
-  lecture: Lecture | null;
-  reviews: Review[] | null;
-  multipleTitle: string;
-  multipleDetails: Detail[];
-}
-
-const initialState: LectureFocusState = {
+const initialState: LectureFocus = {
   from: LectureFocusFrom.NONE,
   clicked: false,
   lecture: null,
@@ -31,10 +24,10 @@ const initialState: LectureFocusState = {
   multipleDetails: [],
 };
 
-const lectureFocus = (state = initialState, action: LectureFocusAction): LectureFocusState => {
+const lectureFocus = (state = initialState, action: LectureFocusAction): LectureFocus => {
   switch (action.type) {
     case RESET: {
-      return initialState;
+      return initialState as FromNone;
     }
     case SET_LECTURE_FOCUS: {
       const lectureChanged = !state.lecture || state.lecture.id !== action.lecture.id;
@@ -44,7 +37,7 @@ const lectureFocus = (state = initialState, action: LectureFocusAction): Lecture
         clicked: action.clicked,
         lecture: action.lecture,
         reviews: lectureChanged ? null : state.reviews,
-      };
+      } as FromListOrTable;
     }
     case CLEAR_LECTURE_FOCUS: {
       return {
@@ -53,10 +46,10 @@ const lectureFocus = (state = initialState, action: LectureFocusAction): Lecture
         clicked: false,
         lecture: null,
         reviews: null,
-      };
+      } as FromNone;
     }
     case SET_REVIEWS: {
-      return { ...state, reviews: action.reviews };
+      return { ...state, reviews: action.reviews } as FromListOrTable;
     }
     case SET_MULTIPLE_FOCUS: {
       return {
@@ -67,7 +60,12 @@ const lectureFocus = (state = initialState, action: LectureFocusAction): Lecture
       };
     }
     case CLEAR_MULTIPLE_FOCUS: {
-      return { ...state, from: LectureFocusFrom.NONE, multipleTitle: '', multipleDetails: [] };
+      return {
+        ...state,
+        from: LectureFocusFrom.NONE,
+        multipleTitle: '',
+        multipleDetails: [],
+      } as FromMutliple;
     }
     default: {
       return state;
