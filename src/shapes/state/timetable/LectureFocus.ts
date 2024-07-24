@@ -9,7 +9,7 @@ export interface Detail {
   info: string;
 }
 
-interface FromNone {
+export interface FromNone {
   from: LectureFocusFrom.NONE;
   clicked: false;
   lecture?: null;
@@ -18,7 +18,7 @@ interface FromNone {
   multipleDetails: EmtpyArray;
 }
 
-interface FromListOrTable {
+export interface FromListOrTable {
   from: LectureFocusFrom.LIST | LectureFocusFrom.TABLE;
   clicked: boolean;
   lecture?: Lecture;
@@ -27,7 +27,7 @@ interface FromListOrTable {
   multipleDetails: EmtpyArray;
 }
 
-interface FromMutliple {
+export interface FromMutliple {
   from: LectureFocusFrom.MULTIPLE;
   clicked: false;
   lecture?: null;

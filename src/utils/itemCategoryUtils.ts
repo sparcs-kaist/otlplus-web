@@ -1,0 +1,107 @@
+import { CategoryFirstIndex } from '@/shapes/enum';
+import Planner from '@/shapes/model/planner/Planner';
+import { PlannerItem } from '@/shapes/state/planner/ItemFocus';
+import { AdditionalTrackType } from '@/shapes/enum';
+
+export const isIdenticalCategory = (category1, category2) =>
+  category1 &&
+  category2 &&
+  category1[0] === category2[0] &&
+  category1[1] === category2[1] &&
+  category1[2] === category2[2];
+
+export const getSeparateMajorTracks = (planner: Planner) => {
+  if (!planner) {
+    return [];
+  }
+
+  return [
+    planner.major_track,
+    ...planner.additional_tracks.filter((at) => at.type === AdditionalTrackType.DOUBLE),
+    ...planner.additional_tracks.filter((at) => at.type === AdditionalTrackType.MINOR),
+    ...planner.additional_tracks.filter((at) => at.type === AdditionalTrackType.INTERDISCIPLINARY),
+  ];
+};
+
+export const getCategoryOfType = (planner: Planner, type: string, departmentCode?: string) => {
+  switch (type) {
+    case 'Basic Required':
+      return [CategoryFirstIndex.BASIC, 0, 0];
+    case 'Basic Elective':
+      return [CategoryFirstIndex.BASIC, 0, 1];
+    case 'Major Required': {
+      const separateMajorTracks = getSeparateMajorTracks(planner);
+      const targetTrack =
+        separateMajorTracks.find((smt) => smt.department?.code === departmentCode) ||
+        separateMajorTracks.find((smt) => smt.type === 'INTERDISCIPLINARY');
+      if (targetTrack) {
+        const secondIndex = separateMajorTracks.findIndex((smt) => smt.id === targetTrack.id);
+        return [CategoryFirstIndex.MAJOR, secondIndex, 0];
+      }
+      return [CategoryFirstIndex.OTHERS, 0, 0];
+    }
+    case 'Major Elective':
+    case 'Elective(Graduate)': {
+      const separateMajorTracks = getSeparateMajorTracks(planner);
+      const targetTrack =
+        separateMajorTracks.find((smt) => smt.department?.code === departmentCode) ||
+        separateMajorTracks.find((smt) => smt.type === AdditionalTrackType.INTERDISCIPLINARY);
+      if (targetTrack) {
+        const secondIndex = separateMajorTracks.findIndex((smt) => smt.id === targetTrack.id);
+        return [CategoryFirstIndex.MAJOR, secondIndex, 1];
+      }
+      return [CategoryFirstIndex.OTHERS, 0, 0];
+    }
+    case 'Thesis Study(Undergraduate)':
+      return [CategoryFirstIndex.RESEARCH, 0, 0];
+    case 'Individual Study':
+      return [CategoryFirstIndex.RESEARCH, 0, 1];
+    case 'General Required':
+    case 'Mandatory General Courses':
+      return [CategoryFirstIndex.GENERAL_AND_HUMANITY, 0, 0];
+    case 'Humanities & Social Elective':
+      return [CategoryFirstIndex.GENERAL_AND_HUMANITY, 0, 1];
+    case 'Other Elective':
+      return [CategoryFirstIndex.OTHERS, 0, 0];
+    default:
+      break;
+  }
+  if (type?.startsWith('Humanities & Social Elective')) {
+    return [CategoryFirstIndex.GENERAL_AND_HUMANITY, 0, 1];
+  }
+  return [CategoryFirstIndex.OTHERS, 0, 0];
+};
+
+export const getCategoryOfItem = (planner: Planner, item: PlannerItem) => {
+  switch (item.item_type) {
+    case 'TAKEN':
+      return getCategoryOfType(planner, item.lecture.type_en, item.lecture.department_code);
+    case 'FUTURE':
+      return getCategoryOfType(planner, item.course.type_en, item.course.department?.code);
+    case 'ARBITRARY':
+      return getCategoryOfType(planner, item.type_en, item.department?.code);
+    default:
+      return getCategoryOfType(planner, '', '');
+  }
+};
+
+export const getColorOfCategory = (planner: Planner, category) => {
+  switch (category[0]) {
+    case 0:
+      return 1;
+    case 1:
+      return 3 + ((category[1] * 2) % 7);
+    case 2:
+      return 11;
+    case 3:
+      return 14;
+    case 4:
+      return 17;
+    default:
+      return 17;
+  }
+};
+
+export const getColorOfItem = (planner: Planner, item: PlannerItem) => {
+  return getColorOfCategory(planner, getCategoryOfItem(planner, item));
+};
