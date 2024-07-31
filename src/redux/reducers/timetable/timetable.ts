@@ -23,7 +23,7 @@ const MY = -1;
 interface TimetableState {
   timetables: Timetable[] | null;
   myTimetable: MyPseudoTimetable;
-  selectedTimetable: Timetable | null;
+  selectedTimetable: MyPseudoTimetable | Timetable | null;
   cellWidth: number;
   cellHeight: number;
   isDragging: boolean;

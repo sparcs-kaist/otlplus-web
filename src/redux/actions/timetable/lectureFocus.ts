@@ -12,13 +12,19 @@ export const SET_REVIEWS = `${BASE_STRING}SET_REVIEWS` as const;
 export const SET_MULTIPLE_FOCUS = `${BASE_STRING}SET_MULTIPLE_FOCUS` as const;
 export const CLEAR_MULTIPLE_FOCUS = `${BASE_STRING}CLEAR_MULTIPLE_FOCUS` as const;
 
+type LectureFocusFromListOrTable = LectureFocusFrom.LIST | LectureFocusFrom.TABLE;
+
 export function reset() {
   return {
     type: RESET,
   };
 }
 
-export function setLectureFocus(lecture: Lecture, from: LectureFocusFrom, clicked: boolean) {
+export function setLectureFocus(
+  lecture: Lecture,
+  from: LectureFocusFrom.LIST | LectureFocusFrom.TABLE,
+  clicked: boolean,
+) {
   return {
     type: SET_LECTURE_FOCUS,
     lecture: lecture,
