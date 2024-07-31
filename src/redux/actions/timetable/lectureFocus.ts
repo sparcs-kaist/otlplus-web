@@ -22,7 +22,7 @@ export function reset() {
 
 export function setLectureFocus(
   lecture: Lecture,
-  from: LectureFocusFromListOrTable,
+  from: LectureFocusFrom.LIST | LectureFocusFrom.TABLE,
   clicked: boolean,
 ) {
   return {
