@@ -16,7 +16,7 @@ import { useTranslatedString } from '@/hooks/useTranslatedString';
 import Lecture from '@/shapes/model/subject/Lecture';
 import Examtime from '@/shapes/model/subject/Examtime';
 import { RootState } from '@/redux';
-import { Detail } from '@/shapes/state/timetable/LectureFocus';
+import { Day } from '@/shapes/enum';
 
 const ExamSubSection: React.FC = () => {
   const { t } = useTranslation();
@@ -27,9 +27,6 @@ const ExamSubSection: React.FC = () => {
   const selectedTimetable = useSelector(
     (state: RootState) => state.timetable.timetable.selectedTimetable,
   );
-  const setMultipleFoucsDispatch = (multipleTitle: string, multipleDetails: Detail[]) =>
-    dispatch(setMultipleFocus(multipleTitle, multipleDetails));
-  const clearMultipleFocusDispatch = () => dispatch(clearMultipleFocus());
 
   const [multipleFocusDayIndex, setMultipleFocusDayIndex] = useState<number | null>(null);
 
@@ -58,7 +55,7 @@ const ExamSubSection: React.FC = () => {
       name: translate(p.lecture, 'title'),
       info: getTimeStr(p.examtime),
     }));
-    setMultipleFoucsDispatch(t('ui.others.examOfDay', { day: getDayStr(dayIndex) }), details);
+    dispatch(setMultipleFocus(t('ui.others.examOfDay', { day: getDayStr(dayIndex) }), details));
     setMultipleFocusDayIndex(dayIndex);
   };
 
@@ -67,7 +64,7 @@ const ExamSubSection: React.FC = () => {
       return;
     }
 
-    clearMultipleFocusDispatch();
+    dispatch(clearMultipleFocus());
     setMultipleFocusDayIndex(null);
   };
 
@@ -90,7 +87,7 @@ const ExamSubSection: React.FC = () => {
       </div>
       <div className={classNames('subsection--exam__content')}>
         <Scroller>
-          {[0, 1, 2, 3, 4].map((dayIndex) => (
+          {[Day.MON, Day.TUE, Day.WED, Day.THU, Day.FRI].map((dayIndex) => (
             <div
               key={dayIndex}
               className={classNames('subsection--exam__content__day')}

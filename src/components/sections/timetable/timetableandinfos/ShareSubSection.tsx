@@ -13,24 +13,20 @@ import Divider from '../../../Divider';
 import { useTranslation } from 'react-i18next';
 import { setIsLectureListOpenOnMobile } from '@/redux/actions/timetable/list';
 import { setIsTimetableTabsOpenOnMobile } from '@/redux/actions/timetable/timetable';
+import { SemesterType } from '@/shapes/enum';
 
 interface ShareSubSectionProps {
   selectedTimetable?: Timetable | MyPseudoTimetable;
   isLectureListOpenOnMobile: boolean;
   year?: number;
-  semester?: 1 | 2 | 3 | 4;
+  semester?: SemesterType;
   user?: User;
 }
 
 const ShareSubSection: React.FC<ShareSubSectionProps> = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const setIsTimetableTabsOpenOnMobileDispatch = (isTimetableTabsOpenOnMobile: boolean) => {
-    dispatch(setIsTimetableTabsOpenOnMobile(isTimetableTabsOpenOnMobile));
-  };
-  const setIsLectureListOpenOnMobileDispatch = (isLectureListOpenOnMobile: boolean) => {
-    dispatch(setIsLectureListOpenOnMobile(isLectureListOpenOnMobile));
-  };
+
   const { selectedTimetable, year, semester, user, isLectureListOpenOnMobile } = useSelector(
     (state: RootState) => ({
       selectedTimetable: state.timetable.timetable.selectedTimetable,
@@ -128,13 +124,13 @@ const ShareSubSection: React.FC<ShareSubSectionProps> = () => {
       </div>
       <div>
         <button
-          onClick={() => setIsTimetableTabsOpenOnMobileDispatch(true)}
+          onClick={() => dispatch(setIsTimetableTabsOpenOnMobile(true))}
           className={classNames('text-button', 'text-button--black')}>
           <i className={classNames('icon', 'icon--switch-table')} />
           <span>{t('ui.button.switchTable')}</span>
         </button>
         <button
-          onClick={() => setIsLectureListOpenOnMobileDispatch(true)}
+          onClick={() => dispatch(setIsLectureListOpenOnMobile(true))}
           className={classNames('text-button', 'text-button--black')}>
           <i className={classNames('icon', 'icon--show-lectures')} />
           <span>{t('ui.button.showLectures')}</span>
