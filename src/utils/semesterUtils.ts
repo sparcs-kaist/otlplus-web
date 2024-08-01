@@ -1,6 +1,8 @@
+import Semester from '@/shapes/model/subject/Semester';
 import i18n from 'i18next';
+import { SemesterType } from '@/shapes/enum';
 
-export const getSemesterName = (semesterIndex) => {
+export const getSemesterName = (semesterIndex: SemesterType) => {
   const semesterNames = {
     1: i18n.t('ui.semester.spring'),
     2: i18n.t('ui.semester.summer'),
@@ -10,12 +12,13 @@ export const getSemesterName = (semesterIndex) => {
   return semesterNames[semesterIndex];
 };
 
-export const getTimetableSemester = (semesters) => {
+// TimeTable Page 우측 상단에서 학기 탭에 사용됩니다.
+export const getTimetableSemester = (semesters: Semester[]): Semester => {
   const semestersDescending = semesters
     .filter((s) => s.courseDesciptionSubmission !== null)
     .map((s) => ({
       semesterObject: s,
-      timetableStartTime: new Date(s.courseDesciptionSubmission),
+      timetableStartTime: new Date(s.courseDesciptionSubmission).getTime(),
     }))
     .sort((a, b) => b.timetableStartTime - a.timetableStartTime);
   const now = Date.now();
@@ -27,15 +30,16 @@ export const getTimetableSemester = (semesters) => {
 };
 
 // SYNC: Keep synchronized with Django apps/subject/models.py Semester.get_ongoing_semester()
-export const getOngoingSemester = (semesters) => {
+export const getOngoingSemester = (semesters: Semester[]) => {
   const now = Date.now();
   const ongoingSemester = semesters.find(
-    (s) => new Date(s.beginning) < now && now < new Date(s.end),
+    (s) => new Date(s.beginning).getTime() < now && now < new Date(s.end).getTime(),
   );
   return ongoingSemester; // Should return undefined when matching semester does not exist
 };
 
-export const getCurrentSchedule = (semesters) => {
+// Main Page 의 상단에 현재 학사스케줄을 표시할 때 사용됩니다. ex) 수강신청기간 시작
+export const getCurrentSchedule = (semesters: Semester[]) => {
   const USED_SCHEDULE_FIELDS = [
     'beginning',
     'end',
@@ -45,7 +49,7 @@ export const getCurrentSchedule = (semesters) => {
     'courseDropDeadline',
     'courseEvaluationDeadline',
     'gradePosting',
-  ];
+  ] as const;
 
   const allSchedules = semesters
     .map((s) =>
@@ -57,7 +61,7 @@ export const getCurrentSchedule = (semesters) => {
           year: s.year,
           semester: s.semester,
           type: f,
-          time: new Date(s[f]),
+          time: new Date(s[f]).getTime(),
         };
       }),
     )

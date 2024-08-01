@@ -1,8 +1,9 @@
 import { sumBy } from 'lodash';
+import Review from '@/shapes/model/review/Review';
 
-export const getSingleScoreLabel = (score) => ['?', 'F', 'D', 'C', 'B', 'A'][score];
+export const getSingleScoreLabel = (score: number) => ['?', 'F', 'D', 'C', 'B', 'A'][score];
 
-export const getAverageScoreLabel = (score, reviewNum) => {
+export const getAverageScoreLabel = (score: number, reviewNum: number) => {
   if (reviewNum === 0) {
     return '?';
   }
@@ -12,7 +13,7 @@ export const getAverageScoreLabel = (score, reviewNum) => {
 };
 
 // SYNC: Keep synchronized with Django apps/subject/models.py Review.get_weight()
-export const getWeight = (review) => {
+export const getWeight = (review: Review) => {
   const baseYear = new Date().getFullYear();
   const lectureYear = review.lecture.year;
   const yearDiff = baseYear > lectureYear ? baseYear - lectureYear : 0;
@@ -20,7 +21,7 @@ export const getWeight = (review) => {
 };
 
 // SYNC: Keep synchronized with Django apps/subject/models.py Review.calc_average()
-export const calcAverage = (reviews) => {
+export const calcAverage = (reviews: Review[]) => {
   const nonzeroReviews = reviews.filter((r) => r.grade !== 0 && r.load !== 0 && r.speech !== 0);
   const reviewNum = reviews.length;
   const totalWeight = sumBy(nonzeroReviews, (r) => getWeight(r));
