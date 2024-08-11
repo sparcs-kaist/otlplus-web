@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#F9F0F0" />
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link rel="manifest" href="/static/manifest.json" />
+    <link rel="shortcut icon" href="/static/favicon-16.png" sizes="16x16" />
+    <link rel="shortcut icon" href="/static/favicon-32.png" sizes="32x32" />
+    <link rel="shortcut icon" href="/static/favicon-48.png" sizes="48x48" />
+    <link rel="shortcut icon" href="/static/favicon-64.png" sizes="64x64" />
+    <link rel="shortcut icon" href="/static/favicon-120.png" sizes="120x120" />
+    <link rel="shortcut icon" href="/static/favicon-128.png" sizes="128x128" />
+    <link rel="shortcut icon" href="/static/favicon-152.png" sizes="152x152" />
+    <link rel="shortcut icon" href="/static/favicon-167.png" sizes="167x167" />
+    <link rel="shortcut icon" href="/static/favicon-180.png" sizes="180x180" />
+    <link rel="shortcut icon" href="/static/favicon-192.png" sizes="192x192" />
+    <link rel="shortcut icon" href="/static/favicon-196.png" sizes="196x196" />
+    <link rel="shortcut icon" href="/static/favicon-512.png" sizes="512x512" />
+    <link rel="apple-touch-icon" href="/static/favicon-120.png" sizes="120x120" />
+    <link rel="apple-touch-icon" href="/static/favicon-152.png" sizes="152x152" />
+    <link rel="apple-touch-icon" href="/static/favicon-167.png" sizes="167x167" />
+    <link rel="apple-touch-icon" href="/static/favicon-180.png" sizes="180x180" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <title>OTL</title>
+    <script type="module" crossorigin src="/assets/index-9bb389b7.js"></script>
+    <link rel="stylesheet" href="/assets/index-866b43cc.css">
+  </head>
+  <body>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <script>
+      (function () {
+        var w = window;
+        if (w.ChannelIO) {
+          return w.console.error('ChannelIO script included twice.');
+        }
+        var ch = function () {
+          ch.c(arguments);
+        };
+        ch.q = [];
+        ch.c = function (args) {
+          ch.q.push(args);
+        };
+        w.ChannelIO = ch;
+        function l() {
+          if (w.ChannelIOInitialized) {
+            return;
+          }
+          w.ChannelIOInitialized = true;
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+          var x = document.getElementsByTagName('script')[0];
+          if (x.parentNode) {
+            x.parentNode.insertBefore(s, x);
+          }
+        }
+        if (document.readyState === 'complete') {
+          l();
+        } else {
+          w.addEventListener('DOMContentLoaded', l);
+          w.addEventListener('load', l);
+        }
+      })();
+
+      ChannelIO('boot', {
+        pluginKey: '0abc4b50-9e66-4b45-b910-eb654a481f08',
+      });
+    </script>
+    <div id="root"></div>
+    <div id="popup-root"></div>
+    
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
