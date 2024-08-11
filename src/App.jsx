@@ -75,7 +75,7 @@ class App extends Component {
 
     this.state = {
       doNotShowAgain: !showPopup,
-      popupOpen: showPopup,
+      popupOpen: false, // 2024-08-12 soft-disable web banner
     };
   }
 
