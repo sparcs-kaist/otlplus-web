@@ -1,0 +1,108 @@
+@use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/mixins' as *;
+@use '@/sass/abstracts/variables' as *;
+
+.mainImage {
+  background: center 0/100% url(@/static/images/main/background_photo.jpg);
+
+  @include mixin-media-landscape {
+    min-width: calc(
+      #{$content-width-desktop} + (#{$section-margin-lr} * 2) + (env(safe-area-inset-left) +
+            env(safe-area-inset-right))
+    );
+    height: $main-image-height-desktop;
+    padding-top: calc(calc($main-image-height-desktop / 2) - 9px);
+  }
+  @include mixin-media-portrait {
+    min-width: 100%;
+    height: $main-image-height-mobile;
+    padding-top: calc(calc($main-image-height-mobile / 2) - 9px);
+  }
+}
+
+.grid {
+  display: grid;
+
+  overflow: hidden;
+
+  padding: $section-margin-top $section-margin-lr 0;
+
+  @include mixin-media-landscape {
+    grid-template-columns: 1fr $section-margin-lr 1fr $section-margin-lr 1fr;
+    grid-template-rows: max-content min-content;
+    grid-template-areas:
+      'feeds-column-1 .           feeds-column-2  .           feeds-column-3'
+      'more-tile      more-tile   more-tile       more-tile   more-tile';
+
+    min-height: calc(
+      #{$screen-height} - (#{$main-image-height-desktop} + #{$footer-height-desktop} + #{$section-margin-top})
+    );
+  }
+  @include mixin-media-portrait {
+    grid-template-columns: 1fr;
+    grid-template-rows: max-content min-content;
+    grid-template-areas:
+      'feeds-column-1'
+      'more-tile';
+
+    min-height: calc(
+      #{$screen-height} - (#{$main-image-height-mobile} + #{$footer-height-mobile} + #{$section-margin-top})
+    );
+  }
+}
+
+.column {
+  position: relative;
+
+  overflow: initial;
+
+  min-width: 0;
+}
+
+.placeholderTileContainer {
+  position: absolute;
+
+  width: 100%;
+
+  * {
+    opacity: 0.5;
+
+    height: 270px;
+  }
+}
+
+.moreTiles {
+  z-index: 50;
+
+  grid-area: more-tile;
+
+  height: 300px;
+  padding: calc(300px / 2 - 24px) 0;
+
+  background-image: linear-gradient(
+    rgba(color.$page-background, 0) 80%,
+    rgba(color.$page-background, 1)
+  );
+
+  color: rgba(color.$highlight, 0.5);
+  text-align: center;
+}
+
+.loadMoreTilesButton,
+.loginButton {
+  cursor: pointer;
+
+  font-size: 18px;
+  line-height: 19px;
+
+  &:hover {
+    color: rgba(color.$highlight-dark, 0.5);
+  }
+}
+
+.loginDescription {
+  margin-top: 10px;
+
+  font-size: 13px;
+  line-height: 14px;
+}

@@ -1,0 +1,95 @@
+@use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/font' as font;
+
+.map {
+  position: relative;
+
+  grid-area: map;
+  width: 100%;
+  height: initial;
+
+  & > img {
+    width: 100%;
+  }
+}
+
+.pin {
+  position: absolute;
+
+  margin-top: -16px;
+  margin-right: -100px;
+  margin-left: -5px;
+
+  &:hover {
+    z-index: 101 !important;
+  }
+}
+
+.tag {
+  position: relative;
+  z-index: 1;
+
+  border-radius: 2px;
+  height: 13px;
+  padding: 2px 3px;
+
+  background-color: color.$block-background;
+
+  font-size: font.$size-smallest;
+  line-height: 9px;
+
+  &.highlighted {
+    background-color: color.$block-background-highlight;
+
+    color: color.$highlight;
+  }
+}
+
+.buildingName {
+  margin-right: 1px;
+}
+
+.lectureCircle {
+  display: inline-block;
+
+  margin-left: 1px;
+  border-radius: 50%;
+  width: 9px;
+  height: 9px;
+
+  &.highlighted {
+    background-color: color.$highlight !important;
+  }
+}
+
+.arrow {
+  position: absolute;
+  bottom: -3px;
+  left: 5px;
+
+  margin: -3px -2px 0 -2px;
+  border-top: 3px solid color.$block-background;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+
+  &.highlighted {
+    border-top-color: color.$block-background-highlight;
+  }
+}
+
+.arrowShadow {
+  position: absolute;
+  bottom: -3px;
+  left: 5px;
+
+  transform: scale(1.5, 1);
+
+  box-shadow: 0 0 3px 3px change-color(color.$block-shadow-dark, $alpha: 0.8);
+  border-radius: 50%;
+  width: 0px;
+  height: 0px;
+
+  &.highlighted {
+    box-shadow: 0 0 3px 3px change-color(color.$block-shadow-highlight, $alpha: 0.8);
+  }
+}

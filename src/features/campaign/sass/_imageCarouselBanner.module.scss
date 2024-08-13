@@ -1,3 +1,5 @@
+@use '@/sass/abstracts/color' as color;
+
 @import 'src/sass/abstracts/_variables.scss';
 @import 'src/sass/abstracts/_mixins.scss';
 
@@ -34,7 +36,7 @@
   transition:
     filter 0.3s ease-in-out,
     scale 0.8s ease-in-out;
-  background-color: $color-section-background;
+  background-color: color.$section-background;
 
   & > img {
     width: 100%;
@@ -63,8 +65,8 @@
 }
 
 .container-cta {
-  // border: solid 1px $color-highlight;
-  // background-color: $color-section-background-transparent;
+  // border: solid 1px color.$highlight;
+  // background-color: color.$section-background-transparent;
   backdrop-filter: blur(10px);
   border-radius: 10px;
   padding: 5px 10px;
@@ -75,7 +77,7 @@
   transform: translateY(4px);
 
   & > p {
-    color: $color-highlight;
+    color: color.$highlight;
   }
 
   // &:hover, &:active {

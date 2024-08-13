@@ -6,6 +6,8 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 import CloseButton from './CloseButton';
 
+import styles from './BetaPopup.module.scss';
+
 class BetaPopup extends Component {
   constructor(props) {
     super(props);
@@ -30,24 +32,22 @@ class BetaPopup extends Component {
     }
 
     return (
-      <div className={classNames('section', 'section--popup')}>
-        <CloseButton onClick={this.close} />
-        <div className={classNames('subsection', 'subsection--flex', 'subsection--beta-popup')}>
-          <div className={classNames('title')}>{title}</div>
-          <div className={classNames('subsection--beta-popup__content')}>
-            {content.map((l) => (
-              <div>{l}</div>
-            ))}
-          </div>
-          <div className={classNames('buttons')}>
-            <a
-              href={link}
-              className={classNames('text-button')}
-              target="_blank"
-              rel="noopener noreferrer">
-              피드백 제출하기
-            </a>
-          </div>
+      <div className={classNames('section', styles.popup)}>
+        <CloseButton className={styles.closeButton} onClick={this.close} />
+        <div className={classNames('title')}>{title}</div>
+        <div className={styles.contents}>
+          {content.map((text, idx) => (
+            <p key={idx}>{text}</p>
+          ))}
+        </div>
+        <div className={classNames('buttons')}>
+          <a
+            href={link}
+            className={classNames('text-button')}
+            target="_blank"
+            rel="noopener noreferrer">
+            피드백 제출하기
+          </a>
         </div>
       </div>
     );

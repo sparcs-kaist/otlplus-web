@@ -1,0 +1,43 @@
+@use '@/sass/abstracts/variables' as *;
+
+.courses {
+  display: flex;
+  flex-direction: row;
+
+  & > div:nth-child(odd) {
+    display: flex;
+    flex-direction: column;
+    gap: $block-margin;
+    flex: 1 1 auto;
+
+    width: 100%;
+
+    & > .block {
+      flex: 1 0 0;
+    }
+  }
+
+  & > div:nth-child(even) {
+    flex: 0 0 auto;
+
+    margin: auto 10px;
+  }
+}
+
+.placeholder {
+  min-height: 100%;
+
+  font-size: 14px;
+  line-height: 15px;
+}
+
+.arrowIcon {
+  display: inline-block;
+
+  width: 9px;
+  height: 16px;
+
+  background: no-repeat center url(@/static/icons/related_arrow.svg);
+
+  vertical-align: top;
+}

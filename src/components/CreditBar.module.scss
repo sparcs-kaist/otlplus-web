@@ -1,0 +1,37 @@
+@use '@/sass/abstracts/color' as color;
+@use '@/sass/abstracts/font' as font;
+@use '@/sass/abstracts/variables' as *;
+
+$bar-height: 6px;
+$margin-tb-base: calc(
+  calc(calc(font.$line-height-normal - $bar-height) - font.$line-height-smallest) / 2
+);
+
+.credit {
+  position: relative;
+
+  margin: calc($margin-tb-base - 4px) 0 calc($margin-tb-base + 4px) 0;
+  width: 50%;
+}
+
+.text {
+  text-align: right;
+  font-size: font.$size-smallest;
+  line-height: font.$line-height-smallest;
+
+  & > span {
+    color: color.$highlight;
+  }
+}
+
+.progressBar {
+  display: flex;
+  flex-direction: row;
+
+  overflow: hidden;
+
+  border-radius: calc($bar-height / 2);
+  height: $bar-height;
+
+  background-color: #eee;
+}

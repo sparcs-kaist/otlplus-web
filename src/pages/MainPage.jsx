@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { range } from 'lodash';
 
@@ -22,6 +22,8 @@ import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/model/session/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection';
+
+import styles from './MainPage.module.scss';
 
 class MainPage extends Component {
   constructor(props) {
@@ -244,39 +246,36 @@ class MainPage extends Component {
 
     return (
       <>
-        <section className={classNames('main-image')}>
+        <section className={styles.mainImage}>
           <MainSearchSection />
         </section>
         <section className={classNames('content')} ref={this.contentRef}>
-          <div className={classNames('page-grid', 'page-grid--main')}>
+          <div className={styles.grid}>
             {range(columnNum).map((i) => (
-              <div
-                style={{
-                  gridArea: `feeds-column-${i + 1}`,
-                  position: 'relative',
-                  overflow: 'initial',
-                  minWidth: 0,
-                }}
-                key={i}>
+              <div className={styles.column} style={{ gridArea: `feeds-column-${i + 1}` }} key={i}>
                 {feeds.filter((v, i2) => i2 % columnNum === i)}
-                <div style={{ position: 'absolute', width: '100%' }}>
+                <div className={styles.placeholderTileContainer}>
                   {range(10).map((j) => (
-                    <div className={classNames('section', 'section--feed--placeholder')} key={j} />
+                    <div className={classNames('section')} key={j} />
                   ))}
                 </div>
               </div>
             ))}
-            <div className={classNames('main-date')}>
+            <div className={styles.moreTiles}>
               {user ? (
-                <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
+                <span
+                  className={styles.loadMoreTilesButton}
+                  onClick={() => this._fetchFeeds(this._getPrevDate())}>
                   {t('ui.button.loadMore')}
                 </span>
               ) : (
                 <>
-                  <a href={`/session/login/?next=${window.location.href}`}>
+                  <a
+                    className={styles.loginButton}
+                    href={`/session/login/?next=${window.location.href}`}>
                     {t('ui.button.signInWithSso')}
                   </a>
-                  <div>{t('ui.message.signInForMore')}</div>
+                  <p className={styles.loginDescription}>{t('ui.message.signInForMore')}</p>
                 </>
               )}
             </div>

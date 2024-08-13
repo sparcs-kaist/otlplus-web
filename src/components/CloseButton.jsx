@@ -5,10 +5,10 @@ import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
 class CloseButton extends Component {
   render() {
-    const { onClick } = this.props;
+    const { onClick, className } = this.props;
 
     return (
-      <div className={classNames('close-button-wrap')}>
+      <div className={classNames('close-button-wrap', className)}>
         <button onClick={onClick}>
           <i className={classNames('icon', 'icon--close-section')} />
         </button>
@@ -19,6 +19,7 @@ class CloseButton extends Component {
 
 CloseButton.propTypes = {
   onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 export default CloseButton;

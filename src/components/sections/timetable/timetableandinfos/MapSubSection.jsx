@@ -25,6 +25,8 @@ import { unique } from '../../../../utils/commonUtils';
 
 import { LectureFocusFrom } from '../../../../reducers/timetable/lectureFocus';
 
+import styles from './MapSubSection.module.scss';
+
 const POSITION_OF_LOCATIONS = new Map([
   ['E2', { left: 60, top: 81 }],
   ['E3', { left: 67, top: 75 }],
@@ -115,7 +117,7 @@ class MapSubSection extends Component {
       const position = POSITION_OF_LOCATIONS.get(b) || {};
       return (
         <div
-          className={classNames('subsection--map__pin')}
+          className={styles.pin}
           key={b}
           onMouseOver={() => this.setFocusOnMap(b)}
           onMouseOut={() => this.clearFocus()}
@@ -124,12 +126,8 @@ class MapSubSection extends Component {
             top: `${position.top}%`,
             zIndex: position.top,
           }}>
-          <div
-            className={classNames(
-              'subsection--map__pin__box',
-              isPinHighlighted ? 'highlighted' : null,
-            )}>
-            <span>{b}</span>
+          <div className={classNames(styles.tag, { highlighted: isPinHighlighted })}>
+            <span className={styles.buildingName}>{b}</span>
             {lecturesOnBuilding.map((l) => {
               const isCircleHighlighted =
                 isSingleFocused(l, lectureFocus) || multipleFocusBuilding === b;
@@ -138,35 +136,24 @@ class MapSubSection extends Component {
                   className={classNames(
                     'background-color--dark',
                     `background-color--${getColorNumber(l)}`,
-                    isCircleHighlighted ? 'highlighted' : null,
+                    styles.lectureCircle,
+                    { highlighted: isCircleHighlighted },
                   )}
                   key={l.id}
                 />
               );
             })}
           </div>
-          <div
-            className={classNames(
-              'subsection--map__pin__arrow-shadow',
-              isPinHighlighted ? 'highlighted' : null,
-            )}
-          />
-          <div
-            className={classNames(
-              'subsection--map__pin__arrow',
-              isPinHighlighted ? 'highlighted' : null,
-            )}
-          />
+          <div className={classNames(styles.arrowShadow, { highlighted: isPinHighlighted })} />
+          <div className={classNames(styles.arrow, { highlighted: isPinHighlighted })} />
         </div>
       );
     };
 
     return (
-      <div className={classNames('subsection', 'subsection--map', 'mobile-hidden')}>
-        <div>
-          <img src={mapImage} alt="KAIST Map" />
-          {buildings.map((b) => mapBuildingToPin(b))}
-        </div>
+      <div className={classNames(styles.map, 'mobile-hidden')}>
+        <img src={mapImage} alt="KAIST Map" />
+        {buildings.map((b) => mapBuildingToPin(b))}
       </div>
     );
   }
