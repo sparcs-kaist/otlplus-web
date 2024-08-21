@@ -12,8 +12,8 @@ export interface Detail {
 interface FromNone {
   from: LectureFocusFrom.NONE;
   clicked: false;
-  lecture?: null;
-  reviews?: null;
+  lecture: null;
+  reviews: null;
   multipleTitle: '';
   multipleDetails: EmtpyArray;
 }
@@ -21,8 +21,8 @@ interface FromNone {
 interface FromListOrTable {
   from: LectureFocusFrom.LIST | LectureFocusFrom.TABLE;
   clicked: boolean;
-  lecture?: Lecture;
-  reviews?: Review[];
+  lecture: Lecture;
+  reviews: Review[];
   multipleTitle: '';
   multipleDetails: EmtpyArray;
 }
@@ -30,8 +30,8 @@ interface FromListOrTable {
 interface FromMutliple {
   from: LectureFocusFrom.MULTIPLE;
   clicked: false;
-  lecture?: null;
-  reviews?: null;
+  lecture: null;
+  reviews: null;
   multipleTitle: '';
   multipleDetails: Detail[];
 }

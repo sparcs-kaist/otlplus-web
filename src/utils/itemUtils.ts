@@ -1,11 +1,13 @@
-import { ItemType } from '@/components/tiles/PlannerTile';
-import { PlannerItemType } from '@/shapes/enum';
 import ArbitraryPlannerItem from '@/shapes/model/planner/ArbitraryPlannerItem';
 import Planner from '@/shapes/model/planner/Planner';
 import Course from '@/shapes/model/subject/Course';
 import Department from '@/shapes/model/subject/Department';
+import { PlannerItem } from '@/shapes/state/planner/ItemFocus';
+import { PlannerItemType } from '@/shapes/enum';
 
-export const getYearOfItem = (item: ItemType) => {
+// PlannerItem에서 해당 아이템의 연도를 반환합니다.
+
+export const getYearOfItem = (item: PlannerItem) => {
   switch (item.item_type) {
     case PlannerItemType.TAKEN:
       return item.lecture.year;
@@ -18,7 +20,9 @@ export const getYearOfItem = (item: ItemType) => {
   }
 };
 
-export const getSemesterOfItem = (item: ItemType) => {
+//PlannerItem에서 해당 아이템의 학기를 반환합니다.
+
+export const getSemesterOfItem = (item: PlannerItem) => {
   switch (item.item_type) {
     case PlannerItemType.TAKEN:
       return item.lecture.semester;
@@ -30,8 +34,10 @@ export const getSemesterOfItem = (item: ItemType) => {
   }
 };
 
-export const getCreditOfItem = (item: ItemType) => {
-  // TODO: Implement additional customization
+//PlannerItem에서 해당 아이템의 학점을 반환합니다.
+
+export const getCreditOfItem = (item: PlannerItem) => {
+  // TODO: 추가 커스터마이징 구현
   if (item.item_type === PlannerItemType.TAKEN) {
     return item.lecture.credit;
   }
@@ -44,7 +50,9 @@ export const getCreditOfItem = (item: ItemType) => {
   return 0;
 };
 
-export const getAuOfItem = (item: ItemType) => {
+//PlannerItem에서 해당 아이템의 AU를 반환합니다.
+
+export const getAuOfItem = (item: PlannerItem) => {
   if (item.item_type === PlannerItemType.TAKEN) {
     return item.lecture.credit_au;
   }
@@ -57,9 +65,13 @@ export const getAuOfItem = (item: ItemType) => {
   return 0;
 };
 
-export const getCreditAndAuOfItem = (item: ItemType) => {
+//PlannerItem에서 해당 아이템의 학점과 AU의 합을 반환하는 함수입니다.
+
+export const getCreditAndAuOfItem = (item: PlannerItem) => {
   return getCreditOfItem(item) + getAuOfItem(item);
 };
+
+//ARBITRARY 아이템의 ID를 반환하는 함수입니다.
 
 export const getIdOfArbitrary = (type: string, typeEn: string, department?: Department) => {
   if (department) {
@@ -74,13 +86,19 @@ export const getIdOfArbitrary = (type: string, typeEn: string, department?: Depa
   return -991;
 };
 
+//ARBITRARY 아이템의 제목을 반환하는 함수입니다.
+
 export const getTitleOfArbitrary = (type: string) => {
   return `임의의 ${type} 과목`;
 };
 
+//ARBITRARY 아이템의 영문 제목 을 반환하는 함수입니다.
+
 export const getTitleEnOfArbitrary = (typeEn: string) => {
   return `Arbitrary ${typeEn} Course`;
 };
+
+//ARBITRARY 아이템의 옛 코드(old_code)를 반환하는 함수입니다.
 
 export const getOldCodeOfArbitrary = (typeEn: string, department?: Department) => {
   if (typeEn.startsWith('Major')) {
@@ -89,7 +107,9 @@ export const getOldCodeOfArbitrary = (typeEn: string, department?: Department) =
   return 'HSS---';
 };
 
-export const getCourseOfItem = (item: ItemType) => {
+//Focus된 아이템의 Course 객체를 가져오는 함수입니다.
+
+export const getCourseOfItem = (item: PlannerItem) => {
   switch (item.item_type) {
     case PlannerItemType.TAKEN:
       return item.course;
@@ -111,6 +131,8 @@ export const getCourseOfItem = (item: ItemType) => {
       };
   }
 };
+
+//특정 Course가 Planner에 추가되어 있는지 확인하는 함수입니다.
 
 export const isAddedCourse = (course: Course, planner: Planner) => {
   return (

@@ -14,9 +14,11 @@ export const isDimmedCourse = (course: Course, courseFocus: CourseFocus) =>
   Boolean(courseFocus.course) && courseFocus.course?.id !== course.id;
 
 // Dictionary Page의  Course List Section에서 이미 수강한 Course 이면 True를 반환합니다.
+// isTaken 이 True 이면 리뷰 작성하기 블록이 보여집니다.
 export const isTaken = (courseId: number, user: User) =>
   user.review_writable_lectures.some((l) => l.course === courseId);
 
+// Dictionary Page의 Course Block 에서 교수님들의 이름 리스트를 가져오기 위해 사용합니다.
 export const getProfessorsFullStr = (course: Course) => {
   const professors = course.professors.slice().sort((a, b) => (a.name < b.name ? -1 : 1));
   const professorNames = professors.map((p) => getTranslatedString(p, 'name'));
