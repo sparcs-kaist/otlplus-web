@@ -5,7 +5,7 @@ export const enum AdditionalTrackType {
   INTERDISCIPLINARY = 'INTERDISCIPLINARY', // 융합전공
 }
 
-export enum SemesterType {
+export const enum SemesterType {
   SPRING = 1,
   SUMMER = 2,
   FALL = 3,
@@ -44,7 +44,7 @@ export const enum PlannerItemType {
   ARBITRARY = 'ARBITRARY',
 }
 
-export enum CategoryFirstIndex {
+export const enum CategoryFirstIndex {
   TOTAL = -1,
   BASIC = 0,
   MAJOR = 1,

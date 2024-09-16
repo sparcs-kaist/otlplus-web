@@ -72,7 +72,6 @@ export interface CategoryItem {
 
 export type PlannerItem = TakenPlannerItem | FuturePlannerItem | ArbitraryPlannerItem;
 export type PlannerCourse = Course | ArbitraryPseudoCourse;
-// export type ItemType = TakenPlannerItem | FuturePlannerItem | ArbitraryPlannerItem;
 
 type ItemFocus = NoneItem | ListItem | AddingItem | TableItem | CategoryItem;
 
