@@ -25,6 +25,7 @@ import {
 import itemFocusShape from '../../../../shapes/state/planner/ItemFocusShape';
 import { ItemFocusFrom } from '@/shapes/enum';
 import plannerShape from '../../../../shapes/model/planner/PlannerShape';
+import { Orientation } from '@/shapes/enum';
 
 class CourseManageSection extends Component {
   constructor(props) {
@@ -156,7 +157,7 @@ class CourseManageSection extends Component {
             {!itemFocus.course.isArbitrary && (
               <Scroller key={itemFocus.course.id}>
                 <CourseInfoSubSection />
-                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+                <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
                 <CourseReviewsSubSection />
               </Scroller>
             )}
@@ -164,8 +165,8 @@ class CourseManageSection extends Component {
         </div>
         <Divider
           orientation={{
-            desktop: Divider.Orientation.VERTICAL,
-            mobile: Divider.Orientation.HORIZONTAL,
+            desktop: Orientation.VERTICAL,
+            mobile: Orientation.HORIZONTAL,
           }}
           isVisible={true}
           gridArea="divider-main"

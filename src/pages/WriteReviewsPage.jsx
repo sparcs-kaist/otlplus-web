@@ -28,6 +28,7 @@ import reviewsFocusShape from '../shapes/state/write-reviews/ReviewsFocusShape';
 import OtlplusPlaceholder from '../components/OtlplusPlaceholder';
 import { useLocation } from 'react-router';
 import { parseQueryString } from '@/common/utils/parseQueryString';
+import { Orientation } from '@/shapes/enum';
 
 class WriteReviewsPage extends Component {
   componentDidMount() {
@@ -94,9 +95,9 @@ class WriteReviewsPage extends Component {
           <div className={classNames('page-grid', 'page-grid--write-reviews')}>
             <div className={classNames('section', 'section--write-reviews-left')}>
               <MySummarySubSection />
-              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
               <TakenLecturesSubSection />
-              <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+              <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
               <ReviewsMenusSubSection />
             </div>
             <div

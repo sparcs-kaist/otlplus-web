@@ -16,6 +16,7 @@ import timetableShape, {
 import userShape from '../../../../shapes/model/session/UserShape';
 
 import Divider from '../../../Divider';
+import { Orientation } from '@/shapes/enum';
 
 class ShareSubSection extends Component {
   render() {
@@ -64,7 +65,7 @@ class ShareSubSection extends Component {
               </div>
               <Divider
                 className={classNames('divider')}
-                orientation={Divider.Orientation.HORIZONTAL}
+                orientation={Orientation.HORIZONTAL}
                 isVisible={{ desktop: true, mobile: false }}
               />
               <div className={classNames('subsection--share__item')}>
@@ -103,7 +104,7 @@ class ShareSubSection extends Component {
               </div>
               <Divider
                 className={classNames('divider')}
-                orientation={Divider.Orientation.HORIZONTAL}
+                orientation={Orientation.HORIZONTAL}
                 isVisible={{ desktop: true, mobile: false }}
               />
               <div className={classNames('subsection--share__item')}>
