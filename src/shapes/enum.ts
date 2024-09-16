@@ -1,4 +1,4 @@
-export enum AdditionalTrackType {
+export const enum AdditionalTrackType {
   DOUBLE = 'DOUBLE', // 복수전공
   MINOR = 'MINOR', // 부전공
   ADVANCED = 'ADVANCED', // 심화전공
@@ -6,13 +6,13 @@ export enum AdditionalTrackType {
 }
 
 export enum SemesterType {
-  SPRING = 0,
+  SPRING = 1,
   SUMMER = 2,
   FALL = 3,
   WINTER = 4,
 }
 
-export enum ItemFocusFrom {
+export const enum ItemFocusFrom {
   NONE = 'NONE',
   LIST = 'LIST',
   ADDING = 'ADDING',
@@ -22,14 +22,14 @@ export enum ItemFocusFrom {
   CATEGORY = 'CATEGORY',
 }
 
-export enum LectureFocusFrom {
+export const enum LectureFocusFrom {
   NONE = 'NONE',
   LIST = 'LIST',
   TABLE = 'TABLE',
   MULTIPLE = 'MULTIPLE',
 }
 
-export enum ReviewsFocusFrom {
+export const enum ReviewsFocusFrom {
   NONE = 'NONE',
   LECTURE = 'LECTURE',
   REVIEWS_LATEST = 'REVIEWS_LATEST',
@@ -38,7 +38,7 @@ export enum ReviewsFocusFrom {
   REVIEWS_RANKED = 'REVIEWS_RANKED',
 }
 
-export enum PlannerItemType {
+export const enum PlannerItemType {
   TAKEN = 'TAKEN',
   FUTURE = 'FUTURE',
   ARBITRARY = 'ARBITRARY',
@@ -53,21 +53,21 @@ export enum CategoryFirstIndex {
   OTHERS = 4,
 }
 
-export enum CourseListCode {
+export const enum CourseListCode {
   SEARCH = 'SEARCH',
   BASIC = 'BASIC',
   HUMANITY = 'HUMANITY',
   TAKEN = 'TAKEN',
 }
 
-export enum LectureListCode {
+export const enum LectureListCode {
   SEARCH = 'SEARCH',
   BASIC = 'BASIC',
   HUMANITY = 'HUMANITY',
   CART = 'CART',
 }
 
-export enum Day {
+export const enum Day {
   MON = 'MON',
   TUE = 'TUE',
   WED = 'WED',
@@ -80,7 +80,7 @@ export enum Day {
 /** Redux state 중에서 서버에서 course 또는 lecture를 fetch 해서 저장하는 
  * planner.list , timetable.list , dictionary.list 에서
  아래  을 optional key 로 사용합니다.*/
-export enum DepartmentCode {
+export const enum DepartmentCode {
   ALL = 'ALL',
   HSS = 'HSS',
   CE = 'CE',
@@ -103,4 +103,9 @@ export enum DepartmentCode {
   SS = 'SS',
   BCS = 'BCS',
   ETC = 'ETC',
+}
+
+export const enum Orientation {
+  HORIZONTAL = 'HORIZONTAL',
+  VERTICAL = 'VERTICAL',
 }

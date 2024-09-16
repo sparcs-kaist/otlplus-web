@@ -4,10 +4,10 @@ import { SemesterType } from '@/shapes/enum';
 
 export const getSemesterName = (semesterIndex: SemesterType) => {
   const semesterNames = {
-    1: i18n.t('ui.semester.spring'),
-    2: i18n.t('ui.semester.summer'),
-    3: i18n.t('ui.semester.fall'),
-    4: i18n.t('ui.semester.winter'),
+    [SemesterType.SPRING]: i18n.t('ui.semester.spring'),
+    [SemesterType.SUMMER]: i18n.t('ui.semester.summer'),
+    [SemesterType.FALL]: i18n.t('ui.semester.fall'),
+    [SemesterType.WINTER]: i18n.t('ui.semester.winter'),
   };
   return semesterNames[semesterIndex];
 };
@@ -18,11 +18,11 @@ export const getTimetableSemester = (semesters: Semester[]): Semester => {
     .filter((s) => s.courseDesciptionSubmission !== null)
     .map((s) => ({
       semesterObject: s,
-      timetableStartTime: new Date(s.courseDesciptionSubmission).getTime(),
+      timetableStartTime: new Date(s.courseDesciptionSubmission),
     }))
-    .sort((a, b) => b.timetableStartTime - a.timetableStartTime);
+    .sort((a, b) => b.timetableStartTime.getTime() - a.timetableStartTime.getTime());
   const now = Date.now();
-  const timetableSemester = semestersDescending.find((s) => s.timetableStartTime < now);
+  const timetableSemester = semestersDescending.find((s) => s.timetableStartTime.getTime() < now);
   if (timetableSemester === undefined) {
     return semesters[semesters.length - 1];
   }
@@ -61,15 +61,15 @@ export const getCurrentSchedule = (semesters: Semester[]) => {
           year: s.year,
           semester: s.semester,
           type: f,
-          time: new Date(s[f]).getTime(),
+          time: new Date(s[f]),
         };
       }),
     )
     .flat(1)
     .filter((s) => s !== undefined)
-    .sort((a, b) => a.time - b.time);
+    .sort((a, b) => a.time.getTime() - b.time.getTime());
   const now = Date.now();
-  const currentSchedule = allSchedules.find((s) => s.time > now);
+  const currentSchedule = allSchedules.find((s) => s.time.getTime() > now);
 
   return currentSchedule;
 };
