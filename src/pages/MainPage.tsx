@@ -15,20 +15,22 @@ import ReviewWriteFeedSection from '../components/sections/main/ReviewWriteFeedS
 import MainSearchSection from '../components/sections/main/MainSearchSection';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection';
-import { rootReducer } from '@/App';
 import { range, throttle } from 'lodash';
 import { useFeed, useNotices } from '@/queries/main';
-
-type RootState = ReturnType<typeof rootReducer>;
+import { RootState } from '@/redux';
 
 // TODO: Feed 의 타입은 이후에 API 타입 패키지로 바꿀 예정
-// TODO: 스크롤 감지 interserct observer 로 바꾸기
-const MainPage: React.FC = () => {
-  const contentRef = useRef<HTMLDivElement | null>(null);
+// TODO: 추후 스크롤 감지 interserct observer 로 바꾸기
 
+const MainPage: React.FC = () => {
+  const { t } = useTranslation();
+
+  const contentRef = useRef<HTMLDivElement | null>(null);
   const { user } = useSelector((state: RootState) => state.common.user);
   const { isPortrait } = useSelector((state: RootState) => state.common.media);
-  const { t } = useTranslation();
+
+  const COLUMN_NUM = isPortrait ? 1 : 3;
+  const SCROLL_WAIT_TIME = 2000;
 
   const { data: notices } = useNotices();
   const { data: feedDays, isFetchingNextPage, fetchNextPage } = useFeed(user);
@@ -49,7 +51,7 @@ const MainPage: React.FC = () => {
     if (isBottomReached && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, 2000);
+  }, SCROLL_WAIT_TIME);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -102,8 +104,6 @@ const MainPage: React.FC = () => {
     }
   };
 
-  const columnNum = isPortrait ? 1 : 3;
-
   const feeds = [
     <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
     <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
@@ -126,7 +126,7 @@ const MainPage: React.FC = () => {
       </section>
       <section className={classNames('content')} ref={contentRef}>
         <div className={classNames('page-grid', 'page-grid--main')}>
-          {range(columnNum).map((i) => (
+          {range(COLUMN_NUM).map((i) => (
             <div
               style={{
                 gridArea: `feeds-column-${i + 1}`,
@@ -135,7 +135,7 @@ const MainPage: React.FC = () => {
                 minWidth: 0,
               }}
               key={i}>
-              {feeds.filter((_, feedIndex) => feedIndex % columnNum === i)}
+              {feeds.filter((_, feedIndex) => feedIndex % COLUMN_NUM === i)}
               <div style={{ position: 'absolute', width: '100%' }}>
                 {range(10).map((j) => (
                   <div className={classNames('section', 'section--feed--placeholder')} key={j} />
@@ -145,7 +145,7 @@ const MainPage: React.FC = () => {
           ))}
           <div className={classNames('main-date')}>
             {user ? (
-              <span onClick={fetchNextPage}>
+              <span onClick={() => fetchNextPage()}>
                 {isFetchingNextPage ? t('ui.placeholder.loading') : t('ui.button.loadMore')}
               </span>
             ) : (
