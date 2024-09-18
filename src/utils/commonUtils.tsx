@@ -1,13 +1,15 @@
 import React from 'react';
 
-export const unique = (array, compareFunction = undefined) => {
+type ComapreFunc = <T>(v1: T, v2: T) => number;
+
+export const unique = <T,>(array: T[], compareFunction: ComapreFunc) => {
   if (!compareFunction) {
     return Array.from(new Set(array));
   }
   return array.filter((v, i) => array.findIndex((v2) => compareFunction(v, v2)) === i);
 };
 
-export const formatNewlineToBr = (content) => {
+export const formatNewlineToBr = (content: string) => {
   const contentLines = content.split('\n');
   return contentLines
     .map((l, i) => ({

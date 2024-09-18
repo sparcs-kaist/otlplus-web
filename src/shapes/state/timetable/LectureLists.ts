@@ -1,16 +1,11 @@
 import type Lecture from '@/shapes/model/subject/Lecture';
 
+interface LectureGroups {
+  lectureGroups: Lecture[][];
+}
 export default interface LectureLists {
-  search: {
-    lectureGroups: Lecture[][];
-  };
-  basic: {
-    lectureGroups: Lecture[][];
-  };
-  humanity: {
-    lectureGroups: Lecture[][];
-  };
-  cart: {
-    lectureGroups: Lecture[][];
-  };
+  search: LectureGroups;
+  basic: LectureGroups;
+  humanity: LectureGroups;
+  cart: LectureGroups;
 }

@@ -1,8 +1,8 @@
 export const enum AdditionalTrackType {
-  DOUBLE,
-  MINOR,
-  ADVANCED,
-  INTERDISCIPLINARY,
+  DOUBLE = 'DOUBLE', // 복수전공
+  MINOR = 'MINOR', // 부전공
+  ADVANCED = 'ADVANCED', // 심화전공
+  INTERDISCIPLINARY = 'INTERDISCIPLINARY', // 융합전공
 }
 
 export const enum SemesterType {
@@ -13,32 +13,31 @@ export const enum SemesterType {
 }
 
 export const enum ItemFocusFrom {
-  NONE,
-  LIST,
-  ADDING,
-  TABLE_TAKEN,
-  TABLE_FUTURE,
-  TABLE_ARBITRARY,
-  CATEGORY,
+  NONE = 'NONE',
+  LIST = 'LIST',
+  ADDING = 'ADDING',
+  TABLE_TAKEN = 'TABLE_TAKEN',
+  TABLE_FUTURE = 'TABLE_FUTURE',
+  TABLE_ARBITRARY = 'TABLE_ARBITRARY',
+  CATEGORY = 'CATEGORY',
 }
 
 export const enum LectureFocusFrom {
-  NONE,
-  LIST,
-  TABLE,
-  MULTIPLE,
+  NONE = 'NONE',
+  LIST = 'LIST',
+  TABLE = 'TABLE',
+  MULTIPLE = 'MULTIPLE',
 }
 
 export const enum ReviewsFocusFrom {
-  NONE,
-  LECTURE,
-  REVIEWS_LATEST,
-  REVIEWS_MY,
-  REVIEWS_LIKED,
-  REVIEWS_RANKED,
+  NONE = 'NONE',
+  LECTURE = 'LECTURE',
+  REVIEWS_LATEST = 'REVIEWS_LATEST',
+  REVIEWS_MY = 'REVIEWS_MY',
+  REVIEWS_LIKED = 'REVIEWS_LIKED',
+  REVIEWS_RANKED = 'REVIEWS_RANKED',
 }
 
-// string enum for PlannerSubSection.jsx
 export const enum PlannerItemType {
   TAKEN = 'TAKEN',
   FUTURE = 'FUTURE',
@@ -55,32 +54,32 @@ export const enum CategoryFirstIndex {
 }
 
 export const enum CourseListCode {
-  SEARCH,
-  BASIC,
-  HUMANITY,
-  TAKEN,
+  SEARCH = 'SEARCH',
+  BASIC = 'BASIC',
+  HUMANITY = 'HUMANITY',
+  TAKEN = 'TAKEN',
 }
 
 export const enum LectureListCode {
-  SEARCH,
-  BASIC,
-  HUMANITY,
-  CART,
+  SEARCH = 'SEARCH',
+  BASIC = 'BASIC',
+  HUMANITY = 'HUMANITY',
+  CART = 'CART',
 }
 
 export const enum Day {
-  MON,
-  TUE,
-  WED,
-  THU,
-  FRI,
-  SAT,
-  SUN,
+  MON = 'MON',
+  TUE = 'TUE',
+  WED = 'WED',
+  THU = 'THU',
+  FRI = 'FRI',
+  SAT = 'SAT',
+  SUN = 'SUN',
 }
 
 /** Redux state 중에서 서버에서 course 또는 lecture를 fetch 해서 저장하는 
  * planner.list , timetable.list , dictionary.list 에서
- 아래 enum 을 optional key 로 사용합니다.*/
+ 아래  enum 을 optional key 로 사용합니다.*/
 export const enum DepartmentCode {
   ALL = 'ALL',
   HSS = 'HSS',
@@ -104,4 +103,9 @@ export const enum DepartmentCode {
   SS = 'SS',
   BCS = 'BCS',
   ETC = 'ETC',
+}
+
+export const enum Orientation {
+  HORIZONTAL = 'HORIZONTAL',
+  VERTICAL = 'VERTICAL',
 }
