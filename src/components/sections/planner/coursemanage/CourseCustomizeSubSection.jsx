@@ -10,7 +10,8 @@ import Scroller from '../../../Scroller';
 // import Divider from '../../../Divider';
 import SearchFilter from '../../../SearchFilter';
 // import CourseStatus from '../../../CourseStatus';
-// import CountController from '../../../CountController';
+// import CountController from '../../../CountController'
+// import { Orientation } from '@/shapes/enum';
 
 import { getSemesterName } from '../../../../utils/semesterUtils';
 import { getCourseOfItem, getSemesterOfItem } from '../../../../utils/itemUtils';
@@ -246,7 +247,7 @@ class CourseCustomizeSubSection extends Component {
             isRadio={true}
           />
           {/* TODO: Implement credit customization */}
-          {/* <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          {/* <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
           <CourseStatus
             entries={[
               {

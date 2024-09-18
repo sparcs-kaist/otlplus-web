@@ -23,6 +23,7 @@ import {
   getTermOptions,
 } from '../../../../common/searchOptions';
 import { performSearchCourses } from '../../../../common/commonOperations';
+import { Orientation } from '@/shapes/enum';
 
 class CourseSearchSubSection extends Component {
   constructor(props) {
@@ -235,7 +236,7 @@ class CourseSearchSubSection extends Component {
               {t('ui.button.cancel')}
             </button>
           </div>
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
         </form>
       </div>
     );

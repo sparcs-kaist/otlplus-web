@@ -32,6 +32,7 @@ import semesterShape from '../shapes/model/subject/SemesterShape';
 import { myPseudoTimetableShape } from '../shapes/model/timetable/TimetableShape';
 import userShape from '../shapes/model/session/UserShape';
 import { parseQueryString } from '@/common/utils/parseQueryString';
+import { Orientation } from '@/shapes/enum';
 
 class TimetablePage extends Component {
   componentDidMount() {
@@ -98,27 +99,27 @@ class TimetablePage extends Component {
               <TimetableSubSection />
               <Divider
                 orientation={{
-                  desktop: Divider.Orientation.VERTICAL,
-                  mobile: Divider.Orientation.HORIZONTAL,
+                  desktop: Orientation.VERTICAL,
+                  mobile: Orientation.HORIZONTAL,
                 }}
                 isVisible={true}
                 gridArea="divider-main"
               />
               <MapSubSection />
               <Divider
-                orientation={Divider.Orientation.HORIZONTAL}
+                orientation={Orientation.HORIZONTAL}
                 isVisible={{ desktop: true, mobile: false }}
                 gridArea="divider-sub-1"
               />
               <SummarySubSection />
               <Divider
-                orientation={Divider.Orientation.HORIZONTAL}
+                orientation={Orientation.HORIZONTAL}
                 isVisible={{ desktop: true, mobile: false }}
                 gridArea="divider-sub-2"
               />
               <ExamSubSection />
               <Divider
-                orientation={Divider.Orientation.HORIZONTAL}
+                orientation={Orientation.HORIZONTAL}
                 isVisible={{ desktop: true, mobile: !isLectureListOpenOnMobile }}
                 gridArea="divider-sub-3"
               />

@@ -21,6 +21,7 @@ import { getSemesterName } from '../../../../utils/semesterUtils';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import lectureShape from '../../../../shapes/model/subject/LectureShape';
+import { Orientation } from '@/shapes/enum';
 
 class TakenLecturesSubSection extends Component {
   focusLectureWithClick = (lecture) => {
@@ -71,9 +72,7 @@ class TakenLecturesSubSection extends Component {
         <Scroller expandTop={12}>
           {targetSemesters.map((s, i) => (
             <React.Fragment key={`${s.year}-${s.semester}`}>
-              {i !== 0 ? (
-                <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
-              ) : null}
+              {i !== 0 ? <Divider orientation={Orientation.HORIZONTAL} isVisible={true} /> : null}
               <div className={classNames('small-title')}>{`${s.year} ${getSemesterName(
                 s.semester,
               )}`}</div>
