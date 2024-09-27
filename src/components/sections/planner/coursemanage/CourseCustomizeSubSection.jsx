@@ -8,7 +8,8 @@ import { appBoundClassNames as classNames } from '../../../../common/boundClassN
 
 import Scroller from '../../../Scroller';
 // import Divider from '../../../Divider';
-import SearchFilter from '../../../SearchFilter';
+import Attributes from '../../../Attributes';
+import SearchFilter from '../../../inputs/SearchFilter';
 // import CourseStatus from '../../../CourseStatus';
 // import CountController from '../../../CountController';
 
@@ -226,24 +227,36 @@ class CourseCustomizeSubSection extends Component {
           </div>
         </div>
         <Scroller>
-          <SearchFilter
-            updateCheckedValues={this.updateCheckedValuesForSemester}
-            inputName="semester"
-            titleName={t('ui.search.semester')}
-            options={getSemesterOptions()}
-            checkedValues={selectedSemester}
-            isRadio={true}
-          />
-          <SearchFilter
-            updateCheckedValues={this.updateCheckedValuesForRetake}
-            inputName="retake"
-            titleName={t('ui.search.retake')}
-            options={[
-              ['NORMAL', t('ui.retake.normal')],
-              ['RETAKE', t('ui.retake.retake')],
+          <Attributes
+            entries={[
+              {
+                name: t('ui.search.semester'),
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.updateCheckedValuesForSemester}
+                    inputName="semester"
+                    options={getSemesterOptions()}
+                    checkedValues={selectedSemester}
+                    isRadio={true}
+                  />
+                ),
+              },
+              {
+                name: t('ui.search.retake'),
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.updateCheckedValuesForRetake}
+                    inputName="retake"
+                    options={[
+                      ['NORMAL', t('ui.retake.normal')],
+                      ['RETAKE', t('ui.retake.retake')],
+                    ]}
+                    checkedValues={selectedRetake}
+                    isRadio={true}
+                  />
+                ),
+              },
             ]}
-            checkedValues={selectedRetake}
-            isRadio={true}
           />
           {/* TODO: Implement credit customization */}
           {/* <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />

@@ -6,11 +6,12 @@ import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
 
-import SearchFilter from '../../SearchFilter';
+import SearchFilter from '../../inputs/SearchFilter';
 
 import { setUser } from '../../../actions/common/user';
 
 import userShape from '../../../shapes/model/session/UserShape';
+import Attributes from '../../Attributes';
 
 class FavoriteDepartmentsSubSection extends Component {
   constructor(props) {
@@ -123,12 +124,20 @@ class FavoriteDepartmentsSubSection extends Component {
     const favoriteDepartmentForm =
       allDepartments.length === 0 ? null : (
         <form onSubmit={this.handleSubmit}>
-          <SearchFilter
-            updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
-            inputName="department"
-            titleName={t('ui.search.favoriteDepartment')}
-            options={departmentOptions}
-            checkedValues={selectedDepartments}
+          <Attributes
+            entries={[
+              {
+                name: t('ui.search.favoriteDepartment'),
+                info: (
+                  <SearchFilter
+                    updateCheckedValues={this.updateCheckedValues('selectedDepartments')}
+                    inputName="department"
+                    options={departmentOptions}
+                    checkedValues={selectedDepartments}
+                  />
+                ),
+              },
+            ]}
           />
           <div className={classNames('buttons')}>
             {hasChange ? (

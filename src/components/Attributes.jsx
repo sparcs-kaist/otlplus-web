@@ -23,18 +23,7 @@ class Attributes extends Component {
             <div className={classNames(fixedWidthName ? t('jsx.className.fixedByLang') : null)}>
               {e.name}
             </div>
-            {e.onInfoClick ? (
-              <div
-                className={classNames(
-                  'text-button',
-                  e.isInfoClickDisabled ? 'text-button--disabled' : null,
-                )}
-                onClick={e.onInfoClick}>
-                {e.info}
-              </div>
-            ) : (
-              <div>{e.info}</div>
-            )}
+            {typeof e.info === 'string' ? <div>{e.info}</div> : e.info}
           </div>
         ))}
       </div>

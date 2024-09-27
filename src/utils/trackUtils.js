@@ -7,15 +7,18 @@ export const getYearName = (year) => {
   return year.toString();
 };
 
+export const getYearRangeName = (startYear, endYear) =>
+  `${getYearName(startYear)}~${getYearName(endYear)}`;
+
 export const getGeneralTrackName = (track, short = false) => {
   const name = i18n.t('ui.track.general');
-  const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
+  const year = getYearRangeName(track.start_year, track.end_year);
   return `${name} (${year})`;
 };
 
 export const getMajorTrackName = (track, short = false) => {
   const name = track.department[i18n.t('js.property.name')];
-  const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
+  const year = getYearRangeName(track.start_year, track.end_year);
   return `${name} (${year})`;
 };
 
@@ -32,7 +35,7 @@ export const getAdditionalTrackName = (track, short = false) => {
       : '기타';
   const name =
     track.type !== 'INTERDISCIPLINARY' ? track.department[i18n.t('js.property.name')] : '';
-  const year = `${getYearName(track.start_year)}~${getYearName(track.end_year)}`;
+  const year = getYearRangeName(track.start_year, track.end_year);
   if (track.type === 'INTERDISCIPLINARY') {
     return `${type} (${year})`;
   }
