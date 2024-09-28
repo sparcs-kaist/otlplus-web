@@ -17,12 +17,17 @@ import {
   duplicateTimetable,
   reorderTimetable,
   setIsTimetableTabsOpenOnMobile,
+  pinTimetable,
+  renameTimetable,
 } from '../../../../actions/timetable/timetable';
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import timetableShape, {
   myPseudoTimetableShape,
 } from '../../../../shapes/model/timetable/TimetableShape';
+import dropdownMenu from '@/common/components/dropdown/DropdownMenu';
+import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
+import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPopupImage';
 
 class TimetableTabs extends Component {
   constructor(props) {
@@ -33,8 +38,70 @@ class TimetableTabs extends Component {
       dragStartPosition: undefined,
       dragCurrentPosition: undefined,
       dragOrderChanged: false,
+
+      isDropdownOpen: -1,
+      isRenameFieldOpen: -1,
+      renameText: '',
     };
   }
+
+  openRenameField = (i) => {
+    this.setState(() => ({ isRenameFieldOpen: i, renameText: '' }));
+  };
+
+  renameTable = (timetable, renameText) => {
+    this.setState(() => ({ isRenameFieldOpen: -1, renameText: '' }));
+    const { user, renameTimetableDispatch } = this.props;
+    axios
+      .patch(`api/users/${user.id}/timetables/${timetable.id}/name`, { name: renameText })
+      .then((response) => {
+        if (response.status === 200) {
+          renameTimetableDispatch(timetable, renameText);
+        }
+      })
+      .catch((e) => {
+        alert(e);
+      });
+  };
+
+  toggleDropdown = (i) => {
+    this.setState((prevState) => ({
+      isDropdownOpen: prevState.isDropdownOpen === i ? -1 : i,
+      isRenameFieldOpen: -1,
+    }));
+  };
+
+  dropdownChoiceHandler = (choice, event, tt, i) => {
+    this.setState({ isDropdownOpen: -1 });
+    const { t, i18n } = this.props;
+    const { selectedTimetable, year, semester } = this.props;
+
+    const apiParameter = selectedTimetable
+      ? `timetable=${selectedTimetable.id}&year=${year}&semester=${semester}&language=${i18n.language}`
+      : '';
+
+    switch (choice) {
+      case 'pin':
+        this.pinTable(tt);
+
+        break;
+      case 'rename':
+        this.openRenameField(i);
+        break;
+      case 'share image':
+        window.location.href = '/api/share/timetable/image?' + apiParameter;
+        break;
+      case 'share calendar':
+        window.location.href = '/api/share/timetable/ical?' + apiParameter;
+        break;
+      case 'duplicate':
+        this.duplicateTable(event, tt);
+        break;
+      case 'delete':
+        this.deleteTable(event, tt);
+        break;
+    }
+  };
 
   componentDidMount() {
     const { user } = this.props;
@@ -93,6 +160,9 @@ class TimetableTabs extends Component {
           return;
         }
         setTimetablesDispatch(response.data);
+
+        this.autoPinTable(response.data);
+
         if (response.data.length === 0) {
           this._performCreateTable();
         }
@@ -114,7 +184,18 @@ class TimetableTabs extends Component {
   };
 
   changeTab = (timetable) => {
-    const { setSelectedTimetableDispatch, setIsTimetableTabsOpenOnMobileDispatch } = this.props;
+    const {
+      selectedTimetable,
+      setSelectedTimetableDispatch,
+      setIsTimetableTabsOpenOnMobileDispatch,
+    } = this.props;
+
+    if (this.state.isDropdownOpen !== -1) {
+      this.setState({ isDropdownOpen: -1 });
+    }
+    if (this.state.isRenameFieldOpen !== -1 && selectedTimetable.id !== timetable.id) {
+      this.setState({ isRenameFieldOpen: -1 });
+    }
 
     setSelectedTimetableDispatch(timetable);
     setIsTimetableTabsOpenOnMobileDispatch(false);
@@ -151,6 +232,7 @@ class TimetableTabs extends Component {
           if (newProps.year !== year || newProps.semester !== semester) {
             return;
           }
+
           createTimetableDispatch(response.data.id);
         })
         .catch((error) => {});
@@ -198,6 +280,9 @@ class TimetableTabs extends Component {
             return;
           }
           deleteTimetableDispatch(timetable);
+
+          const newTimetables = timetables.filter((t) => t.id != timetable.id);
+          this.autoPinTable(newTimetables);
         })
         .catch((error) => {});
     }
@@ -247,25 +332,47 @@ class TimetableTabs extends Component {
     });
   };
 
-  handlePointerDown = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const { draggingTimetableId } = this.state;
-    const { isPortrait } = this.props;
-
-    if (draggingTimetableId === undefined) {
-      this.setState({
-        draggingTimetableId: Number(e.currentTarget.dataset.id),
-        dragStartPosition: isPortrait ? e.clientY : e.clientX,
-        dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
-        dragOrderChanged: false,
+  pinTable = (timetable) => {
+    const { user, pinTimetableDispatch } = this.props;
+    axios
+      .post(`api/users/${user.id}/timetables/${timetable.id}/pin`, {})
+      .then((response) => {
+        if (response.status === 200) {
+          pinTimetableDispatch(timetable);
+        }
+      })
+      .catch((e) => {
+        alert(e);
       });
+  };
 
-      document.addEventListener('pointermove', this.handlePointerMove);
-      document.addEventListener('pointerup', this.handlePointerUp);
+  autoPinTable = (timetables) => {
+    if (timetables.find((t) => t.is_pinned === true) === undefined) {
+      this.pinTable(timetables[0]);
+    }
+  };
 
-      document.body.style.cursor = 'grabbing';
+  handlePointerDown = (e) => {
+    if (this.state.isDropdownOpen === -1 && this.state.isRenameFieldOpen === -1) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      const { draggingTimetableId } = this.state;
+      const { isPortrait } = this.props;
+
+      if (draggingTimetableId === undefined) {
+        this.setState({
+          draggingTimetableId: Number(e.currentTarget.dataset.id),
+          dragStartPosition: isPortrait ? e.clientY : e.clientX,
+          dragCurrentPosition: isPortrait ? e.clientY : e.clientX,
+          dragOrderChanged: false,
+        });
+
+        document.addEventListener('pointermove', this.handlePointerMove);
+        document.addEventListener('pointerup', this.handlePointerUp);
+
+        document.body.style.cursor = 'grabbing';
+      }
     }
   };
 
@@ -417,6 +524,10 @@ class TimetableTabs extends Component {
     }
   };
 
+  _isPinned = (timetable) => {
+    return timetable.is_pinned;
+  };
+
   _isSelected = (timetable) => {
     const { selectedTimetable } = this.props;
 
@@ -475,35 +586,188 @@ class TimetableTabs extends Component {
       </div>
     ) : null;
 
+    const pinnedTimetableTab =
+      timetables && timetables.length
+        ? timetables.map((tt, i) =>
+            tt.is_pinned ? (
+              <div
+                className={classNames(
+                  'tabs__elem',
+                  'tabs__elem--draggable',
+                  this._isSelected(tt) ? 'tabs__elem--selected' : null,
+                  this._isDragging(tt) ? 'tabs__elem--dragging' : null,
+                )}
+                key={tt.id}
+                onClick={() => this.changeTab(tt)}
+                onPointerDown={this.handlePointerDown}
+                data-id={tt.id}
+                style={{
+                  [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+                  pointerEvents: dragOrderChanged ? 'none' : undefined,
+                }}>
+                {this._isPinned(tt) ? (
+                  <div>
+                    {' '}
+                    <i className={classNames('icon', 'icon--push-pin')} />{' '}
+                  </div>
+                ) : null}
+
+                <span>{tt.name.length > 0 ? tt.name : `${t('ui.others.table')} ${i + 1}`}</span>
+
+                {this._isSelected(tt) ? (
+                  <div className={classNames('dropdown')}>
+                    <button onClick={() => this.toggleDropdown(i)}>
+                      <i className={classNames('icon', 'icon--table-kebab')} />
+                    </button>
+                    {this.state.isDropdownOpen === i && (
+                      <ul className={classNames('dropdown', 'dropdown__menu')}>
+                        {dropdownMenu.map((option) => (
+                          <li
+                            key={option['key']}
+                            className={classNames('dropdown', 'dropdown__element-wrapper')}>
+                            <button
+                              className={classNames('dropdown', 'dropdown__element')}
+                              onClick={(event) =>
+                                this.dropdownChoiceHandler(option['key'], event, tt, i)
+                              }>
+                              <span className={classNames('dropdown', 'dropdown__element-text')}>
+                                {option['text']}
+                              </span>
+                              <div className={classNames('dropdown', 'dropdown__element-icon')}>
+                                <i className={classNames('icon', 'icon--duplicate-table')} />
+                              </div>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {this.state.isRenameFieldOpen === i && this.state.isDropdownOpen === -1 && (
+                      <div className={classNames('rename', 'rename__menu')}>
+                        <span className={classNames('rename', 'rename__title')}>
+                          {'시간표 이름 수정'}
+                        </span>
+                        <input
+                          maxLength={20}
+                          className={classNames('rename', 'rename__input')}
+                          type="text"
+                          value={this.state.renameText}
+                          onChange={(text) => this.setState({ renameText: text.target.value })}
+                        />
+                        <div className={classNames('rename', 'rename__button-wrapper')}>
+                          <button
+                            className={classNames('rename', 'rename__cancel-button')}
+                            onClick={() => {
+                              this.setState({ isRenameFieldOpen: -1 });
+                            }}>
+                            {'취소'}
+                          </button>
+                          <button
+                            className={classNames('rename', 'rename__submit-button')}
+                            onClick={() => {
+                              this.renameTable(tt, this.state.renameText);
+                            }}>
+                            {'확인'}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ) : null}
+              </div>
+            ) : null,
+          )
+        : null;
+
     const normalTimetableTabs =
       timetables && timetables.length ? (
-        timetables.map((tt, i) => (
-          <div
-            className={classNames(
-              'tabs__elem',
-              'tabs__elem--draggable',
-              this._isSelected(tt) ? 'tabs__elem--selected' : null,
-              this._isDragging(tt) ? 'tabs__elem--dragging' : null,
-            )}
-            key={tt.id}
-            onClick={() => this.changeTab(tt)}
-            onPointerDown={this.handlePointerDown}
-            data-id={tt.id}
-            style={{
-              [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
-              pointerEvents: dragOrderChanged ? 'none' : undefined,
-            }}>
-            <span>{`${t('ui.others.table')} ${i + 1}`}</span>
-            <button onClick={(event) => this.duplicateTable(event, tt)}>
-              <i className={classNames('icon', 'icon--duplicate-table')} />
-              <span>{t('ui.button.duplicateTable')}</span>
-            </button>
-            <button onClick={(event) => this.deleteTable(event, tt)}>
-              <i className={classNames('icon', 'icon--delete-table')} />
-              <span>{t('ui.button.deleteTable')}</span>
-            </button>
-          </div>
-        ))
+        timetables.map((tt, i) =>
+          tt.is_pinned ? null : (
+            <div
+              className={classNames(
+                'tabs__elem',
+                'tabs__elem--draggable',
+                this._isSelected(tt) ? 'tabs__elem--selected' : null,
+                this._isDragging(tt) ? 'tabs__elem--dragging' : null,
+              )}
+              key={tt.id}
+              onClick={() => this.changeTab(tt)}
+              onPointerDown={this.handlePointerDown}
+              data-id={tt.id}
+              style={{
+                [isPortrait ? 'top' : 'left']: this._getTabRelativePosition(tt),
+                pointerEvents: dragOrderChanged ? 'none' : undefined,
+              }}>
+              {this._isPinned(tt) ? (
+                <div>
+                  {' '}
+                  <i className={classNames('icon', 'icon--push-pin')} />{' '}
+                </div>
+              ) : null}
+
+              <span>{tt.name.length > 0 ? tt.name : `${t('ui.others.table')} ${i + 1}`}</span>
+
+              {this._isSelected(tt) ? (
+                <div className={classNames('dropdown')}>
+                  <button onClick={() => this.toggleDropdown(i)}>
+                    <i className={classNames('icon', 'icon--table-kebab')} />
+                  </button>
+                  {this.state.isDropdownOpen === i && (
+                    <ul className={classNames('dropdown', 'dropdown__menu')}>
+                      {dropdownMenu.map((option) => (
+                        <li
+                          key={option['key']}
+                          className={classNames('dropdown', 'dropdown__element-wrapper')}>
+                          <button
+                            className={classNames('dropdown', 'dropdown__element')}
+                            onClick={(event) =>
+                              this.dropdownChoiceHandler(option['key'], event, tt, i)
+                            }>
+                            <span className={classNames('dropdown', 'dropdown__element-text')}>
+                              {option['text']}
+                            </span>
+                            <div className={classNames('dropdown', 'dropdown__element-icon')}>
+                              <i className={classNames('icon', 'icon--duplicate-table')} />
+                            </div>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {this.state.isRenameFieldOpen === i && this.state.isDropdownOpen === -1 && (
+                    <div className={classNames('rename', 'rename__menu')}>
+                      <span className={classNames('rename', 'rename__title')}>
+                        {'시간표 이름 수정'}
+                      </span>
+                      <input
+                        maxLength={20}
+                        className={classNames('rename', 'rename__input')}
+                        type="text"
+                        value={this.state.renameText}
+                        onChange={(text) => this.setState({ renameText: text.target.value })}
+                      />
+                      <div className={classNames('rename', 'rename__button-wrapper')}>
+                        <button
+                          className={classNames('rename', 'rename__cancel-button')}
+                          onClick={() => {
+                            this.setState({ isRenameFieldOpen: -1 });
+                          }}>
+                          {'취소'}
+                        </button>
+                        <button
+                          className={classNames('rename', 'rename__submit-button')}
+                          onClick={() => {
+                            this.renameTable(tt, this.state.renameText);
+                          }}>
+                          {'확인'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : null}
+            </div>
+          ),
+        )
       ) : (
         <div className={classNames('tabs__elem')} style={{ pointerEvents: 'none' }}>
           <span>{t('ui.placeholder.loading')}</span>
@@ -521,6 +785,7 @@ class TimetableTabs extends Component {
     return (
       <div className={classNames('tabs', 'tabs--timetable')}>
         {myTimetableTab}
+        {pinnedTimetableTab}
         {normalTimetableTabs}
         {addTabButton}
       </div>
@@ -563,6 +828,12 @@ const mapDispatchToProps = (dispatch) => ({
   reorderTimetableDispatch: (timetable, arrangeOrder) => {
     dispatch(reorderTimetable(timetable, arrangeOrder));
   },
+  pinTimetableDispatch: (timetable) => {
+    dispatch(pinTimetable(timetable));
+  },
+  renameTimetableDispatch: (timetable, name) => {
+    dispatch(renameTimetable(timetable, name));
+  },
   setIsTimetableTabsOpenOnMobileDispatch: (isTimetableTabsOpenOnMobile) => {
     dispatch(setIsTimetableTabsOpenOnMobile(isTimetableTabsOpenOnMobile));
   },
@@ -585,6 +856,8 @@ TimetableTabs.propTypes = {
   deleteTimetableDispatch: PropTypes.func.isRequired,
   duplicateTimetableDispatch: PropTypes.func.isRequired,
   reorderTimetableDispatch: PropTypes.func.isRequired,
+  pinTimetableDispatch: PropTypes.func.isRequired,
+  renameTimetableDispatch: PropTypes.func.isRequired,
   setIsTimetableTabsOpenOnMobileDispatch: PropTypes.func.isRequired,
 };
 
