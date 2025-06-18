@@ -2,7 +2,9 @@ import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { UilHeart, UilSuitcase, UilAngleDown, UilSearch } from '@iconscout/react-unicons';
 import PlaceholderComponenet from '@/common/daily-tf/Placeholder';
-import LabModal from '@/components/LabModal';
+import LabModal from '@/features/lab/components/LabModal';
+import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
+import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -48,6 +50,7 @@ const SidebarOption = styled.div`
   font-size: 13px;
   line-height: 125%;
   color: #333;
+  cursor: pointer;
 `;
 
 const SidebarDivider = styled.div`
@@ -358,6 +361,7 @@ const ResearchTags = styled.div`
 // ─── COMPONENT ─────────────────────────────────────────────────────────────
 const LabPage: React.FC = () => {
   const [interestMode, setInterestMode] = useState(false);
+  const [likedLabMode, setLikedLabMode] = useState(false); // chacha: 찜한 연구실 탭으로 들어간 상태
   const [leftKeyword, setLeftKeyword] = useState('');
   const [centralKeyword, setCentralKeyword] = useState('');
   const [showModal, setShowModal] = useState(true);
@@ -368,7 +372,7 @@ const LabPage: React.FC = () => {
       <PageWrapper>
         <ContentsContainer>
           <SidebarWrapper>
-            <SidebarOption>
+            <SidebarOption onClick={() => setLikedLabMode(true)}>
               <UilHeart width="16" height="16" /> 찜한 연구실
             </SidebarOption>
             <SidebarOption>
@@ -405,28 +409,32 @@ const LabPage: React.FC = () => {
               </SidebarInterest>
             )}
           </SidebarWrapper>
+          {likedLabMode && (
+            <LikedLabFrame setLikedLabMode={setLikedLabMode} likedLabs={mockLikedLabs} />
+          )}
+          {!likedLabMode && (
+            <MainWrapper>
+              <CentralSearchBar>
+                <DepartmentSelect>
+                  <DeptLeft>
+                    <DeptIcon />
+                    학과
+                  </DeptLeft>
+                  <DeptArrow />
+                </DepartmentSelect>
+                <CentralSearchInput
+                  placeholder="키워드, 교수명 등으로 검색해보세요"
+                  value={centralKeyword}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => setCentralKeyword(e.target.value)}
+                />
+                <CentralSearchIcon />
+              </CentralSearchBar>
 
-          <MainWrapper>
-            <CentralSearchBar>
-              <DepartmentSelect>
-                <DeptLeft>
-                  <DeptIcon />
-                  학과
-                </DeptLeft>
-                <DeptArrow />
-              </DepartmentSelect>
-              <CentralSearchInput
-                placeholder="키워드, 교수명 등으로 검색해보세요"
-                value={centralKeyword}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => setCentralKeyword(e.target.value)}
-              />
-              <CentralSearchIcon />
-            </CentralSearchBar>
-
-            <CustomScItem>
-              <PlaceholderComponenet />
-            </CustomScItem>
-          </MainWrapper>
+              <CustomScItem>
+                <PlaceholderComponenet />
+              </CustomScItem>
+            </MainWrapper>
+          )}
 
           <RightSection>
             <RightTitle>
