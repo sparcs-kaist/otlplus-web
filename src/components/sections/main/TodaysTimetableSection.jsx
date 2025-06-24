@@ -87,9 +87,10 @@ class TodaysTimetableSection extends Component {
   render() {
     const { t } = this.props;
     const { cellWidth, cellHeight, now } = this.state;
-    const { user, semesters } = this.props;
+    const { user, semesters, currentSemester } = this.props;
 
-    const ongoingSemester = semesters ? getOngoingSemester(semesters) : undefined;
+    const ongoingSemester =
+      currentSemester || (semesters ? getOngoingSemester(semesters) : undefined);
     const lectures =
       user && ongoingSemester
         ? user.my_timetable_lectures.filter(
@@ -227,6 +228,7 @@ class TodaysTimetableSection extends Component {
 const mapStateToProps = (state) => ({
   user: state.common.user.user,
   semesters: state.common.semester.semesters,
+  currentSemester: state.common.semester.currentSemester,
 });
 
 const mapDispatchToProps = (dispatch) => ({});
@@ -234,6 +236,7 @@ const mapDispatchToProps = (dispatch) => ({});
 TodaysTimetableSection.propTypes = {
   user: userShape,
   semesters: PropTypes.arrayOf(semesterShape),
+  currentSemester: semesterShape,
 };
 
 export default withTranslation()(
