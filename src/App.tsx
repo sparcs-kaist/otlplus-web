@@ -9,7 +9,13 @@ import Header from '@/common/guideline/components/Header';
 import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
 import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPopupImage';
 import PopupMenu from '@/features/campaign/components/popup/PopupMenu';
-import { setIsPortrait, setSemesters, setTracks, setUser } from '@/redux/actions/common';
+import {
+  setIsPortrait,
+  setSemesters,
+  setTracks,
+  setUser,
+  setCurrentSemester,
+} from '@/redux/actions/common';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -65,6 +71,13 @@ const App: React.FC = () => {
       })
       .then((response) => {
         dispatch(setSemesters(response.data));
+      })
+      .catch(() => {});
+
+    axios
+      .get('/api/semesters/current')
+      .then((response) => {
+        dispatch(setCurrentSemester(response.data));
       })
       .catch(() => {});
 

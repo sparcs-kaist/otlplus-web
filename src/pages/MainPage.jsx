@@ -286,7 +286,7 @@ class MainPage extends Component {
                 <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
                   {t('ui.button.loadMore')}
                 </span>
-              ) : import.meta.env.VITE_DEV_MODE === 'true' ? (
+              ) : process.env.VITE_DEV_MODE === 'true' ? (
                 <Link to="/developer-login">{t('ui.button.signInWithSso')}</Link>
               ) : (
                 <>

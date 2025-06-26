@@ -158,7 +158,7 @@ class Header extends Component {
                     <i className={classNames('icon--header_user')} />
                     <span>{t('ui.placeholder.loading')}</span>
                   </span>
-                ) : import.meta.env.VITE_DEV_MODE === 'true' ? (
+                ) : process.env.VITE_DEV_MODE === 'true' ? (
                   <Link to="/developer-login">
                     <i className={classNames('icon--header_user')} />
                     <span>{t('ui.menu.signIn')} (Dev)</span>

@@ -74,12 +74,21 @@ class RankedReviewsSubSection extends Component {
   }
 
   _getTargetSemesters = () => {
-    const { semesters } = this.props;
+    const { semesters, currentSemester } = this.props;
 
     const now = new Date();
-    return semesters.filter(
+    const filtered = semesters.filter(
       (s) => s.year >= 2013 && now - new Date(s.gradePosting) > 30 * 24 * 60 * 60 * 1000,
     );
+    if (
+      currentSemester &&
+      !filtered.find(
+        (s) => s.year === currentSemester.year && s.semester === currentSemester.semester,
+      )
+    ) {
+      filtered.push(currentSemester);
+    }
+    return filtered.sort((a, b) => a.year - b.year || a.semester - b.semester);
   };
 
   _getSemesterKey = (semester) => {
@@ -307,6 +316,7 @@ class RankedReviewsSubSection extends Component {
 
 const mapStateToProps = (state) => ({
   semesters: state.common.semester.semesters,
+  currentSemester: state.common.semester.currentSemester,
   reviewsFocus: state.writeReviews.reviewsFocus,
   reviewsBySemester: state.writeReviews.rankedReviews.reviewsBySemester,
   reviewCountBySemester: state.writeReviews.rankedReviews.reviewCountBySemester,
@@ -326,6 +336,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 RankedReviewsSubSection.propTypes = {
   semesters: PropTypes.arrayOf(semesterShape),
+  currentSemester: semesterShape,
   reviewsFocus: reviewsFocusShape.isRequired,
   reviewsBySemester: PropTypes.objectOf(PropTypes.arrayOf(reviewShape)).isRequired,
   reviewCountBySemester: PropTypes.objectOf(PropTypes.number).isRequired,
