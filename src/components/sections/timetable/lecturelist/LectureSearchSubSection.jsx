@@ -33,6 +33,8 @@ import {
   getLevelOptions,
 } from '../../../../common/searchOptions';
 
+import { Orientation } from '@/shapes/enum';
+
 class LectureSearchSubSection extends Component {
   INITIAL_STATE = {
     keyword: '',
@@ -299,7 +301,7 @@ class LectureSearchSubSection extends Component {
               {t('ui.button.cancel')}
             </button>
           </div>
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
         </form>
       </div>
     );

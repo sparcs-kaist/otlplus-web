@@ -240,7 +240,7 @@ class CourseSearchSubSection extends Component {
               {t('ui.button.cancel')}
             </button>
           </div>
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <Divider orientation={'HORIZONTAL'} isVisible={true} />
         </form>
       </div>
     );

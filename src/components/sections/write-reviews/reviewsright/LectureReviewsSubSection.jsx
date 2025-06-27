@@ -22,6 +22,7 @@ import { updateReview as UpdateLatestReview } from '../../../../redux/actions/wr
 
 import userShape from '../../../../shapes/model/session/UserShape';
 import reviewsFocusShape from '../../../../shapes/state/write-reviews/ReviewsFocusShape';
+import { Orientation } from '@/shapes/enum';
 
 class LectureReviewsSubSection extends Component {
   componentDidMount() {
@@ -121,7 +122,7 @@ class LectureReviewsSubSection extends Component {
             pageFrom="Write Reviews"
             updateOnSubmit={this.updateOnReviewSubmit}
           />
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
           <div className={classNames('title')}>{`${t('ui.title.relatedReviews')} - ${
             reviewsFocus.lecture[t('js.property.title')]
           }`}</div>

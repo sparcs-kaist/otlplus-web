@@ -24,7 +24,7 @@ import { addCourseRead } from '../../../../redux/actions/dictionary/list';
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
 import userShape from '../../../../shapes/model/session/UserShape';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
-
+import { Orientation } from '@/shapes/enum';
 class CourseDetailSection extends Component {
   constructor(props) {
     super(props);
@@ -148,11 +148,11 @@ class CourseDetailSection extends Component {
         </div>
         <Scroller key={courseFocus.course.id}>
           <CourseInfoSubSection />
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
           <CourseRelatedCoursesSubSection />
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
           <CourseHistorySubSection />
-          <Divider orientation={Divider.Orientation.HORIZONTAL} isVisible={true} />
+          <Divider orientation={Orientation.HORIZONTAL} isVisible={true} />
           <CourseReviewsSubSection />
         </Scroller>
       </>

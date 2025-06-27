@@ -1,20 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
+interface Option {
+  label: string;
+  onClick: () => void;
+  isSmall?: boolean;
+  isDisabled?: boolean;
+}
+
+interface PlannerOverlayProps {
+  yearIndex: number;
+  semesterIndex: -1 | 0 | 1;
+  tableSize: number;
+  cellWidth: number;
+  cellHeight: number;
+  isPlannerWithSummer: boolean;
+  isPlannerWithWinter: boolean;
+  options: Option[];
+}
+
 const PlannerOverlay = ({
-  t,
   yearIndex,
   semesterIndex,
   tableSize,
   cellWidth,
   cellHeight,
   isPlannerWithSummer,
-  isPlannerWithWinter,
   options,
-}) => {
+}: PlannerOverlayProps) => {
   const verticalBase = 17 + (isPlannerWithSummer ? 15 : 0) + cellHeight * tableSize;
 
   const getTop = () => {
@@ -66,22 +79,4 @@ const PlannerOverlay = ({
   );
 };
 
-PlannerOverlay.propTypes = {
-  yearIndex: PropTypes.number.isRequired,
-  semesterIndex: PropTypes.oneOf([-1, 0, 1]).isRequired,
-  tableSize: PropTypes.number.isRequired,
-  cellWidth: PropTypes.number.isRequired,
-  cellHeight: PropTypes.number.isRequired,
-  isPlannerWithSummer: PropTypes.bool.isRequired,
-  isPlannerWithWinter: PropTypes.bool.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.exact({
-      label: PropTypes.string.isRequired,
-      onClick: PropTypes.func.isRequired,
-      isSmall: PropTypes.bool,
-      isDisabled: PropTypes.bool,
-    }),
-  ).isRequired,
-};
-
-export default withTranslation()(React.memo(PlannerOverlay));
+export default React.memo(PlannerOverlay);

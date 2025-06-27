@@ -23,6 +23,7 @@ import SummarySubSection from '../components/sections/planner/plannerandinfos/Su
 // import ShareSubSection from '../components/sections/planner/plannerandinfos/ShareSubSection';
 import TrackSettingsSection from '../components/sections/planner/TrackSettingsSection';
 import BetaPopup from '../components/BetaPopup';
+import { Orientation } from '@/shapes/enum';
 
 class PlannerPage extends Component {
   componentWillUnmount() {
@@ -52,8 +53,8 @@ class PlannerPage extends Component {
               <PlannerSubSection />
               <Divider
                 orientation={{
-                  desktop: Divider.Orientation.VERTICAL,
-                  mobile: Divider.Orientation.HORIZONTAL,
+                  desktop: Orientation.VERTICAL,
+                  mobile: Orientation.HORIZONTAL,
                 }}
                 isVisible={{
                   desktop: true,
@@ -63,7 +64,7 @@ class PlannerPage extends Component {
               />
               <TrackSubSection />
               <Divider
-                orientation={Divider.Orientation.HORIZONTAL}
+                orientation={Orientation.HORIZONTAL}
                 isVisible={{
                   desktop: true,
                   mobile: false,
@@ -73,7 +74,7 @@ class PlannerPage extends Component {
               <SummarySubSection />
               {/* TODO: Implement ShareSubSection */}
               {/* <Divider
-                orientation={Divider.Orientation.HORIZONTAL}
+                orientation={Orientation.HORIZONTAL}
                 isVisible={{
                   desktop: true,
                   mobile: false,

@@ -48,6 +48,7 @@ import Divider from '../../../Divider';
 import OtlplusPlaceholder from '../../../OtlplusPlaceholder';
 import Attributes from '../../../Attributes';
 import Scores from '../../../Scores';
+import { Orientation } from '@/shapes/enum';
 
 class LectureDetailSection extends Component {
   constructor(props) {
@@ -519,7 +520,7 @@ class LectureDetailSection extends Component {
               {reviewBlocks}
             </Scroller>
             <Divider
-              orientation={Divider.Orientation.HORIZONTAL}
+              orientation={Orientation.HORIZONTAL}
               isVisible={{ desktop: false, mobile: true }}
             />
             <div
