@@ -1,10 +1,9 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { UilHeart, UilSuitcase, UilAngleDown, UilSearch } from '@iconscout/react-unicons';
-import PlaceholderComponenet from '@/common/daily-tf/Placeholder';
-import LabModal from '@/features/lab/components/LabModal';
 import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
 import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
+import { LabDetailFrame } from '@/features/lab/frames/LabDetailFrame';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -14,6 +13,7 @@ const PageWrapper = styled.div`
   height: 100vh;
   background-color: #f9f2f2;
   overflow: auto;
+  width: 100vw;
 `;
 
 const ContentsContainer = styled.div`
@@ -21,7 +21,11 @@ const ContentsContainer = styled.div`
   gap: 16px;
   padding: 0 100px;
   width: 100%;
-  border: 1px solid black;
+`;
+
+const CenterMainWrapper = styled.div`
+  flex: 1;
+  min-width: 0; // chacha: ㅠㅠ 겨우 겨우 알아냄
 `;
 
 // ─── LEFT SIDEBAR ─────────────────────────────────────────────────────────────
@@ -183,96 +187,6 @@ const LeftSearchInput = styled.input`
   }
 `;
 
-// ─── CENTER CONTENT ───────────────────────────────────────────────────────────
-const MainWrapper = styled.div`
-  flex: 1;
-  height: calc(100vh - 75px);
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
-  border-radius: 6px;
-  padding: 24px 12px 16px;
-  box-sizing: border-box;
-  width: 100%;
-`;
-
-const CentralSearchBar = styled.div`
-  width: 100%;
-  max-width: 1072px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid #edd1dc;
-  border-radius: 6px;
-  padding: 0 16px;
-  box-sizing: border-box;
-`;
-
-const DepartmentSelect = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 195px;
-  height: 100%;
-  padding: 0 16px;
-  border-right: 1px solid #edd1dc;
-  box-sizing: border-box;
-`;
-
-const DeptLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #aaaaaa;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-`;
-
-const DeptIcon = styled(UilSuitcase)`
-  width: 16px;
-  height: 16px;
-  color: #aaaaaa;
-`;
-
-const DeptArrow = styled(UilAngleDown)`
-  width: 20px;
-  height: 20px;
-  color: #aaaaaa;
-  cursor: default;
-`;
-
-const CentralSearchInput = styled.input`
-  flex: 1;
-  height: 100%;
-  border: none;
-  outline: none;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14px;
-  line-height: 125%;
-  color: #333;
-  &::placeholder {
-    color: #aaaaaa;
-  }
-`;
-
-const CentralSearchIcon = styled(UilSearch)`
-  width: 16px;
-  height: 16px;
-  color: #eb809c;
-  margin-right: 16px;
-`;
-
-const CustomScItem = styled.div.attrs({ className: 'sc-duJKf kHGnkC' })`
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 // ─── RIGHT SIDEBAR ──────────────────────────────────────────────────────────
 const RightSection = styled.div`
   width: 246px;
@@ -360,16 +274,14 @@ const ResearchTags = styled.div`
 `;
 
 // ─── COMPONENT ─────────────────────────────────────────────────────────────
-const LabPage: React.FC = () => {
+const LabDetailPage: React.FC = () => {
   const [interestMode, setInterestMode] = useState(false);
   const [likedLabMode, setLikedLabMode] = useState(false); // chacha: 찜한 연구실 탭으로 들어간 상태
   const [leftKeyword, setLeftKeyword] = useState('');
-  const [centralKeyword, setCentralKeyword] = useState('');
-  const [showModal, setShowModal] = useState(true);
 
   return (
     <>
-      {showModal && <LabModal onClose={() => setShowModal(false)} />}
+      {/*{showModal && <LabModal onClose={() => setShowModal(false)} />}*/}
       <PageWrapper>
         <ContentsContainer>
           <SidebarWrapper>
@@ -414,27 +326,9 @@ const LabPage: React.FC = () => {
             <LikedLabFrame setLikedLabMode={setLikedLabMode} likedLabs={mockLikedLabs} />
           )}
           {!likedLabMode && (
-            <MainWrapper>
-              <CentralSearchBar>
-                <DepartmentSelect>
-                  <DeptLeft>
-                    <DeptIcon />
-                    학과
-                  </DeptLeft>
-                  <DeptArrow />
-                </DepartmentSelect>
-                <CentralSearchInput
-                  placeholder="키워드, 교수명 등으로 검색해보세요"
-                  value={centralKeyword}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setCentralKeyword(e.target.value)}
-                />
-                <CentralSearchIcon />
-              </CentralSearchBar>
-
-              <CustomScItem>
-                <PlaceholderComponenet />
-              </CustomScItem>
-            </MainWrapper>
+            <CenterMainWrapper>
+              <LabDetailFrame />
+            </CenterMainWrapper>
           )}
 
           <RightSection>
@@ -460,4 +354,4 @@ const LabPage: React.FC = () => {
   );
 };
 
-export default LabPage;
+export default LabDetailPage;

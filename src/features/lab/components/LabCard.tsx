@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
@@ -9,6 +11,7 @@ export interface LabCardProps {
   professor: string; // 교수님명
   summary: string; // 연구실 요약 설명
   fieldList: string[]; // 분야 해시태그
+  onClick?: (val: number) => void;
 }
 
 const LabCardContainer = styled.div`
@@ -36,11 +39,18 @@ const PlaceholderImage = styled.div`
   border-radius: 6px;
   background-color: #eee;
 `;
+interface TitleWithImageProps {
+  onClick: (val: number) => void;
+}
 
-const TitleWithImage = styled.div`
+const TitleWithImage = styled.div.attrs<TitleWithImageProps>((props) => ({
+  onClick: props.onClick, // 여기서 0은 예시값
+}))<TitleWithImageProps>`
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 16px;
+  cursor: pointer;
 `;
 
 const TitleWrapper = styled.div`
@@ -50,6 +60,10 @@ const TitleWrapper = styled.div`
   align-items: flex-start;
   gap: 4px;
   align-self: stretch;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const DepartmentWithProfessor = styled.div`
@@ -59,6 +73,9 @@ const DepartmentWithProfessor = styled.div`
   font-weight: 400;
   line-height: 125%;
   color: #888;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const LikeIconWrapper = styled.div`
@@ -78,6 +95,9 @@ const SummaryWrapper = styled.div`
   font-weight: 400;
   line-height: 125%;
   color: #555;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const FieldTagWrapper = styled.div`
@@ -99,18 +119,35 @@ const TagBlock = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 125%;
+  color: #888;
 `;
 
-const LabCard: React.FC<LabCardProps> = ({ name, department, professor, summary, fieldList }) => {
+const LabCard: React.FC<LabCardProps> = ({
+  name,
+  department,
+  professor,
+  summary,
+  fieldList,
+  onClick,
+}) => {
   const [liked, setLiked] = useState(false);
 
   return (
     <LabCardContainer>
       <TopContainer>
-        <TitleWithImage>
+        <TitleWithImage onClick={onClick ?? (() => {})}>
           <PlaceholderImage />
           <TitleWrapper>
-            <Typography type="BigBold">{name}</Typography>
+            <Typography
+              type="BigBold"
+              style={{
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                maxWidth: '100%',
+              }}>
+              {name}
+            </Typography>
             <DepartmentWithProfessor>
               {department} {professor}
             </DepartmentWithProfessor>

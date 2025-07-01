@@ -1,0 +1,370 @@
+import styled from 'styled-components';
+import Icon from '@/common/daily-tf/Icon';
+import Typography from '@/common/daily-tf/Typography';
+import { useNavigate } from 'react-router';
+import React, { useState } from 'react';
+import { FormatListBulleted } from '@mui/icons-material';
+import PaperCard from '@/features/lab/components/PaperCard';
+import ReviewCard from '@/features/lab/components/ReviewCard';
+
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
+  border-radius: 6px;
+  padding: 24px;
+  box-sizing: border-box;
+`;
+
+const MainInnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+const TotalHeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  align-self: stretch;
+  width: 100%;
+`;
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const HeaderLeftWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const BackIconWrapper = styled.div`
+  display: flex;
+  width: 24px;
+  height: 24px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+`;
+
+const TitleWithTagWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+const TagWrapper = styled.div`
+  display: flex;
+  height: fit-content;
+  align-items: center;
+  gap: 8px;
+`;
+
+const TagBlock = styled.div`
+  display: flex;
+  height: 32px;
+  padding: 8px 10px;
+  align-items: center;
+  gap: 6px;
+  border-radius: 16px;
+  background-color: #f5f5f5;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%;
+  color: #888;
+`;
+
+const HeaderRightWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+const ClickWebsiteButton = styled.button`
+  display: flex;
+  height: 32px;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  background-color: #eee;
+`;
+
+const ApplyButton = styled.button`
+  display: flex;
+  height: 32px;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  background-color: #e54c65;
+`;
+
+const LikeIconWrapper = styled.div`
+  display: flex;
+  width: 32px;
+  height: 32px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+`;
+
+const LabInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+  width: 100%;
+`;
+
+const ProfWithDepWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  align-self: stretch;
+  width: 100%;
+`;
+
+const LabIntroWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  align-self: stretch;
+  width: 100%;
+`;
+
+const SubHeadingAndText = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+`;
+
+const Divider = styled.div`
+  height: 1px;
+  align-self: stretch;
+  border-top: 1px solid #edd1dc;
+  width: 100%;
+`;
+
+const HorizontalScrollListSection = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+`;
+
+const RecentPaperListTitle = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+`;
+
+const RecentPaperScrollWrapper = styled.div`
+  overflow: scroll;
+  width: 100%;
+`;
+
+const RecentPaperScroll = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: max-content;
+  flex-shrink: 0;
+`;
+
+export const LabDetailFrame = () => {
+  const navigate = useNavigate();
+  const [liked, setLiked] = useState(false);
+  return (
+    <MainWrapper>
+      <MainInnerWrapper>
+        <TotalHeaderWrapper>
+          <HeaderWrapper>
+            <HeaderLeftWrapper>
+              <BackIconWrapper>
+                <Icon
+                  type="ChevronLeft"
+                  size={24}
+                  color="#aaa"
+                  onClick={() => navigate('/lab')} // chacha: 임시
+                />
+              </BackIconWrapper>
+              <TitleWithTagWrapper>
+                <Typography type="BiggerBold">연구실명</Typography>
+                <TagWrapper>
+                  <TagBlock># 주제</TagBlock>
+                  <TagBlock># 주제</TagBlock>
+                  <TagBlock># 주제</TagBlock>
+                </TagWrapper>
+              </TitleWithTagWrapper>
+            </HeaderLeftWrapper>
+            <HeaderRightWrapper>
+              <ClickWebsiteButton onClick={() => navigate('/lab')}>
+                <Icon type="ExitToApp" size={18} color="#888" />
+                <Typography type="Normal" color="Text.lighter">
+                  홈페이지 바로가기
+                </Typography>
+              </ClickWebsiteButton>
+              <ApplyButton>
+                <Icon type="Drafts" size={18} color="#F9F0F0" />
+                <Typography type="Normal" color="Line.default">
+                  지원하기
+                </Typography>
+              </ApplyButton>
+              <LikeIconWrapper>
+                {liked ? (
+                  <Icon type="Favorite" size={20} color="#e54c65" onClick={() => setLiked(false)} />
+                ) : (
+                  <Icon
+                    type="FavoriteBorder"
+                    size={20}
+                    color="#aaa"
+                    onClick={() => setLiked(true)}
+                  />
+                )}
+              </LikeIconWrapper>
+            </HeaderRightWrapper>
+          </HeaderWrapper>
+          <LabInfoWrapper>
+            <ProfWithDepWrapper>
+              <SubHeadingAndText>
+                <Typography type="NormalBold">학과</Typography>
+                <Typography type="Normal">학과명</Typography>
+              </SubHeadingAndText>
+              <SubHeadingAndText>
+                <Typography type="NormalBold">교수</Typography>
+                <Typography type="Normal">교수명</Typography>
+              </SubHeadingAndText>
+            </ProfWithDepWrapper>
+            <LabIntroWrapper>
+              <Typography type="NormalBold">연구실 소개</Typography>
+              <Typography type="Normal">
+                해당 연구실에 관한 설명이 들어갑니다. 주로 연구하는 분야 등의 정보가 들어갑니다.
+                해당 연구실에 관한 설명이 들어갑니다. 주로 연구하는 분야 등의 정보가 들어갑니다.해당
+                연구실에 관한 설명이 들어갑니다. 주로 연구하는 분야 등의 정보가 들어갑니다. 해당
+                연구실에 관한 설명이 들어갑니다. 주로 연구하는 분야 등의 정보가 들어갑니다.
+              </Typography>
+            </LabIntroWrapper>
+          </LabInfoWrapper>
+        </TotalHeaderWrapper>
+        <Divider />
+        <HorizontalScrollListSection>
+          <RecentPaperListTitle>
+            <Typography type="BigBold">최근 발행 논문</Typography>
+            <ClickWebsiteButton onClick={() => navigate('/lab')}>
+              <Icon type="FormatListBulleted" size={18} color="#888" />
+              <Typography type="Normal" color="Text.lighter">
+                최신 논문 모아보기
+              </Typography>
+            </ClickWebsiteButton>
+          </RecentPaperListTitle>
+          <RecentPaperScrollWrapper>
+            <RecentPaperScroll>
+              <PaperCard
+                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
+                fieldList={['주제', '주제', '주제']}
+                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
+              />
+              <PaperCard
+                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
+                fieldList={['주제', '주제', '주제']}
+                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
+              />
+              <PaperCard
+                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
+                fieldList={['주제', '주제', '주제']}
+                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
+              />
+              <PaperCard
+                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
+                fieldList={['주제', '주제', '주제']}
+                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
+              />
+              <PaperCard
+                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
+                fieldList={['주제', '주제', '주제']}
+                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
+              />
+            </RecentPaperScroll>
+          </RecentPaperScrollWrapper>
+        </HorizontalScrollListSection>
+        <HorizontalScrollListSection>
+          <RecentPaperListTitle>
+            <Typography type="BigBold">연구 후기</Typography>
+            <ClickWebsiteButton onClick={() => navigate('/lab')}>
+              <Icon type="FormatListBulleted" size={18} color="#888" />
+              <Typography type="Normal" color="Text.lighter">
+                개별연구 후기 전체보기
+              </Typography>
+            </ClickWebsiteButton>
+          </RecentPaperListTitle>
+          <RecentPaperScrollWrapper>
+            <RecentPaperScroll>
+              <ReviewCard
+                professor="교수명"
+                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
+                like={10}
+                grade="A"
+                load="A"
+                lecture="F"
+              />
+              <ReviewCard
+                professor="교수명"
+                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
+                like={10}
+                grade="A"
+                load="A"
+                lecture="F"
+              />
+              <ReviewCard
+                professor="교수명"
+                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
+                like={10}
+                grade="A"
+                load="A"
+                lecture="F"
+              />
+              <ReviewCard
+                professor="교수명"
+                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
+                like={10}
+                grade="A"
+                load="A"
+                lecture="F"
+              />
+              <ReviewCard
+                professor="교수명"
+                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
+                like={10}
+                grade="A"
+                load="A"
+                lecture="F"
+              />
+            </RecentPaperScroll>
+          </RecentPaperScrollWrapper>
+        </HorizontalScrollListSection>
+      </MainInnerWrapper>
+    </MainWrapper>
+  );
+};

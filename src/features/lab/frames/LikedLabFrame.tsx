@@ -2,6 +2,7 @@ import LabCard, { LabCardProps } from '@/features/lab/components/LabCard';
 import styled from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
+import { useNavigate } from 'react-router';
 
 interface LikedLabFrameProps {
   setLikedLabMode: (likedLabMode: boolean) => void;
@@ -11,15 +12,19 @@ interface LikedLabFrameProps {
 const MainWrapper = styled.div`
   flex: 1;
   display: flex;
-  padding: 24px;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 24px;
-  flex-shrink: 0;
-  align-self: stretch;
-  border-radius: 0px 6px 6px 6px;
-  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
   background-color: #fff;
+  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
+  border-radius: 6px;
+  padding: 24px;
+  box-sizing: border-box;
+  width: 100%;
+`;
+
+const MainInnerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 `;
 
 const HeaderWrapper = styled.div`
@@ -44,18 +49,6 @@ const BackIconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
-`;
-
-const SearchingBar = styled.div`
-  display: flex;
-  flex: 1;
-  height: 40px;
-  padding: 8px 16px;
-  align-items: center;
-  gap: 12px;
-  border-radius: 6px;
-  border: 1px solid #edd1dc;
-  background-color: #fff;
 `;
 
 const CardsWrapper = styled.div`
@@ -84,50 +77,49 @@ export const LikedLabFrame: React.FC<LikedLabFrameProps> = ({ setLikedLabMode, l
     { length: Math.ceil(likedLabsLength / 2) },
     (_, i) => i * 2,
   );
+  const navigate = useNavigate();
 
   return (
     <MainWrapper>
-      <HeaderWrapper>
-        <HeaderLeftWrapper>
-          <BackIconWrapper>
-            <Icon
-              type="ChevronLeft"
-              size={24}
-              color="Text.light"
-              onClick={() => setLikedLabMode(false)}
-            />
-          </BackIconWrapper>
-          <Typography type="BiggerBold">찜한 연구실</Typography>
-        </HeaderLeftWrapper>
-        <SearchingBar>
-          <Icon type="Search" color="#e54c65" size={16} />
-          <Typography type="Normal" color="Text.placeholder">
-            키워드로 검색해보세요
-          </Typography>
-        </SearchingBar>
-      </HeaderWrapper>
-      <CardsWrapper>
-        {likedLabsIndexList.map((number, index) => (
-          <DoubleCardsWrapper key={index}>
-            <LabCard
-              key={index}
-              name={likedLabs[number].name}
-              department={likedLabs[number].department}
-              professor={likedLabs[number].professor}
-              summary={likedLabs[number].summary}
-              fieldList={likedLabs[number].fieldList}
-            />
-            <LabCard
-              key={index + 1}
-              name={likedLabs[number + 1].name}
-              department={likedLabs[number + 1].department}
-              professor={likedLabs[number + 1].professor}
-              summary={likedLabs[number + 1].summary}
-              fieldList={likedLabs[number + 1].fieldList}
-            />
-          </DoubleCardsWrapper>
-        ))}
-      </CardsWrapper>
+      <MainInnerWrapper>
+        <HeaderWrapper>
+          <HeaderLeftWrapper>
+            <BackIconWrapper>
+              <Icon
+                type="ChevronLeft"
+                size={24}
+                color="#aaa"
+                onClick={() => setLikedLabMode(false)}
+              />
+            </BackIconWrapper>
+            <Typography type="BiggerBold">찜한 연구실</Typography>
+          </HeaderLeftWrapper>
+        </HeaderWrapper>
+        <CardsWrapper>
+          {likedLabsIndexList.map((number, index) => (
+            <DoubleCardsWrapper key={index}>
+              <LabCard
+                key={index}
+                name={likedLabs[number].name}
+                department={likedLabs[number].department}
+                professor={likedLabs[number].professor}
+                summary={likedLabs[number].summary}
+                fieldList={likedLabs[number].fieldList}
+                onClick={(number: number) => navigate(`/lab/${number}`)}
+              />
+              <LabCard
+                key={index + 1}
+                name={likedLabs[number + 1].name}
+                department={likedLabs[number + 1].department}
+                professor={likedLabs[number + 1].professor}
+                summary={likedLabs[number + 1].summary}
+                fieldList={likedLabs[number + 1].fieldList}
+                onClick={(number: number) => navigate(`/lab/${number}`)}
+              />
+            </DoubleCardsWrapper>
+          ))}
+        </CardsWrapper>
+      </MainInnerWrapper>
     </MainWrapper>
   );
 };
