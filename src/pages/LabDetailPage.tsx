@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { UilHeart, UilSuitcase, UilAngleDown, UilSearch } from '@iconscout/react-unicons';
+import { UilHeart, UilSuitcase, UilSearch } from '@iconscout/react-unicons';
 import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
 import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
 import { LabDetailFrame } from '@/features/lab/frames/LabDetailFrame';

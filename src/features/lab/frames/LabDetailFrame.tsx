@@ -3,9 +3,10 @@ import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { useNavigate } from 'react-router';
 import React, { useState } from 'react';
-import { FormatListBulleted } from '@mui/icons-material';
 import PaperCard from '@/features/lab/components/PaperCard';
 import ReviewCard from '@/features/lab/components/ReviewCard';
+import { mockPaperList } from '@/features/lab/mock/mockPaperList';
+import { mockReview } from '@/features/lab/mock/mockReview';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -77,12 +78,6 @@ const TagBlock = styled.div`
   gap: 6px;
   border-radius: 16px;
   background-color: #f5f5f5;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 125%;
-  color: #888;
 `;
 
 const HeaderRightWrapper = styled.div`
@@ -195,6 +190,8 @@ const RecentPaperScroll = styled.div`
 
 export const LabDetailFrame = () => {
   const navigate = useNavigate();
+  const paperList = mockPaperList();
+  const reviewList = mockReview();
   const [liked, setLiked] = useState(false);
   return (
     <MainWrapper>
@@ -213,9 +210,21 @@ export const LabDetailFrame = () => {
               <TitleWithTagWrapper>
                 <Typography type="BiggerBold">연구실명</Typography>
                 <TagWrapper>
-                  <TagBlock># 주제</TagBlock>
-                  <TagBlock># 주제</TagBlock>
-                  <TagBlock># 주제</TagBlock>
+                  <TagBlock>
+                    <Typography type="Normal" color="Text.lighter">
+                      # 주제
+                    </Typography>
+                  </TagBlock>
+                  <TagBlock>
+                    <Typography type="Normal" color="Text.lighter">
+                      # 주제
+                    </Typography>
+                  </TagBlock>
+                  <TagBlock>
+                    <Typography type="Normal" color="Text.lighter">
+                      # 주제
+                    </Typography>
+                  </TagBlock>
                 </TagWrapper>
               </TitleWithTagWrapper>
             </HeaderLeftWrapper>
@@ -281,31 +290,14 @@ export const LabDetailFrame = () => {
           </RecentPaperListTitle>
           <RecentPaperScrollWrapper>
             <RecentPaperScroll>
-              <PaperCard
-                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
-                fieldList={['주제', '주제', '주제']}
-                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
-              />
-              <PaperCard
-                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
-                fieldList={['주제', '주제', '주제']}
-                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
-              />
-              <PaperCard
-                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
-                fieldList={['주제', '주제', '주제']}
-                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
-              />
-              <PaperCard
-                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
-                fieldList={['주제', '주제', '주제']}
-                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
-              />
-              <PaperCard
-                title="논문 제목이 짧지는 않겠죠 매우 긴 제목일텐데 이정도 공간은 차지할 것 같아요"
-                fieldList={['주제', '주제', '주제']}
-                summary="이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다. 이 부분에는 논문 내용 요약이 들어갑니다. 높이값이 고정되어있습니다."
-              />
+              {paperList.map((item, index) => (
+                <PaperCard
+                  key={index}
+                  title={item.title}
+                  fieldList={item.fieldList}
+                  summary={item.summary}
+                />
+              ))}
             </RecentPaperScroll>
           </RecentPaperScrollWrapper>
         </HorizontalScrollListSection>
@@ -321,46 +313,17 @@ export const LabDetailFrame = () => {
           </RecentPaperListTitle>
           <RecentPaperScrollWrapper>
             <RecentPaperScroll>
-              <ReviewCard
-                professor="교수명"
-                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
-                like={10}
-                grade="A"
-                load="A"
-                lecture="F"
-              />
-              <ReviewCard
-                professor="교수명"
-                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
-                like={10}
-                grade="A"
-                load="A"
-                lecture="F"
-              />
-              <ReviewCard
-                professor="교수명"
-                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
-                like={10}
-                grade="A"
-                load="A"
-                lecture="F"
-              />
-              <ReviewCard
-                professor="교수명"
-                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
-                like={10}
-                grade="A"
-                load="A"
-                lecture="F"
-              />
-              <ReviewCard
-                professor="교수명"
-                content="이 부분에는 강의에 대한 Review 내용이 들어갑니다. 2024 OTL Web Clonning과정으로, 정확한 강의명, 리뷰 내용을 별도로 첨부하지 않았습니다."
-                like={10}
-                grade="A"
-                load="A"
-                lecture="F"
-              />
+              {reviewList.map((item, index) => (
+                <ReviewCard
+                  key={index}
+                  professor={item.professor}
+                  content={item.content}
+                  like={item.like}
+                  grade={item.grade}
+                  load={item.load}
+                  lecture={item.lecture}
+                />
+              ))}
             </RecentPaperScroll>
           </RecentPaperScrollWrapper>
         </HorizontalScrollListSection>

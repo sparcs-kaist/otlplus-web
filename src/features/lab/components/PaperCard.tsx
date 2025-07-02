@@ -18,7 +18,7 @@ const LabCardContainer = styled.div`
   height: 299px;
   padding: 16px;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 16px;
   border-radius: 6px;
   border: 1px solid #e8e8e8;
