@@ -3,8 +3,13 @@ import styled from 'styled-components';
 import { UilHeart, UilSuitcase, UilAngleDown, UilSearch } from '@iconscout/react-unicons';
 import PlaceholderComponenet from '@/common/daily-tf/Placeholder';
 import LabModal from '@/features/lab/components/LabModal';
+
 import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
+import { MajorLabFrame } from '@/features/lab/frames/MajorLabFrame';
+import { MinorLabFrame } from '@/features/lab/frames/MinorLabFrame';
 import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
+import { mockMajorLabs } from '@/features/lab/mock/mockMajorLabs';
+import { mockMinorLabs } from '@/features/lab/mock/mockMinorLabs';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -363,6 +368,8 @@ const ResearchTags = styled.div`
 const LabPage: React.FC = () => {
   const [interestMode, setInterestMode] = useState(false);
   const [likedLabMode, setLikedLabMode] = useState(false); // chacha: 찜한 연구실 탭으로 들어간 상태
+  const [majorLabMode, setMajorLabMode] = useState(false); // oosoi: :)
+  const [minorLabMode, setMinorLabMode] = useState(false);
   const [leftKeyword, setLeftKeyword] = useState('');
   const [centralKeyword, setCentralKeyword] = useState('');
   const [showModal, setShowModal] = useState(true);
@@ -373,13 +380,30 @@ const LabPage: React.FC = () => {
       <PageWrapper>
         <ContentsContainer>
           <SidebarWrapper>
-            <SidebarOption onClick={() => setLikedLabMode(true)}>
+            <SidebarOption
+              onClick={() => {
+                setLikedLabMode(true);
+                setMajorLabMode(false);
+                setMinorLabMode(false);
+              }}>
               <UilHeart width="16" height="16" /> 찜한 연구실
             </SidebarOption>
-            <SidebarOption>
+
+            <SidebarOption
+              onClick={() => {
+                setLikedLabMode(false);
+                setMajorLabMode(true);
+                setMinorLabMode(false);
+              }}>
               <UilSuitcase width="16" height="16" /> 전공 학과 연구실
             </SidebarOption>
-            <SidebarOption>
+
+            <SidebarOption
+              onClick={() => {
+                setLikedLabMode(false);
+                setMajorLabMode(false);
+                setMinorLabMode(true);
+              }}>
               <UilSuitcase width="16" height="16" /> 부전공 학과 연구실
             </SidebarOption>
             <SidebarDivider />
@@ -413,7 +437,14 @@ const LabPage: React.FC = () => {
           {likedLabMode && (
             <LikedLabFrame setLikedLabMode={setLikedLabMode} likedLabs={mockLikedLabs} />
           )}
-          {!likedLabMode && (
+          {majorLabMode && (
+            <MajorLabFrame setMajorLabMode={setMajorLabMode} majorLabs={mockMajorLabs} />
+          )}
+          {minorLabMode && (
+            <MinorLabFrame setMinorLabMode={setMinorLabMode} minorLabs={mockMinorLabs} />
+          )}
+
+          {!likedLabMode && !majorLabMode && !minorLabMode && (
             <MainWrapper>
               <CentralSearchBar>
                 <DepartmentSelect>
