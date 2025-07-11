@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ReactGA from 'react-ga4';
+import axios from 'axios';
 
 import { appBoundClassNames as classNames } from '../../../../common/boundClassNames';
 
@@ -15,6 +16,7 @@ import CourseBlock from '../../../blocks/CourseBlock';
 import { isFocused, isDimmedCourse } from '../../../../utils/courseUtils';
 import { setCourseFocus, clearCourseFocus } from '../../../../actions/dictionary/courseFocus';
 import { openSearch } from '../../../../actions/dictionary/search';
+import { setListCourses } from '../../../../actions/dictionary/list';
 
 import courseShape from '../../../../shapes/model/subject/CourseShape';
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
@@ -31,6 +33,16 @@ import {
 } from '../../../../common/searchOptions';
 
 class CourseListSection extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: false,
+      reachedEnd: false,
+    };
+
+    this.blockListRef = React.createRef();
+  }
   showSearch = () => {
     const { openSearchDispatch } = this.props;
     openSearchDispatch();
@@ -82,6 +94,68 @@ class CourseListSection extends Component {
       return null;
     }
     return lists[selectedListCode].courses;
+  };
+
+  _fetchMoreCourses = () => {
+    const { selectedListCode, lastSearchOption, lists, setListCoursesDispatch } = this.props;
+
+    if (selectedListCode !== CourseListCode.SEARCH) {
+      return;
+    }
+
+    const { isLoading, reachedEnd } = this.state;
+    const PAGE_SIZE = 20;
+
+    if (isLoading || reachedEnd) {
+      return;
+    }
+
+    const currentCourses = lists[CourseListCode.SEARCH].courses || [];
+
+    this.setState({ isLoading: true });
+    axios
+      .get('/api/courses', {
+        params: {
+          ...lastSearchOption,
+          order: ['old_code'],
+          offset: currentCourses.length,
+          limit: PAGE_SIZE,
+        },
+        metadata: {
+          gaCategory: 'Course',
+          gaVariable: 'GET / List',
+        },
+      })
+      .then((response) => {
+        const newCourses = response.data;
+        setListCoursesDispatch(CourseListCode.SEARCH, currentCourses.concat(newCourses));
+        this.setState({
+          isLoading: false,
+          reachedEnd: newCourses.length < PAGE_SIZE,
+        });
+      })
+      .catch(() => {
+        this.setState({ isLoading: false });
+      });
+  };
+
+  handleScroll = () => {
+    const SCROLL_THRESHOLD = 100;
+
+    if (!this.blockListRef.current) {
+      return;
+    }
+
+    const blockListElement = this.blockListRef.current;
+    const scrollElement = blockListElement.closest('.ScrollbarsCustom-Scroller');
+
+    const bottomOffset =
+      blockListElement.getBoundingClientRect().bottom -
+      scrollElement.getBoundingClientRect().bottom;
+
+    if (bottomOffset < SCROLL_THRESHOLD) {
+      this._fetchMoreCourses();
+    }
   };
 
   render() {
@@ -158,8 +232,12 @@ class CourseListSection extends Component {
         );
       }
       return (
-        <Scroller key={selectedListCode}>
-          <div className={classNames('block-list')}>
+        <Scroller
+          key={selectedListCode}
+          onScroll={selectedListCode === CourseListCode.SEARCH ? this.handleScroll : undefined}>
+          <div
+            className={classNames('block-list')}
+            ref={selectedListCode === CourseListCode.SEARCH ? this.blockListRef : null}>
             {courses.map((c) => (
               <CourseBlock
                 course={c}
@@ -207,6 +285,9 @@ const mapDispatchToProps = (dispatch) => ({
   clearCourseFocusDispatch: () => {
     dispatch(clearCourseFocus());
   },
+  setListCoursesDispatch: (code, courses) => {
+    dispatch(setListCourses(code, courses));
+  },
 });
 
 CourseListSection.propTypes = {
@@ -220,6 +301,7 @@ CourseListSection.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   setCourseFocusDispatch: PropTypes.func.isRequired,
   clearCourseFocusDispatch: PropTypes.func.isRequired,
+  setListCoursesDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListSection));
