@@ -39,6 +39,7 @@ class DictionaryPage extends Component {
       setListCoursesDispatch,
       closeSearchDispatch,
       clearSearchListCoursesDispatch,
+      setLastSearchOptionDispatch,
     } = this.props;
 
     if (startCourseId) {
