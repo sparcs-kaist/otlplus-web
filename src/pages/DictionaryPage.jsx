@@ -19,7 +19,11 @@ import {
   setListCourses,
   clearSearchListCourses,
 } from '../actions/dictionary/list';
-import { reset as resetSearch, closeSearch } from '../actions/dictionary/search';
+import {
+  reset as resetSearch,
+  closeSearch,
+  setLastSearchOption,
+} from '../actions/dictionary/search';
 import { performSearchCourses } from '../common/commonOperations';
 import { parseQueryString } from '@/common/utils/parseQueryString';
 
@@ -56,7 +60,7 @@ class DictionaryPage extends Component {
     }
 
     if (startSearchKeyword && startSearchKeyword.trim()) {
-      const LIMIT = 150;
+      const LIMIT = 20;
 
       const option = {
         keyword: startSearchKeyword.trim(),
@@ -64,6 +68,7 @@ class DictionaryPage extends Component {
       const beforeRequest = () => {
         closeSearchDispatch();
         clearSearchListCoursesDispatch();
+        setLastSearchOptionDispatch(option);
       };
       const afterResponse = (courses) => {
         if (courses.length === LIMIT) {
@@ -125,6 +130,9 @@ const mapDispatchToProps = (dispatch) => ({
   setListCoursesDispatch: (code, courses) => {
     dispatch(setListCourses(code, courses));
   },
+  setLastSearchOptionDispatch: (option) => {
+    dispatch(setLastSearchOption(option));
+  },
   closeSearchDispatch: () => {
     dispatch(closeSearch());
   },
@@ -148,6 +156,7 @@ DictionaryPage.propTypes = {
   setCourseFocusDispatch: PropTypes.func.isRequired,
   setSelectedListCodeDispatch: PropTypes.func.isRequired,
   setListCoursesDispatch: PropTypes.func.isRequired,
+  setLastSearchOptionDispatch: PropTypes.func.isRequired,
   closeSearchDispatch: PropTypes.func.isRequired,
   clearSearchListCoursesDispatch: PropTypes.func.isRequired,
 };
