@@ -1,4 +1,5 @@
-export const API_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:58000';
+export const API_URL =
+  process.env.NODE_ENV === 'production' ? '' : 'https://api.otl.dev.sparcs.org';
 
 export const TRACKING_ID = 'G-8NSY19J0T3';
 export const STORAGE_KEY = 'otl-banner-key';
