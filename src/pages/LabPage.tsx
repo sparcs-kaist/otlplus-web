@@ -1,10 +1,15 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { UilHeart, UilSuitcase, UilAngleDown, UilSearch } from '@iconscout/react-unicons';
+import { UilHeart, UilSuitcase, UilAngleDown, UilSearch, UilCheck } from '@iconscout/react-unicons';
 import PlaceholderComponenet from '@/common/daily-tf/Placeholder';
 import LabModal from '@/features/lab/components/LabModal';
+
 import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
+import { MajorLabFrame } from '@/features/lab/frames/MajorLabFrame';
+import { MinorLabFrame } from '@/features/lab/frames/MinorLabFrame';
 import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
+import { mockMajorLabs } from '@/features/lab/mock/mockMajorLabs';
+import { mockMinorLabs } from '@/features/lab/mock/mockMinorLabs';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -26,15 +31,15 @@ const ContentsContainer = styled.div`
 // ─── LEFT SIDEBAR ─────────────────────────────────────────────────────────────
 const SidebarWrapper = styled.div`
   width: 246px;
-  height: 344px;
   background-color: #fff;
   box-shadow: 0px 6px 3px -3px #ed8c9ccc;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 12px;
+  padding: 12px 12px 12px 15px;
   box-sizing: border-box;
+  align-self: flex-start;
 `;
 
 const SidebarOption = styled.div`
@@ -55,7 +60,7 @@ const SidebarOption = styled.div`
 const SidebarDivider = styled.div`
   width: 100%;
   height: 1px;
-  background-color: #edd1dc;
+  background-color: rgba(232, 232, 232, 1);
 `;
 
 const SidebarInterestTitle = styled.div`
@@ -68,23 +73,30 @@ const SidebarInterestTitle = styled.div`
   color: #333;
 `;
 
-const SidebarInterest = styled.div`
-  flex: 1;
-  min-height: 184px;
+const SidebarInterest = styled.div<{ edit?: boolean }>`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: 12px;
-  padding: 0 12px;
+  padding: 0;
   box-sizing: border-box;
+  ${({ edit }) =>
+    edit
+      ? `
+    align-items: flex-start;
+  `
+      : `
+    align-items: center;
+    justify-content: center;
+    height: 184px;
+  `}
 `;
 
 const Description = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 500;
   font-size: 13px;
-  line-height: 125%;
+  line-height: 150%;
   color: #999;
   text-align: center;
 `;
@@ -142,25 +154,24 @@ const SaveButton = styled(EditButton)`
 const LeftSearchBarWrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
-  padding: 0 12px;
-  box-sizing: border-box;
+  justify-content: flex-start;
 `;
 
 const LeftSearchBar = styled.div`
-  display: inline-flex;
+  width: 100%;
   height: 32px;
+  display: flex;
   align-items: center;
-  border: 1px solid #edd1dc;
+  border: 1px solid rgba(237, 209, 220, 1);
   border-radius: 6px;
-  padding: 0 8px;
+  padding: 0 12px;
   box-sizing: border-box;
 `;
 
 const LeftSearchIcon = styled(UilSearch)`
   width: 16px;
   height: 16px;
-  color: #aaaaaa;
+  color: #eb809c;
   margin-right: 8px;
 `;
 
@@ -180,6 +191,56 @@ const LeftSearchInput = styled.input`
     letter-spacing: 0;
     color: #aaaaaa;
   }
+`;
+const SelectedTagsRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-start;
+  width: 100%;
+`;
+
+const TagItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background-color: rgba(229, 76, 101, 0.1);
+  color: #e54c65;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+`;
+
+const TrendingLabel = styled.div`
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #e54c65;
+  text-align: left;
+  width: 100%;
+  padding-left: 2px;
+  margin-top: 4px;
+`;
+
+const TrendingTags = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+`;
+
+const TrendingTag = styled.div`
+  padding: 6px 12px;
+  border-radius: 16px;
+  background-color: #f4f4f4;
+  color: #999;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
 `;
 
 // ─── CENTER CONTENT ───────────────────────────────────────────────────────────
@@ -362,9 +423,13 @@ const ResearchTags = styled.div`
 const LabPage: React.FC = () => {
   const [interestMode, setInterestMode] = useState(false);
   const [likedLabMode, setLikedLabMode] = useState(false); // chacha: 찜한 연구실 탭으로 들어간 상태
-  const [leftKeyword, setLeftKeyword] = useState('');
+  const [majorLabMode, setMajorLabMode] = useState(false); // oosoi: :)
+  const [minorLabMode, setMinorLabMode] = useState(false);
   const [centralKeyword, setCentralKeyword] = useState('');
   const [showModal, setShowModal] = useState(true);
+  const [interestKeyword, setInterestKeyword] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const trending = ['AI', 'UX 디자인', '뇌과학', '로보틱스', '데이터사이언스'];
 
   return (
     <>
@@ -372,47 +437,127 @@ const LabPage: React.FC = () => {
       <PageWrapper>
         <ContentsContainer>
           <SidebarWrapper>
-            <SidebarOption onClick={() => setLikedLabMode(true)}>
+            <SidebarOption
+              onClick={() => {
+                setLikedLabMode(true);
+                setMajorLabMode(false);
+                setMinorLabMode(false);
+              }}>
               <UilHeart width="16" height="16" /> 찜한 연구실
             </SidebarOption>
-            <SidebarOption>
+
+            <SidebarOption
+              onClick={() => {
+                setLikedLabMode(false);
+                setMajorLabMode(true);
+                setMinorLabMode(false);
+              }}>
               <UilSuitcase width="16" height="16" /> 전공 학과 연구실
             </SidebarOption>
-            <SidebarOption>
+
+            <SidebarOption
+              onClick={() => {
+                setLikedLabMode(false);
+                setMajorLabMode(false);
+                setMinorLabMode(true);
+              }}>
               <UilSuitcase width="16" height="16" /> 부전공 학과 연구실
             </SidebarOption>
             <SidebarDivider />
             <SidebarInterestTitle>관심 분야</SidebarInterestTitle>
             {!interestMode ? (
               <SidebarInterest>
+                <div style={{ height: '60px' }} />
                 <Description>관심 분야를 설정하고 연구실 추천을 받아보세요</Description>
+                <div style={{ height: '20px' }} />
                 <InterestStartButton onClick={() => setInterestMode(true)}>
                   시작하기
                 </InterestStartButton>
               </SidebarInterest>
             ) : (
-              <SidebarInterest>
-                <LeftSearchBarWrapper>
-                  <LeftSearchBar>
-                    <LeftSearchIcon />
-                    <LeftSearchInput
-                      placeholder="키워드를 입력하세요"
-                      value={leftKeyword}
-                      onChange={(e) => setLeftKeyword(e.target.value)}
-                    />
-                  </LeftSearchBar>
-                </LeftSearchBarWrapper>
-                <FlexRow>
-                  <CancelButton onClick={() => setInterestMode(false)}>취소</CancelButton>
-                  <SaveButton>저장</SaveButton>
-                </FlexRow>
+              <SidebarInterest edit={interestMode}>
+                {interestMode ? (
+                  <>
+                    <LeftSearchBarWrapper>
+                      <LeftSearchBar>
+                        <LeftSearchIcon />
+                        <LeftSearchInput
+                          placeholder="키워드로 검색해보세요"
+                          value={interestKeyword}
+                          onChange={(e) => setInterestKeyword(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' && interestKeyword.trim()) {
+                              if (!selectedTags.includes(interestKeyword.trim())) {
+                                setSelectedTags([...selectedTags, interestKeyword.trim()]);
+                              }
+                              setInterestKeyword('');
+                            }
+                          }}
+                        />
+                      </LeftSearchBar>
+                    </LeftSearchBarWrapper>
+
+                    <SelectedTagsRow>
+                      {selectedTags.map((tag) => (
+                        <TagItem
+                          key={tag}
+                          onClick={() => setSelectedTags(selectedTags.filter((t) => t !== tag))}>
+                          {tag}
+                          <UilCheck width="14" height="14" color="#e54c65" />
+                        </TagItem>
+                      ))}
+                    </SelectedTagsRow>
+
+                    <SidebarDivider />
+
+                    <TrendingLabel>인기 검색어</TrendingLabel>
+                    <TrendingTags>
+                      {trending.map((tag) => (
+                        <TrendingTag
+                          key={tag}
+                          onClick={() => {
+                            if (!selectedTags.includes(tag)) {
+                              setSelectedTags([...selectedTags, tag]);
+                            }
+                          }}>
+                          {tag} +
+                        </TrendingTag>
+                      ))}
+                    </TrendingTags>
+
+                    <FlexRow>
+                      <CancelButton onClick={() => setInterestMode(false)}>취소</CancelButton>
+                      <SaveButton
+                        onClick={() => {
+                          setInterestMode(false);
+                        }}>
+                        저장
+                      </SaveButton>
+                    </FlexRow>
+                  </>
+                ) : (
+                  <>
+                    <div style={{ height: '100px' }} />
+                    <Description>관심 분야를 설정하고 연구실 추천을 받아보세요</Description>
+                    <InterestStartButton onClick={() => setInterestMode(true)}>
+                      시작하기
+                    </InterestStartButton>
+                  </>
+                )}
               </SidebarInterest>
             )}
           </SidebarWrapper>
           {likedLabMode && (
             <LikedLabFrame setLikedLabMode={setLikedLabMode} likedLabs={mockLikedLabs} />
           )}
-          {!likedLabMode && (
+          {majorLabMode && (
+            <MajorLabFrame setMajorLabMode={setMajorLabMode} majorLabs={mockMajorLabs} />
+          )}
+          {minorLabMode && (
+            <MinorLabFrame setMinorLabMode={setMinorLabMode} minorLabs={mockMinorLabs} />
+          )}
+
+          {!likedLabMode && !majorLabMode && !minorLabMode && (
             <MainWrapper>
               <CentralSearchBar>
                 <DepartmentSelect>

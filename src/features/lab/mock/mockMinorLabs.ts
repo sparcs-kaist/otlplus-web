@@ -1,0 +1,88 @@
+import { LabCardProps } from '@/features/lab/components/LabCard';
+
+export const mockMinorLabs: LabCardProps[] = [
+  {
+    name: '생체계측연구실',
+    department: '바이오및뇌공학과',
+    professor: '최준서',
+    summary: '생체신호 분석 및 의료기기 연구',
+    fieldList: ['바이오', '의료기기', '신호처리'],
+  },
+  {
+    name: '생체계측연구실',
+    department: '바이오및뇌공학과',
+    professor: '최준서',
+    summary: '생체신호 분석 및 의료기기 연구',
+    fieldList: ['바이오', '의료기기', '신호처리'],
+  },
+  {
+    name: '신경공학연구실',
+    department: '바이오및뇌공학과',
+    professor: '이수현',
+    summary: '신경신호 처리 및 뇌-기계 인터페이스 연구',
+    fieldList: ['BCI', '신경공학', '인터페이스'],
+  },
+  {
+    name: '신경공학연구실',
+    department: '바이오및뇌공학과',
+    professor: '이수현',
+    summary: '신경신호 처리 및 뇌-기계 인터페이스 연구',
+    fieldList: ['BCI', '신경공학', '인터페이스'],
+  },
+  {
+    name: '글로벌헬스연구실',
+    department: '바이오및뇌공학과',
+    professor: '유민재',
+    summary: '글로벌 보건 이슈와 헬스케어 솔루션 연구',
+    fieldList: ['공중보건', '의료데이터', '헬스케어'],
+  },
+  {
+    name: '글로벌헬스연구실',
+    department: '바이오및뇌공학과',
+    professor: '유민재',
+    summary: '글로벌 보건 이슈와 헬스케어 솔루션 연구',
+    fieldList: ['공중보건', '의료데이터', '헬스케어'],
+  },
+  {
+    name: '우주전파통신연구실',
+    department: '전기및전자공학부',
+    professor: '이정민',
+    summary: '우주/위성 통신 및 전파 특성 연구',
+    fieldList: ['통신', '위성', 'RF'],
+  },
+  {
+    name: '우주전파통신연구실',
+    department: '전기및전자공학부',
+    professor: '이정민',
+    summary: '우주/위성 통신 및 전파 특성 연구',
+    fieldList: ['통신', '위성', 'RF'],
+  },
+  {
+    name: '지능로봇연구실',
+    department: '전기및전자공학부',
+    professor: '김영희',
+    summary: '인공지능 기반 자율 로봇 시스템 연구',
+    fieldList: ['AI', '로봇', '인식'],
+  },
+  {
+    name: '지능로봇연구실',
+    department: '전기및전자공학부',
+    professor: '김영희',
+    summary: '인공지능 기반 자율 로봇 시스템 연구',
+    fieldList: ['AI', '로봇', '인식'],
+  },
+  {
+    name: '자율주행시스템연구실',
+    department: '전기및전자공학부',
+    professor: '김태우',
+    summary: '자율주행 차량 및 센서 융합 기술 연구',
+    fieldList: ['자동차', '자율주행', '센서퓨전'],
+  },
+  {
+    name: '자율주행시스템연구실',
+    department: '전기및전자공학부',
+    professor: '김태우',
+    summary: '자율주행 차량 및 센서 융합 기술 연구',
+    fieldList: ['자동차', '자율주행', '센서퓨전'],
+  },
+];
