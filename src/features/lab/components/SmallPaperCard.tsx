@@ -16,8 +16,7 @@ export interface PaperCardProps {
 
 const PaperCardContainer = styled.div<{ width?: string; maxWidth?: string }>`
   display: flex;
-  height: 299px;
-  width: 330px;
+  min-height: 299px;
   padding: 16px;
   flex-direction: column;
   align-items: flex-start;
@@ -26,6 +25,7 @@ const PaperCardContainer = styled.div<{ width?: string; maxWidth?: string }>`
   border: 1px solid #e8e8e8;
   background-color: #fff;
   flex: 1;
+  min-width: 226px;
 `;
 
 const FieldTagWrapper = styled.div`
@@ -69,7 +69,7 @@ const PaperButton = styled.div`
   gap: 8px;
 `;
 
-const PaperCard: React.FC<PaperCardProps> = ({ title, summary, fieldList, onClick }) => {
+const SmallPaperCard: React.FC<PaperCardProps> = ({ title, summary, fieldList, onClick }) => {
   return (
     <PaperCardContainer>
       <Typography type="NormalBold">{title}</Typography>
@@ -92,4 +92,4 @@ const PaperCard: React.FC<PaperCardProps> = ({ title, summary, fieldList, onClic
   );
 };
 
-export default PaperCard;
+export default SmallPaperCard;
