@@ -21,7 +21,6 @@ const ContentsContainer = styled.div`
   gap: 16px;
   padding: 0 100px;
   width: 100%;
-  border: 1px solid black;
 `;
 
 // ─── LEFT SIDEBAR ─────────────────────────────────────────────────────────────
