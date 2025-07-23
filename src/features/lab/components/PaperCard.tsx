@@ -66,10 +66,16 @@ const PaperButton = styled.div`
   gap: 8px;
 `;
 
+const TitleContainer = styled.div`
+  height: 40px; // magic number
+`;
+
 const PaperCard: React.FC<PaperCardProps> = ({ title, summary, fieldList, onClick }) => {
   return (
     <LabCardContainer>
-      <Typography type="NormalBold">{title}</Typography>
+      <TitleContainer>
+        <Typography type="NormalBold">{title}</Typography>
+      </TitleContainer>
       <FieldTagWrapper>
         {fieldList.map((item, i) => (
           <TagBlock key={i}># {item}</TagBlock>

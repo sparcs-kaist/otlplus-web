@@ -42,6 +42,7 @@ import When2MeetPage from './pages/When2MeetPage';
 import FriendPage from './pages/FriendPage';
 import LayoutTestPage from './pages/LayoutTestPage';
 import LabDetailPage from '@/pages/LabDetailPage';
+import PaperDetailPage from '@/pages/PaperDetailPage';
 
 declare global {
   interface Window {
@@ -168,6 +169,7 @@ const router = createBrowserRouter([
       { path: '*', element: <Navigate to="/" /> },
       { path: 'lab', element: <LabPage /> },
       { path: 'lab/:id', element: <LabDetailPage /> },
+      { path: 'lab/paper/:id', element: <PaperDetailPage /> },
     ],
   },
 ]);
