@@ -10,6 +10,7 @@ import { MinorLabFrame } from '@/features/lab/frames/MinorLabFrame';
 import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
 import { mockMajorLabs } from '@/features/lab/mock/mockMajorLabs';
 import { mockMinorLabs } from '@/features/lab/mock/mockMinorLabs';
+import MainSearch from '@/features/lab/components/MainSearch';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -252,7 +253,7 @@ const MainWrapper = styled.div`
   background-color: #fff;
   box-shadow: 0px 6px 3px -3px #ed8c9ccc;
   border-radius: 6px;
-  padding: 24px 12px 16px;
+  padding: 24px;
   box-sizing: border-box;
   width: 100%;
 `;
@@ -419,6 +420,12 @@ const ResearchTags = styled.div`
   color: #999;
 `;
 
+export enum Mode {
+  'none',
+  'department',
+  'labOrPaper',
+}
+
 // ─── COMPONENT ─────────────────────────────────────────────────────────────
 const LabPage: React.FC = () => {
   const [interestMode, setInterestMode] = useState(false);
@@ -430,6 +437,11 @@ const LabPage: React.FC = () => {
   const [interestKeyword, setInterestKeyword] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const trending = ['AI', 'UX 디자인', '뇌과학', '로보틱스', '데이터사이언스'];
+
+  // Main Search
+  const [mode, setMode] = useState<Mode>(Mode.none);
+  const [lab, setLab] = useState(false);
+  const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
 
   return (
     <>
@@ -559,22 +571,29 @@ const LabPage: React.FC = () => {
 
           {!likedLabMode && !majorLabMode && !minorLabMode && (
             <MainWrapper>
-              <CentralSearchBar>
-                <DepartmentSelect>
-                  <DeptLeft>
-                    <DeptIcon />
-                    학과
-                  </DeptLeft>
-                  <DeptArrow />
-                </DepartmentSelect>
-                <CentralSearchInput
-                  placeholder="키워드, 교수명 등으로 검색해보세요"
-                  value={centralKeyword}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => setCentralKeyword(e.target.value)}
-                />
-                <CentralSearchIcon />
-              </CentralSearchBar>
-
+              {/*<CentralSearchBar>*/}
+              {/*  <DepartmentSelect>*/}
+              {/*    <DeptLeft>*/}
+              {/*      <DeptIcon />*/}
+              {/*      학과*/}
+              {/*    </DeptLeft>*/}
+              {/*    <DeptArrow />*/}
+              {/*  </DepartmentSelect>*/}
+              {/*  <CentralSearchInput*/}
+              {/*    placeholder="키워드, 교수명 등으로 검색해보세요"*/}
+              {/*    value={centralKeyword}*/}
+              {/*    onChange={(e: ChangeEvent<HTMLInputElement>) => setCentralKeyword(e.target.value)}*/}
+              {/*  />*/}
+              {/*  <CentralSearchIcon />*/}
+              {/*</CentralSearchBar>*/}
+              <MainSearch
+                mode={mode}
+                setMode={setMode}
+                lab={lab}
+                setLab={setLab}
+                selectedDepartments={selectedDepartments}
+                setSelectedDepartments={setSelectedDepartments}
+              />
               <CustomScItem>
                 <PlaceholderComponenet />
               </CustomScItem>
