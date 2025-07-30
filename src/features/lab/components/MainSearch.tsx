@@ -6,7 +6,7 @@ import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { ChevronLeft, ShoppingBag } from '@mui/icons-material';
 import TextInput from '@/features/lab/components/TextInput';
-import { Mode } from '@/pages/LabPage';
+import { Mode } from '@/features/lab/enum/Mode';
 import DepartmentChip from './DepartmentChip';
 
 export interface MainSearchProps {

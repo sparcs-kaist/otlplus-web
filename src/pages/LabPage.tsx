@@ -1,7 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import { UilHeart, UilSuitcase, UilAngleDown, UilSearch, UilCheck } from '@iconscout/react-unicons';
-import PlaceholderComponenet from '@/common/daily-tf/Placeholder';
 import LabModal from '@/features/lab/components/LabModal';
 
 import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
@@ -11,6 +9,12 @@ import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
 import { mockMajorLabs } from '@/features/lab/mock/mockMajorLabs';
 import { mockMinorLabs } from '@/features/lab/mock/mockMinorLabs';
 import MainSearch from '@/features/lab/components/MainSearch';
+import Typography from '@/common/daily-tf/Typography';
+import Icon from '@/common/daily-tf/Icon';
+import { useNavigate } from 'react-router';
+import PaperCard from '@/features/lab/components/PaperCard';
+import LabCard from '@/features/lab/components/LabCard';
+import { Mode } from '@/features/lab/enum/Mode';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -169,13 +173,6 @@ const LeftSearchBar = styled.div`
   box-sizing: border-box;
 `;
 
-const LeftSearchIcon = styled(UilSearch)`
-  width: 16px;
-  height: 16px;
-  color: #eb809c;
-  margin-right: 8px;
-`;
-
 const LeftSearchInput = styled.input`
   flex: 1;
   border: none;
@@ -247,7 +244,6 @@ const TrendingTag = styled.div`
 // ─── CENTER CONTENT ───────────────────────────────────────────────────────────
 const MainWrapper = styled.div`
   flex: 1;
-  height: calc(100vh - 75px);
   display: flex;
   flex-direction: column;
   background-color: #fff;
@@ -256,6 +252,18 @@ const MainWrapper = styled.div`
   padding: 24px;
   box-sizing: border-box;
   width: 100%;
+  gap: 10px;
+  min-width: 0;
+`;
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
+  border-radius: 6px;
+  padding: 24px;
+  box-sizing: border-box;
 `;
 
 const CentralSearchBar = styled.div`
@@ -290,48 +298,6 @@ const DeptLeft = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 14px;
   font-weight: 400;
-`;
-
-const DeptIcon = styled(UilSuitcase)`
-  width: 16px;
-  height: 16px;
-  color: #aaaaaa;
-`;
-
-const DeptArrow = styled(UilAngleDown)`
-  width: 20px;
-  height: 20px;
-  color: #aaaaaa;
-  cursor: default;
-`;
-
-const CentralSearchInput = styled.input`
-  flex: 1;
-  height: 100%;
-  border: none;
-  outline: none;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14px;
-  line-height: 125%;
-  color: #333;
-  &::placeholder {
-    color: #aaaaaa;
-  }
-`;
-
-const CentralSearchIcon = styled(UilSearch)`
-  width: 16px;
-  height: 16px;
-  color: #eb809c;
-  margin-right: 16px;
-`;
-
-const CustomScItem = styled.div.attrs({ className: 'sc-duJKf kHGnkC' })`
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 // ─── RIGHT SIDEBAR ──────────────────────────────────────────────────────────
@@ -385,12 +351,6 @@ const ResearchTitle = styled.div`
   color: #333;
 `;
 
-const HeartIcon = styled(UilHeart)`
-  width: 16px;
-  height: 16px;
-  color: #aaaaaa;
-`;
-
 const ResearchBody = styled.div`
   width: 100%;
   height: 42px;
@@ -420,11 +380,51 @@ const ResearchTags = styled.div`
   color: #999;
 `;
 
-export enum Mode {
-  'none',
-  'department',
-  'labOrPaper',
-}
+const LabRecommendationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  align-self: stretch;
+`;
+
+const LabRecommendationTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+`;
+
+const ClickWebsiteButton = styled.button`
+  display: flex;
+  height: 32px;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  background-color: #eee;
+`;
+
+const Divider = styled.div`
+  height: 1px;
+  align-self: stretch;
+  border-top: 1px solid #edd1dc;
+  width: 100%;
+`;
+
+const HorizontalScrollWrapper = styled.div`
+  overflow: scroll;
+  width: 100%;
+`;
+
+const LabRecommendationScroll = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: max-content;
+  flex-shrink: 0;
+`;
 
 // ─── COMPONENT ─────────────────────────────────────────────────────────────
 const LabPage: React.FC = () => {
@@ -442,6 +442,7 @@ const LabPage: React.FC = () => {
   const [mode, setMode] = useState<Mode>(Mode.none);
   const [lab, setLab] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -455,7 +456,7 @@ const LabPage: React.FC = () => {
                 setMajorLabMode(false);
                 setMinorLabMode(false);
               }}>
-              <UilHeart width="16" height="16" /> 찜한 연구실
+              <Icon type="Heart" size={16} color="#000" /> 찜한 연구실
             </SidebarOption>
 
             <SidebarOption
@@ -464,7 +465,7 @@ const LabPage: React.FC = () => {
                 setMajorLabMode(true);
                 setMinorLabMode(false);
               }}>
-              <UilSuitcase width="16" height="16" /> 전공 학과 연구실
+              <Icon type="ShoppingBag" size={16} color="#000" /> 전공 학과 연구실
             </SidebarOption>
 
             <SidebarOption
@@ -473,7 +474,7 @@ const LabPage: React.FC = () => {
                 setMajorLabMode(false);
                 setMinorLabMode(true);
               }}>
-              <UilSuitcase width="16" height="16" /> 부전공 학과 연구실
+              <Icon type="ShoppingBag" size={16} color="#000" /> 부전공 학과 연구실
             </SidebarOption>
             <SidebarDivider />
             <SidebarInterestTitle>관심 분야</SidebarInterestTitle>
@@ -492,7 +493,7 @@ const LabPage: React.FC = () => {
                   <>
                     <LeftSearchBarWrapper>
                       <LeftSearchBar>
-                        <LeftSearchIcon />
+                        <Icon type="Search" color="#eb809c" size={16} />
                         <LeftSearchInput
                           placeholder="키워드로 검색해보세요"
                           value={interestKeyword}
@@ -515,7 +516,7 @@ const LabPage: React.FC = () => {
                           key={tag}
                           onClick={() => setSelectedTags(selectedTags.filter((t) => t !== tag))}>
                           {tag}
-                          <UilCheck width="14" height="14" color="#e54c65" />
+                          <Icon type="Check" size={14} color="#e54c65" />
                         </TagItem>
                       ))}
                     </SelectedTagsRow>
@@ -571,21 +572,6 @@ const LabPage: React.FC = () => {
 
           {!likedLabMode && !majorLabMode && !minorLabMode && (
             <MainWrapper>
-              {/*<CentralSearchBar>*/}
-              {/*  <DepartmentSelect>*/}
-              {/*    <DeptLeft>*/}
-              {/*      <DeptIcon />*/}
-              {/*      학과*/}
-              {/*    </DeptLeft>*/}
-              {/*    <DeptArrow />*/}
-              {/*  </DepartmentSelect>*/}
-              {/*  <CentralSearchInput*/}
-              {/*    placeholder="키워드, 교수명 등으로 검색해보세요"*/}
-              {/*    value={centralKeyword}*/}
-              {/*    onChange={(e: ChangeEvent<HTMLInputElement>) => setCentralKeyword(e.target.value)}*/}
-              {/*  />*/}
-              {/*  <CentralSearchIcon />*/}
-              {/*</CentralSearchBar>*/}
               <MainSearch
                 mode={mode}
                 setMode={setMode}
@@ -594,9 +580,35 @@ const LabPage: React.FC = () => {
                 selectedDepartments={selectedDepartments}
                 setSelectedDepartments={setSelectedDepartments}
               />
-              <CustomScItem>
-                <PlaceholderComponenet />
-              </CustomScItem>
+              <Divider />
+              <LabRecommendationWrapper>
+                <LabRecommendationTitleWrapper>
+                  <Typography type="BiggerBold" color="Text.default">
+                    이런 연구실은 어떤가요?
+                  </Typography>
+                  <ClickWebsiteButton onClick={() => navigate('/lab')}>
+                    <Icon type="FormatListBulleted" size={18} color="#888" />
+                    <Typography type="Normal" color="Text.lighter">
+                      추천 연구실 모아보기
+                    </Typography>
+                  </ClickWebsiteButton>
+                </LabRecommendationTitleWrapper>
+                <HorizontalScrollWrapper>
+                  <LabRecommendationScroll>
+                    {mockMajorLabs.map((item, index) => (
+                      <LabCard
+                        key={index}
+                        name={item.name}
+                        department={item.department}
+                        professor={item.professor}
+                        summary={item.summary}
+                        fieldList={item.fieldList}
+                        onClick={() => navigate(`/lab/${index + 1}`)}
+                      />
+                    ))}
+                  </LabRecommendationScroll>
+                </HorizontalScrollWrapper>
+              </LabRecommendationWrapper>
             </MainWrapper>
           )}
 
@@ -608,7 +620,8 @@ const LabPage: React.FC = () => {
               <ResearchCard key={i}>
                 <ResearchHeader>
                   <ResearchTitle>연구실명</ResearchTitle>
-                  <HeartIcon />
+                  {/*<HeartIcon />*/}
+                  <Icon type="Heart" size={16} color="#aaa" />
                 </ResearchHeader>
                 <ResearchBody>
                   <ResearchProf>담당교수</ResearchProf>

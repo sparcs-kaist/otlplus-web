@@ -8,7 +8,7 @@ import ReviewCard from '@/features/lab/components/ReviewCard';
 import { mockPaperList } from '@/features/lab/mock/mockPaperList';
 import { mockReview } from '@/features/lab/mock/mockReview';
 import Image from 'next/image';
-import logoImage from '../../../../public/static/favicon-64.png';
+import logoImage from '@/static/favicon-64.png';
 
 const MainWrapper = styled.div`
   display: flex;
