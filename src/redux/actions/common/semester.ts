@@ -5,6 +5,12 @@ export const SET_CURRENT_SEMESTER = `${BASE_STRING}SET_CURRENT_SEMESTER` as cons
 
 import Semester from '@/shapes/model/subject/Semester';
 
+/**
+ * Creates an action to set the list of semesters in the state.
+ *
+ * @param semesters - The array of Semester objects to set
+ * @returns An action object with type SET_SEMESTERS and the semesters payload
+ */
 export function setSemesters(semesters: Semester[]) {
   return {
     type: SET_SEMESTERS,
@@ -12,6 +18,12 @@ export function setSemesters(semesters: Semester[]) {
   };
 }
 
+/**
+ * Creates an action to set the current semester in the state.
+ *
+ * @param semester - The semester to be set as current
+ * @returns An action object with type `SET_CURRENT_SEMESTER` and the specified semester
+ */
 export function setCurrentSemester(semester: Semester) {
   return {
     type: SET_CURRENT_SEMESTER,
