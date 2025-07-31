@@ -1,0 +1,298 @@
+import styled from 'styled-components';
+import Icon from '@/common/daily-tf/Icon';
+import Typography from '@/common/daily-tf/Typography';
+import { useNavigate } from 'react-router';
+import React, { useState } from 'react';
+import PaperCard from '@/features/lab/components/PaperCard';
+import ReviewCard from '@/features/lab/components/ReviewCard';
+import { mockPaperList } from '@/features/lab/mock/mockPaperList';
+import { mockReview } from '@/features/lab/mock/mockReview';
+import MainSearch from '@/features/lab/components/MainSearch';
+import { mockMajorLabs } from '@/features/lab/mock/mockMajorLabs';
+import LabCard from '@/features/lab/components/LabCard';
+import { Mode } from '@/features/lab/enum/Mode';
+
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
+  border-radius: 6px;
+  padding: 24px;
+  box-sizing: border-box;
+
+  flex: 1;
+  width: 100%;
+  gap: 10px;
+  min-width: 0;
+`;
+
+const LabRecommendationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  align-self: stretch;
+`;
+
+const LabRecommendationTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+`;
+
+const ClickWebsiteButton = styled.button`
+  display: flex;
+  height: 32px;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  background-color: #eee;
+`;
+
+const Divider = styled.div`
+  height: 1px;
+  align-self: stretch;
+  border-top: 1px solid #edd1dc;
+  width: 100%;
+`;
+
+const HorizontalScrollWrapper = styled.div`
+  overflow-x: scroll;
+  width: 100%;
+`;
+
+const LabRecommendationScroll = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: max-content;
+  flex-shrink: 0;
+`;
+
+const MainContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  flex: 1 0 0;
+  align-self: stretch;
+`;
+
+const RecentPaperListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1 0 0;
+`;
+
+const PaperTitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+`;
+
+interface OrderProps {
+  isLast?: boolean;
+}
+
+const PaperTitle = styled.div<OrderProps>`
+  display: flex;
+  padding: 8px 0 8px 14px;
+  justify-content: center;
+  gap: 22px;
+  height: 54px;
+
+  align-items: center;
+  align-self: stretch;
+
+  ${({ theme, isLast }) => !isLast && `border-bottom: 1px solid ${theme.colors.Line.default}`}
+`;
+
+const RecentSearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  align-self: stretch;
+`;
+
+const PaperRecommendationWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const VerticalDivider = styled.div`
+  border-right: 1px solid #edd1dc;
+`;
+
+const EllipsisTwoLines = styled.div`
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+  max-height: '38px';
+`;
+
+export const MainFrameWithInterest = () => {
+  const [mode, setMode] = useState<Mode>(Mode.none);
+  const [lab, setLab] = useState(false);
+  const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
+  const [recentKeyword, setRecentKeyword] = useState<string[]>([]);
+  const navigate = useNavigate();
+  const reviewList = mockReview();
+  const maxSearchKeyword = 15;
+  const paperList = mockPaperList();
+
+  const setRecentSearch = (value: string) => {
+    setRecentKeyword((prev) => {
+      const updated = [...prev.filter((v) => v !== value), value];
+      if (updated.length > maxSearchKeyword) {
+        return updated.slice(updated.length - maxSearchKeyword);
+      }
+      return updated;
+    });
+  };
+
+  return (
+    <MainWrapper>
+      <MainSearch
+        mode={mode}
+        setMode={setMode}
+        lab={lab}
+        setLab={setLab}
+        selectedDepartments={selectedDepartments}
+        setSelectedDepartments={setSelectedDepartments}
+        setRecentSearch={setRecentSearch}
+      />
+      <RecentSearchWrapper>
+        <Typography type="SmallBold" color="Text.default">
+          최근 검색어
+        </Typography>
+        {recentKeyword.toReversed().map((item, key) => (
+          <Typography key={key} type="Small" color="Text.default">
+            {item}
+          </Typography>
+        ))}
+      </RecentSearchWrapper>
+      <Divider />
+      <MainContentWrapper>
+        <LabRecommendationWrapper>
+          <LabRecommendationTitleWrapper>
+            <Typography type="BiggerBold" color="Text.default">
+              이런 연구실은 어떤가요?
+            </Typography>
+            <ClickWebsiteButton onClick={() => navigate('/lab')}>
+              <Icon type="FormatListBulleted" size={18} color="#888" />
+              <Typography type="Normal" color="Text.lighter">
+                추천 연구실 모아보기
+              </Typography>
+            </ClickWebsiteButton>
+          </LabRecommendationTitleWrapper>
+          <HorizontalScrollWrapper>
+            <LabRecommendationScroll>
+              {mockMajorLabs.map((item, index) => (
+                <LabCard
+                  key={index}
+                  name={item.name}
+                  department={item.department}
+                  professor={item.professor}
+                  summary={item.summary}
+                  fieldList={item.fieldList}
+                  onClick={() => navigate(`/lab/${index + 1}`)}
+                />
+              ))}
+            </LabRecommendationScroll>
+          </HorizontalScrollWrapper>
+        </LabRecommendationWrapper>
+        <PaperRecommendationWrapper>
+          <RecentPaperListWrapper>
+            <LabRecommendationTitleWrapper>
+              <Typography type="BiggerBold" color="Text.default">
+                이런 논문은 어떤가요?
+              </Typography>
+              <ClickWebsiteButton onClick={() => navigate('/lab')}>
+                <Icon type="FormatListBulleted" size={18} color="#888" />
+                <Typography type="Normal" color="Text.lighter">
+                  추천 논문 모아보기
+                </Typography>
+              </ClickWebsiteButton>
+            </LabRecommendationTitleWrapper>
+            <PaperTitleWrapper>
+              {paperList.slice(0, 5).map((item, index) => (
+                <PaperTitle key={index} isLast={index == 4}>
+                  <Typography type="NormalBold" color="Highlight.default">
+                    {index + 1}
+                  </Typography>
+                  <EllipsisTwoLines>
+                    <Typography type="Normal" color="Text.default">
+                      {item.title}
+                    </Typography>
+                  </EllipsisTwoLines>
+                </PaperTitle>
+              ))}
+            </PaperTitleWrapper>
+          </RecentPaperListWrapper>
+          <VerticalDivider />
+          <RecentPaperListWrapper>
+            <LabRecommendationTitleWrapper>
+              <Typography type="BiggerBold" color="Text.default">
+                최신 논문
+              </Typography>
+              <ClickWebsiteButton onClick={() => navigate('/lab')}>
+                <Icon type="FormatListBulleted" size={18} color="#888" />
+                <Typography type="Normal" color="Text.lighter">
+                  최신 논문 모아보기
+                </Typography>
+              </ClickWebsiteButton>
+            </LabRecommendationTitleWrapper>
+            <PaperTitleWrapper>
+              {paperList.slice(0, 5).map((item, index) => (
+                <PaperTitle key={index} isLast={index == 4}>
+                  <Typography type="NormalBold" color="Highlight.default">
+                    {index + 1}
+                  </Typography>
+                  <EllipsisTwoLines>
+                    <Typography type="Normal" color="Text.default">
+                      {item.title}
+                    </Typography>
+                  </EllipsisTwoLines>
+                </PaperTitle>
+              ))}
+            </PaperTitleWrapper>
+          </RecentPaperListWrapper>
+        </PaperRecommendationWrapper>
+
+        <LabRecommendationWrapper>
+          <LabRecommendationTitleWrapper>
+            <Typography type="BiggerBold" color="Text.default">
+              따끈따끈한 개별연구 후기
+            </Typography>
+          </LabRecommendationTitleWrapper>
+          <HorizontalScrollWrapper>
+            <LabRecommendationScroll>
+              {reviewList.map((item, index) => (
+                <ReviewCard
+                  key={index}
+                  professor={item.professor}
+                  content={item.content}
+                  like={item.like}
+                  load={item.load}
+                  grade={item.grade}
+                  lecture={item.lecture}
+                />
+              ))}
+            </LabRecommendationScroll>
+          </HorizontalScrollWrapper>
+        </LabRecommendationWrapper>
+      </MainContentWrapper>
+    </MainWrapper>
+  );
+};

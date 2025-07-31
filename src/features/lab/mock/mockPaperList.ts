@@ -28,7 +28,8 @@ export const mockPaperList: () => MockPaperListProps[] = () => [
     labId: 1,
   },
   {
-    title: 'Structuring Related Work via Graph Mapping',
+    title:
+      'Note-Taking in Literature Graphs: An Empirical Study - A Systematic Review in Affinity Diagram and the Use of Post-it Notes',
     fieldList: ['Related Work', '문헌 구조화', '시각화'],
     summary:
       '관련 연구 단원을 구성할 때 그래프 기반 구조화를 활용하여 논리적 흐름을 명확히 할 수 있도록 지원합니다.',
@@ -49,7 +50,8 @@ export const mockPaperList: () => MockPaperListProps[] = () => [
     labId: 1,
   },
   {
-    title: 'Note-Taking in Literature Graphs: An Empirical Study',
+    title:
+      'Note-Taking in Literature Graphs: An Empirical Study - A Systematic Review in Affinity Diagram and the Use of Post-it Notes',
     fieldList: ['사용성 평가', '노트 기능', '문헌조사'],
     summary: '문헌 그래프 위에 메모를 작성하는 기능의 유용성을 실험을 통해 검증하였습니다.',
     labId: 1,

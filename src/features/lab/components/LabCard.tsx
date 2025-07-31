@@ -24,6 +24,7 @@ const LabCardContainer = styled.div`
   border-radius: 6px;
   border: 1px solid #e8e8e8;
   background-color: #fff;
+  min-width: 330px;
 `;
 
 const TopContainer = styled.div`

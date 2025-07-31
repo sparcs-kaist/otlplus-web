@@ -88,15 +88,6 @@ const InfoWrapper = styled.div`
   width: 100%;
 `;
 
-const LabIntroWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 6px;
-  align-self: stretch;
-  width: 100%;
-`;
-
 const SubHeadingAndText = styled.div`
   display: flex;
   align-items: center;

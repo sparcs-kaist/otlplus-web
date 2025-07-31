@@ -16,6 +16,7 @@ export interface MainSearchProps {
   setLab: (open: boolean) => void;
   selectedDepartments: string[];
   setSelectedDepartments: React.Dispatch<React.SetStateAction<string[]>>;
+  setRecentSearch: (string: string) => void;
 }
 
 interface ChipProps {
@@ -146,6 +147,7 @@ const MainSearch: React.FC<MainSearchProps> = ({
   setLab,
   selectedDepartments,
   setSelectedDepartments,
+  setRecentSearch,
 }) => {
   const [text, setText] = React.useState('');
 
@@ -289,6 +291,7 @@ const MainSearch: React.FC<MainSearchProps> = ({
           value={text}
           handleChange={setText}
           mode={mode}
+          setRecentSearch={setRecentSearch}
         />
       </MainSearchTop>
       {mode === Mode.labOrPaper && (

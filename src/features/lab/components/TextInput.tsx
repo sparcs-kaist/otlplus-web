@@ -16,6 +16,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   handleChange?: (value: string) => void;
   setErrorStatus?: ($hasError: boolean) => void;
   mode: Mode;
+  setRecentSearch: (value: string) => void;
 }
 
 const errorBorderStyle = css`
@@ -68,7 +69,6 @@ const InputWrapper = styled.div<ModeProps>`
 const InputContainer = styled.div`
   display: flex;
   min-width: 157px;
-  padding: 0 16px;
   justify-content: flex-end;
   align-items: center;
   gap: 12px;
@@ -95,6 +95,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       handleChange = () => {},
       setErrorStatus = () => {},
       $placeholderColor: placeholderColor,
+      setRecentSearch,
       ...props
     },
     ref,
@@ -122,11 +123,22 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             $placeholderColor={placeholderColor}
             {...props}
           />
+          {value !== '' && (
+            <IconWrapper>
+              <Icon type="Cancel" color="#ED8C9C" size={20} onClick={() => handleChange('')} />
+            </IconWrapper>
+          )}
+
           <IconWrapper>
-            <Icon type="Delete" color="#AAAAAA" size={20} onClick={() => handleChange('')} />
-          </IconWrapper>
-          <IconWrapper>
-            <Icon type="Search" color="#E54C65" size={20} />
+            <Icon
+              type="Search"
+              color="#E54C65"
+              size={20}
+              onClick={() => {
+                setRecentSearch(value);
+                handleChange('');
+              }}
+            />
           </IconWrapper>
         </InputContainer>
       </InputWrapper>

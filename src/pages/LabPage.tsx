@@ -15,6 +15,11 @@ import { useNavigate } from 'react-router';
 import PaperCard from '@/features/lab/components/PaperCard';
 import LabCard from '@/features/lab/components/LabCard';
 import { Mode } from '@/features/lab/enum/Mode';
+import ReviewCard from '@/features/lab/components/ReviewCard';
+import { mockReview } from '@/features/lab/mock/mockReview';
+import { FavoriteBorder } from '@mui/icons-material';
+import { MainFrameWithNoInterest } from '@/features/lab/frames/MainFrameWithNoInterest';
+import { MainFrameWithInterest } from '@/features/lab/frames/MainFrameWithInterest';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -380,69 +385,17 @@ const ResearchTags = styled.div`
   color: #999;
 `;
 
-const LabRecommendationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 22px;
-  align-self: stretch;
-`;
-
-const LabRecommendationTitleWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  align-self: stretch;
-`;
-
-const ClickWebsiteButton = styled.button`
-  display: flex;
-  height: 32px;
-  padding: 6px 12px;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  border-radius: 6px;
-  background-color: #eee;
-`;
-
-const Divider = styled.div`
-  height: 1px;
-  align-self: stretch;
-  border-top: 1px solid #edd1dc;
-  width: 100%;
-`;
-
-const HorizontalScrollWrapper = styled.div`
-  overflow: scroll;
-  width: 100%;
-`;
-
-const LabRecommendationScroll = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  width: max-content;
-  flex-shrink: 0;
-`;
-
 // ─── COMPONENT ─────────────────────────────────────────────────────────────
 const LabPage: React.FC = () => {
   const [interestMode, setInterestMode] = useState(false);
   const [likedLabMode, setLikedLabMode] = useState(false); // chacha: 찜한 연구실 탭으로 들어간 상태
   const [majorLabMode, setMajorLabMode] = useState(false); // oosoi: :)
   const [minorLabMode, setMinorLabMode] = useState(false);
-  const [centralKeyword, setCentralKeyword] = useState('');
   const [showModal, setShowModal] = useState(true);
   const [interestKeyword, setInterestKeyword] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const trending = ['AI', 'UX 디자인', '뇌과학', '로보틱스', '데이터사이언스'];
-
-  // Main Search
-  const [mode, setMode] = useState<Mode>(Mode.none);
-  const [lab, setLab] = useState(false);
-  const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
-  const navigate = useNavigate();
+  const noInterest = true; // CHACHA : 임시로 이걸로 바꿔가며 테스트
 
   return (
     <>
@@ -456,7 +409,7 @@ const LabPage: React.FC = () => {
                 setMajorLabMode(false);
                 setMinorLabMode(false);
               }}>
-              <Icon type="Heart" size={16} color="#000" /> 찜한 연구실
+              <Icon type="FavoriteBorder" size={16} color="#000" /> 찜한 연구실
             </SidebarOption>
 
             <SidebarOption
@@ -570,46 +523,12 @@ const LabPage: React.FC = () => {
             <MinorLabFrame setMinorLabMode={setMinorLabMode} minorLabs={mockMinorLabs} />
           )}
 
-          {!likedLabMode && !majorLabMode && !minorLabMode && (
-            <MainWrapper>
-              <MainSearch
-                mode={mode}
-                setMode={setMode}
-                lab={lab}
-                setLab={setLab}
-                selectedDepartments={selectedDepartments}
-                setSelectedDepartments={setSelectedDepartments}
-              />
-              <Divider />
-              <LabRecommendationWrapper>
-                <LabRecommendationTitleWrapper>
-                  <Typography type="BiggerBold" color="Text.default">
-                    이런 연구실은 어떤가요?
-                  </Typography>
-                  <ClickWebsiteButton onClick={() => navigate('/lab')}>
-                    <Icon type="FormatListBulleted" size={18} color="#888" />
-                    <Typography type="Normal" color="Text.lighter">
-                      추천 연구실 모아보기
-                    </Typography>
-                  </ClickWebsiteButton>
-                </LabRecommendationTitleWrapper>
-                <HorizontalScrollWrapper>
-                  <LabRecommendationScroll>
-                    {mockMajorLabs.map((item, index) => (
-                      <LabCard
-                        key={index}
-                        name={item.name}
-                        department={item.department}
-                        professor={item.professor}
-                        summary={item.summary}
-                        fieldList={item.fieldList}
-                        onClick={() => navigate(`/lab/${index + 1}`)}
-                      />
-                    ))}
-                  </LabRecommendationScroll>
-                </HorizontalScrollWrapper>
-              </LabRecommendationWrapper>
-            </MainWrapper>
+          {!likedLabMode && !majorLabMode && !minorLabMode && noInterest && (
+            <MainFrameWithNoInterest />
+          )}
+
+          {!likedLabMode && !majorLabMode && !minorLabMode && !noInterest && (
+            <MainFrameWithInterest />
           )}
 
           <RightSection>
@@ -621,7 +540,7 @@ const LabPage: React.FC = () => {
                 <ResearchHeader>
                   <ResearchTitle>연구실명</ResearchTitle>
                   {/*<HeartIcon />*/}
-                  <Icon type="Heart" size={16} color="#aaa" />
+                  <Icon type="FavoriteBorder" size={16} color="#aaa" />
                 </ResearchHeader>
                 <ResearchBody>
                   <ResearchProf>담당교수</ResearchProf>
