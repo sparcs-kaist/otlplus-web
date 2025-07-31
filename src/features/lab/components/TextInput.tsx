@@ -1,7 +1,7 @@
 import React, { ChangeEvent, InputHTMLAttributes, useEffect, forwardRef } from 'react';
 import styled, { css } from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
-import { Mode } from '@/pages/LabPage';
+import { Mode } from '@/features/lab/enum/Mode';
 import { AutoDelete } from '@mui/icons-material';
 
 // daily-tf TextInput 가져와서 썼습니다.
