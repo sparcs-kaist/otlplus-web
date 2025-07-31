@@ -48,7 +48,7 @@ class CourseSearchSubSection extends Component {
   };
 
   searchStart = () => {
-    const LIMIT = 150;
+    const LIMIT = 10;
 
     const { t } = this.props;
     const { selectedTypes, selectedDepartments, selectedLevels, selectedTerms, keyword } =
@@ -77,10 +77,10 @@ class CourseSearchSubSection extends Component {
       clearCourseFocusDispatch();
     };
     const afterResponse = (courses) => {
-      if (courses.length === LIMIT) {
-        // eslint-disable-next-line no-alert
-        alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
-      }
+      // if (courses.length === LIMIT) {
+      //   // eslint-disable-next-line no-alert
+      //   alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
+      // }
       setListCoursesDispatch(CourseListCode.SEARCH, courses);
     };
     performSearchCourses(option, LIMIT, beforeRequest, afterResponse);

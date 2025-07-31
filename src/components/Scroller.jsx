@@ -106,10 +106,10 @@ class Scroller extends Component {
         onMouseLeave={async () => {
           this.setState({ isMouseIn: false });
         }}
-        onScroll={() => {
+        onScroll={(e) => {
           this.setState({ isScrolling: true });
           if (onScroll) {
-            onScroll();
+            onScroll(e);
           }
         }}
         onScrollStop={async () => {

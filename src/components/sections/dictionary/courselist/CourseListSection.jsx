@@ -14,7 +14,9 @@ import CourseBlock from '../../../blocks/CourseBlock';
 
 import { isFocused, isDimmedCourse } from '../../../../utils/courseUtils';
 import { setCourseFocus, clearCourseFocus } from '../../../../redux/actions/dictionary/courseFocus';
-import { openSearch } from '../../../../redux/actions/dictionary/search';
+import { openSearch, setLastSearchOption } from '../../../../redux/actions/dictionary/search';
+import { setListCourses } from '../../../../redux/actions/dictionary/list';
+import { performSearchCourses } from '../../../../common/commonOperations';
 
 import courseShape from '../../../../shapes/model/subject/CourseShape';
 import courseFocusShape from '../../../../shapes/state/dictionary/CourseFocusShape';
@@ -30,7 +32,26 @@ import {
   getTermOptions,
 } from '../../../../common/searchOptions';
 
+const REFRESH_LIMIT = 10;
+
 class CourseListSection extends Component {
+  constructor(props) {
+    super(props);
+    this.offSetRef = React.createRef();
+  }
+
+  componentDidMount() {
+    if (this.offSetRef.current) {
+      this.offSetRef.current.value = REFRESH_LIMIT;
+    }
+  }
+
+  onScrollChange = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e;
+
+    if (scrollTop + clientHeight >= scrollHeight) this._addCourseToList();
+  };
+
   showSearch = () => {
     const { openSearchDispatch } = this.props;
     openSearchDispatch();
@@ -82,6 +103,36 @@ class CourseListSection extends Component {
       return null;
     }
     return lists[selectedListCode].courses;
+  };
+
+  _addCourseToList = () => {
+    const {
+      setListCoursesDispatch,
+      selectedListCode,
+      lastSearchOption,
+      setLastSearchOptionDispatch,
+    } = this.props;
+
+    const courses = this._getCourses(selectedListCode);
+    const offset = (lastSearchOption?.offset ?? 0) + REFRESH_LIMIT;
+
+    const option = {
+      ...lastSearchOption,
+      offset,
+      limit: offset + REFRESH_LIMIT,
+    };
+
+    const beforeRequest = () => {
+      setLastSearchOptionDispatch(option);
+    };
+
+    const afterResponse = async (newCourses) => {
+      if (newCourses.length > 0) {
+        await setListCoursesDispatch(CourseListCode.SEARCH, [...courses, ...newCourses]);
+      }
+    };
+
+    performSearchCourses(option, option.limit, beforeRequest, afterResponse);
   };
 
   render() {
@@ -158,12 +209,12 @@ class CourseListSection extends Component {
         );
       }
       return (
-        <Scroller key={selectedListCode}>
+        <Scroller key={selectedListCode} onScroll={this.onScrollChange}>
           <div className={classNames('block-list')}>
-            {courses.map((c) => (
+            {courses.map((c, idx) => (
               <CourseBlock
                 course={c}
-                key={c.id}
+                key={idx}
                 shouldShowReadStatus={true}
                 isRead={c.userspecific_is_read || readCourses.some((c2) => c2.id === c.id)}
                 isRaised={isFocused(c, courseFocus)}
@@ -207,6 +258,12 @@ const mapDispatchToProps = (dispatch) => ({
   clearCourseFocusDispatch: () => {
     dispatch(clearCourseFocus());
   },
+  setListCoursesDispatch: (code, courses) => {
+    dispatch(setListCourses(code, courses));
+  },
+  setLastSearchOptionDispatch: (lastSearchOption) => {
+    dispatch(setLastSearchOption(lastSearchOption));
+  },
 });
 
 CourseListSection.propTypes = {
@@ -220,6 +277,8 @@ CourseListSection.propTypes = {
   openSearchDispatch: PropTypes.func.isRequired,
   setCourseFocusDispatch: PropTypes.func.isRequired,
   clearCourseFocusDispatch: PropTypes.func.isRequired,
+  setListCoursesDispatch: PropTypes.func.isRequired,
+  setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(CourseListSection));
