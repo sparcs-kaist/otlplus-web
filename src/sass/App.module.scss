@@ -732,11 +732,13 @@ a {
     @include mixin-media-landscape {
       border-top-left-radius: 0;
       grid-area: semester-and-timetable-tabs;
-      grid-template-columns: 1fr 8px min-content;
+
+      grid-template-columns: 1fr 8px max-content min-content;
       grid-template-rows: min-content 1fr;
+
       grid-template-areas:
-        'timetable-tabs .   semester'
-        'timetable-tabs .   .';
+        'timetable-tabs .   sync semester'
+        'timetable-tabs .   .        .';
     }
     @include mixin-media-portrait {
       grid-template-columns: 1fr min-content 1fr;
@@ -746,6 +748,7 @@ a {
         '.              .               .'
         'timetable-tabs timetable-tabs  timetable-tabs';
     }
+    column-gap: 6px;
   }
 
   &--lecture-detail {
@@ -775,6 +778,11 @@ a {
 
   &--semester {
     grid-area: semester;
+    padding: 6px 8px;
+  }
+
+  &--sync {
+    grid-area: sync;
     padding: 6px 8px;
   }
 

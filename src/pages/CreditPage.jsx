@@ -377,20 +377,15 @@ class CreditPage extends Component {
       index: 33,
       mainTitle: 'OTL Plus',
       subTitle: '졸업플래너',
-      period: '2021.09 ~',
+      period: '2021.09 ~ 2023.05',
       fields: [
         {
           title: 'Project Manager',
           people: [
             {
-              name: '한승현',
-              image: memberZealotImage,
-              caption: '2021.09 ~ 2023.03',
-            },
-            {
               name: '조유민',
               image: null,
-              caption: '2023.03 ~',
+              caption: '2023.03 ~ 2024.09',
             },
           ],
         },
@@ -424,6 +419,104 @@ class CreditPage extends Component {
             { name: '한승현', image: memberZealotImage, caption: '4 credits' },
             { name: '홍은기', image: null, caption: '1 credits' },
             { name: '황제욱', image: null, caption: '1 credits' },
+          ],
+        },
+      ],
+    },
+    {
+      index: 34,
+      mainTitle: 'OTL Plus',
+      subTitle: '백엔드 마이그레이션',
+      period: '2023.03 ~ 2024.09',
+      fields: [
+        {
+          title: 'Developer',
+          people: [
+            { name: '조유민', image: null, caption: '-' },
+            { name: '오승빈', image: null, caption: '-' },
+            { name: '김희진', image: null, caption: '-' },
+            { name: '권혁태', image: null, caption: '-' },
+            { name: '이동재', image: null, caption: '-' },
+            { name: '황제욱', image: null, caption: '-' },
+            { name: '양지웅', image: null, caption: '-' },
+            { name: '김기영', image: null, caption: '-' },
+            { name: '박병찬', image: null, caption: '-' },
+            { name: '이동엽', image: null, caption: '-' },
+            { name: '박지호', image: null, caption: '-' },
+            { name: '주영미', image: null, caption: '-' },
+            { name: '정동윤', image: null, caption: '-' },
+            { name: '남지현', image: null, caption: '-' },
+            { name: '문동우', image: null, caption: '-' },
+            { name: '권순규', image: null, caption: '-' },
+            { name: '양채빈', image: null, caption: '-' },
+          ],
+        },
+      ],
+    },
+    {
+      index: 35,
+      mainTitle: 'OTL Plus',
+      subTitle: '신규 기능 및 프런트 리디자인',
+      period: '2025.03 ~ ',
+      fields: [
+        {
+          title: 'Project Manager',
+          people: [
+            {
+              name: '박지호',
+              image: null,
+              caption: '-',
+            },
+          ],
+        },
+        {
+          title: 'Daily TF',
+          people: [
+            {
+              name: '권혁원',
+              image: null,
+              caption: '-',
+            },
+            {
+              name: '임가은',
+              image: null,
+              caption: '-',
+            },
+          ],
+        },
+        {
+          title: 'Lab TF',
+          people: [
+            {
+              name: '권혁태',
+              image: null,
+              caption: '-',
+            },
+          ],
+        },
+        {
+          title: 'Designer',
+          people: [
+            { name: '김희진', image: null, caption: '-' },
+            { name: '서인성', image: null, caption: '-' },
+          ],
+        },
+        {
+          title: 'Developer',
+          people: [
+            { name: '손성민', image: null, caption: '-' },
+            { name: '임가은', image: null, caption: '-' },
+            { name: '최우석', image: null, caption: '-' },
+            { name: '이민욱', image: null, caption: '-' },
+            { name: '강재환', image: null, caption: '-' },
+            { name: '박현우', image: null, caption: '-' },
+            { name: '권혁태', image: null, caption: '-' },
+            { name: '권혁원', image: null, caption: '-' },
+            { name: '박종석', image: null, caption: '-' },
+            { name: '배지훈', image: null, caption: '-' },
+            { name: '박진웅', image: null, caption: '-' },
+            { name: '박성빈', image: null, caption: '-' },
+            { name: '김지혁', image: null, caption: '-' },
           ],
         },
       ],
