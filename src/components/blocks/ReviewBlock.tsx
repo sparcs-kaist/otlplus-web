@@ -88,7 +88,11 @@ const ReviewBlock: React.FC<Props> = ({ review, shouldLimitLines, linkTo, pageFr
       <div className={classNames('block--review__title')}>
         <strong>{translate(review.lecture, 'title')}</strong>
         <span>{getProfessorsShortStr(review.lecture)}</span>
-        <span>{`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}</span>
+        {review.lecture.common_title != '개별연구' ? (
+          <span>{`${review.lecture.year} ${getSemesterName(review.lecture.semester)}`}</span>
+        ) : (
+          ''
+        )}
       </div>
       <div
         className={classNames(

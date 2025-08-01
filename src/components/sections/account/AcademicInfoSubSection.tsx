@@ -5,6 +5,7 @@ import { CONTACT } from '@/common/constants';
 import Attributes from '@/components/Attributes';
 import { useSessionInfo } from '@/queries/account';
 import { useTranslatedString } from '@/hooks/useTranslatedString';
+import Department from '@/shapes/model/subject/Department';
 
 const AcademicInfoSubSection = () => {
   const { t } = useTranslation();
@@ -23,7 +24,10 @@ const AcademicInfoSubSection = () => {
           { name: t('ui.attribute.studentId'), info: user.student_id },
           {
             name: t('ui.attribute.major'),
-            info: user.departments.map((d) => translate(d, 'name')).join(', '),
+            info: [user.department, ...user.majors]
+              .filter(Boolean)
+              .map((d) => translate(d as Department, 'name'))
+              .join(', '),
           },
         ]}
       />

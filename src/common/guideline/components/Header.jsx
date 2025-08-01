@@ -158,8 +158,13 @@ class Header extends Component {
                     <i className={classNames('icon--header_user')} />
                     <span>{t('ui.placeholder.loading')}</span>
                   </span>
+                ) : process.env.VITE_DEV_MODE === 'true' ? (
+                  <Link to="/developer-login">
+                    <i className={classNames('icon--header_user')} />
+                    <span>{t('ui.menu.signIn')} (Dev)</span>
+                  </Link>
                 ) : (
-                  <a href={`${API_URL}/session/login/?next=${window.location.href}`}>
+                  <a href={`/session/login/?next=${window.location.href}`}>
                     <i className={classNames('icon--header_user')} />
                     <span>{t('ui.menu.signIn')}</span>
                   </a>

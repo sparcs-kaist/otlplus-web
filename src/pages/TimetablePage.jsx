@@ -22,6 +22,7 @@ import LectureListTabs from '../components/sections/timetable/lecturelist/Lectur
 import LectureListSection from '../components/sections/timetable/lecturelist/LectureListSection';
 import TimetableTabs from '../components/sections/timetable/timetableandinfos/TimetableTabs';
 import SemesterSection from '../components/sections/timetable/semester/SemesterSection';
+import SyncSection from '../components/sections/timetable/sync/SyncSection';
 import TimetableSubSection from '../components/sections/timetable/timetableandinfos/TimetableSubSection';
 import MapSubSection from '../components/sections/timetable/timetableandinfos/MapSubSection';
 import SummarySubSection from '../components/sections/timetable/timetableandinfos/SummarySubSection';

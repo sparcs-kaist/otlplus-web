@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 import PropTypes, { bool } from 'prop-types';
 import axios from 'axios';
 import { range } from 'lodash';
-
+import { Link } from 'react-router-dom';
 import { ZaboEmbed } from 'zabo-embed';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
@@ -34,6 +34,8 @@ class MainPage extends Component {
     };
 
     this.contentRef = React.createRef();
+    this.reviewWriteIdRefs = React.createRef(); // reviewWriteFeed에서 Lecture 중복 방지 위해 Id들 저장
+    this.reviewWriteIdRefs.current = [];
   }
 
   componentDidMount() {
@@ -127,13 +129,26 @@ class MainPage extends Component {
         },
       })
       .then((response) => {
+        let filteredFeeds = [];
+
+        for (let feed of response.data) {
+          if (feed.type == 'REVIEW_WRITE') {
+            if (!this.reviewWriteIdRefs.current.includes(feed.lecture?.id)) {
+              filteredFeeds.push(feed);
+              if (feed.lecture?.id) this.reviewWriteIdRefs.current.push(feed.lecture?.id);
+            }
+          } else {
+            filteredFeeds.push(feed);
+          }
+        }
+
         this.setState({
           isLoading: false,
           feedDays: [
             ...feedDays,
             {
               date: dateString,
-              feeds: response.data,
+              feeds: filteredFeeds,
             },
           ],
         });
@@ -271,6 +286,8 @@ class MainPage extends Component {
                 <span onClick={() => this._fetchFeeds(this._getPrevDate())}>
                   {t('ui.button.loadMore')}
                 </span>
+              ) : process.env.VITE_DEV_MODE === 'true' ? (
+                <Link to="/developer-login">{t('ui.button.signInWithSso')}</Link>
               ) : (
                 <>
                   <a href={`/session/login/?next=${window.location.href}`}>

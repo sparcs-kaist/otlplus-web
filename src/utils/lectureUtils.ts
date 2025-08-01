@@ -57,9 +57,10 @@ export const isDimmedListLectureGroup = (lectureGroup: Lecture[], lectureFocus: 
 export const isFocused = (lecture: Lecture, lectureFocus: LectureFocus) =>
   isSingleFocused(lecture, lectureFocus) || isMultipleFocused(lecture, lectureFocus);
 
-//  포커싱된 lecture와 현재 타임테이블의 모든 lecture의 목록을 반환합니다.
+//포커싱된 lecture와 현재 타임테이블의 모든 lecture의 목록을 반환합니다.
 export const getOverallLectures = (selectedTimetable: Timetable, lectureFocus: LectureFocus) => {
   const timetableLectures = selectedTimetable ? selectedTimetable.lectures : [];
+
   const hasSingleFocusedLectureOutsideTable =
     lectureFocus.lecture && !inTimetable(lectureFocus.lecture, selectedTimetable);
 

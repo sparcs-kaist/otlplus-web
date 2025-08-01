@@ -56,7 +56,7 @@ class DictionaryPage extends Component {
     }
 
     if (startSearchKeyword && startSearchKeyword.toString().trim()) {
-      const LIMIT = 150;
+      const LIMIT = 10;
 
       const option = {
         keyword: startSearchKeyword.toString().trim(),
@@ -66,10 +66,10 @@ class DictionaryPage extends Component {
         clearSearchListCoursesDispatch();
       };
       const afterResponse = (courses) => {
-        if (courses.length === LIMIT) {
-          // eslint-disable-next-line no-alert
-          alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
-        }
+        // if (courses.length === LIMIT) {
+        //   // eslint-disable-next-line no-alert
+        //   alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
+        // }
         setListCoursesDispatch(CourseListCode.SEARCH, courses);
       };
       performSearchCourses(option, LIMIT, beforeRequest, afterResponse);

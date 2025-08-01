@@ -53,6 +53,11 @@ export const getLevelOptions = () => [
   ['200', i18n.t('ui.level.200sShort')],
   ['300', i18n.t('ui.level.300sShort')],
   ['400', i18n.t('ui.level.400sShort')],
+  ['500', i18n.t('ui.level.500sShort')],
+  ['600', i18n.t('ui.level.600sShort')],
+  ['700', i18n.t('ui.level.700sShort')],
+  ['800', i18n.t('ui.level.800sShort')],
+  ['900', i18n.t('ui.level.900sShort')],
 ];
 
 export const getTermOptions = () => [

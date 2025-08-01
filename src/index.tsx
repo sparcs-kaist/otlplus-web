@@ -30,6 +30,7 @@ import PrivacyPage from '@/pages/PrivacyPage';
 import TestPage from '@/pages/TestPage';
 import ErrorPage from '@/pages/ErrorPage';
 import LoginSuccessHandler from '@/pages/LoginSuccessHandler';
+import DeveloperLoginPage from '@/pages/DeveloperLoginPage';
 import rootReducer from '@/redux';
 import registerServiceWorker from '@/registerServiceWorker';
 import en from '@/translations/translation.en.json';
@@ -60,6 +61,12 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
+
+const devStudentId = localStorage.getItem('devStudentId');
+if (devStudentId) {
+  axios.defaults.headers.common['X-AUTH-SID'] = devStudentId;
+}
+
 axios.defaults.paramsSerializer = (params) => Qs.stringify(params, { arrayFormat: 'repeat' });
 axios.interceptors.request.use(
   (config) => {
@@ -169,6 +176,7 @@ const router = createBrowserRouter([
       { path: 'test', element: <TestPage /> },
       { path: 'error/:message', element: <ErrorPage /> },
       { path: 'login/success', element: <LoginSuccessHandler /> },
+      { path: 'developer-login', element: <DeveloperLoginPage /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
   },

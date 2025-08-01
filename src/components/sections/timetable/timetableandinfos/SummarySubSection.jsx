@@ -155,7 +155,6 @@ class SummarySubSection extends Component {
         lectureFocus.from === LectureFocusFrom.TABLE) &&
       indexOfType(lectureFocus.lecture.type_en) === typeIndex;
     const isTypeCreditMultiFocused = (typeIndex) => multipleFocusCode === typeOfIndex(typeIndex);
-
     const timetableTypeCredit = [0, 1, 2, 3, 4, 5].map((i) => {
       const lecturesWithType = timetableLectures.filter((l) => indexOfType(l.type_en) === i);
       return sumBy(lecturesWithType, (l) => l.credit + l.credit_au);
