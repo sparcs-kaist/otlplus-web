@@ -124,5 +124,13 @@ export const getExamFullStr = (lecture: Lecture) => {
 
 export const getColorNumber = (lecture: Lecture) => (lecture.course % 16) + 1;
 
-export const getSyllabusUrl = (lecture: Lecture) =>
-  `https://cais.kaist.ac.kr/syllabusInfo?year=${lecture.year}&term=${lecture.semester}&subject_no=${lecture.code}&lecture_class=${lecture.class_no}&dept_id=${lecture.department}`;
+export const getSyllabusUrl = (lecture: Lecture) => {
+  const payload = {
+    syy: String(lecture.year),
+    smtDivCd: String(lecture.semester),
+    subjtCd: lecture.old_code,
+    syllabusOpenYn: '0',
+  };
+  const encodedLecture = btoa(JSON.stringify(payload));
+  return `https://erp.kaist.ac.kr/com/lgin/SsoCtr/initExtPageWork.do?link=estblSubjt&params=${encodedLecture}`;
+};
