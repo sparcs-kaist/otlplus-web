@@ -4202,7 +4202,7 @@ inflight@^1.0.4:
 
 inherits@2:
   version "2.0.4"
-  resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
 inline-style-parser@0.1.1:
@@ -5479,7 +5479,7 @@ minimatch@^3.0.4, minimatch@^3.0.5, minimatch@^3.1.1, minimatch@^3.1.2:
 
 minimist@^1.2.0, minimist@^1.2.6:
   version "1.2.8"
-  resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
 moment@^2.29.2:
@@ -5639,7 +5639,7 @@ object.values@^1.1.6:
 
 once@^1.3.0:
   version "1.4.0"
-  resolved "https://registry.npmjs.org/once/-/once-1.4.0.tgz"
+  resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   integrity sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==
   dependencies:
     wrappy "1"
@@ -5923,6 +5923,11 @@ pretty-format@^29.0.0, pretty-format@^29.7.0:
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
 
+prismjs@^1.21.0:
+  version "1.30.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.30.0.tgz#d9709969d9d4e16403f6f348c63553b19f0975a9"
+  integrity sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==
+
 prompts@^2.0.1:
   version "2.4.2"
   resolved "https://registry.npmjs.org/prompts/-/prompts-2.4.2.tgz"
@@ -6062,6 +6067,13 @@ react-markdown@^7.1.0:
     unified "^10.0.0"
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
+
+react-notion@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-notion/-/react-notion-0.10.0.tgz#d30876b681b09d91dc671b04c7f604adb4e2499e"
+  integrity sha512-i5lVAxzSs7GnTpIbKtivPQWxGZiKCO5xmCmMJyn6F91y8X1IIJqnypkK+31F2acb1l1Qd8Yv0ktuvXwz9g49NQ==
+  dependencies:
+    prismjs "^1.21.0"
 
 react-redux@^7.2.1:
   version "7.2.9"

@@ -45,7 +45,8 @@
     "react-slick": "^0.29.0",
     "redux": "^4.0.0",
     "slick-carousel": "^1.8.1",
-    "zabo-embed": "^0.0.7"
+    "zabo-embed": "^0.0.7",
+    "react-notion": "^0.10.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.24.1",

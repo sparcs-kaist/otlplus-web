@@ -38,6 +38,7 @@ import ko from '@/translations/translation.ko.json';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import UpdatePage from '@/pages/UpdatePage';
 
 declare global {
   interface Window {
@@ -177,6 +178,7 @@ const router = createBrowserRouter([
       { path: 'error/:message', element: <ErrorPage /> },
       { path: 'login/success', element: <LoginSuccessHandler /> },
       { path: 'developer-login', element: <DeveloperLoginPage /> },
+      { path: 'update', element: <UpdatePage /> },
       { path: '*', element: <Navigate to="/" /> },
     ],
   },
