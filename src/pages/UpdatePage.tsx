@@ -6,10 +6,13 @@ import 'react-notion/src/styles.css';
 import 'prismjs/themes/prism-tomorrow.css';
 import { appBoundClassNames as classNames } from '@/common/boundClassNames';
 
+const DEFAULT_PAGE_ID = '23ac25603b0b80f8b343d2324a7e2131';
+const OFFICIAL_SPACE_ID = 'ca8b3bc6-6b17-4a1f-8f57-2dd4b58a84f7';
+
 const UpdatePage = () => {
   const [blockMap, setBlockMap] = useState(null);
   const query = new URLSearchParams(window.location.search);
-  const pageId = query.get('pageId') || '23ac25603b0b80f8b343d2324a7e2131';
+  const pageId = query.get('pageId') || DEFAULT_PAGE_ID;
   const [spaceId, setSpaceId] = useState('');
 
   useEffect(() => {
@@ -28,14 +31,14 @@ const UpdatePage = () => {
     fetchNotionData();
   }, []);
   useEffect(() => {
-    if (spaceId !== '' && spaceId !== 'ca8b3bc6-6b17-4a1f-8f57-2dd4b58a84f7') {
+    if (spaceId !== '' && spaceId !== OFFICIAL_SPACE_ID) {
       window.location.href = '/update';
     }
   }, [spaceId]);
 
   return (
     <section className={classNames('content', 'content--no-scroll')}>
-      {blockMap !== null && spaceId === 'ca8b3bc6-6b17-4a1f-8f57-2dd4b58a84f7' && (
+      {blockMap !== null && spaceId === OFFICIAL_SPACE_ID && (
         <NotionRenderer
           blockMap={blockMap}
           fullPage={true}
