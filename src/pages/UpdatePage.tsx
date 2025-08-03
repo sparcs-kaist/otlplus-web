@@ -14,18 +14,16 @@ const UpdatePage = () => {
 
   useEffect(() => {
     const fetchNotionData = async () => {
-      await fetch(`https://notion-api.splitbee.io/v1/page/${pageId}`).then(async (res) => {
-        await res.json().then(async (json) => {
-          Object.keys(json).forEach((key) => {
-            if (json[key].role === 'none') {
-              delete json[key];
-            } else {
-              setSpaceId(json[key].value.space_id);
-            }
-          });
-          setBlockMap(json);
-        });
+      const res = await fetch(`https://notion-api.splitbee.io/v1/page/${pageId}`);
+      const json = await res.json();
+      Object.keys(json).forEach((key) => {
+        if (json[key].role === 'none') {
+          delete json[key];
+        } else {
+          setSpaceId(json[key].value.space_id);
+        }
       });
+      setBlockMap(json);
     };
     fetchNotionData();
   }, []);
