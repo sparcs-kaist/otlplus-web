@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import axios from 'axios';
 import ReactGA from 'react-ga4';
 import { range } from 'lodash';
 
@@ -21,8 +22,10 @@ import {
   deleteLectureFromCart,
   setIsLectureListOpenOnMobile,
 } from '../../../../redux/actions/timetable/list';
-import { openSearch } from '../../../../redux/actions/timetable/search';
+import { openSearch, setLastSearchOption } from '../../../../redux/actions/timetable/search';
 import { addLectureToTimetable } from '../../../../redux/actions/timetable/timetable';
+
+import { setListLectures } from '../../../../redux/actions/timetable/list';
 
 import { LectureFocusFrom } from '@/shapes/enum';
 import { LectureListCode } from '@/shapes/enum';
@@ -59,11 +62,19 @@ import {
 import LectureGroupBlockRow from '../../../blocks/LectureGroupBlockRow';
 import { TIMETABLE_START_HOUR } from '../../../../common/constants';
 
+const REFRESH_LIMIT = 50;
+
 class LectureListSection extends Component {
   constructor(props) {
     super(props);
     this.arrowRef = React.createRef();
   }
+
+  onScrollChange = (e) => {
+    const { scrollTop, scrollHeight, clientHeight } = e;
+
+    if (scrollTop + clientHeight >= scrollHeight) this._addLectureGroups();
+  };
 
   componentDidMount() {
     window.addEventListener('resize', this.selectWithArrow);
@@ -293,6 +304,64 @@ class LectureListSection extends Component {
     return lists[selectedListCode].lectureGroups;
   };
 
+  _addLectureGroups = async () => {
+    const {
+      lastSearchOption,
+      setLastSearchOption,
+      year,
+      semester,
+      setListLecturesDispatch,
+      lists,
+    } = this.props;
+
+    const lectures = this._getLectureGroups(LectureListCode.SEARCH, lists);
+
+    let offset = 0;
+
+    for (let i = 0; i < lectures.length - 1; i++) {
+      offset += lectures[i].length;
+    }
+
+    const option = {
+      ...lastSearchOption,
+      offset,
+      limit: offset + REFRESH_LIMIT,
+    };
+
+    await axios
+      .get('/api/lectures', {
+        params: {
+          year: year,
+          semester: semester,
+          ...option,
+          order: ['old_code', 'class_no'],
+        },
+        metadata: {
+          gaCategory: 'Timetable',
+          gaVariable: 'POST / List',
+        },
+      })
+      .then((response) => {
+        const newProps = this.props;
+        if (newProps.year !== year || newProps.semester !== semester) {
+          return;
+        }
+        if (response.data.length > 0) {
+          const newLectures = lectures;
+          let spreadedLectures = [];
+
+          for (let i = 0; i < newLectures.length - 1; i++) {
+            spreadedLectures = spreadedLectures.concat(newLectures[i]);
+          }
+
+          spreadedLectures = spreadedLectures.concat(response.data);
+
+          setListLecturesDispatch(LectureListCode.SEARCH, spreadedLectures);
+        }
+      })
+      .catch((error) => {});
+  };
+
   render() {
     const { t } = this.props;
     const { user, lectureFocus, selectedTimetable, selectedListCode, lastSearchOption, lists } =
@@ -376,7 +445,12 @@ class LectureListSection extends Component {
         );
       }
       return (
-        <Scroller onScroll={this.selectWithArrow} key={selectedListCode}>
+        <Scroller
+          onScroll={(e) => {
+            this.selectWithArrow();
+            this.onScrollChange(e);
+          }}
+          key={selectedListCode}>
           <div className={classNames('block-list')}>
             {lectureGroups.map((lg) => (
               <LectureGroupBlock
@@ -467,6 +541,12 @@ const mapDispatchToProps = (dispatch) => ({
   setIsLectureListOpenOnMobileDispatch: (isLectureListOpenOnMobile) => {
     dispatch(setIsLectureListOpenOnMobile(isLectureListOpenOnMobile));
   },
+  setLastSearchOptionDispatch: (lastSearchOption) => {
+    dispatch(setLastSearchOption(lastSearchOption));
+  },
+  setListLecturesDispatch: (code, lectures) => {
+    dispatch(setListLectures(code, lectures));
+  },
 });
 
 LectureListSection.propTypes = {
@@ -485,8 +565,10 @@ LectureListSection.propTypes = {
   clearLectureFocusDispatch: PropTypes.func.isRequired,
   addLectureToTimetableDispatch: PropTypes.func.isRequired,
   addLectureToCartDispatch: PropTypes.func.isRequired,
+  setListLecturesDispatch: PropTypes.func.isRequired,
   deleteLectureFromCartDispatch: PropTypes.func.isRequired,
   setIsLectureListOpenOnMobileDispatch: PropTypes.func.isRequired,
+  setLastSearchOptionDispatch: PropTypes.func.isRequired,
 };
 
 export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(LectureListSection));

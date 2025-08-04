@@ -55,7 +55,7 @@ class LectureSearchSubSection extends Component {
   };
 
   searchStart = () => {
-    const LIMIT = 300;
+    const LIMIT = 50;
 
     const { t } = this.props;
     const { selectedTypes, selectedDepartments, selectedLevels, keyword } = this.state;
@@ -96,6 +96,8 @@ class LectureSearchSubSection extends Component {
       day: classtimeDay !== null ? classtimeDay : undefined,
       begin: classtimeBegin !== null ? classtimeBegin / 30 - 8 * 2 : undefined,
       end: classtimeEnd !== null ? classtimeEnd / 30 - 8 * 2 : undefined,
+      limit: LIMIT,
+      offset: 0,
     };
 
     this.setState(this.INITIAL_STATE);
@@ -113,7 +115,6 @@ class LectureSearchSubSection extends Component {
           semester: semester,
           ...option,
           order: ['old_code', 'class_no'],
-          limit: LIMIT,
         },
         metadata: {
           gaCategory: 'Timetable',
@@ -125,10 +126,10 @@ class LectureSearchSubSection extends Component {
         if (newProps.year !== year || newProps.semester !== semester) {
           return;
         }
-        if (response.data.length === LIMIT) {
-          // eslint-disable-next-line no-alert
-          alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
-        }
+        // if (response.data.length === LIMIT) {
+        //   // eslint-disable-next-line no-alert
+        //   alert(t('ui.message.tooManySearchResults', { count: LIMIT }));
+        // }
         setListLecturesDispatch(LectureListCode.SEARCH, response.data);
       })
       .catch((error) => {});
