@@ -59,7 +59,7 @@ const CardsWrapper = styled.div`
   gap: 16px;
   flex: 1 0 0;
   align-self: stretch;
-  flex-wrap: wrap;
+  height: fit-content;
 `;
 
 const DoubleCardsWrapper = styled.div`
@@ -73,10 +73,9 @@ const DoubleCardsWrapper = styled.div`
 
 export const LikedLabFrame: React.FC<LikedLabFrameProps> = ({ setLikedLabMode, likedLabs }) => {
   const likedLabsLength = likedLabs.length;
-  const likedLabsIndexList = Array.from(
-    { length: Math.ceil(likedLabsLength / 2) },
-    (_, i) => i * 2,
-  );
+  const evenIndexLabs = likedLabs.filter((_, index) => index % 2 === 0);
+  const oddIndexLabs = likedLabs.filter((_, index) => index % 2 === 1);
+
   const navigate = useNavigate();
 
   return (
@@ -95,30 +94,34 @@ export const LikedLabFrame: React.FC<LikedLabFrameProps> = ({ setLikedLabMode, l
             <Typography type="BiggerBold">찜한 연구실</Typography>
           </HeaderLeftWrapper>
         </HeaderWrapper>
-        <CardsWrapper>
-          {likedLabsIndexList.map((number, index) => (
-            <DoubleCardsWrapper key={index}>
+        <DoubleCardsWrapper>
+          <CardsWrapper>
+            {evenIndexLabs.map((lab, index) => (
               <LabCard
                 key={index}
-                name={likedLabs[number].name}
-                department={likedLabs[number].department}
-                professor={likedLabs[number].professor}
-                summary={likedLabs[number].summary}
-                fieldList={likedLabs[number].fieldList}
+                name={lab.name}
+                department={lab.department}
+                professor={lab.professor}
+                summary={lab.summary}
+                fieldList={lab.fieldList}
                 onClick={(number: number) => navigate(`/lab/${number}`)}
               />
+            ))}
+          </CardsWrapper>
+          <CardsWrapper>
+            {oddIndexLabs.map((lab, index) => (
               <LabCard
-                key={index + 1}
-                name={likedLabs[number + 1].name}
-                department={likedLabs[number + 1].department}
-                professor={likedLabs[number + 1].professor}
-                summary={likedLabs[number + 1].summary}
-                fieldList={likedLabs[number + 1].fieldList}
+                key={index}
+                name={lab.name}
+                department={lab.department}
+                professor={lab.professor}
+                summary={lab.summary}
+                fieldList={lab.fieldList}
                 onClick={(number: number) => navigate(`/lab/${number}`)}
               />
-            </DoubleCardsWrapper>
-          ))}
-        </CardsWrapper>
+            ))}
+          </CardsWrapper>
+        </DoubleCardsWrapper>
       </MainInnerWrapper>
     </MainWrapper>
   );

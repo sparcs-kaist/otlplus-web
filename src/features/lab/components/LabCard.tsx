@@ -16,15 +16,17 @@ export interface LabCardProps {
 
 const LabCardContainer = styled.div`
   display: flex;
-  flex: 1;
+  flex: 1 0 0;
   padding: 16px 20px;
   flex-direction: column;
   align-items: flex-start;
+  align-self: stretch;
   gap: 16px;
   border-radius: 6px;
   border: 1px solid #e8e8e8;
   background-color: #fff;
   min-width: 330px;
+  height: fit-content;
 `;
 
 const TopContainer = styled.div`

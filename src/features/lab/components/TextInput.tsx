@@ -111,37 +111,18 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     }, [errorMessage, setErrorStatus]);
 
     return (
-      <InputWrapper mode={mode}>
-        <InputContainer>
-          <Input
-            ref={ref}
-            placeholder={placeholder}
-            $hasError={!!errorMessage}
-            disabled={disabled}
-            value={value}
-            onChange={handleValueChange}
-            $placeholderColor={placeholderColor}
-            {...props}
-          />
-          {value !== '' && (
-            <IconWrapper>
-              <Icon type="Cancel" color="#ED8C9C" size={20} onClick={() => handleChange('')} />
-            </IconWrapper>
-          )}
-
-          <IconWrapper>
-            <Icon
-              type="Search"
-              color="#E54C65"
-              size={20}
-              onClick={() => {
-                setRecentSearch(value);
-                handleChange('');
-              }}
-            />
-          </IconWrapper>
-        </InputContainer>
-      </InputWrapper>
+      <InputContainer>
+        <Input
+          ref={ref}
+          placeholder={placeholder}
+          $hasError={!!errorMessage}
+          disabled={disabled}
+          value={value}
+          onChange={handleValueChange}
+          $placeholderColor={placeholderColor}
+          {...props}
+        />
+      </InputContainer>
     );
   },
 );

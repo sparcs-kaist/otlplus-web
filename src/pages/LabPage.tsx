@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import LabModal from '@/features/lab/components/LabModal';
 
@@ -8,16 +8,8 @@ import { MinorLabFrame } from '@/features/lab/frames/MinorLabFrame';
 import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
 import { mockMajorLabs } from '@/features/lab/mock/mockMajorLabs';
 import { mockMinorLabs } from '@/features/lab/mock/mockMinorLabs';
-import MainSearch from '@/features/lab/components/MainSearch';
-import Typography from '@/common/daily-tf/Typography';
 import Icon from '@/common/daily-tf/Icon';
-import { useNavigate } from 'react-router';
-import PaperCard from '@/features/lab/components/PaperCard';
-import LabCard from '@/features/lab/components/LabCard';
-import { Mode } from '@/features/lab/enum/Mode';
-import ReviewCard from '@/features/lab/components/ReviewCard';
-import { mockReview } from '@/features/lab/mock/mockReview';
-import { FavoriteBorder } from '@mui/icons-material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MainFrameWithNoInterest } from '@/features/lab/frames/MainFrameWithNoInterest';
 import { MainFrameWithInterest } from '@/features/lab/frames/MainFrameWithInterest';
 
@@ -395,7 +387,7 @@ const LabPage: React.FC = () => {
   const [interestKeyword, setInterestKeyword] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const trending = ['AI', 'UX 디자인', '뇌과학', '로보틱스', '데이터사이언스'];
-  const noInterest = true; // CHACHA : 임시로 이걸로 바꿔가며 테스트
+  const noInterest = false; // CHACHA : 임시로 이걸로 바꿔가며 테스트
 
   return (
     <>

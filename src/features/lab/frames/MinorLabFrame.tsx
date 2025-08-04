@@ -59,7 +59,7 @@ const CardsWrapper = styled.div`
   gap: 16px;
   flex: 1 0 0;
   align-self: stretch;
-  flex-wrap: wrap;
+  height: fit-content;
 `;
 
 const DoubleCardsWrapper = styled.div`
@@ -73,7 +73,8 @@ const DoubleCardsWrapper = styled.div`
 
 export const MinorLabFrame: React.FC<MinorLabFrameProps> = ({ setMinorLabMode, minorLabs }) => {
   const navigate = useNavigate();
-  const indexList = Array.from({ length: Math.ceil(minorLabs.length / 2) }, (_, i) => i * 2);
+  const evenIndexLabs = minorLabs.filter((_, index) => index % 2 === 0);
+  const oddIndexLabs = minorLabs.filter((_, index) => index % 2 === 1);
 
   return (
     <MainWrapper>
@@ -92,30 +93,34 @@ export const MinorLabFrame: React.FC<MinorLabFrameProps> = ({ setMinorLabMode, m
           </HeaderLeftWrapper>
         </HeaderWrapper>
 
-        <CardsWrapper>
-          {indexList.map((idx, i) => (
-            <DoubleCardsWrapper key={i}>
+        <DoubleCardsWrapper>
+          <CardsWrapper>
+            {evenIndexLabs.map((lab, index) => (
               <LabCard
-                name={minorLabs[idx]?.name}
-                department={minorLabs[idx]?.department}
-                professor={minorLabs[idx]?.professor}
-                summary={minorLabs[idx]?.summary}
-                fieldList={minorLabs[idx]?.fieldList}
-                onClick={() => navigate(`/lab/${idx}`)}
+                key={index}
+                name={lab.name}
+                department={lab.department}
+                professor={lab.professor}
+                summary={lab.summary}
+                fieldList={lab.fieldList}
+                onClick={() => navigate(`/lab/${index}`)}
               />
-              {minorLabs[idx + 1] && (
-                <LabCard
-                  name={minorLabs[idx + 1].name}
-                  department={minorLabs[idx + 1].department}
-                  professor={minorLabs[idx + 1].professor}
-                  summary={minorLabs[idx + 1].summary}
-                  fieldList={minorLabs[idx + 1].fieldList}
-                  onClick={() => navigate(`/lab/${idx + 1}`)}
-                />
-              )}
-            </DoubleCardsWrapper>
-          ))}
-        </CardsWrapper>
+            ))}
+          </CardsWrapper>
+          <CardsWrapper>
+            {oddIndexLabs.map((lab, index) => (
+              <LabCard
+                key={index}
+                name={lab.name}
+                department={lab.department}
+                professor={lab.professor}
+                summary={lab.summary}
+                fieldList={lab.fieldList}
+                onClick={() => navigate(`/lab/${index}`)}
+              />
+            ))}
+          </CardsWrapper>
+        </DoubleCardsWrapper>
       </MainInnerWrapper>
     </MainWrapper>
   );
