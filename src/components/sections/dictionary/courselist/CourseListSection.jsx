@@ -37,13 +37,6 @@ const REFRESH_LIMIT = 10;
 class CourseListSection extends Component {
   constructor(props) {
     super(props);
-    this.offSetRef = React.createRef();
-  }
-
-  componentDidMount() {
-    if (this.offSetRef.current) {
-      this.offSetRef.current.value = REFRESH_LIMIT;
-    }
   }
 
   onScrollChange = (e) => {
