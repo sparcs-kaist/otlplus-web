@@ -98,24 +98,28 @@ export const LikedLabFrame: React.FC<LikedLabFrameProps> = ({ setLikedLabMode, l
         <CardsWrapper>
           {likedLabsIndexList.map((number, index) => (
             <DoubleCardsWrapper key={index}>
-              <LabCard
-                key={index}
-                name={likedLabs[number].name}
-                department={likedLabs[number].department}
-                professor={likedLabs[number].professor}
-                summary={likedLabs[number].summary}
-                fieldList={likedLabs[number].fieldList}
-                onClick={(number: number) => navigate(`/lab/${number}`)}
-              />
-              <LabCard
-                key={index + 1}
-                name={likedLabs[number + 1].name}
-                department={likedLabs[number + 1].department}
-                professor={likedLabs[number + 1].professor}
-                summary={likedLabs[number + 1].summary}
-                fieldList={likedLabs[number + 1].fieldList}
-                onClick={(number: number) => navigate(`/lab/${number}`)}
-              />
+              {likedLabs[number] && (
+                <LabCard
+                  key={index}
+                  name={likedLabs[number].name}
+                  department={likedLabs[number].department}
+                  professor={likedLabs[number].professor}
+                  summary={likedLabs[number].summary}
+                  fieldList={likedLabs[number].fieldList}
+                  onClick={(number: number) => navigate(`/lab/${number}`)}
+                />
+              )}
+              {likedLabs[number + 1] && (
+                <LabCard
+                  key={index + 1}
+                  name={likedLabs[number + 1].name}
+                  department={likedLabs[number + 1].department}
+                  professor={likedLabs[number + 1].professor}
+                  summary={likedLabs[number + 1].summary}
+                  fieldList={likedLabs[number + 1].fieldList}
+                  onClick={(number: number) => navigate(`/lab/${number}`)}
+                />
+              )}
             </DoubleCardsWrapper>
           ))}
         </CardsWrapper>
