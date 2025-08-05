@@ -383,6 +383,7 @@ const LabPage: React.FC = () => {
   const [likedLabMode, setLikedLabMode] = useState(false); // chacha: 찜한 연구실 탭으로 들어간 상태
   const [majorLabMode, setMajorLabMode] = useState(false); // oosoi: :)
   const [minorLabMode, setMinorLabMode] = useState(false);
+
   const [showModal, setShowModal] = useState(true);
   const [interestKeyword, setInterestKeyword] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);

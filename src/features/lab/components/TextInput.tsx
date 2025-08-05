@@ -48,24 +48,6 @@ const Input = styled.input<{ $hasError: boolean; $placeholderColor?: string }>`
   ${({ disabled }) => disabled && disabledStyle}
   ${({ $hasError }) => $hasError && errorBorderStyle}
 `;
-
-const InputWrapper = styled.div<ModeProps>`
-  display: flex;
-  min-width: 157px;
-  padding: 0 16px;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 12px;
-  flex: 1 0 0;
-  align-self: stretch;
-
-  ${({ mode, theme }) =>
-    mode !== Mode.none
-      ? `
-    border-bottom: 1px solid ${theme.colors.Line.divider}`
-      : ''};
-`;
-
 const InputContainer = styled.div`
   display: flex;
   min-width: 157px;

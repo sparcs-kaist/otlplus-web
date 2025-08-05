@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { ChevronLeft, ShoppingBag } from '@mui/icons-material';
-import TextInput from '@/features/lab/components/TextInput';
+// import TextInput from '@/features/lab/components/TextInput';
+import TextInput from '@/common/daily-tf/search/TextInput';
 import { Mode } from '@/features/lab/enum/Mode';
 import DepartmentChip from './DepartmentChip';
 import { useNavigate } from 'react-router-dom';
@@ -183,6 +184,12 @@ const InputWrapper = styled.div<ModeProps>`
       : ''};
 `;
 
+const TextInputWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  min-width: 157px;
+`;
+
 const MainSearch: React.FC<MainSearchProps> = ({
   mode,
   setMode,
@@ -335,13 +342,9 @@ const MainSearch: React.FC<MainSearchProps> = ({
         )}
 
         <InputWrapper mode={mode}>
-          <TextInput
-            placeholder="검색어를 입력하세요"
-            value={text}
-            handleChange={setText}
-            mode={mode}
-            setRecentSearch={setRecentSearch}
-          />
+          <TextInputWrapper>
+            <TextInput placeholder="검색어를 입력하세요" value={text} handleChange={setText} />
+          </TextInputWrapper>
           {text !== '' && (
             <IconWrapper>
               <Icon

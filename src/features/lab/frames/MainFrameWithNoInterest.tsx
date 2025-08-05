@@ -3,7 +3,6 @@ import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { useLocation, useNavigate } from 'react-router';
 import React, { useState } from 'react';
-import PaperCard from '@/features/lab/components/PaperCard';
 import ReviewCard from '@/features/lab/components/ReviewCard';
 import { mockPaperList } from '@/features/lab/mock/mockPaperList';
 import { mockReview } from '@/features/lab/mock/mockReview';
@@ -13,6 +12,7 @@ import { mockSearchLabs } from '@/features/lab/mock/mockSearchedLabs';
 import LabCard from '@/features/lab/components/LabCard';
 import { Mode } from '@/features/lab/enum/Mode';
 import LongPaperCard from '@/features/lab/components/LongPaperCard';
+import { ViewMoreRecommendedLabFrame } from '@/features/lab/frames/ViewMoreRecommendedLabFrame';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -184,6 +184,8 @@ export const MainFrameWithNoInterest = () => {
   const [lab, setLab] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [recentKeyword, setRecentKeyword] = useState<string[]>([]);
+  const [recommendedLabMode, setRecommendedLabMode] = useState(false); // chacha: 추천 연구실 탭으로 들어간 상태
+
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -265,7 +267,10 @@ export const MainFrameWithNoInterest = () => {
         ))}
       </RecentSearchWrapper>
       <Divider />
-      {isSearching && searchType === 'lab' && (
+      {recommendedLabMode && !isSearching && (
+        <ViewMoreRecommendedLabFrame setRecommendedLabMode={setRecommendedLabMode} />
+      )}
+      {!recommendedLabMode && isSearching && searchType === 'lab' && (
         <LabSearchResultWrapper>
           <LabSearchResultTitleWrapper>
             <Typography type="BiggerBold" color="Text.default">
@@ -314,7 +319,7 @@ export const MainFrameWithNoInterest = () => {
           )}
         </LabSearchResultWrapper>
       )}
-      {isSearching && searchType === 'paper' && (
+      {!recommendedLabMode && isSearching && searchType === 'paper' && (
         <LabSearchResultWrapper>
           <LabSearchResultTitleWrapper>
             <Typography type="BiggerBold" color="Text.default">
@@ -347,14 +352,14 @@ export const MainFrameWithNoInterest = () => {
         </LabSearchResultWrapper>
       )}
 
-      {!isSearching && (
+      {!recommendedLabMode && !isSearching && (
         <MainContentWrapper>
           <LabRecommendationWrapper>
             <LabRecommendationTitleWrapper>
               <Typography type="BiggerBold" color="Text.default">
                 이런 연구실은 어떤가요?
               </Typography>
-              <ClickWebsiteButton onClick={() => navigate('/lab')}>
+              <ClickWebsiteButton onClick={() => setRecommendedLabMode(true)}>
                 <Icon type="FormatListBulleted" size={18} color="#888" />
                 <Typography type="Normal" color="Text.lighter">
                   추천 연구실 모아보기
