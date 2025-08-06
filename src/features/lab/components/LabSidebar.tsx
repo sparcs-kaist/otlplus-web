@@ -56,12 +56,18 @@ const SidebarInterest = styled.div<{ edit?: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   box-sizing: border-box;
   ${({ edit }) =>
     edit
-      ? `align-items: flex-start;`
-      : `align-items: center; justify-content: center; height: 184px;`}
+      ? `
+    align-items: flex-start;
+  `
+      : `
+    align-items: center;
+    justify-content: center;
+    height: 184px;
+  `}
 `;
 
 const Description = styled.div`
@@ -75,6 +81,8 @@ const Description = styled.div`
 const InterestStartButton = styled.button`
   width: 96px;
   height: 36px;
+  padding: 6px 24px;
+  gap: 6px;
   border-radius: 6px;
   background-color: #e54c65;
   color: #fff;
@@ -82,7 +90,10 @@ const InterestStartButton = styled.button`
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 500;
   font-size: 13px;
+  line-height: 125%;
   cursor: pointer;
+  margin-top: 40px;
+  margin-bottom: -80px;
 `;
 
 const FlexRow = styled.div`
