@@ -3,7 +3,6 @@ import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { useLocation, useNavigate } from 'react-router';
 import React, { useState } from 'react';
-import PaperCard from '@/features/lab/components/PaperCard';
 import ReviewCard from '@/features/lab/components/ReviewCard';
 import { mockPaperList } from '@/features/lab/mock/mockPaperList';
 import { mockReview } from '@/features/lab/mock/mockReview';
@@ -14,6 +13,8 @@ import { Mode } from '@/features/lab/enum/Mode';
 import LongPaperCard from '@/features/lab/components/LongPaperCard';
 import { mockSearchLabs } from '@/features/lab/mock/mockSearchedLabs';
 import { ViewMoreRecommendedLabFrame } from '@/features/lab/frames/ViewMoreRecommendedLabFrame';
+import { RecommendedPaperFrame } from '@/features/lab/frames/RecommendedPaperFrame';
+import { LatestPaperFrame } from '@/features/lab/frames/LatestPaperFrame';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -23,7 +24,6 @@ const MainWrapper = styled.div`
   border-radius: 6px;
   padding: 24px;
   box-sizing: border-box;
-
   flex: 1;
   width: 100%;
   gap: 10px;
@@ -110,10 +110,8 @@ const PaperTitle = styled.div<OrderProps>`
   justify-content: center;
   gap: 22px;
   height: 54px;
-
   align-items: center;
   align-self: stretch;
-
   ${({ theme, isLast }) => !isLast && `border-bottom: 1px solid ${theme.colors.Line.default}`}
 `;
 
@@ -197,7 +195,9 @@ export const MainFrameWithInterest = () => {
   const reviewList = mockReview();
   const maxSearchKeyword = 15;
   const paperList = mockPaperList();
-  const [recommendedLabMode, setRecommendedLabMode] = useState(false); // chacha: 추천 연구실 탭으로 들어간 상태
+  const [recommendedLabMode, setRecommendedLabMode] = useState(false);
+  const [recommendedPaperMode, setRecommendedPaperMode] = useState(false);
+  const [latestPaperMode, setLatestPaperMode] = useState(false);
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -275,201 +275,212 @@ export const MainFrameWithInterest = () => {
         ))}
       </RecentSearchWrapper>
       <Divider />
-      {recommendedLabMode && !isSearching && (
-        <ViewMoreRecommendedLabFrame setRecommendedLabMode={setRecommendedLabMode} />
-      )}
-      {!recommendedLabMode && isSearching && searchType === 'lab' && (
-        <LabSearchResultWrapper>
-          <LabSearchResultTitleWrapper>
-            <Typography type="BiggerBold" color="Text.default">
-              연구실 검색결과
-            </Typography>
-            <Typography type="BigBold" color="Text.default">
-              (총 {filteredLabs.length}건)
-            </Typography>
-          </LabSearchResultTitleWrapper>
-          {filteredLabs.length > 0 && (
-            <DoubleCardsWrapper>
-              <CardsWrapper>
-                {evenIndexLabs.map((lab, index) => (
-                  <LabCard
-                    key={index}
-                    name={lab.name}
-                    department={lab.department}
-                    professor={lab.professor}
-                    summary={lab.summary}
-                    fieldList={lab.fieldList}
-                    onClick={(number: number) => navigate(`/lab/${number}`)}
-                  />
-                ))}
-              </CardsWrapper>
-              <CardsWrapper>
-                {oddIndexLabs.map((lab, index) => (
-                  <LabCard
-                    key={index}
-                    name={lab.name}
-                    department={lab.department}
-                    professor={lab.professor}
-                    summary={lab.summary}
-                    fieldList={lab.fieldList}
-                    onClick={(number: number) => navigate(`/lab/${number}`)}
-                  />
-                ))}
-              </CardsWrapper>
-            </DoubleCardsWrapper>
-          )}
-          {filteredLabs.length === 0 && (
-            <NothingWrapper>
-              <Typography type="Normal" color="Text.placeholder">
-                연구실 검색 결과가 없습니다
-              </Typography>
-            </NothingWrapper>
-          )}
-        </LabSearchResultWrapper>
-      )}
-      {!recommendedLabMode && isSearching && searchType === 'paper' && (
-        <LabSearchResultWrapper>
-          <LabSearchResultTitleWrapper>
-            <Typography type="BiggerBold" color="Text.default">
-              논문 검색결과
-            </Typography>
-            <Typography type="BigBold" color="Text.default">
-              (총 {filteredPapers.length}건)
-            </Typography>
-          </LabSearchResultTitleWrapper>
-          {filteredPapers.length > 0 && (
-            <CardsWrapper>
-              {filteredPapers.map((paper, index) => (
-                <LongPaperCard
-                  key={index}
-                  title={paper.title}
-                  summary={paper.summary}
-                  fieldList={paper.fieldList}
-                  onClick={(paperId) => navigate(`/paper/${paperId}`)}
-                />
-              ))}
-            </CardsWrapper>
-          )}
-          {filteredPapers.length === 0 && (
-            <NothingWrapper>
-              <Typography type="Normal" color="Text.placeholder">
-                논문 검색 결과가 없습니다
-              </Typography>
-            </NothingWrapper>
-          )}
-        </LabSearchResultWrapper>
-      )}
-      {!recommendedLabMode && !isSearching && (
-        <MainContentWrapper>
-          <LabRecommendationWrapper>
-            <LabRecommendationTitleWrapper>
-              <Typography type="BiggerBold" color="Text.default">
-                이런 연구실은 어떤가요?
-              </Typography>
-              <ClickWebsiteButton onClick={() => setRecommendedLabMode(true)}>
-                <Icon type="FormatListBulleted" size={18} color="#888" />
-                <Typography type="Normal" color="Text.lighter">
-                  추천 연구실 모아보기
-                </Typography>
-              </ClickWebsiteButton>
-            </LabRecommendationTitleWrapper>
-            <HorizontalScrollWrapper>
-              <LabRecommendationScroll>
-                {mockMajorLabs.map((item, index) => (
-                  <LabCard
-                    key={index}
-                    name={item.name}
-                    department={item.department}
-                    professor={item.professor}
-                    summary={item.summary}
-                    fieldList={item.fieldList}
-                    onClick={() => navigate(`/lab/${index + 1}`)}
-                  />
-                ))}
-              </LabRecommendationScroll>
-            </HorizontalScrollWrapper>
-          </LabRecommendationWrapper>
-          <PaperRecommendationWrapper>
-            <RecentPaperListWrapper>
-              <LabRecommendationTitleWrapper>
-                <Typography type="BiggerBold" color="Text.default">
-                  이런 논문은 어떤가요?
-                </Typography>
-                <ClickWebsiteButton onClick={() => navigate('/lab')}>
-                  <Icon type="FormatListBulleted" size={18} color="#888" />
-                  <Typography type="Normal" color="Text.lighter">
-                    추천 논문 모아보기
-                  </Typography>
-                </ClickWebsiteButton>
-              </LabRecommendationTitleWrapper>
-              <PaperTitleWrapper>
-                {paperList.slice(0, 5).map((item, index) => (
-                  <PaperTitle key={index} isLast={index == 4}>
-                    <Typography type="NormalBold" color="Highlight.default">
-                      {index + 1}
-                    </Typography>
-                    <EllipsisTwoLines>
-                      <Typography type="Normal" color="Text.default">
-                        {item.title}
-                      </Typography>
-                    </EllipsisTwoLines>
-                  </PaperTitle>
-                ))}
-              </PaperTitleWrapper>
-            </RecentPaperListWrapper>
-            <VerticalDivider />
-            <RecentPaperListWrapper>
-              <LabRecommendationTitleWrapper>
-                <Typography type="BiggerBold" color="Text.default">
-                  최신 논문
-                </Typography>
-                <ClickWebsiteButton onClick={() => navigate('/lab')}>
-                  <Icon type="FormatListBulleted" size={18} color="#888" />
-                  <Typography type="Normal" color="Text.lighter">
-                    최신 논문 모아보기
-                  </Typography>
-                </ClickWebsiteButton>
-              </LabRecommendationTitleWrapper>
-              <PaperTitleWrapper>
-                {paperList.slice(0, 5).map((item, index) => (
-                  <PaperTitle key={index} isLast={index == 4}>
-                    <Typography type="NormalBold" color="Highlight.default">
-                      {index + 1}
-                    </Typography>
-                    <EllipsisTwoLines>
-                      <Typography type="Normal" color="Text.default">
-                        {item.title}
-                      </Typography>
-                    </EllipsisTwoLines>
-                  </PaperTitle>
-                ))}
-              </PaperTitleWrapper>
-            </RecentPaperListWrapper>
-          </PaperRecommendationWrapper>
 
-          <LabRecommendationWrapper>
-            <LabRecommendationTitleWrapper>
-              <Typography type="BiggerBold" color="Text.default">
-                따끈따끈한 개별연구 후기
-              </Typography>
-            </LabRecommendationTitleWrapper>
-            <HorizontalScrollWrapper>
-              <LabRecommendationScroll>
-                {reviewList.map((item, index) => (
-                  <ReviewCard
-                    key={index}
-                    professor={item.professor}
-                    content={item.content}
-                    like={item.like}
-                    load={item.load}
-                    grade={item.grade}
-                    lecture={item.lecture}
-                  />
-                ))}
-              </LabRecommendationScroll>
-            </HorizontalScrollWrapper>
-          </LabRecommendationWrapper>
-        </MainContentWrapper>
+      {latestPaperMode && !isSearching ? (
+        <LatestPaperFrame setLatestPaperMode={setLatestPaperMode} />
+      ) : recommendedPaperMode && !isSearching ? (
+        <RecommendedPaperFrame setRecommendedPaperMode={setRecommendedPaperMode} />
+      ) : recommendedLabMode && !isSearching ? (
+        <ViewMoreRecommendedLabFrame setRecommendedLabMode={setRecommendedLabMode} />
+      ) : (
+        <>
+          {isSearching && searchType === 'lab' && (
+            <LabSearchResultWrapper>
+              <LabSearchResultTitleWrapper>
+                <Typography type="BiggerBold" color="Text.default">
+                  연구실 검색결과
+                </Typography>
+                <Typography type="BigBold" color="Text.default">
+                  (총 {filteredLabs.length}건)
+                </Typography>
+              </LabSearchResultTitleWrapper>
+              {filteredLabs.length > 0 && (
+                <DoubleCardsWrapper>
+                  <CardsWrapper>
+                    {evenIndexLabs.map((lab, index) => (
+                      <LabCard
+                        key={index}
+                        name={lab.name}
+                        department={lab.department}
+                        professor={lab.professor}
+                        summary={lab.summary}
+                        fieldList={lab.fieldList}
+                        onClick={(number: number) => navigate(`/lab/${number}`)}
+                      />
+                    ))}
+                  </CardsWrapper>
+                  <CardsWrapper>
+                    {oddIndexLabs.map((lab, index) => (
+                      <LabCard
+                        key={index}
+                        name={lab.name}
+                        department={lab.department}
+                        professor={lab.professor}
+                        summary={lab.summary}
+                        fieldList={lab.fieldList}
+                        onClick={(number: number) => navigate(`/lab/${number}`)}
+                      />
+                    ))}
+                  </CardsWrapper>
+                </DoubleCardsWrapper>
+              )}
+              {filteredLabs.length === 0 && (
+                <NothingWrapper>
+                  <Typography type="Normal" color="Text.placeholder">
+                    연구실 검색 결과가 없습니다
+                  </Typography>
+                </NothingWrapper>
+              )}
+            </LabSearchResultWrapper>
+          )}
+          {isSearching && searchType === 'paper' && (
+            <LabSearchResultWrapper>
+              <LabSearchResultTitleWrapper>
+                <Typography type="BiggerBold" color="Text.default">
+                  논문 검색결과
+                </Typography>
+                <Typography type="BigBold" color="Text.default">
+                  (총 {filteredPapers.length}건)
+                </Typography>
+              </LabSearchResultTitleWrapper>
+              {filteredPapers.length > 0 && (
+                <CardsWrapper>
+                  {filteredPapers.map((paper, index) => (
+                    <LongPaperCard
+                      key={index}
+                      title={paper.title}
+                      summary={paper.summary}
+                      fieldList={paper.fieldList}
+                      onClick={(paperId) => navigate(`/paper/${paperId}`)}
+                    />
+                  ))}
+                </CardsWrapper>
+              )}
+              {filteredPapers.length === 0 && (
+                <NothingWrapper>
+                  <Typography type="Normal" color="Text.placeholder">
+                    논문 검색 결과가 없습니다
+                  </Typography>
+                </NothingWrapper>
+              )}
+            </LabSearchResultWrapper>
+          )}
+          {!isSearching && (
+            <MainContentWrapper>
+              <LabRecommendationWrapper>
+                <LabRecommendationTitleWrapper>
+                  <Typography type="BiggerBold" color="Text.default">
+                    이런 연구실은 어떤가요?
+                  </Typography>
+                  <ClickWebsiteButton onClick={() => setRecommendedLabMode(true)}>
+                    <Icon type="FormatListBulleted" size={18} color="#888" />
+                    <Typography type="Normal" color="Text.lighter">
+                      추천 연구실 모아보기
+                    </Typography>
+                  </ClickWebsiteButton>
+                </LabRecommendationTitleWrapper>
+                <HorizontalScrollWrapper>
+                  <LabRecommendationScroll>
+                    {mockMajorLabs.map((item, index) => (
+                      <LabCard
+                        key={index}
+                        name={item.name}
+                        department={item.department}
+                        professor={item.professor}
+                        summary={item.summary}
+                        fieldList={item.fieldList}
+                        onClick={() => navigate(`/lab/${index + 1}`)}
+                      />
+                    ))}
+                  </LabRecommendationScroll>
+                </HorizontalScrollWrapper>
+              </LabRecommendationWrapper>
+
+              <PaperRecommendationWrapper>
+                <RecentPaperListWrapper>
+                  <LabRecommendationTitleWrapper>
+                    <Typography type="BiggerBold" color="Text.default">
+                      이런 논문은 어떤가요?
+                    </Typography>
+                    <ClickWebsiteButton onClick={() => setRecommendedPaperMode(true)}>
+                      <Icon type="FormatListBulleted" size={18} color="#888" />
+                      <Typography type="Normal" color="Text.lighter">
+                        추천 논문 모아보기
+                      </Typography>
+                    </ClickWebsiteButton>
+                  </LabRecommendationTitleWrapper>
+                  <PaperTitleWrapper>
+                    {paperList.slice(0, 5).map((item, index) => (
+                      <PaperTitle key={index} isLast={index == 4}>
+                        <Typography type="NormalBold" color="Highlight.default">
+                          {index + 1}
+                        </Typography>
+                        <EllipsisTwoLines>
+                          <Typography type="Normal" color="Text.default">
+                            {item.title}
+                          </Typography>
+                        </EllipsisTwoLines>
+                      </PaperTitle>
+                    ))}
+                  </PaperTitleWrapper>
+                </RecentPaperListWrapper>
+
+                <VerticalDivider />
+
+                <RecentPaperListWrapper>
+                  <LabRecommendationTitleWrapper>
+                    <Typography type="BiggerBold" color="Text.default">
+                      최신 논문
+                    </Typography>
+                    <ClickWebsiteButton onClick={() => setLatestPaperMode(true)}>
+                      <Icon type="FormatListBulleted" size={18} color="#888" />
+                      <Typography type="Normal" color="Text.lighter">
+                        최신 논문 모아보기
+                      </Typography>
+                    </ClickWebsiteButton>
+                  </LabRecommendationTitleWrapper>
+                  <PaperTitleWrapper>
+                    {paperList.slice(0, 5).map((item, index) => (
+                      <PaperTitle key={index} isLast={index == 4}>
+                        <Typography type="NormalBold" color="Highlight.default">
+                          {index + 1}
+                        </Typography>
+                        <EllipsisTwoLines>
+                          <Typography type="Normal" color="Text.default">
+                            {item.title}
+                          </Typography>
+                        </EllipsisTwoLines>
+                      </PaperTitle>
+                    ))}
+                  </PaperTitleWrapper>
+                </RecentPaperListWrapper>
+              </PaperRecommendationWrapper>
+
+              <LabRecommendationWrapper>
+                <LabRecommendationTitleWrapper>
+                  <Typography type="BiggerBold" color="Text.default">
+                    따끈따끈한 개별연구 후기
+                  </Typography>
+                </LabRecommendationTitleWrapper>
+                <HorizontalScrollWrapper>
+                  <LabRecommendationScroll>
+                    {reviewList.map((item, index) => (
+                      <ReviewCard
+                        key={index}
+                        professor={item.professor}
+                        content={item.content}
+                        like={item.like}
+                        load={item.load}
+                        grade={item.grade}
+                        lecture={item.lecture}
+                      />
+                    ))}
+                  </LabRecommendationScroll>
+                </HorizontalScrollWrapper>
+              </LabRecommendationWrapper>
+            </MainContentWrapper>
+          )}
+        </>
       )}
     </MainWrapper>
   );
