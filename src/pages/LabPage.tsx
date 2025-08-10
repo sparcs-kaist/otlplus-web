@@ -388,7 +388,7 @@ const LabPage: React.FC = () => {
   const [interestKeyword, setInterestKeyword] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const trending = ['AI', 'UX 디자인', '뇌과학', '로보틱스', '데이터사이언스'];
-  const noInterest = false; // CHACHA : 임시로 이걸로 바꿔가며 테스트
+  const noInterest = true; // CHACHA : 임시로 이걸로 바꿔가며 테스트
 
   return (
     <>

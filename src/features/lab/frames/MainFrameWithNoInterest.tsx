@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { useLocation, useNavigate } from 'react-router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReviewCard from '@/features/lab/components/ReviewCard';
 import { mockPaperList } from '@/features/lab/mock/mockPaperList';
 import { mockReview } from '@/features/lab/mock/mockReview';
@@ -27,6 +27,7 @@ const MainWrapper = styled.div`
   width: 100%;
   gap: 10px;
   min-width: 0;
+  //overflow-x: hidden;
 `;
 
 const LabRecommendationWrapper = styled.div`
@@ -179,12 +180,31 @@ const NothingWrapper = styled.div`
   align-self: stretch;
 `;
 
+const SlideWrapper = styled.div<{ maxHeight: number; open: boolean }>`
+  overflow: hidden;
+  background: white;
+  transition: max-height 0.5s ease;
+  max-height: ${({ open, maxHeight }) => (open ? `${maxHeight}px` : '0px')};
+`;
+
+const IconWrapper = styled.div`
+  transform: rotate(-90deg);
+`;
+
 export const MainFrameWithNoInterest = () => {
   const [mode, setMode] = useState<Mode>(Mode.none);
   const [lab, setLab] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [recentKeyword, setRecentKeyword] = useState<string[]>([]);
   const [recommendedLabMode, setRecommendedLabMode] = useState(false); // chacha: 추천 연구실 탭으로 들어간 상태
+  const [maxHeight, setMaxHeight] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (recommendedLabMode && ref.current) {
+      setMaxHeight(ref.current.scrollHeight);
+    }
+  }, [recommendedLabMode]);
 
   const navigate = useNavigate();
 
@@ -267,9 +287,9 @@ export const MainFrameWithNoInterest = () => {
         ))}
       </RecentSearchWrapper>
       <Divider />
-      {recommendedLabMode && !isSearching && (
+      <SlideWrapper ref={ref} open={recommendedLabMode && !isSearching} maxHeight={maxHeight}>
         <ViewMoreRecommendedLabFrame setRecommendedLabMode={setRecommendedLabMode} />
-      )}
+      </SlideWrapper>
       {!recommendedLabMode && isSearching && searchType === 'lab' && (
         <LabSearchResultWrapper>
           <LabSearchResultTitleWrapper>
@@ -360,7 +380,9 @@ export const MainFrameWithNoInterest = () => {
                 이런 연구실은 어떤가요?
               </Typography>
               <ClickWebsiteButton onClick={() => setRecommendedLabMode(true)}>
-                <Icon type="FormatListBulleted" size={18} color="#888" />
+                <IconWrapper>
+                  <Icon type="ChevronLeft" size={18} color="#888" />
+                </IconWrapper>
                 <Typography type="Normal" color="Text.lighter">
                   추천 연구실 모아보기
                 </Typography>
