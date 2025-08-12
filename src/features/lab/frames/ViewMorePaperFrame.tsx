@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { useNavigate } from 'react-router';
-import React from 'react';
-import PaperCard from '@/features/lab/components/PaperCard';
+import React, { useMemo } from 'react';
 import { mockPaperList } from '@/features/lab/mock/mockPaperList';
 import SmallPaperCard from '@/features/lab/components/SmallPaperCard';
+import TextInput from '@/common/daily-tf/search/TextInput';
+import { canBeChoseong, getChoseong } from 'es-hangul';
 
 interface ViewMorePaperFrameProps {
   setViewMorePaper: (value: boolean) => void;
@@ -102,8 +103,24 @@ const OneColumnWrapper = styled.div`
   flex: 1 0 0;
 `;
 
+const ClickWebsiteButton = styled.button`
+  display: flex;
+  height: 32px;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  background-color: #eee;
+`;
+
+const IconWrapper = styled.div`
+  transform: rotate(90deg);
+`;
+
 export const ViewMorePaperFrame: React.FC<ViewMorePaperFrameProps> = ({ setViewMorePaper }) => {
-  const paperList = mockPaperList();
+  const [searchText, setSearchText] = React.useState<string>('');
+  const originalPaperList = mockPaperList();
   const navigate = useNavigate();
   const papersLength = mockPaperList().length;
   const firstPapersIndexList = Array.from({ length: Math.ceil(papersLength / 3) }, (_, i) => i * 3);
@@ -116,31 +133,47 @@ export const ViewMorePaperFrame: React.FC<ViewMorePaperFrameProps> = ({ setViewM
     (_, i) => i * 3 + 2,
   );
 
+  const paperList = useMemo(() => {
+    if (searchText === '') return originalPaperList;
+    if (canBeChoseong(searchText)) {
+      return originalPaperList.filter((item) =>
+        item.fieldList.some((field) => getChoseong(field).includes(getChoseong(searchText))),
+      );
+    }
+
+    return originalPaperList.filter((item) =>
+      item.fieldList.some(
+        (field) =>
+          field.includes(searchText.toLowerCase()) ||
+          item.fieldList.some((field) => field.includes(searchText.toUpperCase())),
+      ),
+    );
+  }, [searchText]);
+
   return (
     <MainContainer>
       <HeaderContainer>
         <HeaderLeftWrapper>
-          <BackIconWrapper>
-            <Icon
-              type="ChevronLeft"
-              size={24}
-              color="#aaa"
-              onClick={() => setViewMorePaper(false)}
-            />
-          </BackIconWrapper>
-          <TitleWithTagWrapper>
-            <Typography type="BigBold">연구실 논문 전체보기</Typography>
-          </TitleWithTagWrapper>
-        </HeaderLeftWrapper>
-        <HeaderRightWrapper>
           <SearchComponentContainer>
             <SearchIconWrapper>
               <Icon type="Search" size={16} color="#E54C65" />
             </SearchIconWrapper>
-            <Typography type={'Normal'} color={'Text.placeholder'}>
-              연구실 내 논문을 검색해보세요
-            </Typography>
+            <TextInput
+              placeholder="연구실 내 논문을 검색해보세요"
+              value={searchText}
+              handleChange={setSearchText}
+            />
           </SearchComponentContainer>
+        </HeaderLeftWrapper>
+        <HeaderRightWrapper>
+          <ClickWebsiteButton onClick={() => setViewMorePaper(false)}>
+            <IconWrapper>
+              <Icon type="ChevronLeft" size={18} color="#888" />
+            </IconWrapper>
+            <Typography type="Normal" color="Text.lighter">
+              연구실 논문 접기
+            </Typography>
+          </ClickWebsiteButton>
         </HeaderRightWrapper>
       </HeaderContainer>
       <ThreeColumnWrapper>

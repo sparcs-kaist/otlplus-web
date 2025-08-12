@@ -74,20 +74,20 @@ const DoubleCardsWrapper = styled.div`
   gap: 16px;
 `;
 
-const ClickWebsiteButton = styled.button`
-  display: flex;
-  height: 32px;
-  padding: 6px 12px;
-  justify-content: center;
-  align-items: center;
-  gap: 6px;
-  border-radius: 6px;
-  background-color: #eee;
-`;
-
-const IconWrapper = styled.div`
-  transform: rotate(90deg);
-`;
+// const ClickWebsiteButton = styled.button`
+//   display: flex;
+//   height: 32px;
+//   padding: 6px 12px;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 6px;
+//   border-radius: 6px;
+//   background-color: #eee;
+// `;
+//
+// const IconWrapper = styled.div`
+//   transform: rotate(90deg);
+// `;
 
 export const ViewMoreRecommendedLabFrame: React.FC<ViewMoreRecommendedLabFrameProps> = ({
   setRecommendedLabMode,
@@ -100,29 +100,29 @@ export const ViewMoreRecommendedLabFrame: React.FC<ViewMoreRecommendedLabFramePr
 
   return (
     <MainContainer>
-      {/*<HeaderContainer>*/}
-      {/*<HeaderLeftWrapper>*/}
-      {/*<BackIconWrapper>*/}
-      {/*  <Icon*/}
-      {/*    type="ChevronLeft"*/}
-      {/*    size={24}*/}
-      {/*    color="#aaa"*/}
-      {/*    onClick={() => setRecommendedLabMode(false)}*/}
-      {/*  />*/}
-      {/*</BackIconWrapper>*/}
-      <TitleWithTagWrapper>
-        <Typography type="BiggerBold">추천 연구실 모아보기</Typography>
-        <ClickWebsiteButton onClick={() => setRecommendedLabMode(false)}>
-          <IconWrapper>
-            <Icon type="ChevronLeft" size={18} color="#888" />
-          </IconWrapper>
-          <Typography type="Normal" color="Text.lighter">
-            추천 연구실 모아보기
-          </Typography>
-        </ClickWebsiteButton>
-      </TitleWithTagWrapper>
-      {/*</HeaderLeftWrapper>*/}
-      {/*</HeaderContainer>*/}
+      <HeaderContainer>
+        <HeaderLeftWrapper>
+          <BackIconWrapper>
+            <Icon
+              type="ChevronLeft"
+              size={24}
+              color="#aaa"
+              onClick={() => setRecommendedLabMode(false)}
+            />
+          </BackIconWrapper>
+          <TitleWithTagWrapper>
+            <Typography type="BiggerBold">추천 연구실 모아보기</Typography>
+            {/*<ClickWebsiteButton onClick={() => setRecommendedLabMode(false)}>*/}
+            {/*  <IconWrapper>*/}
+            {/*    <Icon type="ChevronLeft" size={18} color="#888" />*/}
+            {/*  </IconWrapper>*/}
+            {/*  <Typography type="Normal" color="Text.lighter">*/}
+            {/*    추천 연구실 모아보기*/}
+            {/*  </Typography>*/}
+            {/*</ClickWebsiteButton>*/}
+          </TitleWithTagWrapper>
+        </HeaderLeftWrapper>
+      </HeaderContainer>
       <DoubleCardsWrapper>
         <CardsWrapper>
           {evenIndexLabs.map((lab, index) => (

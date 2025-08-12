@@ -26,6 +26,7 @@ const ReviewCardContainer = styled.div`
   border: 1px solid #e8e8e8;
   border-radius: 6px;
   background-color: #fafafa;
+  align-self: stretch;
 `;
 
 const Header = styled.div`
