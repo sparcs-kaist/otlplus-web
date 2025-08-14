@@ -27,6 +27,12 @@ const MainInnerWrapper = styled.div`
   gap: 24px;
 `;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
 const TotalHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -199,6 +205,13 @@ const NoListProvidedWrapper = styled.div`
   align-self: stretch;
 `;
 
+const SlidersWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+`;
+
 const SlideWrapper = styled.div<{ maxheight: number; open: boolean }>`
   overflow: hidden;
   background: white;
@@ -361,80 +374,46 @@ export const LabDetailFrame = () => {
           </LabInfoWrapper>
         </TotalHeaderWrapper>
         <Divider />
-        <SlideWrapper
-          ref={paperRef}
-          maxheight={maxPaperHeight}
-          open={viewMorePaper && !viewMoreReview}>
-          <ViewMorePaperFrame setViewMorePaper={setViewMorePaper} />
-        </SlideWrapper>
-        <SlideWrapper
-          ref={reviewRef}
-          maxheight={maxReviewHeight}
-          open={viewMoreReview && !viewMorePaper}>
-          <ViewMoreReviewFrame setViewMoreReview={setViewMoreReview} />
-        </SlideWrapper>
-        {!viewMorePaper && !viewMoreReview && (
-          <>
-            <HorizontalScrollListSection>
-              <RecentPaperListTitle>
-                <Typography type="BigBold">최근 발행 논문</Typography>
-                <ClickWebsiteButton onClick={() => setViewMorePaper(true)}>
-                  <IconWrapper>
-                    <Icon type="ChevronLeft" size={18} color="#888" />
-                  </IconWrapper>
-                  <Typography type="Normal" color="Text.lighter">
-                    연구실 논문 전체보기
-                  </Typography>
-                </ClickWebsiteButton>
-              </RecentPaperListTitle>
-              {paperList.length !== 0 ? (
-                <RecentPaperScrollWrapper>
-                  <RecentPaperScroll>
-                    {paperList.map((item, index) => (
-                      <PaperCard
-                        key={index}
-                        title={item.title}
-                        fieldList={item.fieldList}
-                        summary={item.summary}
-                      />
-                    ))}
-                  </RecentPaperScroll>
-                </RecentPaperScrollWrapper>
-              ) : (
-                <NoListProvidedWrapper>
-                  <Typography type={'Normal'} color={'Text.placeholder'}>
-                    발행 논문이 없습니다.
-                  </Typography>{' '}
-                </NoListProvidedWrapper>
-              )}
-            </HorizontalScrollListSection>
-            <HorizontalScrollListSection>
-              <RecentPaperListTitle>
-                <Typography type="BigBold">연구 후기</Typography>
-                <ClickWebsiteButton onClick={() => setViewMoreReview(true)}>
-                  <IconWrapper>
-                    <Icon type="ChevronLeft" size={18} color="#888" />
-                  </IconWrapper>
-                  <Typography type="Normal" color="Text.lighter">
-                    개별연구 후기 전체보기
-                  </Typography>
-                </ClickWebsiteButton>
-              </RecentPaperListTitle>
-              <RecentPaperScrollWrapper>
-                {reviewList.length !== 0 ? (
-                  <RecentPaperScroll>
-                    {reviewList.map((item, index) => (
-                      <ReviewCard
-                        key={index}
-                        professor={item.professor}
-                        content={item.content}
-                        like={item.like}
-                        grade={item.grade}
-                        load={item.load}
-                        lecture={item.lecture}
-                      />
-                    ))}
-                  </RecentPaperScroll>
+        <SlidersWrapper>
+          <SlideWrapper
+            ref={paperRef}
+            maxheight={maxPaperHeight}
+            open={viewMorePaper && !viewMoreReview}>
+            <ViewMorePaperFrame setViewMorePaper={setViewMorePaper} />
+          </SlideWrapper>
+          <SlideWrapper
+            ref={reviewRef}
+            maxheight={maxReviewHeight}
+            open={viewMoreReview && !viewMorePaper}>
+            <ViewMoreReviewFrame setViewMoreReview={setViewMoreReview} />
+          </SlideWrapper>
+          {!viewMorePaper && !viewMoreReview && (
+            <ContentWrapper>
+              <HorizontalScrollListSection>
+                <RecentPaperListTitle>
+                  <Typography type="BigBold">최근 발행 논문</Typography>
+                  <ClickWebsiteButton onClick={() => setViewMorePaper(true)}>
+                    <IconWrapper>
+                      <Icon type="ChevronLeft" size={18} color="#888" />
+                    </IconWrapper>
+                    <Typography type="Normal" color="Text.lighter">
+                      연구실 논문 전체보기
+                    </Typography>
+                  </ClickWebsiteButton>
+                </RecentPaperListTitle>
+                {paperList.length !== 0 ? (
+                  <RecentPaperScrollWrapper>
+                    <RecentPaperScroll>
+                      {paperList.map((item, index) => (
+                        <PaperCard
+                          key={index}
+                          title={item.title}
+                          fieldList={item.fieldList}
+                          summary={item.summary}
+                        />
+                      ))}
+                    </RecentPaperScroll>
+                  </RecentPaperScrollWrapper>
                 ) : (
                   <NoListProvidedWrapper>
                     <Typography type={'Normal'} color={'Text.placeholder'}>
@@ -442,10 +421,46 @@ export const LabDetailFrame = () => {
                     </Typography>{' '}
                   </NoListProvidedWrapper>
                 )}
-              </RecentPaperScrollWrapper>
-            </HorizontalScrollListSection>
-          </>
-        )}
+              </HorizontalScrollListSection>
+              <HorizontalScrollListSection>
+                <RecentPaperListTitle>
+                  <Typography type="BigBold">연구 후기</Typography>
+                  <ClickWebsiteButton onClick={() => setViewMoreReview(true)}>
+                    <IconWrapper>
+                      <Icon type="ChevronLeft" size={18} color="#888" />
+                    </IconWrapper>
+                    <Typography type="Normal" color="Text.lighter">
+                      개별연구 후기 전체보기
+                    </Typography>
+                  </ClickWebsiteButton>
+                </RecentPaperListTitle>
+                <RecentPaperScrollWrapper>
+                  {reviewList.length !== 0 ? (
+                    <RecentPaperScroll>
+                      {reviewList.map((item, index) => (
+                        <ReviewCard
+                          key={index}
+                          professor={item.professor}
+                          content={item.content}
+                          like={item.like}
+                          grade={item.grade}
+                          load={item.load}
+                          lecture={item.lecture}
+                        />
+                      ))}
+                    </RecentPaperScroll>
+                  ) : (
+                    <NoListProvidedWrapper>
+                      <Typography type={'Normal'} color={'Text.placeholder'}>
+                        발행 논문이 없습니다.
+                      </Typography>{' '}
+                    </NoListProvidedWrapper>
+                  )}
+                </RecentPaperScrollWrapper>
+              </HorizontalScrollListSection>
+            </ContentWrapper>
+          )}
+        </SlidersWrapper>
       </MainInnerWrapper>
     </MainWrapper>
   );
