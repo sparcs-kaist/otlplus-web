@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { range } from 'lodash';
 import { Link } from 'react-router-dom';
@@ -22,6 +22,7 @@ import MainSearchSection from '../components/sections/main/MainSearchSection';
 import userShape from '../shapes/model/session/UserShape';
 import NoticeSection from '../components/sections/main/NoticeSection';
 import RateFeedSection from '../components/sections/main/RateFeedSection';
+import UpdatesFeedSection from '@/components/sections/main/UpdatesFeedSection';
 
 class MainPage extends Component {
   constructor(props) {
@@ -247,6 +248,7 @@ class MainPage extends Component {
     const feeds = [
       <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
       <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
+      <UpdatesFeedSection key="UPDATES" />,
       <ZaboEmbed key="ZABO_EMBED" serviceColor="#E54C65" style={{ marginBottom: 12 }} />,
       notices
         ? notices.map((n) => (

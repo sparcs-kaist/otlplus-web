@@ -7,7 +7,6 @@ import { guidelineBoundClassNames as classNames } from '../../boundClassNames';
 
 import logoImage from '../images/SPARCS_black.svg';
 import { CONTACT } from '../../constants';
-import { TFunction } from 'i18next';
 
 class Footer extends Component<{ t }> {
   render() {
@@ -34,6 +33,9 @@ class Footer extends Component<{ t }> {
               </span>
               <span>
                 <Link to="/privacy">{t('ui.menu.privacy')}</Link>
+              </span>
+              <span>
+                <Link to="/update">{t('ui.menu.updates')}</Link>
               </span>
             </div>
           </div>

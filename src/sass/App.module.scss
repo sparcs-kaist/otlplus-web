@@ -3822,6 +3822,14 @@ i.icon {
     margin: calc(calc($line-height-normal - 12px) / 2) 0;
     margin-right: 8px;
   }
+
+  &--open-in-new {
+    width: 12px;
+    height: 12px;
+    background-image: url(../static/icons/open_in_new.svg);
+    margin: calc(calc($line-height-normal - 12px) / 2) 0;
+    margin-left: 4px;
+  }
 }
 
 .top-sticky {

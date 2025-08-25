@@ -39,7 +39,8 @@
       "myInformation": "My Information",
       "academicInformation": "Academic Information",
       "settings": "Settings",
-      "lectureInformation": "Lecture Information"
+      "lectureInformation": "Lecture Information",
+      "updates": "Updates"
     },
     "tab": {
       "search": "Search",
@@ -88,7 +89,8 @@
       "reset": "Reset",
       "shareImage": "Share as Image",
       "shareCalendar": "Share as Calendar",
-      "openSyllabus": "Syllabi Collection"
+      "openSyllabus": "Syllabi Collection",
+      "seeUpdates": "OTL Updates"
     },
     "attribute": {
       "department": "Dept.",
@@ -358,7 +360,8 @@
       "signIn": "Sign In",
       "credit": "Credit",
       "licences": "Licences",
-      "privacy": "Privacy"
+      "privacy": "Privacy",
+      "updates": "Updates"
     },
     "bannerPopup": {
       "close": "Close",
