@@ -33,6 +33,8 @@ export const colors = {
   Highlight: {
     default: '#E54C65',
     dark: '#963246',
+    light: '#eb809c',
+    background: 'rgba(229, 76, 101, 0.1)',
   },
   Line: {
     default: '#E8E8E8',
@@ -43,6 +45,7 @@ export const colors = {
   Text: {
     disable: '#AAAAAA',
     placeholder: '#AAAAAA',
+    subtle: '#999999',
     lighter: '#888888',
     light: '#555555',
     default: '#333333',

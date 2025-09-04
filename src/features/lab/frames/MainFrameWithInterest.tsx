@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { useLocation, useNavigate } from 'react-router';
@@ -15,19 +15,21 @@ import { mockSearchLabs } from '@/features/lab/mock/mockSearchedLabs';
 import { ViewMoreRecommendedLabFrame } from '@/features/lab/frames/ViewMoreRecommendedLabFrame';
 import { RecommendedPaperFrame } from '@/features/lab/frames/RecommendedPaperFrame';
 import { LatestPaperFrame } from '@/features/lab/frames/LatestPaperFrame';
+import { useTranslation } from 'react-i18next';
 
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #fff;
-  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
-  border-radius: 6px;
+  background-color: ${({ theme }) => theme.colors.Background.Section.default};
   padding: 24px;
   box-sizing: border-box;
-  flex: 1;
   width: 100%;
+  height: 100%;
   gap: 10px;
   min-width: 0;
+  border-radius: 6px;
+  box-shadow: 0px 6px 3px -3px ${({ theme }) => theme.colors.Line.divider}cc;
+  overflow-y: auto;
 `;
 
 const LabRecommendationWrapper = styled.div`
@@ -53,13 +55,13 @@ const ClickWebsiteButton = styled.button`
   align-items: center;
   gap: 6px;
   border-radius: 6px;
-  background-color: #eee;
+  background-color: ${({ theme }) => theme.colors.Background.Block.dark};
 `;
 
 const Divider = styled.div`
   height: 1px;
   align-self: stretch;
-  border-top: 1px solid #edd1dc;
+  border-top: 1px solid ${({ theme }) => theme.colors.Line.divider};
   width: 100%;
 `;
 
@@ -91,6 +93,7 @@ const RecentPaperListWrapper = styled.div`
   align-items: flex-start;
   gap: 14px;
   flex: 1 0 0;
+  width: 100%;
 `;
 
 const PaperTitleWrapper = styled.div`
@@ -120,15 +123,26 @@ const RecentSearchWrapper = styled.div`
   align-items: center;
   gap: 14px;
   align-self: stretch;
+  flex-wrap: wrap;
 `;
 
 const PaperRecommendationWrapper = styled.div`
   display: flex;
   gap: 20px;
+  width: 100%;
+
+  @media (max-width: 1439px) {
+    flex-direction: column;
+    gap: 40px;
+  }
 `;
 
 const VerticalDivider = styled.div`
-  border-right: 1px solid #edd1dc;
+  border-right: 1px solid ${({ theme }) => theme.colors.Line.divider};
+
+  @media (max-width: 1439px) {
+    display: none;
+  }
 `;
 
 const EllipsisTwoLines = styled.div`
@@ -157,9 +171,13 @@ const DoubleCardsWrapper = styled.div`
   display: flex;
   width: 100%;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 16px;
+
+  @media (max-width: 1439px) {
+    flex-direction: column;
+  }
 `;
 
 const LabSearchResultWrapper = styled.div`
@@ -187,6 +205,7 @@ const NothingWrapper = styled.div`
 `;
 
 export const MainFrameWithInterest = () => {
+  const theme = useTheme();
   const [mode, setMode] = useState<Mode>(Mode.none);
   const [lab, setLab] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
@@ -198,7 +217,7 @@ export const MainFrameWithInterest = () => {
   const [recommendedLabMode, setRecommendedLabMode] = useState(false);
   const [recommendedPaperMode, setRecommendedPaperMode] = useState(false);
   const [latestPaperMode, setLatestPaperMode] = useState(false);
-
+  const { t } = useTranslation();
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const searchKeyword = decodeURIComponent(query.get('keyword') ?? '').trim();
@@ -249,7 +268,6 @@ export const MainFrameWithInterest = () => {
 
   const filteredLabs = getFilteredLabs();
   const filteredPapers = getFilteredPapers();
-
   const evenIndexLabs = filteredLabs.filter((_, index) => index % 2 === 0);
   const oddIndexLabs = filteredLabs.filter((_, index) => index % 2 === 1);
 
@@ -266,7 +284,7 @@ export const MainFrameWithInterest = () => {
       />
       <RecentSearchWrapper>
         <Typography type="SmallBold" color="Text.default">
-          최근 검색어
+          {t('ui.lab.latestSearch')}
         </Typography>
         {recentKeyword.toReversed().map((item, key) => (
           <Typography key={key} type="Small" color="Text.default">
@@ -275,7 +293,6 @@ export const MainFrameWithInterest = () => {
         ))}
       </RecentSearchWrapper>
       <Divider />
-
       {latestPaperMode && !isSearching ? (
         <LatestPaperFrame setLatestPaperMode={setLatestPaperMode} />
       ) : recommendedPaperMode && !isSearching ? (
@@ -288,7 +305,7 @@ export const MainFrameWithInterest = () => {
             <LabSearchResultWrapper>
               <LabSearchResultTitleWrapper>
                 <Typography type="BiggerBold" color="Text.default">
-                  연구실 검색결과
+                  {t('ui.lab.labSearchResult')}
                 </Typography>
                 <Typography type="BigBold" color="Text.default">
                   (총 {filteredLabs.length}건)
@@ -298,6 +315,7 @@ export const MainFrameWithInterest = () => {
                 <DoubleCardsWrapper>
                   <CardsWrapper>
                     {evenIndexLabs.map((lab, index) => (
+                      //TODO: 실제 데이터 연동하기
                       <LabCard
                         key={index}
                         name={lab.name}
@@ -311,6 +329,7 @@ export const MainFrameWithInterest = () => {
                   </CardsWrapper>
                   <CardsWrapper>
                     {oddIndexLabs.map((lab, index) => (
+                      //TODO: 실제 데이터 연동하기
                       <LabCard
                         key={index}
                         name={lab.name}
@@ -327,7 +346,7 @@ export const MainFrameWithInterest = () => {
               {filteredLabs.length === 0 && (
                 <NothingWrapper>
                   <Typography type="Normal" color="Text.placeholder">
-                    연구실 검색 결과가 없습니다
+                    {t('ui.lab.noLabResult')}
                   </Typography>
                 </NothingWrapper>
               )}
@@ -337,7 +356,7 @@ export const MainFrameWithInterest = () => {
             <LabSearchResultWrapper>
               <LabSearchResultTitleWrapper>
                 <Typography type="BiggerBold" color="Text.default">
-                  논문 검색결과
+                  {t('ui.lab.labResult')}
                 </Typography>
                 <Typography type="BigBold" color="Text.default">
                   (총 {filteredPapers.length}건)
@@ -359,7 +378,7 @@ export const MainFrameWithInterest = () => {
               {filteredPapers.length === 0 && (
                 <NothingWrapper>
                   <Typography type="Normal" color="Text.placeholder">
-                    논문 검색 결과가 없습니다
+                    {t('ui.lab.noPaperResult')}
                   </Typography>
                 </NothingWrapper>
               )}
@@ -370,18 +389,23 @@ export const MainFrameWithInterest = () => {
               <LabRecommendationWrapper>
                 <LabRecommendationTitleWrapper>
                   <Typography type="BiggerBold" color="Text.default">
-                    이런 연구실은 어떤가요?
+                    {t('ui.lab.recommendLabs')}
                   </Typography>
                   <ClickWebsiteButton onClick={() => setRecommendedLabMode(true)}>
-                    <Icon type="FormatListBulleted" size={18} color="#888" />
+                    <Icon
+                      type="FormatListBulleted"
+                      size={theme.fonts.iconSize.medium}
+                      color={theme.colors.Text.lighter}
+                    />
                     <Typography type="Normal" color="Text.lighter">
-                      추천 연구실 모아보기
+                      {t('ui.lab.seeRecommendedLabs')}
                     </Typography>
                   </ClickWebsiteButton>
                 </LabRecommendationTitleWrapper>
                 <HorizontalScrollWrapper>
                   <LabRecommendationScroll>
                     {mockMajorLabs.map((item, index) => (
+                      //TODO: 실제 데이터 연동하기
                       <LabCard
                         key={index}
                         name={item.name}
@@ -395,23 +419,26 @@ export const MainFrameWithInterest = () => {
                   </LabRecommendationScroll>
                 </HorizontalScrollWrapper>
               </LabRecommendationWrapper>
-
               <PaperRecommendationWrapper>
                 <RecentPaperListWrapper>
                   <LabRecommendationTitleWrapper>
                     <Typography type="BiggerBold" color="Text.default">
-                      이런 논문은 어떤가요?
+                      {t('ui.lab.recommendPapers')}
                     </Typography>
                     <ClickWebsiteButton onClick={() => setRecommendedPaperMode(true)}>
-                      <Icon type="FormatListBulleted" size={18} color="#888" />
+                      <Icon
+                        type="FormatListBulleted"
+                        size={theme.fonts.iconSize.medium}
+                        color={theme.colors.Text.lighter}
+                      />
                       <Typography type="Normal" color="Text.lighter">
-                        추천 논문 모아보기
+                        {t('ui.lab.seeRecommendedPapers')}
                       </Typography>
                     </ClickWebsiteButton>
                   </LabRecommendationTitleWrapper>
                   <PaperTitleWrapper>
                     {paperList.slice(0, 5).map((item, index) => (
-                      <PaperTitle key={index} isLast={index == 4}>
+                      <PaperTitle key={index} isLast={index === 4}>
                         <Typography type="NormalBold" color="Highlight.default">
                           {index + 1}
                         </Typography>
@@ -424,24 +451,26 @@ export const MainFrameWithInterest = () => {
                     ))}
                   </PaperTitleWrapper>
                 </RecentPaperListWrapper>
-
                 <VerticalDivider />
-
                 <RecentPaperListWrapper>
                   <LabRecommendationTitleWrapper>
                     <Typography type="BiggerBold" color="Text.default">
-                      최신 논문
+                      {t('ui.lab.latestPapers')}
                     </Typography>
                     <ClickWebsiteButton onClick={() => setLatestPaperMode(true)}>
-                      <Icon type="FormatListBulleted" size={18} color="#888" />
+                      <Icon
+                        type="FormatListBulleted"
+                        size={theme.fonts.iconSize.medium}
+                        color={theme.colors.Text.lighter}
+                      />
                       <Typography type="Normal" color="Text.lighter">
-                        최신 논문 모아보기
+                        {t('ui.lab.seeLatestPapers')}
                       </Typography>
                     </ClickWebsiteButton>
                   </LabRecommendationTitleWrapper>
                   <PaperTitleWrapper>
                     {paperList.slice(0, 5).map((item, index) => (
-                      <PaperTitle key={index} isLast={index == 4}>
+                      <PaperTitle key={index} isLast={index === 4}>
                         <Typography type="NormalBold" color="Highlight.default">
                           {index + 1}
                         </Typography>
@@ -455,11 +484,10 @@ export const MainFrameWithInterest = () => {
                   </PaperTitleWrapper>
                 </RecentPaperListWrapper>
               </PaperRecommendationWrapper>
-
               <LabRecommendationWrapper>
                 <LabRecommendationTitleWrapper>
                   <Typography type="BiggerBold" color="Text.default">
-                    따끈따끈한 개별연구 후기
+                    {t('ui.lab.hotIndividualStudyReviews')}
                   </Typography>
                 </LabRecommendationTitleWrapper>
                 <HorizontalScrollWrapper>

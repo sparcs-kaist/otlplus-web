@@ -1,9 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import DetailPaperCard from '@/features/lab/components/DetailPaperCard';
 import { mockDetailPaperCard } from '@/features/lab/mock/mockDetailPaperCard';
 import Typography from '@/common/daily-tf/Typography';
 import Icon from '@/common/daily-tf/Icon';
+import { useTranslation } from 'react-i18next';
 
 interface RecommendedPaperFrameProps {
   setRecommendedPaperMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,14 +54,21 @@ const CardsGridWrapper = styled.div`
 export const RecommendedPaperFrame: React.FC<RecommendedPaperFrameProps> = ({
   setRecommendedPaperMode,
 }) => {
+  const { t } = useTranslation();
+  const theme = useTheme();
+
   return (
     <MainContainer>
       <HeaderWrapper>
         <HeaderLeftWrapper>
           <BackIconWrapper onClick={() => setRecommendedPaperMode(false)}>
-            <Icon type="ChevronLeft" size={24} color="#aaa" />
+            <Icon
+              type="ChevronLeft"
+              size={theme.fonts.iconSize.xlarge}
+              color={theme.colors.Text.disable}
+            />
           </BackIconWrapper>
-          <Typography type="BiggerBold">최신 논문 모아보기</Typography>
+          <Typography type="BiggerBold">{t('ui.lab.seeRecommendedPapers')}</Typography>
         </HeaderLeftWrapper>
       </HeaderWrapper>
 

@@ -3,6 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Typography from '@/common/daily-tf/Typography';
+import { useTranslation } from 'react-i18next';
 
 export interface DetailPaperCardProps {
   title: string;
@@ -17,8 +18,8 @@ const PaperCardContainer = styled.div`
   padding: 16px 20px;
   gap: 16px;
   border-radius: 6px;
-  border: 1px solid #e8e8e8;
-  background-color: #fff;
+  border: 1px solid ${({ theme }) => theme.colors.Line.default};
+  background-color: ${({ theme }) => theme.colors.Background.Section.default};
   width: 100%;
 `;
 
@@ -40,7 +41,7 @@ const SummaryWrapper = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 125%;
-  color: #555;
+  color: ${({ theme }) => theme.colors.Text.light};
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -62,17 +63,17 @@ const TagBlock = styled.div`
   align-items: center;
   gap: 6px;
   border-radius: 16px;
-  background-color: #f5f5f5;
+  background-color: ${({ theme }) => theme.colors.Background.Block.default};
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
   line-height: 125%;
-  color: #888;
+  color: ${({ theme }) => theme.colors.Text.lighter};
 `;
 
 const MoreText = styled.div`
-  color: #e85570;
+  color: ${({ theme }) => theme.colors.Highlight.default};
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
@@ -81,6 +82,8 @@ const MoreText = styled.div`
 `;
 
 const DetailPaperCard: React.FC<DetailPaperCardProps> = ({ title, summary, tags, onClickMore }) => {
+  const { t } = useTranslation();
+
   return (
     <PaperCardContainer>
       <TitleWrapper>
@@ -96,7 +99,7 @@ const DetailPaperCard: React.FC<DetailPaperCardProps> = ({ title, summary, tags,
         <SummaryWrapper>{summary}</SummaryWrapper>
       </ContentWrapper>
 
-      <MoreText onClick={onClickMore}>더보기</MoreText>
+      <MoreText onClick={onClickMore}>{t('ui.button.seeMore')}</MoreText>
     </PaperCardContainer>
   );
 };
