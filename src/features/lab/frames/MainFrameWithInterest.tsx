@@ -2,7 +2,8 @@ import styled, { useTheme } from 'styled-components';
 import Icon from '@/common/daily-tf/Icon';
 import Typography from '@/common/daily-tf/Typography';
 import { useLocation, useNavigate } from 'react-router';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import PaperCard from '@/features/lab/components/PaperCard';
 import ReviewCard from '@/features/lab/components/ReviewCard';
 import { mockPaperList } from '@/features/lab/mock/mockPaperList';
 import { mockReview } from '@/features/lab/mock/mockReview';
@@ -16,6 +17,7 @@ import { ViewMoreRecommendedLabFrame } from '@/features/lab/frames/ViewMoreRecom
 import { RecommendedPaperFrame } from '@/features/lab/frames/RecommendedPaperFrame';
 import { LatestPaperFrame } from '@/features/lab/frames/LatestPaperFrame';
 import { useTranslation } from 'react-i18next';
+import isPropValid from '@emotion/is-prop-valid';
 
 const MainWrapper = styled.div`
   display: flex;
@@ -103,11 +105,9 @@ const PaperTitleWrapper = styled.div`
   align-self: stretch;
 `;
 
-interface OrderProps {
-  isLast?: boolean;
-}
-
-const PaperTitle = styled.div<OrderProps>`
+const PaperTitle = styled.div.withConfig({
+  shouldForwardProp: (prop) => isPropValid(prop),
+})<{ islast?: boolean }>`
   display: flex;
   padding: 8px 0 8px 14px;
   justify-content: center;
@@ -115,7 +115,8 @@ const PaperTitle = styled.div<OrderProps>`
   height: 54px;
   align-items: center;
   align-self: stretch;
-  ${({ theme, isLast }) => !isLast && `border-bottom: 1px solid ${theme.colors.Line.default}`}
+
+  ${({ theme, islast }) => !islast && `border-bottom: 1px solid ${theme.colors.Line.default}`}
 `;
 
 const RecentSearchWrapper = styled.div`
@@ -204,6 +205,17 @@ const NothingWrapper = styled.div`
   align-self: stretch;
 `;
 
+// const SlideWrapper = styled.div<{ maxheight: number; open: boolean }>`
+//   overflow: hidden;
+//   background: white;
+//   transition: max-height 0.5s ease;
+//   max-height: ${({ open, maxheight }) => (open ? `${maxheight}px` : '0px')};
+// `;
+//
+// const IconWrapper = styled.div`
+//   transform: rotate(-90deg);
+// `;
+
 export const MainFrameWithInterest = () => {
   const theme = useTheme();
   const [mode, setMode] = useState<Mode>(Mode.none);
@@ -214,10 +226,19 @@ export const MainFrameWithInterest = () => {
   const reviewList = mockReview();
   const maxSearchKeyword = 15;
   const paperList = mockPaperList();
-  const [recommendedLabMode, setRecommendedLabMode] = useState(false);
   const [recommendedPaperMode, setRecommendedPaperMode] = useState(false);
   const [latestPaperMode, setLatestPaperMode] = useState(false);
   const { t } = useTranslation();
+  const [recommendedLabMode, setRecommendedLabMode] = useState(false); // chacha: 추천 연구실 탭으로 들어간 상태
+  const [maxHeight, setMaxHeight] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (recommendedLabMode && ref.current) {
+      setMaxHeight(ref.current.scrollHeight);
+    }
+  }, [recommendedLabMode]);
+
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const searchKeyword = decodeURIComponent(query.get('keyword') ?? '').trim();
@@ -438,7 +459,7 @@ export const MainFrameWithInterest = () => {
                   </LabRecommendationTitleWrapper>
                   <PaperTitleWrapper>
                     {paperList.slice(0, 5).map((item, index) => (
-                      <PaperTitle key={index} isLast={index === 4}>
+                      <PaperTitle key={index} islast={index === 4}>
                         <Typography type="NormalBold" color="Highlight.default">
                           {index + 1}
                         </Typography>
@@ -470,7 +491,7 @@ export const MainFrameWithInterest = () => {
                   </LabRecommendationTitleWrapper>
                   <PaperTitleWrapper>
                     {paperList.slice(0, 5).map((item, index) => (
-                      <PaperTitle key={index} isLast={index === 4}>
+                      <PaperTitle key={index} islast={index === 4}>
                         <Typography type="NormalBold" color="Highlight.default">
                           {index + 1}
                         </Typography>

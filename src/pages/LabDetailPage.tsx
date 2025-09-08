@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { UilHeart, UilSuitcase, UilSearch } from '@iconscout/react-unicons';
 import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
 import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
 import { LabDetailFrame } from '@/features/lab/frames/LabDetailFrame';
+import Icon from '@/common/daily-tf/Icon';
 
 // ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
@@ -162,13 +162,6 @@ const LeftSearchBar = styled.div`
   box-sizing: border-box;
 `;
 
-const LeftSearchIcon = styled(UilSearch)`
-  width: 16px;
-  height: 16px;
-  color: #aaaaaa;
-  margin-right: 8px;
-`;
-
 const LeftSearchInput = styled.input`
   flex: 1;
   border: none;
@@ -238,12 +231,6 @@ const ResearchTitle = styled.div`
   color: #333;
 `;
 
-const HeartIcon = styled(UilHeart)`
-  width: 16px;
-  height: 16px;
-  color: #aaaaaa;
-`;
-
 const ResearchBody = styled.div`
   width: 100%;
   height: 42px;
@@ -286,13 +273,13 @@ const LabDetailPage: React.FC = () => {
         <ContentsContainer>
           <SidebarWrapper>
             <SidebarOption onClick={() => setLikedLabMode(true)}>
-              <UilHeart width="16" height="16" /> 찜한 연구실
+              <Icon type="FavoriteBorder" size={16} color="#aaa" /> 찜한 연구실
             </SidebarOption>
             <SidebarOption>
-              <UilSuitcase width="16" height="16" /> 전공 학과 연구실
+              <Icon type="ShoppingBag" size={16} color="#000" /> 전공 학과 연구실
             </SidebarOption>
             <SidebarOption>
-              <UilSuitcase width="16" height="16" /> 부전공 학과 연구실
+              <Icon type="ShoppingBag" size={16} color="#000" /> 부전공 학과 연구실
             </SidebarOption>
             <SidebarDivider />
             <SidebarInterestTitle>관심 분야</SidebarInterestTitle>
@@ -307,7 +294,7 @@ const LabDetailPage: React.FC = () => {
               <SidebarInterest>
                 <LeftSearchBarWrapper>
                   <LeftSearchBar>
-                    <LeftSearchIcon />
+                    <Icon type="Search" color="#eb809c" size={16} />
                     <LeftSearchInput
                       placeholder="키워드를 입력하세요"
                       value={leftKeyword}
@@ -339,7 +326,7 @@ const LabDetailPage: React.FC = () => {
               <ResearchCard key={i}>
                 <ResearchHeader>
                   <ResearchTitle>연구실명</ResearchTitle>
-                  <HeartIcon />
+                  <Icon type="FavoriteBorder" size={16} color="#aaa" />
                 </ResearchHeader>
                 <ResearchBody>
                   <ResearchProf>담당교수</ResearchProf>

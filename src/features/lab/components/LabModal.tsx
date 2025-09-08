@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
-import { UilSearch, UilCheck } from '@iconscout/react-unicons';
+import Icon from '@/common/daily-tf/Icon';
+import Typography from '@/common/daily-tf/Typography';
 
 interface LabModalProps {
   onClose: () => void;
@@ -65,13 +66,6 @@ const SearchBar = styled.div`
   box-sizing: border-box;
 `;
 
-const SearchIcon = styled(UilSearch)`
-  width: 16px;
-  height: 16px;
-  color: #eb809c;
-  margin-right: 8px;
-`;
-
 const SearchInput = styled.input`
   flex: 1;
   border: none;
@@ -93,7 +87,7 @@ const SelectedTagsRow = styled.div`
 
 const Divider = styled.div`
   width: 100%;
-  border-top: 1px solid var(--Color-Line-default, #e8e8e8);
+  border-top: 1px solid ${({ theme }) => theme.colors.Line.default};
 `;
 
 const TrendingLabel = styled(SectionLabel)`
@@ -200,14 +194,14 @@ const LabModal: React.FC<LabModalProps> = ({ onClose, onSave }) => {
   return (
     <Overlay>
       <ModalContainer>
-        <Title>
+        <Typography type="BiggerBold" color="Text.default">
           정확한 연구실 추천을 위해 <br />
           관심 분야를 추가해 주세요!
-        </Title>
+        </Typography>
 
         <SectionLabel>관심 분야</SectionLabel>
         <SearchBar>
-          <SearchIcon />
+          <Icon type="Search" size={16} color="#eb809c" />
           <SearchInput
             placeholder="키워드로 검색해 보세요"
             value={keyword}
@@ -220,7 +214,7 @@ const LabModal: React.FC<LabModalProps> = ({ onClose, onSave }) => {
           {selectedTags.map((tag) => (
             <TagItem key={tag} onClick={() => handleRemoveTag(tag)}>
               {tag}
-              <UilCheck width="14" height="14" color="#e54c65" />
+              <Icon type="Check" size={16} color="#e54c65" />
             </TagItem>
           ))}
         </SelectedTagsRow>

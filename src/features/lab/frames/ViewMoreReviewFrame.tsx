@@ -105,6 +105,21 @@ const OneColumnWrapper = styled.div`
   flex: 1 0 0;
 `;
 
+const ClickWebsiteButton = styled.button`
+  display: flex;
+  height: 32px;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px;
+  background-color: #eee;
+`;
+
+const IconWrapper = styled.div`
+  transform: rotate(90deg);
+`;
+
 export const ViewMoreReviewFrame: React.FC<ViewMoreReviewFrameProps> = ({ setViewMoreReview }) => {
   const reviewList = mockReview();
   const navigate = useNavigate();
@@ -122,18 +137,18 @@ export const ViewMoreReviewFrame: React.FC<ViewMoreReviewFrameProps> = ({ setVie
     <MainContainer>
       <HeaderContainer>
         <HeaderLeftWrapper>
-          <BackIconWrapper>
-            <Icon
-              type="ChevronLeft"
-              size={24}
-              color="#aaa"
-              onClick={() => setViewMoreReview(false)}
-            />
-          </BackIconWrapper>
           <TitleWithTagWrapper>
-            <Typography type="BigBold">연구실 후기 전체보기</Typography>
+            <Typography type="BigBold">연구실 후기</Typography>
           </TitleWithTagWrapper>
         </HeaderLeftWrapper>
+        <ClickWebsiteButton onClick={() => setViewMoreReview(false)}>
+          <IconWrapper>
+            <Icon type="ChevronLeft" size={18} color="#888" />
+          </IconWrapper>
+          <Typography type="Normal" color="Text.lighter">
+            개별연구 후기 접기
+          </Typography>
+        </ClickWebsiteButton>
       </HeaderContainer>
       <ThreeColumnWrapper>
         <OneColumnWrapper>

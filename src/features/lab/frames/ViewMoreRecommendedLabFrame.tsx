@@ -14,10 +14,11 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 24px 0 0 0;
+  padding: 10px 0 0 0;
   gap: 24px;
   flex: 1 0 0;
   align-self: stretch;
+  background-color: white;
 `;
 
 const HeaderContainer = styled.div`
@@ -47,8 +48,10 @@ const BackIconWrapper = styled.div`
 
 const TitleWithTagWrapper = styled.div`
   display: flex;
+
   align-items: center;
-  gap: 12px;
+  align-self: stretch;
+  justify-content: space-between;
 `;
 
 const CardsWrapper = styled.div`
@@ -70,6 +73,21 @@ const DoubleCardsWrapper = styled.div`
   justify-content: center;
   gap: 16px;
 `;
+
+// const ClickWebsiteButton = styled.button`
+//   display: flex;
+//   height: 32px;
+//   padding: 6px 12px;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 6px;
+//   border-radius: 6px;
+//   background-color: #eee;
+// `;
+//
+// const IconWrapper = styled.div`
+//   transform: rotate(90deg);
+// `;
 
 export const ViewMoreRecommendedLabFrame: React.FC<ViewMoreRecommendedLabFrameProps> = ({
   setRecommendedLabMode,
@@ -94,6 +112,14 @@ export const ViewMoreRecommendedLabFrame: React.FC<ViewMoreRecommendedLabFramePr
           </BackIconWrapper>
           <TitleWithTagWrapper>
             <Typography type="BiggerBold">추천 연구실 모아보기</Typography>
+            {/*<ClickWebsiteButton onClick={() => setRecommendedLabMode(false)}>*/}
+            {/*  <IconWrapper>*/}
+            {/*    <Icon type="ChevronLeft" size={18} color="#888" />*/}
+            {/*  </IconWrapper>*/}
+            {/*  <Typography type="Normal" color="Text.lighter">*/}
+            {/*    추천 연구실 모아보기*/}
+            {/*  </Typography>*/}
+            {/*</ClickWebsiteButton>*/}
           </TitleWithTagWrapper>
         </HeaderLeftWrapper>
       </HeaderContainer>
