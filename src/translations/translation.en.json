@@ -88,7 +88,8 @@
       "reset": "Reset",
       "shareImage": "Share as Image",
       "shareCalendar": "Share as Calendar",
-      "openSyllabus": "Syllabi Collection"
+      "openSyllabus": "Syllabi Collection",
+      "seeMore": "See more"
     },
     "attribute": {
       "department": "Dept.",
@@ -358,6 +359,35 @@
     "bannerPopup": {
       "close": "Close",
       "doNotShowAgain": "Do not show again"
+    },
+    "lab": {
+      "recommendPapers": "How about these papers?",
+      "seeLatestPapers": "See latest papers",
+      "latestPapers": "Latest Papers",
+      "latestSearch": "Recent Searches",
+      "labSearchResult": "Lab Search Results",
+      "noLabResult": "No lab search results",
+      "noPaperResult": "No paper search results",
+      "labResult": "Paper Search Results",
+      "recommendLabs": "How about these labs?",
+      "seeRecommendedLabs": "See recommended labs",
+      "seeRecommendedPapers": "See recommended papers",
+      "hotIndividualStudyReviews": "Fresh Individual Study Reviews",
+      "likedLabs": "Liked Labs",
+      "majorDepartmentLabs": "Major Department Labs",
+      "minorDepartmentLabs": "Minor Department Labs",
+      "interests": "Interests",
+      "interestsDescription": "Set your interests and get lab recommendations",
+      "getStarted": "Get Started",
+      "searchByKeywordPlaceholder": "Search by keyword",
+      "trendingKeywords": "Trending Keywords",
+      "popularLabsTitle": "Most Viewed <span>Labs</span> by Students",
+      "labName": "Lab Name",
+      "professor": "Professor",
+      "keywordUXDesign": "UX Design",
+      "keywordNeuroscience": "Neuroscience",
+      "keywordRobotics": "Robotics",
+      "keywordDataScience": "Data Science"
     }
   }
 }

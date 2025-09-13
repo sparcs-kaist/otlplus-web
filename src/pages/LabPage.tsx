@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
+import { useTranslation, Trans } from 'react-i18next';
 import LabModal from '@/features/lab/components/LabModal';
-
 import { LikedLabFrame } from '@/features/lab/frames/LikedLabFrame';
 import { MajorLabFrame } from '@/features/lab/frames/MajorLabFrame';
 import { MinorLabFrame } from '@/features/lab/frames/MinorLabFrame';
@@ -9,18 +9,16 @@ import { mockLikedLabs } from '@/features/lab/mock/mockLikedLabs';
 import { mockMajorLabs } from '@/features/lab/mock/mockMajorLabs';
 import { mockMinorLabs } from '@/features/lab/mock/mockMinorLabs';
 import Icon from '@/common/daily-tf/Icon';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { MainFrameWithNoInterest } from '@/features/lab/frames/MainFrameWithNoInterest';
 import { MainFrameWithInterest } from '@/features/lab/frames/MainFrameWithInterest';
 
-// ─── Page Wrapper ─────────────────────────────────────────────────────────────
 const PageWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   padding: 55px 0 20px;
   height: 100vh;
-  background-color: #f9f2f2;
-  overflow: auto;
+  background-color: ${({ theme }) => theme.colors.Background.Page.default};
+  overflow: hidden;
 `;
 
 const ContentsContainer = styled.div`
@@ -28,13 +26,77 @@ const ContentsContainer = styled.div`
   gap: 16px;
   padding: 0 100px;
   width: 100%;
+  height: 100%;
+
+  @media (max-width: 1439px) {
+    padding: 0 20px;
+    gap: 0;
+  }
 `;
 
-// ─── LEFT SIDEBAR ─────────────────────────────────────────────────────────────
+const MobileIconRail = styled.div`
+  display: none;
+
+  @media (max-width: 1439px) {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: auto;
+    height: 100%;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+  }
+`;
+
+interface RailIconButtonProps {
+  isActive?: boolean;
+}
+
+const RailIconButton = styled.button<RailIconButtonProps>`
+  border: none;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background-color: ${({ theme, isActive }) =>
+    isActive ? theme.colors.Background.Section.default : theme.colors.Background.Block.darker};
+
+  &:hover {
+    background-color: ${({ theme, isActive }) =>
+      isActive ? theme.colors.Background.Section.default : theme.colors.Background.Tab.darker};
+  }
+`;
+
+const MobileContentFrame = styled.div`
+  display: none;
+
+  @media (max-width: 1439px) {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.Background.Section.default};
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0px 6px 3px -3px ${({ theme }) => theme.colors.Line.divider}cc;
+    overflow: hidden;
+  }
+`;
+
+const MobileContentArea = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+`;
+
 const SidebarWrapper = styled.div`
   width: 246px;
-  background-color: #fff;
-  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
+  background-color: ${({ theme }) => theme.colors.Background.Section.default};
+  box-shadow: 0px 6px 3px -3px ${({ theme }) => theme.colors.Line.divider}cc;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -42,6 +104,36 @@ const SidebarWrapper = styled.div`
   padding: 12px 12px 12px 15px;
   box-sizing: border-box;
   align-self: flex-start;
+  flex-shrink: 0;
+  max-height: calc(100vh - 55px - 20px);
+  overflow-y: auto;
+
+  @media (max-width: 1439px) {
+    display: none;
+  }
+`;
+
+const CentralContentWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+
+  @media (max-width: 1439px) {
+    display: none;
+  }
+`;
+
+const RightSection = styled.div`
+  width: 246px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+
+  @media (max-width: 1439px) {
+    display: none;
+  }
 `;
 
 const SidebarOption = styled.div`
@@ -55,14 +147,14 @@ const SidebarOption = styled.div`
   font-weight: 500;
   font-size: 13px;
   line-height: 125%;
-  color: #333;
+  color: ${({ theme }) => theme.colors.Text.default};
   cursor: pointer;
 `;
 
 const SidebarDivider = styled.div`
   width: 100%;
   height: 1px;
-  background-color: rgba(232, 232, 232, 1);
+  background-color: ${({ theme }) => theme.colors.Line.default};
 `;
 
 const SidebarInterestTitle = styled.div`
@@ -72,7 +164,7 @@ const SidebarInterestTitle = styled.div`
   line-height: 125%;
   letter-spacing: 0;
   vertical-align: middle;
-  color: #333;
+  color: ${({ theme }) => theme.colors.Text.default};
 `;
 
 const SidebarInterest = styled.div<{ edit?: boolean }>`
@@ -85,13 +177,13 @@ const SidebarInterest = styled.div<{ edit?: boolean }>`
   ${({ edit }) =>
     edit
       ? `
-    align-items: flex-start;
-  `
+align-items: flex-start;
+`
       : `
-    align-items: center;
-    justify-content: center;
-    height: 184px;
-  `}
+align-items: center;
+justify-content: center;
+height: 184px;
+`}
 `;
 
 const Description = styled.div`
@@ -99,7 +191,7 @@ const Description = styled.div`
   font-weight: 500;
   font-size: 13px;
   line-height: 150%;
-  color: #999;
+  color: ${({ theme }) => theme.colors.Text.subtle};
   text-align: center;
 `;
 
@@ -109,8 +201,8 @@ const InterestStartButton = styled.button`
   padding: 6px 24px;
   gap: 6px;
   border-radius: 6px;
-  background-color: #e54c65;
-  color: #fff;
+  background-color: ${({ theme }) => theme.colors.Highlight.default};
+  color: ${({ theme }) => theme.colors.Background.Section.default};
   border: none;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 500;
@@ -144,13 +236,13 @@ const EditButton = styled.button`
 `;
 
 const CancelButton = styled(EditButton)`
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: ${({ theme }) => theme.colors.Background.Block.default};
+  color: ${({ theme }) => theme.colors.Text.default};
 `;
 
 const SaveButton = styled(EditButton)`
-  background-color: #e54c65;
-  color: #fff;
+  background-color: ${({ theme }) => theme.colors.Highlight.default};
+  color: ${({ theme }) => theme.colors.Background.Section.default};
 `;
 
 const LeftSearchBarWrapper = styled.div`
@@ -164,7 +256,7 @@ const LeftSearchBar = styled.div`
   height: 32px;
   display: flex;
   align-items: center;
-  border: 1px solid rgba(237, 209, 220, 1);
+  border: 1px solid ${({ theme }) => theme.colors.Line.divider};
   border-radius: 6px;
   padding: 0 12px;
   box-sizing: border-box;
@@ -177,14 +269,14 @@ const LeftSearchInput = styled.input`
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 14px;
   line-height: 125%;
-  color: #333;
+  color: ${({ theme }) => theme.colors.Text.default};
   &::placeholder {
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 400;
     font-size: 13px;
     line-height: 125%;
     letter-spacing: 0;
-    color: #aaaaaa;
+    color: ${({ theme }) => theme.colors.Text.placeholder};
   }
 `;
 const SelectedTagsRow = styled.div`
@@ -201,8 +293,8 @@ const TagItem = styled.div`
   gap: 4px;
   padding: 6px 12px;
   border-radius: 16px;
-  background-color: rgba(229, 76, 101, 0.1);
-  color: #e54c65;
+  background-color: ${({ theme }) => theme.colors.Highlight.background};
+  color: ${({ theme }) => theme.colors.Highlight.default};
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 13px;
   font-weight: 500;
@@ -213,7 +305,7 @@ const TrendingLabel = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
   font-size: 13px;
-  color: #e54c65;
+  color: ${({ theme }) => theme.colors.Highlight.default};
   text-align: left;
   width: 100%;
   padding-left: 2px;
@@ -230,97 +322,30 @@ const TrendingTags = styled.div`
 const TrendingTag = styled.div`
   padding: 6px 12px;
   border-radius: 16px;
-  background-color: #f4f4f4;
-  color: #999;
+  background-color: ${({ theme }) => theme.colors.Background.Block.default};
+  color: ${({ theme }) => theme.colors.Text.subtle};
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
 `;
 
-// ─── CENTER CONTENT ───────────────────────────────────────────────────────────
-const MainWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
-  border-radius: 6px;
-  padding: 24px;
-  box-sizing: border-box;
-  width: 100%;
-  gap: 10px;
-  min-width: 0;
-`;
-
-const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
-  box-shadow: 0px 6px 3px -3px #ed8c9ccc;
-  border-radius: 6px;
-  padding: 24px;
-  box-sizing: border-box;
-`;
-
-const CentralSearchBar = styled.div`
-  width: 100%;
-  max-width: 1072px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid #edd1dc;
-  border-radius: 6px;
-  padding: 0 16px;
-  box-sizing: border-box;
-`;
-
-const DepartmentSelect = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 195px;
-  height: 100%;
-  padding: 0 16px;
-  border-right: 1px solid #edd1dc;
-  box-sizing: border-box;
-`;
-
-const DeptLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #aaaaaa;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-`;
-
-// ─── RIGHT SIDEBAR ──────────────────────────────────────────────────────────
-const RightSection = styled.div`
-  width: 246px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
 const RightTitle = styled.div`
   width: 100%;
-  height: 24px;
+  height: 21px;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: 700;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 125%;
-  color: #000;
+  color: ${({ theme }) => theme.colors.Text.dark};
   span {
-    color: #eb809c;
+    color: ${({ theme }) => theme.colors.Highlight.default};
   }
 `;
 
 const ResearchCard = styled.div`
   width: 100%;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.Background.Section.default};
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -345,7 +370,7 @@ const ResearchTitle = styled.div`
   font-weight: 700;
   font-size: 14px;
   line-height: 125%;
-  color: #333;
+  color: ${({ theme }) => theme.colors.Text.default};
 `;
 
 const ResearchBody = styled.div`
@@ -364,7 +389,7 @@ const ResearchProf = styled.div`
   font-weight: 400;
   font-size: 13px;
   line-height: 125%;
-  color: #999;
+  color: ${({ theme }) => theme.colors.Text.subtle};
 `;
 
 const ResearchTags = styled.div`
@@ -374,21 +399,55 @@ const ResearchTags = styled.div`
   font-weight: 400;
   font-size: 13px;
   line-height: 125%;
-  color: #999;
+  color: ${({ theme }) => theme.colors.Text.subtle};
 `;
 
-// ─── COMPONENT ─────────────────────────────────────────────────────────────
 const LabPage: React.FC = () => {
+  const { t } = useTranslation();
+  const theme = useTheme();
   const [interestMode, setInterestMode] = useState(false);
-  const [likedLabMode, setLikedLabMode] = useState(false); // chacha: 찜한 연구실 탭으로 들어간 상태
-  const [majorLabMode, setMajorLabMode] = useState(false); // oosoi: :)
+  const [likedLabMode, setLikedLabMode] = useState(false);
+  const [majorLabMode, setMajorLabMode] = useState(false);
   const [minorLabMode, setMinorLabMode] = useState(false);
-
   const [showModal, setShowModal] = useState(true);
   const [interestKeyword, setInterestKeyword] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const trending = ['AI', 'UX 디자인', '뇌과학', '로보틱스', '데이터사이언스'];
-  const noInterest = true; // CHACHA : 임시로 이걸로 바꿔가며 테스트
+  //TODO: 실제 데이터 연동 후 연구 분야 태그로 대체
+  const trending = [
+    'AI',
+    t('ui.lab.keywordUXDesign'),
+    t('ui.lab.keywordNeuroscience'),
+    t('ui.lab.keywordRobotics'),
+    t('ui.lab.keywordDataScience'),
+  ];
+  const noInterest = false;
+  const [activeTab, setActiveTab] = useState<string>('search');
+
+  const renderMobileContent = () => {
+    switch (activeTab) {
+      case 'search':
+        return <MainFrameWithInterest />;
+      case 'favorite':
+        return <LikedLabFrame setLikedLabMode={setLikedLabMode} likedLabs={mockLikedLabs} />;
+      case 'major':
+        return <MajorLabFrame setMajorLabMode={setMajorLabMode} majorLabs={mockMajorLabs} />;
+      case 'minor':
+        return <MinorLabFrame setMinorLabMode={setMinorLabMode} minorLabs={mockMinorLabs} />;
+      default:
+        return <MainFrameWithInterest />;
+    }
+  };
+
+  const renderDesktopContent = () => {
+    if (likedLabMode)
+      return <LikedLabFrame setLikedLabMode={setLikedLabMode} likedLabs={mockLikedLabs} />;
+    if (majorLabMode)
+      return <MajorLabFrame setMajorLabMode={setMajorLabMode} majorLabs={mockMajorLabs} />;
+    if (minorLabMode)
+      return <MinorLabFrame setMinorLabMode={setMinorLabMode} minorLabs={mockMinorLabs} />;
+    if (noInterest) return <MainFrameWithNoInterest />;
+    return <MainFrameWithInterest />;
+  };
 
   return (
     <>
@@ -402,35 +461,48 @@ const LabPage: React.FC = () => {
                 setMajorLabMode(false);
                 setMinorLabMode(false);
               }}>
-              <Icon type="FavoriteBorder" size={16} color="#000" /> 찜한 연구실
+              <Icon
+                type="FavoriteBorder"
+                size={theme.fonts.iconSize.medium}
+                color={theme.colors.Text.dark}
+              />
+              {t('ui.lab.likedLabs')}
             </SidebarOption>
-
             <SidebarOption
               onClick={() => {
                 setLikedLabMode(false);
                 setMajorLabMode(true);
                 setMinorLabMode(false);
               }}>
-              <Icon type="ShoppingBag" size={16} color="#000" /> 전공 학과 연구실
+              <Icon
+                type="ShoppingBag"
+                size={theme.fonts.iconSize.medium}
+                color={theme.colors.Text.dark}
+              />
+              {t('ui.lab.majorDepartmentLabs')}
             </SidebarOption>
-
             <SidebarOption
               onClick={() => {
                 setLikedLabMode(false);
                 setMajorLabMode(false);
                 setMinorLabMode(true);
               }}>
-              <Icon type="ShoppingBag" size={16} color="#000" /> 부전공 학과 연구실
+              <Icon
+                type="ShoppingBag"
+                size={theme.fonts.iconSize.medium}
+                color={theme.colors.Text.dark}
+              />
+              {t('ui.lab.minorDepartmentLabs')}
             </SidebarOption>
             <SidebarDivider />
-            <SidebarInterestTitle>관심 분야</SidebarInterestTitle>
+            <SidebarInterestTitle>{t('ui.lab.interests')}</SidebarInterestTitle>
             {!interestMode ? (
               <SidebarInterest>
                 <div style={{ height: '60px' }} />
-                <Description>관심 분야를 설정하고 연구실 추천을 받아보세요</Description>
+                <Description>{t('ui.lab.interestsDescription')}</Description>
                 <div style={{ height: '20px' }} />
                 <InterestStartButton onClick={() => setInterestMode(true)}>
-                  시작하기
+                  {t('ui.lab.getStarted')}
                 </InterestStartButton>
               </SidebarInterest>
             ) : (
@@ -439,9 +511,13 @@ const LabPage: React.FC = () => {
                   <>
                     <LeftSearchBarWrapper>
                       <LeftSearchBar>
-                        <Icon type="Search" color="#eb809c" size={16} />
+                        <Icon
+                          type="Search"
+                          color={theme.colors.Highlight.light}
+                          size={theme.fonts.iconSize.medium}
+                        />
                         <LeftSearchInput
-                          placeholder="키워드로 검색해보세요"
+                          placeholder={t('ui.lab.searchByKeywordPlaceholder')}
                           value={interestKeyword}
                           onChange={(e) => setInterestKeyword(e.target.value)}
                           onKeyDown={(e) => {
@@ -455,21 +531,22 @@ const LabPage: React.FC = () => {
                         />
                       </LeftSearchBar>
                     </LeftSearchBarWrapper>
-
                     <SelectedTagsRow>
                       {selectedTags.map((tag) => (
                         <TagItem
                           key={tag}
                           onClick={() => setSelectedTags(selectedTags.filter((t) => t !== tag))}>
                           {tag}
-                          <Icon type="Check" size={14} color="#e54c65" />
+                          <Icon
+                            type="Check"
+                            size={theme.fonts.iconSize.base}
+                            color={theme.colors.Highlight.default}
+                          />
                         </TagItem>
                       ))}
                     </SelectedTagsRow>
-
                     <SidebarDivider />
-
-                    <TrendingLabel>인기 검색어</TrendingLabel>
+                    <TrendingLabel>{t('ui.lab.trendingKeywords')}</TrendingLabel>
                     <TrendingTags>
                       {trending.map((tag) => (
                         <TrendingTag
@@ -483,65 +560,93 @@ const LabPage: React.FC = () => {
                         </TrendingTag>
                       ))}
                     </TrendingTags>
-
                     <FlexRow>
-                      <CancelButton onClick={() => setInterestMode(false)}>취소</CancelButton>
+                      <CancelButton onClick={() => setInterestMode(false)}>
+                        {t('ui.button.cancel')}
+                      </CancelButton>
                       <SaveButton
                         onClick={() => {
                           setInterestMode(false);
                         }}>
-                        저장
+                        {t('ui.button.save')}
                       </SaveButton>
                     </FlexRow>
                   </>
                 ) : (
                   <>
                     <div style={{ height: '100px' }} />
-                    <Description>관심 분야를 설정하고 연구실 추천을 받아보세요</Description>
+                    <Description>{t('ui.lab.interestsDescription')}</Description>
                     <InterestStartButton onClick={() => setInterestMode(true)}>
-                      시작하기
+                      {t('ui.lab.getStarted')}
                     </InterestStartButton>
                   </>
                 )}
               </SidebarInterest>
             )}
           </SidebarWrapper>
-          {likedLabMode && (
-            <LikedLabFrame setLikedLabMode={setLikedLabMode} likedLabs={mockLikedLabs} />
-          )}
-          {majorLabMode && (
-            <MajorLabFrame setMajorLabMode={setMajorLabMode} majorLabs={mockMajorLabs} />
-          )}
-          {minorLabMode && (
-            <MinorLabFrame setMinorLabMode={setMinorLabMode} minorLabs={mockMinorLabs} />
-          )}
-
-          {!likedLabMode && !majorLabMode && !minorLabMode && noInterest && (
-            <MainFrameWithNoInterest />
-          )}
-
-          {!likedLabMode && !majorLabMode && !minorLabMode && !noInterest && (
-            <MainFrameWithInterest />
-          )}
-
+          <CentralContentWrapper>{renderDesktopContent()}</CentralContentWrapper>
           <RightSection>
             <RightTitle>
-              함께 보는 <span>AI추천 연구실</span>
+              <Trans i18nKey="ui.lab.popularLabsTitle" components={{ span: <span /> }} />
             </RightTitle>
             {[1, 2, 3, 4].map((i) => (
               <ResearchCard key={i}>
                 <ResearchHeader>
-                  <ResearchTitle>연구실명</ResearchTitle>
-                  {/*<HeartIcon />*/}
-                  <Icon type="FavoriteBorder" size={16} color="#aaa" />
+                  <ResearchTitle>{t('ui.lab.labName')}</ResearchTitle>
+                  <Icon
+                    type="FavoriteBorder"
+                    size={theme.fonts.iconSize.medium}
+                    color={theme.colors.Text.disable}
+                  />
                 </ResearchHeader>
                 <ResearchBody>
-                  <ResearchProf>담당교수</ResearchProf>
+                  <ResearchProf>{t('ui.lab.professor')}</ResearchProf>
+                  {/* TODO: 실제 데이터 연동 후 연구 분야 태그로 대체 */}
                   <ResearchTags>#분야 #분야 #분야</ResearchTags>
                 </ResearchBody>
               </ResearchCard>
             ))}
           </RightSection>
+
+          <MobileIconRail>
+            <RailIconButton
+              isActive={activeTab === 'search'}
+              onClick={() => setActiveTab('search')}>
+              <Icon
+                type="Search"
+                size={theme.fonts.iconSize.small}
+                color={activeTab === 'search' ? theme.colors.Text.default : theme.colors.Text.light}
+              />
+            </RailIconButton>
+            <RailIconButton
+              isActive={activeTab === 'favorite'}
+              onClick={() => setActiveTab('favorite')}>
+              <Icon
+                type="FavoriteBorder"
+                size={theme.fonts.iconSize.small}
+                color={
+                  activeTab === 'favorite' ? theme.colors.Text.default : theme.colors.Text.light
+                }
+              />
+            </RailIconButton>
+            <RailIconButton isActive={activeTab === 'major'} onClick={() => setActiveTab('major')}>
+              <Icon
+                type="BusinessCenter"
+                size={theme.fonts.iconSize.small}
+                color={activeTab === 'major' ? theme.colors.Text.default : theme.colors.Text.light}
+              />
+            </RailIconButton>
+            <RailIconButton isActive={activeTab === 'minor'} onClick={() => setActiveTab('minor')}>
+              <Icon
+                type="BusinessCenter"
+                size={theme.fonts.iconSize.small}
+                color={activeTab === 'minor' ? theme.colors.Text.default : theme.colors.Text.light}
+              />
+            </RailIconButton>
+          </MobileIconRail>
+          <MobileContentFrame>
+            <MobileContentArea>{renderMobileContent()}</MobileContentArea>
+          </MobileContentFrame>
         </ContentsContainer>
       </PageWrapper>
     </>
