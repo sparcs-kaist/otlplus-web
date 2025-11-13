@@ -7,7 +7,7 @@ import queryString from 'qs';
 import { range } from 'lodash';
 
 import { appBoundClassNames as classNames } from '../../../common/boundClassNames';
-import { TIMETABLE_START_HOUR, TIMETABLE_END_HOUR } from '../../../common/constants';
+import { TIMETABLE_END_HOUR, TIMETABLE_START_HOUR } from '../../../common/constants';
 
 import Scroller from '../../Scroller';
 
@@ -89,8 +89,7 @@ class TodaysTimetableSection extends Component {
     const { cellWidth, cellHeight, now } = this.state;
     const { user, semesters, currentSemester } = this.props;
 
-    const ongoingSemester =
-      currentSemester || (semesters ? getOngoingSemester(semesters) : undefined);
+    const ongoingSemester = semesters ? getOngoingSemester(semesters) : undefined;
     const lectures =
       user && ongoingSemester
         ? user.my_timetable_lectures.filter(
