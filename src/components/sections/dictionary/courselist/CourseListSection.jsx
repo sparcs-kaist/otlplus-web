@@ -32,7 +32,7 @@ import {
   getTermOptions,
 } from '../../../../common/searchOptions';
 
-const REFRESH_LIMIT = 10;
+const REFRESH_LIMIT = 20;
 
 class CourseListSection extends Component {
   constructor(props) {
