@@ -56,7 +56,7 @@ class DictionaryPage extends Component {
     }
 
     if (startSearchKeyword && startSearchKeyword.toString().trim()) {
-      const LIMIT = 10;
+      const LIMIT = 20;
 
       const option = {
         keyword: startSearchKeyword.toString().trim(),
