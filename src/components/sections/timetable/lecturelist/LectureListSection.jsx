@@ -70,28 +70,21 @@ class LectureListSection extends Component {
   constructor(props) {
     super(props);
     this.arrowRef = React.createRef();
-    this.inViewRef = React.createRef();
-  }
+    this.inViewRef = React.createRef(false);
+    this.offsetRef = React.createRef(0);
+    this.loadFactorRef = React.createRef(true);
 
-  state = {
-    isLoading: false,
-    hasMore: true,
-  };
+    this.state = {
+      isLoading: false,
+      hasMore: true,
+    };
+  }
 
   componentDidMount() {
     window.addEventListener('resize', this.selectWithArrow);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      this.inViewRef?.current &&
-      this.state.hasMore &&
-      prevState.isLoading &&
-      !this.state.isLoading
-    ) {
-      this._tryLoadMore();
-    }
-
     const { lists, selectedListCode, lectureFocus, isLectureListOpenOnMobile } = this.props;
 
     if (selectedListCode !== prevProps.selectedListCode) {
@@ -114,6 +107,22 @@ class LectureListSection extends Component {
         const millis = (i + 2) * 0.05 * 1000;
         window.setTimeout(this.selectWithArrow, millis);
       });
+    }
+
+    if (prevProps.lastSearchOption !== this.props.lastSearchOption) {
+      this.setState({ isLoading: false, hasMore: true });
+      this.inViewRef.current = false;
+      this.offsetRef.current = 0;
+      return;
+    }
+    if (
+      this.loadFactorRef.current &&
+      this.inViewRef?.current &&
+      this.state.hasMore &&
+      prevState.isLoading === true &&
+      this.state.isLoading === false
+    ) {
+      this._tryLoadMore();
     }
   }
 
@@ -339,14 +348,20 @@ class LectureListSection extends Component {
 
     let offset = 0;
 
-    for (let i = 0; i < lectures.length - 1; i++) {
-      offset += lectures[i].length;
+    lectures.forEach((lg) => {
+      offset += lg.length;
+    });
+
+    while (offset > this.offsetRef.current) {
+      this.offsetRef.current += REFRESH_LIMIT;
     }
+
+    offset = this.offsetRef.current;
 
     const option = {
       ...lastSearchOption,
       offset,
-      limit: offset + REFRESH_LIMIT,
+      limit: REFRESH_LIMIT,
     };
 
     await axios
@@ -378,6 +393,8 @@ class LectureListSection extends Component {
           spreadedLectures = spreadedLectures.concat(response.data);
 
           setListLecturesDispatch(LectureListCode.SEARCH, spreadedLectures);
+
+          this.offsetRef.current += REFRESH_LIMIT;
 
           if (response.data.length < REFRESH_LIMIT) {
             this.setState({ hasMore: false, isLoading: false });
@@ -512,7 +529,7 @@ class LectureListSection extends Component {
                 this.inViewRef.current = inView;
                 if (inView) {
                   this._tryLoadMore();
-                }
+                } else this.loadFactorRef.current = false;
               }}>
               {({ ref }) => <div ref={ref}></div>}
             </InView>
