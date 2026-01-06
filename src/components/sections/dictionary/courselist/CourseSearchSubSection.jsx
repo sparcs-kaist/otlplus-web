@@ -48,7 +48,7 @@ class CourseSearchSubSection extends Component {
   };
 
   searchStart = () => {
-    const LIMIT = 20;
+    const LIMIT = 10;
 
     const { t } = this.props;
     const { selectedTypes, selectedDepartments, selectedLevels, selectedTerms, keyword } =

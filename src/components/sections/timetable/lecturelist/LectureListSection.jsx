@@ -62,18 +62,20 @@ import {
 import LectureGroupBlockRow from '../../../blocks/LectureGroupBlockRow';
 import { TIMETABLE_START_HOUR } from '../../../../common/constants';
 
+import { InView } from 'react-intersection-observer';
+
 const REFRESH_LIMIT = 50;
 
 class LectureListSection extends Component {
   constructor(props) {
     super(props);
     this.arrowRef = React.createRef();
+    this.inViewRef = React.createRef();
   }
 
-  onScrollChange = (e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e;
-
-    if (scrollTop + clientHeight >= scrollHeight) this._addLectureGroups();
+  state = {
+    isLoading: false,
+    hasMore: true,
   };
 
   componentDidMount() {
@@ -81,6 +83,15 @@ class LectureListSection extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      this.inViewRef?.current &&
+      this.state.hasMore &&
+      prevState.isLoading &&
+      !this.state.isLoading
+    ) {
+      this._tryLoadMore();
+    }
+
     const { lists, selectedListCode, lectureFocus, isLectureListOpenOnMobile } = this.props;
 
     if (selectedListCode !== prevProps.selectedListCode) {
@@ -297,6 +308,14 @@ class LectureListSection extends Component {
     clearLectureFocusDispatch();
   };
 
+  _tryLoadMore = () => {
+    const { isLoading, hasMore } = this.state;
+
+    if (isLoading || !hasMore) return;
+
+    this._addLectureGroups();
+  };
+
   _getLectureGroups = (selectedListCode, lists) => {
     if (!lists[selectedListCode]) {
       return null;
@@ -313,6 +332,8 @@ class LectureListSection extends Component {
       setListLecturesDispatch,
       lists,
     } = this.props;
+
+    this.setState({ isLoading: true });
 
     const lectures = this._getLectureGroups(LectureListCode.SEARCH, lists);
 
@@ -357,6 +378,12 @@ class LectureListSection extends Component {
           spreadedLectures = spreadedLectures.concat(response.data);
 
           setListLecturesDispatch(LectureListCode.SEARCH, spreadedLectures);
+
+          if (response.data.length < REFRESH_LIMIT) {
+            this.setState({ hasMore: false, isLoading: false });
+            return;
+          }
+          this.setState({ isLoading: false });
         }
       })
       .catch((error) => {});
@@ -448,7 +475,6 @@ class LectureListSection extends Component {
         <Scroller
           onScroll={(e) => {
             this.selectWithArrow();
-            this.onScrollChange(e);
           }}
           key={selectedListCode}>
           <div className={classNames('block-list')}>
@@ -480,6 +506,16 @@ class LectureListSection extends Component {
                 ))}
               </LectureGroupBlock>
             ))}
+            <InView
+              threshold={0}
+              onChange={(inView) => {
+                this.inViewRef.current = inView;
+                if (inView) {
+                  this._tryLoadMore();
+                }
+              }}>
+              {({ ref }) => <div ref={ref}></div>}
+            </InView>
           </div>
         </Scroller>
       );

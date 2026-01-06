@@ -39,6 +39,20 @@ class CourseReviewsSubSection extends Component {
     });
   };
 
+  _getProfessors = (lectures) => {
+    const professorIdSet = new Set();
+    const professors = [];
+    lectures.forEach((lecture) => {
+      lecture.professors.forEach((professor) => {
+        if (!professorIdSet.has(professor.professor_id)) {
+          professors.push(professor);
+          professorIdSet.add(professor.professor_id);
+        }
+      });
+    });
+    return professors;
+  };
+
   _getProfessorFormValue = (professor) => {
     return String(professor.professor_id);
   };
@@ -86,7 +100,7 @@ class CourseReviewsSubSection extends Component {
 
     const professorOptions = [
       ['ALL', t('ui.type.allShort')],
-      ...courseFocus.course.professors.map((p) => [
+      ...this._getProfessors(courseFocus.lectures || []).map((p) => [
         this._getProfessorFormValue(p),
         p[t('js.property.name')],
       ]),

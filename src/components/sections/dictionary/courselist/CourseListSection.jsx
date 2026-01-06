@@ -24,6 +24,8 @@ import courseListsShape from '../../../../shapes/state/dictionary/CourseListsSha
 import userShape from '../../../../shapes/model/session/UserShape';
 import courseLastSearchOptionShape from '../../../../shapes/state/dictionary/CourseLastSearchOptionShape';
 
+import { InView } from 'react-intersection-observer';
+
 import {
   getLabelOfValue,
   getDepartmentOptions,
@@ -32,18 +34,29 @@ import {
   getTermOptions,
 } from '../../../../common/searchOptions';
 
-const REFRESH_LIMIT = 20;
+const REFRESH_LIMIT = 10;
 
 class CourseListSection extends Component {
   constructor(props) {
     super(props);
+    this.inViewRef = React.createRef();
   }
 
-  onScrollChange = (e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e;
-
-    if (scrollTop + clientHeight >= scrollHeight) this._addCourseToList();
+  state = {
+    isLoading: false,
+    hasMore: true,
   };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.inViewRef?.current &&
+      this.state.hasMore &&
+      prevState.isLoading &&
+      !this.state.isLoading
+    ) {
+      this._tryLoadMore();
+    }
+  }
 
   showSearch = () => {
     const { openSearchDispatch } = this.props;
@@ -98,6 +111,14 @@ class CourseListSection extends Component {
     return lists[selectedListCode].courses;
   };
 
+  _tryLoadMore = () => {
+    const { isLoading, hasMore } = this.state;
+
+    if (isLoading || !hasMore) return;
+
+    this._addCourseToList();
+  };
+
   _addCourseToList = () => {
     const {
       setListCoursesDispatch,
@@ -106,13 +127,15 @@ class CourseListSection extends Component {
       setLastSearchOptionDispatch,
     } = this.props;
 
+    this.setState({ isLoading: true });
+
     const courses = this._getCourses(selectedListCode);
     const offset = (lastSearchOption?.offset ?? 0) + REFRESH_LIMIT;
 
     const option = {
       ...lastSearchOption,
       offset,
-      limit: offset + REFRESH_LIMIT,
+      limit: REFRESH_LIMIT,
     };
 
     const beforeRequest = () => {
@@ -120,9 +143,12 @@ class CourseListSection extends Component {
     };
 
     const afterResponse = async (newCourses) => {
-      if (newCourses.length > 0) {
-        await setListCoursesDispatch(CourseListCode.SEARCH, [...courses, ...newCourses]);
+      await setListCoursesDispatch(CourseListCode.SEARCH, [...courses, ...newCourses]);
+      if (newCourses.length < REFRESH_LIMIT) {
+        this.setState({ hasMore: false, isLoading: false });
+        return;
       }
+      this.setState({ isLoading: false });
     };
 
     performSearchCourses(option, option.limit, beforeRequest, afterResponse);
@@ -202,7 +228,7 @@ class CourseListSection extends Component {
         );
       }
       return (
-        <Scroller key={selectedListCode} onScroll={this.onScrollChange}>
+        <Scroller key={selectedListCode}>
           <div className={classNames('block-list')}>
             {courses.map((c, idx) => (
               <CourseBlock
@@ -215,6 +241,17 @@ class CourseListSection extends Component {
                 onClick={this.focusCourseWithClick}
               />
             ))}
+
+            <InView
+              threshold={0}
+              onChange={(inView) => {
+                this.inViewRef.current = inView;
+                if (inView) {
+                  this._tryLoadMore();
+                }
+              }}>
+              {({ ref }) => <div ref={ref}></div>}
+            </InView>
           </div>
         </Scroller>
       );

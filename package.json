@@ -37,7 +37,9 @@
     "react-ga": "^3.1.2",
     "react-ga4": "^2.1.0",
     "react-i18next": "^11.7.2",
+    "react-intersection-observer": "^10.0.0",
     "react-markdown": "^7.1.0",
+    "react-notion": "^0.10.0",
     "react-redux": "^7.2.1",
     "react-router": "^6.15.0",
     "react-router-dom": "^6.15.0",
@@ -45,8 +47,7 @@
     "react-slick": "^0.29.0",
     "redux": "^4.0.0",
     "slick-carousel": "^1.8.1",
-    "zabo-embed": "^0.0.7",
-    "react-notion": "^0.10.0"
+    "zabo-embed": "^0.0.7"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.24.1",
