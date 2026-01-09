@@ -40,14 +40,18 @@ class CourseListSection extends Component {
   constructor(props) {
     super(props);
     this.inViewRef = React.createRef();
+    this.state = {
+      isLoading: false,
+      hasMore: true,
+    };
   }
 
-  state = {
-    isLoading: false,
-    hasMore: true,
-  };
-
   componentDidUpdate(prevProps, prevState) {
+    if (prevProps.lastSearchOption !== this.props.lastSearchOption) {
+      this.setState({ isLoading: false, hasMore: true });
+      this.inViewRef.current = false;
+      return;
+    }
     if (
       this.inViewRef?.current &&
       this.state.hasMore &&
