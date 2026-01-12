@@ -356,6 +356,15 @@
     "bannerPopup": {
       "close": "닫기",
       "doNotShowAgain": "다시 보지 않기"
+    },
+    "v4Promotion": {
+      "title": "새로운 OTL을 만나보세요!",
+      "description": "더 빠르고 편리한 V4가 출시되었습니다. 지금 바로 체험해보세요.",
+      "feature1": "새로운 디자인과 더 빠른 속도",
+      "feature2": "개선된 시간표 편집 기능",
+      "feature3": "모바일 최적화 UI",
+      "switchToV4": "V4 사용해보기",
+      "maybeLater": "나중에"
     }
   }
 }

@@ -363,6 +363,15 @@
     "bannerPopup": {
       "close": "Close",
       "doNotShowAgain": "Do not show again"
+    },
+    "v4Promotion": {
+      "title": "Meet the new OTL!",
+      "description": "Experience the faster and more convenient V4. Try it now.",
+      "feature1": "New design and faster performance",
+      "feature2": "Improved timetable editing",
+      "feature3": "Mobile-optimized UI",
+      "switchToV4": "Try V4",
+      "maybeLater": "Maybe later"
     }
   }
 }
