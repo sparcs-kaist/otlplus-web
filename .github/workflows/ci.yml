@@ -131,15 +131,15 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2 # Seoul region, adjust as needed
-      - name: Upload to S3 Production (versioned + live)
+      - name: Upload to S3 Production (archive + live)
         run: |
-          # 1. 버전별 백업 (롤백용)
-          aws s3 sync build/ s3://otl.sparcs.org.v4/v3/${{ github.event.release.tag_name }}/ --delete
-          echo "✅ Uploaded versioned backup: s3://otl.sparcs.org.v4/v3/${{ github.event.release.tag_name }}/"
+          # 1. 버전별 백업 (롤백용) - 아카이브 버킷
+          aws s3 sync build/ s3://${{ vars.S3_BUCKET_ARCHIVE }}/v3/${{ github.event.release.tag_name }}/ --delete
+          echo "✅ Uploaded versioned backup: s3://${{ vars.S3_BUCKET_ARCHIVE }}/v3/${{ github.event.release.tag_name }}/"
 
-          # 2. 라이브 서빙용 (CloudFront Function이 라우팅하는 경로)
-          aws s3 sync build/ s3://otl.sparcs.org.v4/v3/ --delete
-          echo "✅ Uploaded live version: s3://otl.sparcs.org.v4/v3/"
+          # 2. 라이브 서빙용 (CloudFront Function이 라우팅하는 경로) - 라이브 버킷
+          aws s3 sync build/ s3://${{ vars.S3_BUCKET_PROD }}/v3/ --delete
+          echo "✅ Uploaded live version: s3://${{ vars.S3_BUCKET_PROD }}/v3/"
       - name: Invalidate CloudFront cache (v3)
         run: |
           aws cloudfront create-invalidation \
