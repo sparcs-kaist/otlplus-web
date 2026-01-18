@@ -94,10 +94,15 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-      - name: Upload to S3 Dev
+      - name: Upload to S3 Dev (v3 folder)
         run: |
-          aws s3 sync build/ s3://otl-plus-dev/ --delete
-          echo "Uploaded build files to S3 Dev: s3://otl-plus-dev/"
+          aws s3 sync build/ s3://otl.dev.sparcs.org.v4/v3/ --delete
+          echo "✅ Uploaded build files to S3 Dev: s3://otl.dev.sparcs.org.v4/v3/"
+      - name: Invalidate CloudFront cache (v3)
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }} \
+            --paths "/v3/*" "/v3/index.html"
 
   release-and-upload:
     name: Build and Upload Release Asset
@@ -126,7 +131,12 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2 # Seoul region, adjust as needed
-      - name: Upload to S3
+      - name: Upload to S3 Production (v3 folder)
         run: |
-          aws s3 sync build/ s3://otl.sparcs.org-1/${{ github.event.release.tag_name }}/ --delete
-          echo "Uploaded build files to S3: s3://otl.sparcs.org-1/${{ github.event.release.tag_name }}/"
+          aws s3 sync build/ s3://otl.sparcs.org.v4/v3/ --delete
+          echo "✅ Uploaded build files to S3 Production: s3://otl.sparcs.org.v4/v3/"
+      - name: Invalidate CloudFront cache (v3)
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PROD }} \
+            --paths "/v3/*" "/v3/index.html"
