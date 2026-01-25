@@ -9,7 +9,7 @@ import Header from '@/common/guideline/components/Header';
 import BannerPopup from '@/common/components/popup/bannerPopup/BannerPopup';
 import CampaignPopupImage from '@/features/campaign/components/popup/CampaignPopupImage';
 import PopupMenu from '@/features/campaign/components/popup/PopupMenu';
-import V4PromotionPopup from '@/common/components/popup/v4PromotionPopup/V4PromotionPopup';
+
 import {
   setIsPortrait,
   setSemesters,
@@ -139,7 +139,6 @@ const App: React.FC = () => {
             }}
           />
         </BannerPopup>
-        <V4PromotionPopup />
       </section>
     </>
   );
