@@ -4,9 +4,7 @@ on:
   push:
     branches: [main, migration, rc]
   pull_request:
-    branches: [main, migration]
-  release:
-    types: [created]
+    branches: [main, migration, rc]
 
 env:
   NODE_VERSION: 18
@@ -17,14 +15,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: yarn
       - name: Install yarn dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Format
         run: yarn prettier
       - name: Lint
@@ -35,14 +33,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: yarn
       - name: Install yarn dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Build
         run: yarn build
 
@@ -51,97 +49,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: yarn
       - name: Install yarn dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Run tests
         run: yarn coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: sparcs-kaist/otlplus-web
-
-  deploy-dev:
-    name: Build and Deploy to Dev
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/rc' && github.event_name == 'push'
-    needs: [format-and-lint, build, test]
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: yarn
-      - name: Install yarn dependencies
-        run: yarn install
-      - name: Build
-        run: yarn build
-        env:
-          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN_DEV }}
-          VITE_DEV_MODE: true
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-      - name: Upload to S3 Dev (v3 folder)
-        run: |
-          aws s3 sync build/ s3://otl.dev.sparcs.org.v4/v3/ --delete
-          echo "✅ Uploaded build files to S3 Dev: s3://otl.dev.sparcs.org.v4/v3/"
-      - name: Invalidate CloudFront cache (v3)
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }} \
-            --paths "/v3/*" "/v3/index.html"
-
-  release-and-upload:
-    name: Build and Upload Release Asset
-    runs-on: ubuntu-latest
-    if: github.event_name == 'release'
-    needs: [format-and-lint]
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: yarn
-      - name: Install yarn dependencies
-        run: yarn install
-      - name: Build
-        run: yarn build
-        env:
-          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN_PROD }}
-          VITE_DEV_MODE: false
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2 # Seoul region, adjust as needed
-      - name: Upload to S3 Production (archive + live)
-        run: |
-          # 1. 버전별 백업 (롤백용) - 아카이브 버킷
-          aws s3 sync build/ s3://${{ vars.S3_BUCKET_ARCHIVE }}/v3/${{ github.event.release.tag_name }}/ --delete
-          echo "✅ Uploaded versioned backup: s3://${{ vars.S3_BUCKET_ARCHIVE }}/v3/${{ github.event.release.tag_name }}/"
-
-          # 2. 라이브 서빙용 (CloudFront Function이 라우팅하는 경로) - 라이브 버킷
-          aws s3 sync build/ s3://${{ vars.S3_BUCKET_PROD }}/v3/ --delete
-          echo "✅ Uploaded live version: s3://${{ vars.S3_BUCKET_PROD }}/v3/"
-      - name: Invalidate CloudFront cache (v3)
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PROD }} \
-            --paths "/v3/*" "/v3/index.html"
+          slug: sparcs-kaist/legacy-v3-otlplus-web
