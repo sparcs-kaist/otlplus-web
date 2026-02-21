@@ -56,6 +56,8 @@
       "takenShort": "내가 들은"
     },
     "button": {
+      "useNewOTL": "새로워진 OTL을 이용해보세요!",
+      "move": "이동하기",
       "unfix": "고정해제",
       "syllabus": "실라버스",
       "dictionary": "과목사전",

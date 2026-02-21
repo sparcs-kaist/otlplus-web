@@ -53,7 +53,11 @@ $screen-height: var(
   100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)
 );
 
-$header-height: 55px;
+:root {
+  --header-height: 105px;
+}
+
+$header-height: var(--header-height);
 $footer-height-desktop: 50px;
 $footer-height-mobile: 130px;
 $main-image-height-desktop: 400px;

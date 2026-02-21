@@ -5,13 +5,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
-import { guidelineBoundClassNames as classNames, appBoundClassNames } from '../../boundClassNames';
+import { appBoundClassNames, guidelineBoundClassNames as classNames } from '../../boundClassNames';
 
 import userShape from '../../../shapes/model/session/UserShape';
 
 import logoImage from '../images/Services-OTL.svg';
-
-import { API_URL } from '../../../const';
 
 export const getFullName = (user) => {
   // eslint-disable-next-line no-underscore-dangle
@@ -31,9 +29,15 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
+    const isBannerVisible = localStorage.getItem('isBannerVisible') !== 'false';
+    if (!isBannerVisible) {
+      document.documentElement.style.setProperty('--header-height', '55px');
+    }
+
     this.state = {
       isMenuOpenOnMobile: false,
       noBackground: false,
+      isBannerVisible,
     };
   }
 
@@ -84,11 +88,70 @@ class Header extends Component {
 
   render() {
     const { t, i18n } = this.props;
-    const { isMenuOpenOnMobile, noBackground } = this.state;
+    const { isMenuOpenOnMobile, noBackground, isBannerVisible } = this.state;
     const { user } = this.props;
 
     return (
       <header>
+        {isBannerVisible && (
+          <div
+            style={{
+              width: '100%',
+              height: '50px',
+              backgroundColor: '#FFFF99',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <div></div>
+            <a
+              href="/__switch/v4"
+              style={{
+                backgroundColor: '#FFFF99',
+                fontWeight: 'bold',
+                textDecoration: 'none',
+                color: '#5f5f5f',
+                fontSize: '20px',
+                display: 'flex',
+                alignItems: 'center',
+              }}>
+              {t('ui.button.useNewOTL')}
+              <div
+                style={{
+                  border: '1px #5f5f5f solid',
+                  borderRadius: '10px',
+                  marginLeft: '10px',
+                  padding: '5px',
+                }}>
+                {t('ui.button.move')}
+              </div>
+            </a>
+            <button
+              onClick={() => {
+                this.setState({ isBannerVisible: false });
+                document.documentElement.style.setProperty('--header-height', '55px');
+                localStorage.setItem('isBannerVisible', 'false');
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                width: '20px',
+                height: '20px',
+                marginRight: '10px',
+                cursor: 'pointer',
+                color: '#5f5f5f',
+                fontSize: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1000,
+                padding: 0,
+              }}
+              aria-label="close">
+              ✕
+            </button>
+          </div>
+        )}
         <div className={classNames('identity-bar')} />
         <div
           className={classNames(
