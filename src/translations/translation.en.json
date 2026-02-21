@@ -56,6 +56,8 @@
       "takenShort": "Taken"
     },
     "button": {
+      "useNewOTL": "Try the new OTL!",
+      "move": "Try",
       "unfix": "Unfix",
       "syllabus": "Syllabus",
       "dictionary": "Dictionary",
