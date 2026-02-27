@@ -2,9 +2,6 @@
   "name": "otlplus",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "^18"
-  },
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
@@ -46,8 +43,7 @@
     "react-scrollbars-custom": "^4.0.21",
     "react-slick": "^0.29.0",
     "redux": "^4.0.0",
-    "slick-carousel": "^1.8.1",
-    "zabo-embed": "^0.0.7"
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.24.1",

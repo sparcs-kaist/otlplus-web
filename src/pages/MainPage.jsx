@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withTranslation } from 'react-i18next';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes from 'prop-types';
 import axios from 'axios';
 import { range } from 'lodash';
 import { Link } from 'react-router-dom';
-import { ZaboEmbed } from 'zabo-embed';
 
 import { appBoundClassNames as classNames } from '../common/boundClassNames';
 
@@ -247,7 +246,6 @@ class MainPage extends Component {
     const feeds = [
       <TodaysTimetableSection key="TODAYS_TIMETABLE" />,
       <AcademicScheduleSection key="ACADEMIC_SCHEDULE" />,
-      <ZaboEmbed key="ZABO_EMBED" serviceColor="#E54C65" style={{ marginBottom: 12 }} />,
       notices
         ? notices.map((n) => (
             <NoticeSection notice={n} key={`${n.start_date}-${n.end_date}-${n.title}`} />
