@@ -1,0 +1,284 @@
+name: CD
+
+on:
+  push:
+    branches: [rc]
+  release:
+    types: [created]
+
+env:
+  NODE_VERSION: 18
+
+jobs:
+  deploy-dev:
+    name: Deploy to Dev
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/rc' && github.event_name == 'push'
+    permissions:
+      contents: read
+    steps:
+      - name: Notify Slack - Deploy Started
+        id: slack-start
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: ":rocket: *OTL+ V3 Dev 배포 시작*"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":rocket: *OTL+ V3 Dev 배포 시작*"
+              - type: section
+                fields:
+                  - type: mrkdwn
+                    text: "*Environment:*\nDev (V3)"
+                  - type: mrkdwn
+                    text: "*Branch:*\n`rc`"
+                  - type: mrkdwn
+                    text: "*Commit:*\n`${{ github.sha }}`"
+                  - type: mrkdwn
+                    text: "*Author:*\n${{ github.actor }}"
+              - type: context
+                elements:
+                  - type: mrkdwn
+                    text: "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+        env:
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN_DEV }}
+          VITE_DEV_MODE: true
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3 Dev (v3 folder)
+        run: |
+          aws s3 sync build/ s3://${{ vars.S3_BUCKET_DEV }}/v3/ --delete
+          echo "Uploaded build files to S3 Dev: s3://${{ vars.S3_BUCKET_DEV }}/v3/"
+
+      - name: Invalidate CloudFront cache (v3)
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_DEV }} \
+            --paths "/v3/*" "/v3/index.html"
+
+      - name: Notify Slack - Deploy Success
+        if: success()
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            thread_ts: "${{ fromJson(steps.slack-start.outputs.response).ts }}"
+            text: ":white_check_mark: *OTL+ V3 Dev 배포 완료*"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":white_check_mark: *배포 완료* - 성공 :tada:"
+              - type: section
+                fields:
+                  - type: mrkdwn
+                    text: "*Commit:*\n`${{ github.sha }}`"
+                  - type: mrkdwn
+                    text: "*Duration:*\n${{ github.run_id }}"
+              - type: context
+                elements:
+                  - type: mrkdwn
+                    text: "<https://otl.dev.sparcs.org/v3|View Site> | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+
+      - name: Notify Slack - Deploy Failed
+        if: failure()
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            thread_ts: "${{ fromJson(steps.slack-start.outputs.response).ts }}"
+            text: ":x: *OTL+ V3 Dev 배포 실패*"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":x: *배포 실패* - 실패 :warning:"
+              - type: section
+                fields:
+                  - type: mrkdwn
+                    text: "*Commit:*\n`${{ github.sha }}`"
+                  - type: mrkdwn
+                    text: "*Author:*\n${{ github.actor }}"
+              - type: context
+                elements:
+                  - type: mrkdwn
+                    text: "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow Logs>"
+
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    permissions:
+      contents: write
+    steps:
+      - name: Notify Slack - Production Deploy Started
+        id: slack-start-prod
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: ":rocket: *OTL+ V3 Production 배포 시작*"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":rocket: *OTL+ V3 Production 배포 시작*"
+              - type: section
+                fields:
+                  - type: mrkdwn
+                    text: "*Environment:*\nProduction (V3)"
+                  - type: mrkdwn
+                    text: "*Version:*\n`${{ github.event.release.tag_name }}`"
+                  - type: mrkdwn
+                    text: "*Commit:*\n`${{ github.sha }}`"
+                  - type: mrkdwn
+                    text: "*Author:*\n${{ github.actor }}"
+              - type: context
+                elements:
+                  - type: mrkdwn
+                    text: "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build
+        run: yarn build
+        env:
+          VITE_SENTRY_DSN: ${{ secrets.VITE_SENTRY_DSN_PROD }}
+          VITE_DEV_MODE: false
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3 Production (archive + live)
+        run: |
+          # 1. Versioned backup for rollback - Archive bucket
+          aws s3 sync build/ s3://${{ vars.S3_BUCKET_ARCHIVE }}/v3/${{ github.event.release.tag_name }}/ --delete
+          echo "Uploaded versioned backup: s3://${{ vars.S3_BUCKET_ARCHIVE }}/v3/${{ github.event.release.tag_name }}/"
+
+          # 2. Live serving (CloudFront Function routes here) - Live bucket
+          aws s3 sync build/ s3://${{ vars.S3_BUCKET_PROD }}/v3/ --delete
+          echo "Uploaded live version: s3://${{ vars.S3_BUCKET_PROD }}/v3/"
+
+      - name: Invalidate CloudFront cache (v3)
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_PROD }} \
+            --paths "/v3/*" "/v3/index.html"
+
+      - name: Create build archive
+        run: |
+          cd build
+          tar -czf ../build-v3-${{ github.event.release.tag_name }}.tar.gz .
+          cd ..
+
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build-v3-${{ github.event.release.tag_name }}.tar.gz
+          asset_name: build-v3-${{ github.event.release.tag_name }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Notify Slack - Production Deploy Success
+        if: success()
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            thread_ts: "${{ fromJson(steps.slack-start-prod.outputs.response).ts }}"
+            text: ":white_check_mark: *OTL+ V3 Production 배포 완료*"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":white_check_mark: *Production 배포 완료* - 성공 :tada:"
+              - type: section
+                fields:
+                  - type: mrkdwn
+                    text: "*Version:*\n`${{ github.event.release.tag_name }}`"
+                  - type: mrkdwn
+                    text: "*Commit:*\n`${{ github.sha }}`"
+              - type: context
+                elements:
+                  - type: mrkdwn
+                    text: "<https://otl.sparcs.org/v3|View Site> | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow>"
+
+      - name: Notify Slack - Production Deploy Failed
+        if: failure()
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.1.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            thread_ts: "${{ fromJson(steps.slack-start-prod.outputs.response).ts }}"
+            text: ":x: *OTL+ V3 Production 배포 실패*"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":x: *Production 배포 실패* - 실패 :warning:"
+              - type: section
+                fields:
+                  - type: mrkdwn
+                    text: "*Version:*\n`${{ github.event.release.tag_name }}`"
+                  - type: mrkdwn
+                    text: "*Author:*\n${{ github.actor }}"
+              - type: context
+                elements:
+                  - type: mrkdwn
+                    text: "<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Workflow Logs>"
